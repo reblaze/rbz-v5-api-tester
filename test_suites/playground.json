@@ -1,0 +1,175 @@
+{
+    "Name": "My Test Suite",
+    "Skip": false,
+    "Tests": 
+    [
+        {
+            "Name": "My Test",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Name": "Create Rate limit with Name: 'My rate limit'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My rate limit\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            }
+
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Add Rate limit with Name: 'My rate limit' to default Security policy",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/__default__/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"api_tester_cccbbbaaa\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "List rate limits",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/",
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "My rate limit"
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "Publish changes",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/tools/publish/prod/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "publish.template",
+                        "Defaults": "publish.defaults",
+                        "Params": []
+                    },
+                    "Expected":
+                    {
+                        "Code": "204",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Wait for Publish changes to take affect",
+                    "Skip": true,
+                    "Python": true,
+                    "Code": 
+                    [
+                        "import time",
+                        "time.sleep(15)"
+                    ]
+                },
+                {
+                    "Name": "Send Traffic",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "Traffic": true,
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "test",
+                            "Value": "366"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "test=my-cookie"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        }
+    ]
+}

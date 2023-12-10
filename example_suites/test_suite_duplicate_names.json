@@ -1,0 +1,2455 @@
+{
+    "Name": "API Test Suite for security entities with duplicate names (also with case insensitivity)",
+    "Skip": true,
+    "Tests": 
+    [
+        {
+            "Name": "Test Rate Limit Rules with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Rate Limit Rule with Name: 'My Rate Limit'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Rate Limit\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Rate Limit Rule with Name: 'My Rate Limit'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Rate Limit\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Rate Limit already exists in document [ratelimits]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Rate Limit Rule with Name: 'my Rate Limit'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Rate Limit\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Rate Limit already exists in document [ratelimits]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Rate Limit Rule with Name: 'My Other Rate Limit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Rate Limit\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Rate Limit Rule Name from: 'My Other Rate Limit' to: 'My Rate Limit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Rate Limit\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Rate Limit' already exists in document [ratelimits]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Global Filters with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Global Filter with Name: 'My Global Filter'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Global Filter\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Global Filter with Name: 'My Global Filter'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Global Filter\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Global Filter already exists in document [globalfilters]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Global Filter with Name: 'my Global Filter'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Global Filter\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Global Filter already exists in document [globalfilters]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Global Filter with Name: 'My Other Global Filter'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Global Filter\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Global Filter Name from: 'My Other Global Filter' to: 'My Global Filter'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Global Filter\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Global Filter' already exists in document [globalfilters]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Flow Controls with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Flow Control with Name: 'My Flow Control'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Flow Control\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Flow Control with Name: 'My Flow Control'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Flow Control\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Flow Control already exists in document [flowcontrol]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Flow Control with Name: 'my Flow Control'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Flow Control\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Flow Control already exists in document [flowcontrol]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Flow Control with Name: 'My Other Flow Control'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Flow Control\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Flow Control Name from: 'My Other Flow Control' to: 'My Flow Control'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Flow Control\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Flow Control' already exists in document [flowcontrol]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Security Policies with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Security Policy with Name: 'My Security Policy'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Security Policy\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Security Policy with Name: 'My Security Policy'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Security Policy\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Security Policy already exists in document [securitypolicies]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Security Policy with Name: 'my Security Policy'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Security Policy\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Security Policy already exists in document [securitypolicies]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Security Policy with Name: 'My Other Security Policy'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Security Policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Security Policy Name from: 'My Other Security Policy' to: 'My Security Policy'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Security Policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Security Policy' already exists in document [securitypolicies]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test ACL Profiles with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create ACL Profile with Name: 'My ACL Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My ACL Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another ACL Profile with Name: 'My ACL Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My ACL Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My ACL Profile already exists in document [aclprofiles]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another ACL Profile with Name: 'my ACL Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my ACL Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my ACL Profile already exists in document [aclprofiles]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create ACL Profile with Name: 'My Other ACL Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other ACL Profile\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update ACL Profile Name from: 'My Other ACL Profile' to: 'My ACL Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My ACL Profile\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My ACL Profile' already exists in document [aclprofiles]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Actions with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Action with Name: 'My Action'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "action.template",
+                        "Defaults": "action.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Action\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Action with Name: 'My Action'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "action.template",
+                        "Defaults": "action.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Action\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Action already exists in document [actions]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Action with Name: 'my Action'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "action.template",
+                        "Defaults": "action.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Action\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Action already exists in document [actions]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Action with Name: 'My Other Action'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "action.template",
+                        "Defaults": "action.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Action\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Action Name from: 'My Other Action' to: 'My Action'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "action.template",
+                        "Defaults": "action.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Action\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Action' already exists in document [actions]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Dynamic Rules with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Dynamic Rule with Name: 'My Dynamic Rule'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "dynamicrule.template",
+                        "Defaults": "dynamicrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Dynamic Rule\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "@@id@@"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Dynamic Rule with Name: 'My Dynamic Rule'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "dynamicrule.template",
+                        "Defaults": "dynamicrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Dynamic Rule\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: dynamic_rules already contains an object with name 'My Dynamic Rule'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Dynamic Rule with Name: 'my Dynamic Rule'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "dynamicrule.template",
+                        "Defaults": "dynamicrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Dynamic Rule\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: dynamic_rules already contains an object with name 'my Dynamic Rule'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Dynamic Rule with Name: 'My Other Dynamic Rule'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/api_tester_cccbbbaaa",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "dynamicrule.template",
+                        "Defaults": "dynamicrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Dynamic Rule\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_cccbbbaaa"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Dynamic Rule Name from: 'My Other Dynamic Rule' to: 'My Dynamic Rule'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/api_tester_cccbbbaaa",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "dynamicrule.template",
+                        "Defaults": "dynamicrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Dynamic Rule\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: dynamic_rules already contains an object with name 'My Dynamic Rule'"
+                            }
+                        ]
+                    }                
+                }
+            ]    
+        },
+        {
+            "Name": "Test Content Filter Profiles with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Content Filter Profile with Name: 'My Content Filter Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterprofile.template",
+                        "Defaults": "contentfilterprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Content Filter Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Content Filter Profile with Name: 'My Content Filter Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterprofile.template",
+                        "Defaults": "contentfilterprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Content Filter Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Content Filter Profile already exists in document [contentfilterprofiles]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Content Filter Profile with Name: 'my Content Filter Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterprofile.template",
+                        "Defaults": "contentfilterprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Content Filter Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Content Filter Profile already exists in document [contentfilterprofiles]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Content Filter Profile with Name: 'My Other Content Filter Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterprofile.template",
+                        "Defaults": "contentfilterprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Content Filter Profile\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Content Filter Profile Name from: 'My Other Content Filter Profile' to: 'My Content Filter Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "contentfilterprofile.template",
+                        "Defaults": "contentfilterprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Content Filter Profile\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Content Filter Profile' already exists in document [contentfilterprofiles]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Content Filter Rules with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Content Filter Rule with Name: 'My Content Filter Rule'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterrule.template",
+                        "Defaults": "contentfilterrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Content Filter Rule\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Content Filter Rule with Name: 'My Content Filter Rule'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterrule.template",
+                        "Defaults": "contentfilterrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Content Filter Rule\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name My Content Filter Rule already exists in document [contentfilterrules]'"
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Content Filter Rule with Name: 'my Content Filter Rule'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterrule.template",
+                        "Defaults": "contentfilterrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Content Filter Rule\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'409 Conflict: entry with name my Content Filter Rule already exists in document [contentfilterrules]'"
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Content Filter Rule with Name: 'My Other Content Filter Rule'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterrule.template",
+                        "Defaults": "contentfilterrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Content Filter Rule\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Content Filter Rule Name from: 'My Other Content Filter Rule' to: 'My Content Filter Rule'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/api_tester_cccbbbaaa/",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "contentfilterrule.template",
+                        "Defaults": "contentfilterrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Content Filter Rule\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "409",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b\"409 Conflict: entry with name 'My Content Filter Rule' already exists in document [contentfilterrules]\""
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Server Groups with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Server Group with Name: 'My Server Group'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Server Group\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "@@id@@"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Server Group with Name: 'My Server Group'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Server Group\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: sites already contains an object with name 'My Server Group'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Server Group with Name: 'my Server Group'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Server Group\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: sites already contains an object with name 'my Server Group'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Server Group with Name: 'My Other Server Group'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/api_tester_cccbbbaaa",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Server Group\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }                            
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_cccbbbaaa"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Server Group Name from: 'My Other Server Group' to: 'My Server Group'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/api_tester_cccbbbaaa",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Server Group\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: sites already contains an object with name 'My Server Group'"
+                            }
+                        ]
+                    }
+                }                
+            ]    
+        },
+        {
+            "Name": "Test Proxy Template with Duplicate Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Proxy Template with Name: 'My Other Proxy Template'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "proxytemplate.template",
+                        "Defaults": "proxytemplate.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Proxy Template\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "@@id@@"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Proxy Template with Name: 'My Other Proxy Template'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "proxytemplate.template",
+                        "Defaults": "proxytemplate.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Proxy Template\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: proxy_templates already contains an object with name 'My Proxy Template'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Proxy Template with Name: 'my Other Proxy Template'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "proxytemplate.template",
+                        "Defaults": "proxytemplate.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Proxy Template\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: proxy_templates already contains an object with name 'my Proxy Template'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Proxy Template with Name: 'My Other Proxy Template'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/api_tester_cccbbbaaa",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "proxytemplate.template",
+                        "Defaults": "proxytemplate.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Proxy Template\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }                            
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_cccbbbaaa"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Proxy Template Name from: 'My Other Proxy Template' to: 'My Proxy Template'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/api_tester_cccbbbaaa",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "proxytemplate.template",
+                        "Defaults": "proxytemplate.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Proxy Template\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: proxy_templates already contains an object with name 'My Proxy Template'"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Backends with Duplicate Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Backend with Name: 'My Backend'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "backend.template",
+                        "Defaults": "backend.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Backend\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "@@id@@"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Backend with Name: 'My Backend'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "backend.template",
+                        "Defaults": "backend.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Backend\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: backends already contains an object with name 'My Backend'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Backend with Name: 'my Backend'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "backend.template",
+                        "Defaults": "backend.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Backend\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: backends already contains an object with name 'my Backend'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Backend with Name: 'My Other Backend'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/api_tester_cccbbbaaa",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "backend.template",
+                        "Defaults": "backend.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Backend\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_cccbbbaaa"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Backend Name from: 'My Other Backend' to: 'My Backend'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/api_tester_cccbbbaaa",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "backend.template",
+                        "Defaults": "backend.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Backend\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: backends already contains an object with name 'My Backend'"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Routing Profiles with Duplicate Names",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Routing Profile with Name: 'My Routing Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "routingprofile.template",
+                        "Defaults": "routingprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Routing Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "@@id@@"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Routing Profile with Name: 'My Routing Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "routingprofile.template",
+                        "Defaults": "routingprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Routing Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: routing_profiles already contains an object with name 'My Routing Profile'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Routing Profile with Name: 'my Routing Profile'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "routingprofile.template",
+                        "Defaults": "routingprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Routing Profile\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: routing_profiles already contains an object with name 'my Routing Profile'"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Routing Profile with Name: 'My Other Routing Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/api_tester_cccbbbaaa",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "routingprofile.template",
+                        "Defaults": "routingprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Routing Profile\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_cccbbbaaa"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Routing Profile Name from: 'My Other Routing Profile' to: 'My Routing Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/api_tester_cccbbbaaa",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "routingprofile.template",
+                        "Defaults": "routingprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Routing Profile\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: routing_profiles already contains an object with name 'My Routing Profile'"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Cloud Functions with Duplicate Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Cloud Function with Name: 'My Cloud Function'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "cloudfunction.template",
+                        "Defaults": "cloudfunction.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Cloud Function\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "@@id@@"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Create Another Cloud Function with Name: 'My Cloud Function'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "cloudfunction.template",
+                        "Defaults": "cloudfunction.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Cloud Function\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: cloud_functions already contains an object with name 'My Cloud Function'"
+                            }
+                        ]                        
+                    }
+                },
+                {
+                    "Step": 3,
+                    "Name": "Create Another Cloud Function with Name: 'my Cloud Function'",
+                    "Skip": false,
+                    "GenerateID": true,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/@@id@@",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "cloudfunction.template",
+                        "Defaults": "cloudfunction.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"my Cloud Function\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: cloud_functions already contains an object with name 'my Cloud Function'"
+                            }
+                        ]                        
+                    }
+                },
+                {
+                    "Step": 4,
+                    "Name": "Create Cloud Function with Name: 'My Other Cloud Function'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/api_tester_cccbbbaaa",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "cloudfunction.template",
+                        "Defaults": "cloudfunction.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Other Cloud Function\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }                            
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_cccbbbaaa"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 5,
+                    "Name": "Update Cloud Function Name from: 'My Other Cloud Function' to: 'My Cloud Function'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/api_tester_cccbbbaaa",
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "cloudfunction.template",
+                        "Defaults": "cloudfunction.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"My Cloud Function\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_cccbbbaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "400",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "code",
+                                "Value": 400
+                            },
+                            {
+                                "Key": "message",
+                                "Value": "ValueError: cloud_functions already contains an object with name 'My Cloud Function'"
+                            }
+                        ]                        
+                    }
+                }
+            ]    
+        }
+    ]
+}

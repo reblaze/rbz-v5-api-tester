@@ -1,0 +1,917 @@
+{
+    "Name": "API Test Suite for trailing spaces in security entities names",
+    "Skip": true,
+    "Tests": 
+    [
+        {
+            "Name": "Test Trailing Space in Rate Limit Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Rate Limit with Name: 'Trailing Space Rate Limit    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Rate Limit    \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Rate Limit created with Name: 'Trailing Space Rate Limit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Rate Limit"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Global Filter Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Global Filter with Name: 'Trailing Space Global Filter    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Global Filter    \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Global Filter created with Name: 'Trailing Space Global Filter'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/globalfilters/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Global Filter"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Flow Control Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Flow Control with Name: 'Trailing Space Flow Control    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Flow Control   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Flow Control created with Name: 'Trailing Space Flow Control'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Flow Control"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Security Policy Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Security Policy with Name: 'Trailing Space Security Policy    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Security Policy   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Security Policy created with Name: 'Trailing Space Security Policy'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Security Policy"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in ACL Profile Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create ACL Profile with Name: 'Trailing Space ACL Profile    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space ACL Profile   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that ACL Profile created with Name: 'Trailing Space ACL Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space ACL Profile"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Action Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Action with Name: 'Trailing Space Action    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "action.template",
+                        "Defaults": "action.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Action   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Action created with Name: 'Trailing Space Action'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/actions/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Action"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Dynamic Rule Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Dynamic Rule with Name: 'Trailing Space Dynamic Rule    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/api_tester_bbbcccddd",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "dynamicrule.template",
+                        "Defaults": "dynamicrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Dynamic Rule   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_bbbcccddd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Dynamic Rule created with Name: 'Trailing Space Dynamic Rule'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Dynamic Rule"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Content Filter Profile Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Content Filter Profile with Name: 'Trailing Space Content Filter Profile    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterprofile.template",
+                        "Defaults": "contentfilterprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Content Filter Profile   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Content Filter Profile created with Name: 'Trailing Space Content Filter Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Content Filter Profile"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Content Filter Rule Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Content Filter Rule with Name: 'Trailing Space Content Filter Rule    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "contentfilterrule.template",
+                        "Defaults": "contentfilterrule.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Content Filter Rule   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Content Filter Rule created with Name: 'Trailing Space Content Filter Rule'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Content Filter Rule"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Server Group Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Server Group with Name: 'Trailing Space Server Group    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/api_tester_bbbcccddd",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Server Group   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_bbbcccddd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Server Group created with Name: 'Trailing Space Server Group'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Server Group"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Proxy Template Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Proxy Template with Name: 'Trailing Space Proxy Template    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/api_tester_bbbcccddd",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "proxytemplate.template",
+                        "Defaults": "proxytemplate.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Proxy Template   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_bbbcccddd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Proxy Template created with Name: 'Trailing Space Proxy Template'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Proxy Template"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Backend Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Backend with Name: 'Trailing Space Backend    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/api_tester_bbbcccddd",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "backend.template",
+                        "Defaults": "backend.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Backend   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_bbbcccddd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Backend created with Name: 'Trailing Space Backend'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Backend"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Routing Profile Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Routing Profile with Name: 'Trailing Space Routing Profile    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/api_tester_bbbcccddd",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "routingprofile.template",
+                        "Defaults": "routingprofile.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Routing Profile    \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_bbbcccddd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Routing Profile created with Name: 'Trailing Space Routing Profile'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Routing Profile"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        },
+        {
+            "Name": "Test Trailing Space in Cloud Function Name",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Step": 1,
+                    "Name": "Create Cloud Function with Name: 'Trailing Space Cloud Function    '",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/api_tester_bbbcccddd",
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "cloudfunction.template",
+                        "Defaults": "cloudfunction.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "\"Trailing Space Cloud Function   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_bbbcccddd\""
+                            }
+                        ]
+                    },
+                    "Expected": 
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "api_tester_bbbcccddd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Step": 2,
+                    "Name": "Check that Cloud Function created with Name: 'Trailing Space Cloud Function'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/api_tester_bbbcccddd/",
+                    "Method" :"GET",
+                    "Expected": 
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":  
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "Trailing Space Cloud Function"
+                            }
+                        ]
+                    }
+                }
+            ]    
+        }
+    ]
+}
