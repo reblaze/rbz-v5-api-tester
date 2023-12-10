@@ -19,6 +19,9 @@ def set_logger(log_file: str, planet: str):
 
     if os.path.exists(log):
         os.remove(log)
+    
+    if not os.path.exists(f"./log/"):
+        os.mkdir(f"./log/")
 
     file_handler = logging.FileHandler(log)
     file_handler.setLevel(logging.DEBUG)
