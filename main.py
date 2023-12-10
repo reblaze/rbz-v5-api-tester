@@ -56,7 +56,7 @@ def main():
         "-------------------------------- starting new run --------------------------------"
     )
     tester = ReblazeApiTester(
-        templates_folder, defaults_folder, planet_name, api_key, logger
+        templates_folder, defaults_folder, planet_name, branch_name, api_key, logger
     )
     ids = set()
     test_suite_files = enumerate_files(tests_folder)
@@ -77,6 +77,7 @@ def main():
         cleaner = Cleaner(
             api_key=api_key,
             planet=planet_name,
+            branch=branch_name,
             ids=ids,
             logger=logger,
         )
@@ -104,7 +105,7 @@ def main():
 
 def cleanup_only():
     tester = ReblazeApiTester(
-        templates_folder, defaults_folder, planet_name, api_key, logger
+        templates_folder, defaults_folder, planet_name, branch_name, api_key, logger
     )
     ids = set()
     test_suite_files = enumerate_files(tests_folder)
@@ -116,6 +117,7 @@ def cleanup_only():
     cleaner = Cleaner(
         api_key=api_key,
         planet=planet_name,
+        branch=branch_name,
         ids=ids,
         logger=logger,
     )
@@ -125,6 +127,7 @@ def cleanup_only():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--planet", required=True, help="Name of test planet")
+    parser.add_argument("-b", "--branch", required=True, help="Name of branch")
     parser.add_argument("-t", "--api_token", required=True, help="API token")
     parser.add_argument(
         "-c",
@@ -149,6 +152,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     planet_name = args.planet
+    branch_name = args.branch
     api_key = args.api_token
     output = None
     cleanup = args.cleanup

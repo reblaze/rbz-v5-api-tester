@@ -10,9 +10,13 @@
             [
                 {
                     "Name": "Create Rate limit with Name: 'My rate limit'",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
-                    "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
+                    "API": 
+                    {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
                     "Method" :"POST",
                     "Payload":
                     {
@@ -55,9 +59,13 @@
                 },
                 {
                     "Name": "Add Rate limit with Name: 'My rate limit' to default Security policy",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
-                    "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/__default__/",
+                    "API": 
+                    {
+                        "Base": "security-policy",
+                        "Path": "__default__/"
+                    },
                     "Method" :"PUT",
                     "Payload":
                     {
@@ -91,9 +99,13 @@
                 },
                 {
                     "Name": "List rate limits",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
-                    "API": "/conf/api/v3/configs/prod/d/ratelimits/",
+                    "API": 
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
                     "Method" :"GET",
                     "Expected":
                     {
@@ -113,10 +125,14 @@
                 },
                 {
                     "Name": "Publish changes",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
-                    "API": "/reblaze/api/v3/reblaze/tools/publish/prod/",
                     "Method" :"PUT",
+                    "API": 
+                    {
+                        "Base": "publish",
+                        "Path": ""
+                    },
                     "Payload":
                     {
                         "Template": "publish.template",
@@ -133,7 +149,7 @@
                 },
                 {
                     "Name": "Wait for Publish changes to take affect",
-                    "Skip": true,
+                    "Skip": false,
                     "Python": true,
                     "Code": 
                     [

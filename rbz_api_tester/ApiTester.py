@@ -1,6 +1,6 @@
 from typing import List
-import json
 from logging import Logger
+from rbz_api_tester.utils import read_json
 from rbz_api_tester.Result import Result
 from rbz_api_tester.TestStep import TestStep
 from rbz_api_tester.TestSuite import TestSuite
@@ -12,6 +12,7 @@ class ReblazeApiTester:
     templates: str
     defaults: str
     planet: str
+    branch:str
     api_key: str
     planet_url: str
     skipped_test_suites: int
@@ -24,26 +25,19 @@ class ReblazeApiTester:
         templates_folder: str,
         defaults_folder: str,
         planet: str,
+        branch: str,
         api_key: str,
         logger: Logger,
     ):
         self.templates = templates_folder
         self.defaults = defaults_folder
         self.planet = planet
+        self.branch = branch
         self.api_key = api_key
         self.skipped_test_suites = 0
         self.failed_test_suites = 0
         self.passed_test_suites = 0
         self.logger = logger
-
-    def _read_json(self, file_path: str):
-        try:
-            with open(file_path, "r") as file:
-                return json.load(file)
-        except FileNotFoundError:
-            raise FileNotFoundError(f"File not found: {file_path}")
-        except json.JSONDecodeError as e:
-            raise Exception(f"JSON decoding error: {e}")
 
     def _get_traffic_url(self):
         executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=None, logger=self.logger)
@@ -59,7 +53,7 @@ class ReblazeApiTester:
         return ""
 
     def execute(self, test_suite_file: str):
-        ts = self._read_json(test_suite_file)
+        ts = read_json(test_suite_file)
         test_suite = TestSuite.from_dict(ts)
 
         self.traffic_url = self._get_traffic_url()
@@ -67,7 +61,7 @@ class ReblazeApiTester:
         self.logger.info(f"Executing Test Suite: {test_suite.name}")
 
         test_suite_result = test_suite.execute(
-            self.templates, self.defaults, self.planet, self.api_key, self.traffic_url, self.logger
+            self.templates, self.defaults, self.planet, self.branch, self.api_key, self.traffic_url, self.logger
         )
 
         if test_suite_result.result == Result.Passed:
@@ -87,7 +81,7 @@ class ReblazeApiTester:
 
     def get_special_ids(self, test_suite_file: str):
         results = set()
-        ts = self._read_json(test_suite_file)
+        ts = read_json(test_suite_file)
         test_suite = TestSuite.from_dict(ts)
         for test in test_suite.tests:
             for step in test.steps:

@@ -57,7 +57,7 @@ class Test:
 
 
     def execute(
-        self, templates: str, defaults: str, planet: str, api_key: str, traffic_url: str, logger: Logger
+        self, templates: str, defaults: str, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger
     ):
         self.show_debug(logger)
         logger.debug(f"\tStarting to execute test: {self.name}")
@@ -76,7 +76,7 @@ class Test:
                 test_step_result = step.execute_python(logger)
             else:
                 test_step_result = step.execute(
-                    templates, defaults, planet, api_key, traffic_url, logger
+                    templates, defaults, planet, branch, api_key, traffic_url, logger
                 )
 
             result.items.append(test_step_result)

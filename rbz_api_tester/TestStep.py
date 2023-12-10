@@ -10,12 +10,14 @@ from pathlib import Path
 from dataclasses import dataclass
 from logging import Logger
 
+from rbz_api_tester.utils import from_alias, from_api
 from rbz_api_tester.Param import Param
 from rbz_api_tester.Payload import Payload
 from rbz_api_tester.Expected import Expected
 from rbz_api_tester.Result import Result
 from rbz_api_tester.TestStepResult import TestStepResult
 from rbz_api_tester.ApiExecuter import ApiExecuter
+from rbz_api_tester.API import API
 
 
 @dataclass
@@ -27,14 +29,14 @@ class TestStep:
     debug_str: str
     generate_id: bool
     traffic: bool
-    api: str
+    api: API
     method: str
     payload: Payload
     headers: List[Param]
     expected: Expected
     python: bool
     code: List[str]
-
+    
     @staticmethod
     def from_dict(obj: Any) -> "TestStep":
         if obj.get("Step") is not None:
@@ -56,7 +58,7 @@ class TestStep:
             _traffic = bool(obj.get("Traffic"))
         _api = None
         if obj.get("API") is not None:
-            _api = str(obj.get("API"))
+            _api = API.from_dict(obj.get("API"))
         _method = None
         if obj.get("Method") is not None:
             _method = str(obj.get("Method"))
@@ -112,7 +114,7 @@ class TestStep:
         if self.traffic is not None:
             _traffic = self.traffic
         if self.api is not None:
-            _api = self.api
+            _api = self.api.to_dict()
         if self.method is not None:
             _method = self.method
         if self.payload is not None:
@@ -185,6 +187,7 @@ class TestStep:
             value1 = str("=".join(value))
             templates_contents = templates_contents.replace(key, value1)
 
+        templates_contents = templates_contents.replace("@@branch@@", self.branch)
         templates_contents = templates_contents.replace("@@planet@@", self.planet)
 
         return json.loads(templates_contents)
@@ -279,12 +282,14 @@ class TestStep:
         self, templates_folder, defaults_folder, expected_text
     ):
         id = None
-        final_api_url = self.api
+        final_api_url = self.api.get()
         if self.generate_id:
             id = self._generate_uuid()
-            final_api_url = self.api.replace("@@id@@", id)
+            final_api_url = self.api.get().replace("@@id@@", id)
             if expected_text is not None:
                 expected_text = expected_text.replace("@@id@@", id)
+
+        final_api_url = final_api_url.replace("@@branch@@", self.branch)
 
         actual_payload = self._get_payload(
             self.payload, id, templates_folder, defaults_folder
@@ -349,11 +354,10 @@ class TestStep:
                 id = self._generate_uuid()
                 expected_text = expected_text.replace("@@id@@", id)
 
+            final_api = self.api.get().replace("@@branch@@", self.branch)
+
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
-            if self.traffic:
-                response = executer.send(self.traffic_url)
-            else:
-                response = executer.get(self.api)
+            response = executer.get(final_api)
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:
@@ -369,7 +373,8 @@ class TestStep:
     def _delete_api(self):
         try:
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
-            response = executer.delete(self.api)
+            final_api = self.api.get().replace("@@branch@@", self.branch)
+            response = executer.delete(final_api)
 
             if response.status_code == 200 and response.json()["ok"]:
                 return True, ""
@@ -382,6 +387,23 @@ class TestStep:
                     False,
                     msg,
                 )
+        except requests.exceptions.RequestException as e:
+            self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
+            return (
+                False,
+                f"Step: {self.step} - {self.name} ----->>>>> Request error: {e}\n",
+            )
+
+    def _send_traffic(self):
+        try:
+            expected_text = self.expected.text
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
+            response = executer.send(self.traffic_url)
+
+            res, msg = self._check_response(response, id, expected_text)
+            if not res:
+                self.logger.debug(msg)
+            return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
             return (
@@ -415,28 +437,12 @@ class TestStep:
             result.result = Result.Failed
         return result
 
-    def _send_traffic(self):
-        try:
-            expected_text = self.expected.text
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
-            response = executer.send(self.traffic_url)
-
-            res, msg = self._check_response(response, id, expected_text)
-            if not res:
-                self.logger.debug(msg)
-            return res, msg
-        except requests.exceptions.RequestException as e:
-            self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
-            return (
-                False,
-                f"Step: {self.step} - {self.name} ----->>>>> Request error: {e}\n",
-            )
-
     def execute(
-            self, templates: str, defaults: str, planet: str, api_key: str, traffic_url: str, logger: Logger
+            self, templates: str, defaults: str, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger
     ):
         self.api_key = api_key
         self.planet = planet
+        self.branch = branch
         self.traffic_url = traffic_url
         self.logger = logger
         self.show_debug()
