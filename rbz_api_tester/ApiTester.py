@@ -47,7 +47,7 @@ class ReblazeApiTester:
 
         json = response.json()
         for dns_record in json["dns_records"]:
-            if dns_record["type"] == 'A':
+            if dns_record["type"] == 'A' and self.branch in str(dns_record["name"]):
                 return dns_record["name"]
         
         return ""
