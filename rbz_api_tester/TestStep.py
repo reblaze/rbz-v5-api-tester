@@ -391,21 +391,21 @@ class TestStep:
 
     def _delete_api(self):
         try:
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
-            final_api = self.api.get().replace("@@branch@@", self.branch)
-            response = executer.delete(final_api)
+            id = None
+            expected_text = self.expected.text
 
-            if response.status_code == 200 and response.json()["ok"]:
-                return True, ""
-            elif response.status_code == 204:
-                return True, ""
-            else:
-                msg = f"Step: {self.step} - {self.name} ----->>>>> Expected Code: 200 or 204 Actual Code: {response.status_code}\n"
+            if self.generate_id:
+                id = self._generate_uuid()
+                expected_text = expected_text.replace("@@id@@", id)
+
+            final_api = self.api.get().replace("@@branch@@", self.branch)
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            response = executer.delete(final_api)
+            res, msg = self._check_response(response, id, expected_text)
+            if not res:
                 self.logger.debug(msg)
-                return (
-                    False,
-                    msg,
-                )
+            return res, msg
+            
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
             return (

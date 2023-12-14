@@ -71,17 +71,16 @@ def main():
         suite_ids = tester.get_special_ids(str(test_suite_file))
         ids = ids.union(suite_ids)
         results.append(tester.execute(str(test_suite_file)))
-
-    if cleanup:
-        logger.info(f"Performing Cleanup...")
-        cleaner = Cleaner(
-            api_key=api_key,
-            planet=planet_name,
-            branch=branch_name,
-            ids=ids,
-            logger=logger,
-        )
-        cleaner.execute()
+        if cleanup:
+            logger.info(f"Performing Cleanup...")
+            cleaner = Cleaner(
+                api_key=api_key,
+                planet=planet_name,
+                branch=branch_name,
+                ids=ids,
+                logger=logger,
+            )
+            cleaner.execute()
 
     logger.info(
         f"---------------------------------  Summary --------------------------------"
