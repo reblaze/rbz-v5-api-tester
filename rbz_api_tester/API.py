@@ -27,8 +27,10 @@ class API:
             "Path": self.path,
         }
 
+    def is_send_traffic(self):
+        return self.base == "@@traffic@@"
+
     def get(self) -> str:
         trimmed_base = self.base.rstrip("/")
         trimmed_path = self.path.lstrip("/")
-
         return f"{trimmed_base}/{trimmed_path}"

@@ -28,7 +28,6 @@ class TestStep:
     debug_level: str
     debug_str: str
     generate_id: bool
-    traffic: bool
     api: API
     method: str
     payload: Payload
@@ -44,7 +43,6 @@ class TestStep:
         _debug_level = None
         _debug_str = None
         _generate_id = None
-        _traffic = False
         _api = None
         _payload = None
         _headers = None
@@ -65,8 +63,6 @@ class TestStep:
             _debug_str = str(obj.get("Debug")["Message"])
         if obj.get("GenerateID") is not None:
             _generate_id = bool(obj.get("GenerateID"))
-        if obj.get("Traffic") is not None:
-            _traffic = bool(obj.get("Traffic"))
         if obj.get("API") is not None:
             _api = API.from_dict(obj.get("API"))
         _method = None
@@ -94,7 +90,6 @@ class TestStep:
             _debug_level,
             _debug_str,
             _generate_id,
-            _traffic,
             _api,
             _method,
             _payload,
@@ -109,7 +104,6 @@ class TestStep:
     def to_dict(self) -> dict:
         _debug = None
         _generate_id = None
-        _traffic = None
         _api = None
         _method = None
         _payload = None
@@ -124,8 +118,6 @@ class TestStep:
             debug = {"Level": self.debug_level, "Message": self.debug_str}
         if self.generate_id is not None:
             _generate_id = self.generate_id
-        if self.traffic is not None:
-            _traffic = self.traffic
         if self.api is not None:
             _api = self.api.to_dict()
         if self.method is not None:
@@ -151,7 +143,6 @@ class TestStep:
             "Skip": self.skip,
             "Debug": _debug,
             "GenerateID": _generate_id,
-            "Traffic": _traffic,
             "API": _api,
             "Method": _method,
             "Payload": _payload,
@@ -279,7 +270,7 @@ class TestStep:
             if self.expected.type == "json":
                 return self._check_response_json(response, id)
             elif self.expected.type == "content":
-                if expected_text == str(response.content) or self.traffic:
+                if expected_text == str(response.content) or self.api.is_send_traffic():
                     return True, ""
                 else:
                     return (
@@ -417,7 +408,8 @@ class TestStep:
         try:
             expected_text = self.expected.text
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
-            response = executer.send(self.traffic_url, self.method)
+            final_api = self.api.get().replace("@@traffic@@", self.traffic_url)
+            response = executer.send(final_api, self.method)
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:
@@ -473,7 +465,7 @@ class TestStep:
             result.error_message = f"{self.step} - {self.name} ----->>>>> Skipping Test Step - Skip marked as true\n"
             return result
 
-        if self.traffic:
+        if self.api.is_send_traffic():
             res, result.error_message = self._send_traffic()
         elif self.method == "POST":
             res, result.error_message = self._post_api(templates, defaults)
