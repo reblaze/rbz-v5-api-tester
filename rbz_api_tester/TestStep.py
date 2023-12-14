@@ -33,44 +33,53 @@ class TestStep:
     method: str
     payload: Payload
     headers: List[Param]
+    arguments: List[Param]
+    files: List[Param]
     expected: Expected
     python: bool
     code: List[str]
     
     @staticmethod
     def from_dict(obj: Any) -> "TestStep":
+        _debug_level = None
+        _debug_str = None
+        _generate_id = None
+        _traffic = False
+        _api = None
+        _payload = None
+        _headers = None
+        _arguments = None
+        _files = None
+        _expected = None
+        _python = False
+        _code = None
+
         if obj.get("Step") is not None:
             _step = int(obj.get("Step"))
         else:
             _step = 0
         _name = str(obj.get("Name"))
         _skip = bool(obj.get("Skip"))
-        _debug_level = None
-        _debug_str = None
         if obj.get("Debug") is not None:
             _debug_level = str(obj.get("Debug")["Level"])
             _debug_str = str(obj.get("Debug")["Message"])
-        _generate_id = None
         if obj.get("GenerateID") is not None:
             _generate_id = bool(obj.get("GenerateID"))
-        _traffic = False
         if obj.get("Traffic") is not None:
             _traffic = bool(obj.get("Traffic"))
-        _api = None
         if obj.get("API") is not None:
             _api = API.from_dict(obj.get("API"))
         _method = None
         if obj.get("Method") is not None:
             _method = str(obj.get("Method"))
-        _payload = None
-        _headers = None
-        _python = False
-        _code = None
         if obj.get("Payload") is not None:
             _payload = Payload.from_dict(obj.get("Payload"))
         if obj.get("Headers") is not None:
-            _headers = [Param.from_dict(y) for y in obj.get("Headers")]
-        _expected = None
+            _headers = [Param.from_dict(h) for h in obj.get("Headers")]
+        if obj.get("Arguments") is not None:
+            _arguments = [Param.from_dict(a) for a in obj.get("Arguments")]
+        if obj.get("Files") is not None:
+            _files = [Param.from_dict(f) for f in obj.get("Files")]
         if obj.get("Expected") is not None:
             _expected = Expected.from_dict(obj.get("Expected"))
         if obj.get("Python") is not None:
@@ -90,6 +99,8 @@ class TestStep:
             _method,
             _payload,
             _headers,
+            _arguments,
+            _files,
             _expected,
             _python,
             _code
@@ -103,6 +114,8 @@ class TestStep:
         _method = None
         _payload = None
         _headers = None
+        _arguments = None
+        _files = None
         _expected = None
         _python = None
         _code = None
@@ -121,6 +134,10 @@ class TestStep:
             _payload = self.payload.to_dict()
         if self.headers is not None:
             _headers = [header.to_dict() for header in self.headers]
+        if self.arguments is not None:
+            _arguments = [argument.to_dict() for argument in self.arguments]
+        if self.files is not None:
+            _arguments = [file.to_dict() for file in self.files]
         if self.expected is not None:
             _expected = self.expected.to_dict()
         if self.python is not None:
@@ -139,6 +156,8 @@ class TestStep:
             "Method": _method,
             "Payload": _payload,
             "Headers": _headers,
+            "Arguments": _arguments,
+            "Files": _arguments,
             "Expected": _expected,
             "Python": _python,
             "Code": _code,
@@ -308,7 +327,7 @@ class TestStep:
                 templates_folder, defaults_folder, expected_text
             )
 
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             response = executer.post(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
@@ -332,7 +351,7 @@ class TestStep:
                 templates_folder, defaults_folder, expected_text
             )
 
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             response = executer.put(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
@@ -356,7 +375,7 @@ class TestStep:
 
             final_api = self.api.get().replace("@@branch@@", self.branch)
 
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             response = executer.get(final_api)
 
             res, msg = self._check_response(response, id, expected_text)
@@ -372,7 +391,7 @@ class TestStep:
 
     def _delete_api(self):
         try:
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             final_api = self.api.get().replace("@@branch@@", self.branch)
             response = executer.delete(final_api)
 
@@ -397,8 +416,8 @@ class TestStep:
     def _send_traffic(self):
         try:
             expected_text = self.expected.text
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, logger=self.logger)
-            response = executer.send(self.traffic_url)
+            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            response = executer.send(self.traffic_url, self.method)
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:

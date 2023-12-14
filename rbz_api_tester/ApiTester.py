@@ -40,7 +40,7 @@ class ReblazeApiTester:
         self.logger = logger
 
     def _get_traffic_url(self):
-        executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=None, logger=self.logger)
+        executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=None, arguments=None, files=None, logger=self.logger)
         response = executer.get("/reblaze/api/v3/reblaze/tools/dns-information/")
         if response.status_code != 200 or response.reason != "OK":
             return ""

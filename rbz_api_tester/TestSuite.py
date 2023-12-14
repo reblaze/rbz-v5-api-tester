@@ -80,8 +80,8 @@ class TestSuite:
                 logger.debug(f"\tTest: {test.name} Passed")
                 result.passed_tests += 1
             elif test_result.result == Result.Skipped:
-                logger.debug(f"\tTest: {self.name} Skipped")
-                result.skipped_steps += 1
+                logger.debug(f"\tTest: {test.name} Skipped")
+                result.skipped_tests += 1
             else:
                 logger.debug(f"\tTest: {test.name} Failed")
                 result.error_message += (
