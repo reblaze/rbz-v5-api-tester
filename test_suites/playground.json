@@ -10,7 +10,7 @@
             [
                 {
                     "Name": "Create Rate limit with Name: 'My rate limit'",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": 
                     {
@@ -59,7 +59,7 @@
                 },
                 {
                     "Name": "Add Rate limit with Name: 'My rate limit' to default Security policy",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": 
                     {
@@ -99,7 +99,7 @@
                 },
                 {
                     "Name": "List rate limits",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": 
                     {
@@ -125,7 +125,7 @@
                 },
                 {
                     "Name": "Publish changes",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "Debug": {
                         "Level": "info",
@@ -157,7 +157,7 @@
                         "Level": "info",
                         "Message": "Actively waiting 30 seconds for publish to take effect"
                     },
-                    "Skip": false,
+                    "Skip": true,
                     "Python": true,
                     "Code": 
                     [
@@ -167,7 +167,7 @@
                 },
                 {
                     "Name": "Send Traffic",
-                    "Skip": false,
+                    "Skip": true,
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -214,12 +214,12 @@
                 },
                 {
                     "Name": "Send Traffic",
+                    "Skip": true,
                     "API": 
                     {
                         "Base": "send-traffic",
                         "Path": "my-test"
                     },
-                    "Traffic": true,
                     "Method": "POST",
                     "Headers":
                     [
@@ -261,7 +261,7 @@
                 },
                 {
                     "Name": "Send Traffic",
-                    "Skip": false,
+                    "Skip": true,
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -323,7 +323,7 @@
                     "API": 
                     {
                         "Base": "send-traffic",
-                        "Path": ""
+                        "Path": "my-test-2"
                     },
                     "Method": "DELETE",
                     "Headers":
@@ -363,8 +363,72 @@
 						"Single": true,
                         "Text": "b''"
                     }
+                },
+                {
+                    "Name": "Wait for Logs to be inserted to BQ",
+                    "Debug": {
+                        "Level": "info",
+                        "Message": "Actively waiting 40 seconds for Logs to reach BQ"
+                    },
+                    "Skip": false,
+                    "Python": true,
+                    "Code": 
+                    [
+                        "import time",
+                        "time.sleep(40)"
+                    ]
+                },
+                {
+                    "Name": "Get Logs",
+                    "Skip": false,
+                    "API": 
+                    {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path=\"/my-test-2\", timestamp between @@NOW(-1minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "jsonpath",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "args:3"
+                            },
+                            {
+                                "Key": "data/results/0/gf_triggers/0/trigger_name",
+                                "Value": "API Discovery"
+                            },
+                            {
+                                "Key": "data/results/0/gf_triggers/0/action",
+                                "Value": "monitor"
+                            }
+                        ]
+                    }
                 }
             ]
         }
     ]
 }
+

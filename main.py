@@ -10,7 +10,6 @@ from rbz_api_tester.Cleaner import Cleaner
 def set_logger(log_file: str, planet: str):
     logger = logging.getLogger("my_logger")
     logger.setLevel(logging.DEBUG)
-
     log = ""
     if log_file is not None:
         log = log_file

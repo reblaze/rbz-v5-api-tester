@@ -18,6 +18,7 @@ from rbz_api_tester.Result import Result
 from rbz_api_tester.TestStepResult import TestStepResult
 from rbz_api_tester.ApiExecuter import ApiExecuter
 from rbz_api_tester.API import API
+from rbz_api_tester.Time import convert_time_macros
 
 
 @dataclass
@@ -214,6 +215,25 @@ class TestStep:
         else:
             return str(value) == expected_value
 
+    def _compare_expected_to_response_jsonpath(self, expected: Param, response: dict, id: str):
+        types_with_no_quotes = (int, bool, float)
+        keys = expected.key.split("/")
+        expected_value = expected.value
+        if type(expected.value) is str and id is not None:
+            expected_value = str(expected_value).replace("@@id@@", id)
+        value = response
+        for key in keys:
+            if key == "*":
+                return any(element == expected_value for element in value)
+            if key.isnumeric():
+                value = value[int(key)]
+            else:
+                value = value[key]
+        if isinstance(value, types_with_no_quotes):
+            return value == expected_value
+        else:
+            return str(value) == expected_value
+
     def _find_in_response(self, expected: List[Param], response: dict, id: str):
         search = len(expected)
         found = 0
@@ -265,10 +285,24 @@ class TestStep:
         else:
             return self._check_response_json_multiple(response_json, id)
 
+    def _check_response_jsonpath(self, response, id: str):
+        response_json = response.json()
+        for expected_result in self.expected.single_result:
+            if not self._compare_expected_to_response_jsonpath(
+                expected_result, response_json, id
+            ):
+                return (
+                    False,
+                    f"Step: {self.step} - {self.name} ----->>>>> Expected Key: {expected_result.key} to have Value: {expected_result.value} but response was: {response_json}\n",
+                )
+        return True, ""
+
     def _check_response(self, response, id, expected_text):
         if self.expected.code == response.status_code:
             if self.expected.type == "json":
                 return self._check_response_json(response, id)
+            elif self.expected.type == "jsonpath":
+                return self._check_response_jsonpath(response, id)
             elif self.expected.type == "content":
                 if expected_text == str(response.content) or self.api.is_send_traffic():
                     return True, ""
@@ -287,6 +321,13 @@ class TestStep:
                 False,
                 f"Step: {self.step} - {self.name} ----->>>>> Expected Code: {self.expected.code} Actual Code: {response.status_code}\n",
             )
+
+    def _set_params(
+        self
+    ):
+        if self.arguments is not None:
+            for arg in self.arguments:
+                arg.value = arg.value.replace("@@branch@@", self.branch)
 
     def _set_id_and_params(
         self, templates_folder, defaults_folder, expected_text
@@ -322,7 +363,7 @@ class TestStep:
             response = executer.post(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg)
+                self.logger.debug(msg.encode('utf-8'))
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -346,7 +387,7 @@ class TestStep:
             response = executer.put(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg)
+                self.logger.debug(msg.encode('utf-8'))
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -365,13 +406,14 @@ class TestStep:
                 expected_text = expected_text.replace("@@id@@", id)
 
             final_api = self.api.get().replace("@@branch@@", self.branch)
+            self._set_params()
 
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             response = executer.get(final_api)
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg)
+                self.logger.debug(msg.encode('utf-8'))
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -394,7 +436,7 @@ class TestStep:
             response = executer.delete(final_api)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg)
+                self.logger.debug(msg.encode('utf-8'))
             return res, msg
             
         except requests.exceptions.RequestException as e:
@@ -413,7 +455,7 @@ class TestStep:
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg)
+                self.logger.debug(msg.encode('utf-8'))
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -464,6 +506,10 @@ class TestStep:
             result.result = Result.Skipped
             result.error_message = f"{self.step} - {self.name} ----->>>>> Skipping Test Step - Skip marked as true\n"
             return result
+
+        if self.arguments is not None:
+            for arg in self.arguments:
+                arg.value = convert_time_macros(arg.value)
 
         if self.api.is_send_traffic():
             res, result.error_message = self._send_traffic()

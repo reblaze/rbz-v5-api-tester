@@ -1,4 +1,5 @@
 import requests
+import urllib
 from typing import Any
 from logging import Logger
 
@@ -48,12 +49,16 @@ class ApiExecuter:
 
     def get(self, api):
         headers = {}
+        params = {}
         self.logger.debug(f"\t\tMethod is GET")
         self._add_common_headers(headers)
         self._add_custom_headers(headers)
+        self._add_arguments(params)
         final_api_url = f"https://{self.planet_url}{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url}")
-        response = requests.get(final_api_url, headers=headers)
+        if len(params) > 0:
+            final_api_url = f"{final_api_url.rstrip("/")}?"
+        response = requests.get(final_api_url, headers=headers, params=params)
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response
@@ -98,24 +103,28 @@ class ApiExecuter:
 
     def post(self, api, payload: Payload):
         headers = {}
+        params = {}
         self._add_common_headers(headers)
         self._add_custom_headers(headers)
+        self._add_arguments(params)
         self.logger.debug(f"\t\tMethod is POST")
         final_api_url = f"https://{self.planet_url}{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url} with payload: {payload}")
-        response = requests.post(final_api_url, json=payload, headers=headers)
+        response = requests.post(final_api_url, json=payload, headers=headers, data=params)
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response
 
     def put(self, api, payload: Payload):
         headers = {}
+        params = {}
         self._add_common_headers(headers)
         self._add_custom_headers(headers)
+        self._add_arguments(params)
         self.logger.debug(f"\t\tMethod is PUT")
         final_api_url = f"https://{self.planet_url}{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url} with payload: {payload}")
-        response = requests.put(final_api_url, json=payload, headers=headers)
+        response = requests.put(final_api_url, json=payload, headers=headers, data=params)
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response
