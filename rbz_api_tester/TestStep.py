@@ -19,7 +19,7 @@ from rbz_api_tester.TestStepResult import TestStepResult
 from rbz_api_tester.ApiExecuter import ApiExecuter
 from rbz_api_tester.API import API
 from rbz_api_tester.Time import convert_time_macros
-
+from rbz_api_tester.utils import get_my_ip
 
 @dataclass
 class TestStep:
@@ -200,6 +200,7 @@ class TestStep:
 
         templates_contents = templates_contents.replace("@@branch@@", self.branch)
         templates_contents = templates_contents.replace("@@planet@@", self.planet)
+        templates_contents = templates_contents.replace("@@ip@@", get_my_ip())
 
         return json.loads(templates_contents)
 
@@ -328,6 +329,8 @@ class TestStep:
         if self.arguments is not None:
             for arg in self.arguments:
                 arg.value = arg.value.replace("@@branch@@", self.branch)
+                arg.value = arg.value.replace("@@ip@@", get_my_ip())
+
 
     def _set_id_and_params(
         self, templates_folder, defaults_folder, expected_text
@@ -341,6 +344,7 @@ class TestStep:
                 expected_text = expected_text.replace("@@id@@", id)
 
         final_api_url = final_api_url.replace("@@branch@@", self.branch)
+        final_api_url = final_api_url.replace("@@ip@@", get_my_ip())
 
         actual_payload = self._get_payload(
             self.payload, id, templates_folder, defaults_folder
@@ -406,6 +410,7 @@ class TestStep:
                 expected_text = expected_text.replace("@@id@@", id)
 
             final_api = self.api.get().replace("@@branch@@", self.branch)
+            final_api = final_api.replace("@@ip@@", get_my_ip())
             self._set_params()
 
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
@@ -432,6 +437,7 @@ class TestStep:
                 expected_text = expected_text.replace("@@id@@", id)
 
             final_api = self.api.get().replace("@@branch@@", self.branch)
+            final_api = final_api.replace("@@ip@@", get_my_ip())
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             response = executer.delete(final_api)
             res, msg = self._check_response(response, id, expected_text)

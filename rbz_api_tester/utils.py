@@ -1,4 +1,5 @@
 import json
+import socket
 
 def read_json(file_path: str):
     try:
@@ -30,3 +31,7 @@ def available_api(clean: bool) -> []:
         if bool(api["clean"]) == clean:
             res.append(api["API"])
     return res
+
+def get_my_ip() -> str:
+    hostname = socket.gethostname()
+    return socket.gethostbyname(hostname)
