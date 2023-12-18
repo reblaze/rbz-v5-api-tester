@@ -11,6 +11,7 @@ class Expected:
     type: str
     text: str
     single: bool
+    headers: List[Param]
     single_result: List[Param]
     multiple_results: List[List[Param]]
 
@@ -19,9 +20,14 @@ class Expected:
         _code = int(obj.get("Code"))
         _type = str(obj.get("Type"))
         _single = bool(obj.get("Single"))
+        _headers = None
         _multiple_results = None
         _single_result = None
         _text = None
+
+        if obj.get("Headers") is not None:
+            _headers = [Param.from_dict(h) for h in obj.get("Headers")]
+
         if obj.get("MultipleResults") is not None:
             _multiple_results = [
                 [Param.from_dict(param_dict) for param_dict in result_list]
@@ -32,12 +38,16 @@ class Expected:
         else:
             _text = str(obj.get("Text"))
 
-        return Expected(_code, _type, _text, _single, _single_result, _multiple_results)
+        return Expected(_code, _type, _text, _single, _headers, _single_result, _multiple_results)
 
     def to_dict(self) -> dict:
         _multiple_results = None
         _single_result = None
         _text = None
+        _headers = None
+
+        if self.headers is not None:
+            _headers = [header.to_dict() for header in self.headers]
 
         if not self.single:
             _multiple_results = [
@@ -54,6 +64,7 @@ class Expected:
             "Type": self.type,
             "Text": _text,
             "Single": self.single,
+            "Headers": _headers,
             "MultipleResults": _multiple_results,
             "SingleResult": _single_result,
         }

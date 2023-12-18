@@ -19,7 +19,7 @@ from rbz_api_tester.TestStepResult import TestStepResult
 from rbz_api_tester.ApiExecuter import ApiExecuter
 from rbz_api_tester.API import API
 from rbz_api_tester.Time import convert_time_macros
-from rbz_api_tester.utils import get_my_ip
+from rbz_api_tester.utils import get_my_external_ip
 
 @dataclass
 class TestStep:
@@ -200,7 +200,7 @@ class TestStep:
 
         templates_contents = templates_contents.replace("@@branch@@", self.branch)
         templates_contents = templates_contents.replace("@@planet@@", self.planet)
-        templates_contents = templates_contents.replace("@@ip@@", get_my_ip())
+        templates_contents = templates_contents.replace("@@ip@@", get_my_external_ip())
 
         return json.loads(templates_contents)
 
@@ -217,23 +217,27 @@ class TestStep:
             return str(value) == expected_value
 
     def _compare_expected_to_response_jsonpath(self, expected: Param, response: dict, id: str):
-        types_with_no_quotes = (int, bool, float)
-        keys = expected.key.split("/")
-        expected_value = expected.value
-        if type(expected.value) is str and id is not None:
-            expected_value = str(expected_value).replace("@@id@@", id)
-        value = response
-        for key in keys:
-            if key == "*":
-                return any(element == expected_value for element in value)
-            if key.isnumeric():
-                value = value[int(key)]
+        try:
+            types_with_no_quotes = (int, bool, float)
+            keys = expected.key.split("/")
+            expected_value = expected.value
+            if type(expected.value) is str and id is not None:
+                expected_value = str(expected_value).replace("@@id@@", id)
+            value = response
+            for key in keys:
+                if key == "*":
+                    return any(element == expected_value for element in value)
+                if key.isnumeric():
+                    value = value[int(key)]
+                else:
+                    value = value[key]
+            if isinstance(value, types_with_no_quotes):
+                return value == expected_value
             else:
-                value = value[key]
-        if isinstance(value, types_with_no_quotes):
-            return value == expected_value
-        else:
-            return str(value) == expected_value
+                return str(value) == expected_value
+        except Exception as e:
+            self.logger.error(f"json path check failed due to: {repr(e)}")
+            return False
 
     def _find_in_response(self, expected: List[Param], response: dict, id: str):
         search = len(expected)
@@ -298,8 +302,29 @@ class TestStep:
                 )
         return True, ""
 
+    def _check_response_headers(self, response):
+        for h in self.expected.headers:
+            if response.headers[h.key] is None:
+                return False
+            elif response.headers[h.key] != h.value:
+                return False
+        return True
+
     def _check_response(self, response, id, expected_text):
         if self.expected.code == response.status_code:
+            if self.expected.headers is not None:
+                if not self._check_response_headers(response):
+                    expected_headers = "Expected Headers:"
+                    for h in self.expected.headers:
+                        expected_headers = f"{expected_headers}\nKey: {h.key}, Value:{h.value}"
+                    actual_headers = "Actual Headers:"
+                    for header, value in response.headers.items():
+                        actual_headers = f"{actual_headers}\nKey: {header}, Value:{value}"
+                    return (
+                        False,
+                        f"Step: {self.step} - {self.name} ----->>>>> {expected_headers}\n{actual_headers}\n",
+                    )
+
             if self.expected.type == "json":
                 return self._check_response_json(response, id)
             elif self.expected.type == "jsonpath":
@@ -329,7 +354,7 @@ class TestStep:
         if self.arguments is not None:
             for arg in self.arguments:
                 arg.value = arg.value.replace("@@branch@@", self.branch)
-                arg.value = arg.value.replace("@@ip@@", get_my_ip())
+                arg.value = arg.value.replace("@@ip@@", get_my_external_ip())
 
 
     def _set_id_and_params(
@@ -344,7 +369,7 @@ class TestStep:
                 expected_text = expected_text.replace("@@id@@", id)
 
         final_api_url = final_api_url.replace("@@branch@@", self.branch)
-        final_api_url = final_api_url.replace("@@ip@@", get_my_ip())
+        final_api_url = final_api_url.replace("@@ip@@", get_my_external_ip())
 
         actual_payload = self._get_payload(
             self.payload, id, templates_folder, defaults_folder
@@ -367,7 +392,7 @@ class TestStep:
             response = executer.post(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg.encode('utf-8'))
+                self.logger.debug(msg)
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -391,7 +416,7 @@ class TestStep:
             response = executer.put(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg.encode('utf-8'))
+                self.logger.debug(msg)
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -410,7 +435,7 @@ class TestStep:
                 expected_text = expected_text.replace("@@id@@", id)
 
             final_api = self.api.get().replace("@@branch@@", self.branch)
-            final_api = final_api.replace("@@ip@@", get_my_ip())
+            final_api = final_api.replace("@@ip@@", get_my_external_ip())
             self._set_params()
 
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
@@ -418,7 +443,7 @@ class TestStep:
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg.encode('utf-8'))
+                self.logger.debug(msg)
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -436,13 +461,14 @@ class TestStep:
                 id = self._generate_uuid()
                 expected_text = expected_text.replace("@@id@@", id)
 
+            self._set_params()
             final_api = self.api.get().replace("@@branch@@", self.branch)
-            final_api = final_api.replace("@@ip@@", get_my_ip())
+            final_api = final_api.replace("@@ip@@", get_my_external_ip())
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
             response = executer.delete(final_api)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg.encode('utf-8'))
+                self.logger.debug(msg)
             return res, msg
             
         except requests.exceptions.RequestException as e:
@@ -456,12 +482,13 @@ class TestStep:
         try:
             expected_text = self.expected.text
             executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            self._set_params()
             final_api = self.api.get().replace("@@traffic@@", self.traffic_url)
             response = executer.send(final_api, self.method)
 
             res, msg = self._check_response(response, id, expected_text)
             if not res:
-                self.logger.debug(msg.encode('utf-8'))
+                self.logger.debug(msg)
             return res, msg
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
@@ -470,11 +497,18 @@ class TestStep:
                 f"Step: {self.step} - {self.name} ----->>>>> Request error: {e}\n",
             )
 
-    def execute_python(self, logger: Logger):
+    def execute_python(self, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger):
         self.logger = logger
+        self.api_key = api_key
+        self.planet = planet
+        self.branch = branch
+        self.traffic_url = traffic_url
         self.show_debug()
         self.logger.debug(f"\t\tExecuting step: {self.step} - {self.name}")
-        code = "\n".join(self.code)
+        code = ""
+        for code_line in self.code:
+            code = f"{code}\n{code_line}"
+        code = code.replace("@@planet@@", self.planet).replace("@@ip@@", get_my_external_ip()).replace("@@branch@@", self.branch).replace("@@api_key@@", self.api_key)
         self.logger.debug(f"\t\tPython Script:\n{code}")
         result = TestStepResult()
 

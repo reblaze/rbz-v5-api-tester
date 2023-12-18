@@ -73,7 +73,7 @@ class Test:
         for step in self.steps:
             step.step = i
             if step.python:
-                test_step_result = step.execute_python(logger)
+                test_step_result = step.execute_python(planet, branch, api_key, traffic_url, logger)
             else:
                 test_step_result = step.execute(
                     templates, defaults, planet, branch, api_key, traffic_url, logger

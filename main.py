@@ -6,8 +6,8 @@ from pathlib import Path
 from rbz_api_tester.ApiTester import ReblazeApiTester
 from rbz_api_tester.Cleaner import Cleaner
 
-
 def set_logger(log_file: str, planet: str):
+    os.environ["PYTHONIOENCODING"] = "utf-8"
     logger = logging.getLogger("my_logger")
     logger.setLevel(logging.DEBUG)
     log = ""

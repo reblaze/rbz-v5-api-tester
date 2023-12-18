@@ -100,4 +100,4 @@ class ReblazeApiTester:
         for result in results:
             if result.result == Result.Failed:
                 errors += result.error_message + "\n\n"
-        self.logger.error(errors.encode('utf-8'))
+        self.logger.error(errors)

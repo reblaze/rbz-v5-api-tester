@@ -1,5 +1,6 @@
 import json
 import socket
+import requests
 
 def read_json(file_path: str):
     try:
@@ -35,3 +36,10 @@ def available_api(clean: bool) -> []:
 def get_my_ip() -> str:
     hostname = socket.gethostname()
     return socket.gethostbyname(hostname)
+
+def get_my_external_ip() -> str:
+    try:
+        response = requests.get("https://api.ipify.org?format=json")
+        return response.json()["ip"]
+    except:
+        return get_my_ip()
