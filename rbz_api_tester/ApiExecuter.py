@@ -82,6 +82,12 @@ class ApiExecuter:
             response = requests.put(final_api_url, headers=headers, data=params, files=files, verify=False)
         elif method == "DELETE":
             response = requests.delete(final_api_url, headers=headers, params=params, verify=False)
+        elif method == "PATCH":
+            response = requests.patch(final_api_url, headers=headers, data=params, files=files, verify=False)
+        elif method == "OPTIONS":
+            response = requests.options(final_api_url, headers=headers, verify=False)
+        elif method == "HEAD":
+            response = requests.head(final_api_url, headers=headers, verify=False)
         else:
             raise Exception(f"unknown method: {method}")    
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
