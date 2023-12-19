@@ -6,6 +6,7 @@ from pathlib import Path
 from rbz_api_tester.ApiTester import ReblazeApiTester
 from rbz_api_tester.Cleaner import Cleaner
 
+
 def set_logger(log_file: str, planet: str):
     os.environ["PYTHONIOENCODING"] = "utf-8"
     logger = logging.getLogger("my_logger")
@@ -18,11 +19,11 @@ def set_logger(log_file: str, planet: str):
 
     if os.path.exists(log):
         os.remove(log)
-    
+
     if not os.path.exists(f"./log/"):
         os.mkdir(f"./log/")
 
-    file_handler = logging.FileHandler(log, encoding='utf-8')
+    file_handler = logging.FileHandler(log, encoding="utf-8")
     file_handler.setLevel(logging.DEBUG)
 
     console_handler = logging.StreamHandler()
@@ -55,7 +56,13 @@ def main():
         "-------------------------------- starting new run --------------------------------"
     )
     tester = ReblazeApiTester(
-        templates_folder, defaults_folder, planet_name, branch_name, api_key, logger
+        templates_folder,
+        defaults_folder,
+        planet_name,
+        branch_name,
+        api_key,
+        email,
+        logger,
     )
     ids = set()
     test_suite_files = enumerate_files(tests_folder)
@@ -96,14 +103,20 @@ def main():
         f"---------------------------------------------------------------------------"
     )
 
-    #assert (
+    # assert (
     #    tester.failed_test_suites == 0
-    #), f"{tester.failed_test_suites} test suites failed"
+    # ), f"{tester.failed_test_suites} test suites failed"
 
 
 def cleanup_only():
     tester = ReblazeApiTester(
-        templates_folder, defaults_folder, planet_name, branch_name, api_key, logger
+        templates_folder,
+        defaults_folder,
+        planet_name,
+        branch_name,
+        api_key,
+        email,
+        logger,
     )
     ids = set()
     test_suite_files = enumerate_files(tests_folder)
@@ -127,6 +140,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", "--planet", required=True, help="Name of test planet")
     parser.add_argument("-b", "--branch", required=True, help="Name of branch")
     parser.add_argument("-t", "--api_token", required=True, help="API token")
+    parser.add_argument("-e", "--email", required=True, help="API owner email")
     parser.add_argument(
         "-c",
         "--cleanup",
@@ -152,6 +166,7 @@ if __name__ == "__main__":
     planet_name = args.planet
     branch_name = args.branch
     api_key = args.api_token
+    email = args.email
     output = None
     cleanup = args.cleanup
 

@@ -57,7 +57,15 @@ class TestSuite:
                 self.logger.debug(f"      {self.debug_str}")
 
     def execute(
-        self, templates: str, defaults: str, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger
+        self,
+        templates: str,
+        defaults: str,
+        planet: str,
+        branch: str,
+        api_key: str,
+        email: str,
+        traffic_url: str,
+        logger: Logger,
     ):
         self.show_debug(logger)
         logger.debug(f"Starting to execute test suite: {self.name}")
@@ -73,7 +81,9 @@ class TestSuite:
         result.total_tests = len(self.tests)
         result.error_message = f"Test Suite Name: {self.name}\n"
         for test in self.tests:
-            test_result = test.execute(templates, defaults, planet, branch, api_key, traffic_url, logger)
+            test_result = test.execute(
+                templates, defaults, planet, branch, api_key, email, traffic_url, logger
+            )
             result.items.append(test_result)
 
             if test_result.result == Result.Passed:

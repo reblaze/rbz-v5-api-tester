@@ -55,9 +55,16 @@ class Test:
                 logger.debug(f">>>>> Debug from: {self.name}")
                 logger.debug(f"      {self.debug_str}")
 
-
     def execute(
-        self, templates: str, defaults: str, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger
+        self,
+        templates: str,
+        defaults: str,
+        planet: str,
+        branch: str,
+        api_key: str,
+        email: str,
+        traffic_url: str,
+        logger: Logger,
     ):
         self.show_debug(logger)
         logger.debug(f"\tStarting to execute test: {self.name}")
@@ -73,10 +80,19 @@ class Test:
         for step in self.steps:
             step.step = i
             if step.python:
-                test_step_result = step.execute_python(planet, branch, api_key, traffic_url, logger)
+                test_step_result = step.execute_python(
+                    planet, branch, api_key, email, traffic_url, logger
+                )
             else:
                 test_step_result = step.execute(
-                    templates, defaults, planet, branch, api_key, traffic_url, logger
+                    templates,
+                    defaults,
+                    planet,
+                    branch,
+                    api_key,
+                    email,
+                    traffic_url,
+                    logger,
                 )
 
             result.items.append(test_step_result)

@@ -5,8 +5,10 @@ from logging import Logger
 
 from rbz_api_tester.Payload import Payload
 
+
 class ApiExecuter:
     api_key: str
+    email: str
     planet: str
     planet_url: str
     headers: Any
@@ -14,8 +16,18 @@ class ApiExecuter:
     files: Any
     logger: Logger
 
-    def __init__(self, api_key: str, planet: str, headers: Any, arguments: Any, files: Any, logger: Logger):
+    def __init__(
+        self,
+        api_key: str,
+        email: str,
+        planet: str,
+        headers: Any,
+        arguments: Any,
+        files: Any,
+        logger: Logger,
+    ):
         self.api_key = api_key
+        self.email = email
         self.planet = planet
         self.planet_url = f"{planet}.dev.app.reblaze.io"
         self.headers = headers
@@ -36,6 +48,7 @@ class ApiExecuter:
         headers["planet-name"] = f"{self.planet}"
         headers["planet-hostname"] = f"{self.planet_url}"
         headers["Content-Type"] = "application/json"
+        headers["X-Auth-User"] = f"{self.email}"
 
     def _add_arguments(self, params):
         if self.arguments is not None:
@@ -57,12 +70,11 @@ class ApiExecuter:
         final_api_url = f"https://{self.planet_url}{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url}")
         if len(params) > 0:
-            final_api_url = f"{final_api_url.rstrip("/")}?"
+            final_api_url = f"{final_api_url.rstrip('/')}"
         response = requests.get(final_api_url, headers=headers, params=params)
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response
-
 
     def send(self, api, method):
         headers = {}
@@ -75,25 +87,34 @@ class ApiExecuter:
         final_api_url = f"https://{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url}")
         if method == "GET":
-            response = requests.get(final_api_url, headers=headers, params=params, verify=False)
+            response = requests.get(
+                final_api_url, headers=headers, params=params, verify=False
+            )
         elif method == "POST":
-            response = requests.post(final_api_url, headers=headers, data=params, files=files, verify=False)
+            response = requests.post(
+                final_api_url, headers=headers, data=params, files=files, verify=False
+            )
         elif method == "PUT":
-            response = requests.put(final_api_url, headers=headers, data=params, files=files, verify=False)
+            response = requests.put(
+                final_api_url, headers=headers, data=params, files=files, verify=False
+            )
         elif method == "DELETE":
-            response = requests.delete(final_api_url, headers=headers, params=params, verify=False)
+            response = requests.delete(
+                final_api_url, headers=headers, params=params, verify=False
+            )
         elif method == "PATCH":
-            response = requests.patch(final_api_url, headers=headers, data=params, files=files, verify=False)
+            response = requests.patch(
+                final_api_url, headers=headers, data=params, files=files, verify=False
+            )
         elif method == "OPTIONS":
             response = requests.options(final_api_url, headers=headers, verify=False)
         elif method == "HEAD":
             response = requests.head(final_api_url, headers=headers, verify=False)
         else:
-            raise Exception(f"unknown method: {method}")    
+            raise Exception(f"unknown method: {method}")
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response
-
 
     def delete(self, api):
         headers = {}
@@ -116,7 +137,9 @@ class ApiExecuter:
         self.logger.debug(f"\t\tMethod is POST")
         final_api_url = f"https://{self.planet_url}{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url} with payload: {payload}")
-        response = requests.post(final_api_url, json=payload, headers=headers, data=params)
+        response = requests.post(
+            final_api_url, json=payload, headers=headers, data=params
+        )
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response
@@ -130,7 +153,9 @@ class ApiExecuter:
         self.logger.debug(f"\t\tMethod is PUT")
         final_api_url = f"https://{self.planet_url}{api}"
         self.logger.debug(f"\t\tCalling: {final_api_url} with payload: {payload}")
-        response = requests.put(final_api_url, json=payload, headers=headers, data=params)
+        response = requests.put(
+            final_api_url, json=payload, headers=headers, data=params
+        )
         self.logger.debug(f"\t\tResponse Code: {response.status_code}")
         self.logger.debug(f"\t\tResponse: {response.text}")
         return response

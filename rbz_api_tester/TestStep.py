@@ -21,6 +21,7 @@ from rbz_api_tester.API import API
 from rbz_api_tester.Time import convert_time_macros
 from rbz_api_tester.utils import get_my_external_ip
 
+
 @dataclass
 class TestStep:
     step: int
@@ -38,7 +39,7 @@ class TestStep:
     expected: Expected
     python: bool
     code: List[str]
-    
+
     @staticmethod
     def from_dict(obj: Any) -> "TestStep":
         _debug_level = None
@@ -99,7 +100,7 @@ class TestStep:
             _files,
             _expected,
             _python,
-            _code
+            _code,
         )
 
     def to_dict(self) -> dict:
@@ -183,7 +184,7 @@ class TestStep:
 
         if id is not None:
             templates_contents = templates_contents.replace("@@id@@", '"' + id + '"')
-        
+
         for param in payload.params:
             key = "@@" + param.key + "@@"
             value = param.value
@@ -216,7 +217,9 @@ class TestStep:
         else:
             return str(value) == expected_value
 
-    def _compare_expected_to_response_jsonpath(self, expected: Param, response: dict, id: str):
+    def _compare_expected_to_response_jsonpath(
+        self, expected: Param, response: dict, id: str
+    ):
         try:
             types_with_no_quotes = (int, bool, float)
             keys = expected.key.split("/")
@@ -316,10 +319,14 @@ class TestStep:
                 if not self._check_response_headers(response):
                     expected_headers = "Expected Headers:"
                     for h in self.expected.headers:
-                        expected_headers = f"{expected_headers}\nKey: {h.key}, Value:{h.value}"
+                        expected_headers = (
+                            f"{expected_headers}\nKey: {h.key}, Value:{h.value}"
+                        )
                     actual_headers = "Actual Headers:"
                     for header, value in response.headers.items():
-                        actual_headers = f"{actual_headers}\nKey: {header}, Value:{value}"
+                        actual_headers = (
+                            f"{actual_headers}\nKey: {header}, Value:{value}"
+                        )
                     return (
                         False,
                         f"Step: {self.step} - {self.name} ----->>>>> {expected_headers}\n{actual_headers}\n",
@@ -348,18 +355,13 @@ class TestStep:
                 f"Step: {self.step} - {self.name} ----->>>>> Expected Code: {self.expected.code} Actual Code: {response.status_code}\n",
             )
 
-    def _set_params(
-        self
-    ):
+    def _set_params(self):
         if self.arguments is not None:
             for arg in self.arguments:
                 arg.value = arg.value.replace("@@branch@@", self.branch)
                 arg.value = arg.value.replace("@@ip@@", get_my_external_ip())
 
-
-    def _set_id_and_params(
-        self, templates_folder, defaults_folder, expected_text
-    ):
+    def _set_id_and_params(self, templates_folder, defaults_folder, expected_text):
         id = None
         final_api_url = self.api.get()
         if self.generate_id:
@@ -377,9 +379,7 @@ class TestStep:
 
         return final_api_url, id, expected_text, actual_payload
 
-    def _post_api(
-        self, templates_folder: str, defaults_folder: str
-    ):
+    def _post_api(self, templates_folder: str, defaults_folder: str):
         try:
             id = None
             expected_text = self.expected.text
@@ -388,7 +388,15 @@ class TestStep:
                 templates_folder, defaults_folder, expected_text
             )
 
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            executer = ApiExecuter(
+                api_key=self.api_key,
+                email=self.email,
+                planet=self.planet,
+                headers=self.headers,
+                arguments=self.arguments,
+                files=self.files,
+                logger=self.logger,
+            )
             response = executer.post(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
@@ -401,9 +409,7 @@ class TestStep:
                 f"Step: {self.step} - {self.name} ----->>>>> Request error: {e}\n",
             )
 
-    def _put_api(
-        self, templates_folder: str, defaults_folder: str
-    ):
+    def _put_api(self, templates_folder: str, defaults_folder: str):
         try:
             id = None
             expected_text = self.expected.text
@@ -412,7 +418,15 @@ class TestStep:
                 templates_folder, defaults_folder, expected_text
             )
 
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            executer = ApiExecuter(
+                api_key=self.api_key,
+                email=self.email,
+                planet=self.planet,
+                headers=self.headers,
+                arguments=self.arguments,
+                files=self.files,
+                logger=self.logger,
+            )
             response = executer.put(final_api_url, payload)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
@@ -438,7 +452,15 @@ class TestStep:
             final_api = final_api.replace("@@ip@@", get_my_external_ip())
             self._set_params()
 
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            executer = ApiExecuter(
+                api_key=self.api_key,
+                email=self.email,
+                planet=self.planet,
+                headers=self.headers,
+                arguments=self.arguments,
+                files=self.files,
+                logger=self.logger,
+            )
             response = executer.get(final_api)
 
             res, msg = self._check_response(response, id, expected_text)
@@ -464,13 +486,21 @@ class TestStep:
             self._set_params()
             final_api = self.api.get().replace("@@branch@@", self.branch)
             final_api = final_api.replace("@@ip@@", get_my_external_ip())
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            executer = ApiExecuter(
+                api_key=self.api_key,
+                email=self.email,
+                planet=self.planet,
+                headers=self.headers,
+                arguments=self.arguments,
+                files=self.files,
+                logger=self.logger,
+            )
             response = executer.delete(final_api)
             res, msg = self._check_response(response, id, expected_text)
             if not res:
                 self.logger.debug(msg)
             return res, msg
-            
+
         except requests.exceptions.RequestException as e:
             self.logger.error(f"\t\tStep: {self.step} - Request error: {e}")
             return (
@@ -481,7 +511,15 @@ class TestStep:
     def _send_traffic(self):
         try:
             expected_text = self.expected.text
-            executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=self.headers, arguments=self.arguments, files=self.files, logger=self.logger)
+            executer = ApiExecuter(
+                api_key=self.api_key,
+                email=self.email,
+                planet=self.planet,
+                headers=self.headers,
+                arguments=self.arguments,
+                files=self.files,
+                logger=self.logger,
+            )
             self._set_params()
             final_api = self.api.get().replace("@@traffic@@", self.traffic_url)
             response = executer.send(final_api, self.method)
@@ -497,9 +535,18 @@ class TestStep:
                 f"Step: {self.step} - {self.name} ----->>>>> Request error: {e}\n",
             )
 
-    def execute_python(self, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger):
+    def execute_python(
+        self,
+        planet: str,
+        branch: str,
+        api_key: str,
+        email: str,
+        traffic_url: str,
+        logger: Logger,
+    ):
         self.logger = logger
         self.api_key = api_key
+        self.email = email
         self.planet = planet
         self.branch = branch
         self.traffic_url = traffic_url
@@ -508,7 +555,12 @@ class TestStep:
         code = ""
         for code_line in self.code:
             code = f"{code}\n{code_line}"
-        code = code.replace("@@planet@@", self.planet).replace("@@ip@@", get_my_external_ip()).replace("@@branch@@", self.branch).replace("@@api_key@@", self.api_key)
+        code = (
+            code.replace("@@planet@@", self.planet)
+            .replace("@@ip@@", get_my_external_ip())
+            .replace("@@branch@@", self.branch)
+            .replace("@@api_key@@", self.api_key)
+        )
         self.logger.debug(f"\t\tPython Script:\n{code}")
         result = TestStepResult()
 
@@ -517,11 +569,18 @@ class TestStep:
             result.error_message = f"{self.step} - {self.name} ----->>>>> Skipping Test Step - Skip marked as true\n"
             return result
 
-        process = subprocess.Popen(["python"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
+        process = subprocess.Popen(
+            ["python"],
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            shell=True,
+        )
         stdout, stderr = process.communicate(input=code)
-        if stdout != '':
+        if stdout != "":
             self.logger.debug(f"\t\tOutput:\n{stdout}")
-        if stderr != '':
+        if stderr != "":
             self.logger.debug(f"\t\tError:\n{stderr}")
         result.error_message = stderr
         if process.returncode == 0:
@@ -531,9 +590,18 @@ class TestStep:
         return result
 
     def execute(
-            self, templates: str, defaults: str, planet: str, branch: str, api_key: str, traffic_url: str, logger: Logger
+        self,
+        templates: str,
+        defaults: str,
+        planet: str,
+        branch: str,
+        api_key: str,
+        email: str,
+        traffic_url: str,
+        logger: Logger,
     ):
         self.api_key = api_key
+        self.email = email
         self.planet = planet
         self.branch = branch
         self.traffic_url = traffic_url

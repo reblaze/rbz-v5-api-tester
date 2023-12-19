@@ -12,8 +12,9 @@ class ReblazeApiTester:
     templates: str
     defaults: str
     planet: str
-    branch:str
+    branch: str
     api_key: str
+    email: str
     planet_url: str
     skipped_test_suites: int
     failed_test_suites: int
@@ -27,6 +28,7 @@ class ReblazeApiTester:
         planet: str,
         branch: str,
         api_key: str,
+        email: str,
         logger: Logger,
     ):
         self.templates = templates_folder
@@ -34,22 +36,31 @@ class ReblazeApiTester:
         self.planet = planet
         self.branch = branch
         self.api_key = api_key
+        self.email = email
         self.skipped_test_suites = 0
         self.failed_test_suites = 0
         self.passed_test_suites = 0
         self.logger = logger
 
     def _get_traffic_url(self):
-        executer = ApiExecuter(api_key=self.api_key, planet=self.planet, headers=None, arguments=None, files=None, logger=self.logger)
+        executer = ApiExecuter(
+            api_key=self.api_key,
+            email=self.email,
+            planet=self.planet,
+            headers=None,
+            arguments=None,
+            files=None,
+            logger=self.logger,
+        )
         response = executer.get("/reblaze/api/v3/reblaze/tools/dns-information/")
         if response.status_code != 200 or response.reason != "OK":
             return ""
 
         json = response.json()
         for dns_record in json["dns_records"]:
-            if dns_record["type"] == 'A' and self.branch in str(dns_record["name"]):
+            if dns_record["type"] == "A" and self.branch in str(dns_record["name"]):
                 return str(dns_record["name"]).rstrip(".")
-        
+
         return ""
 
     def execute(self, test_suite_file: str):
@@ -61,7 +72,14 @@ class ReblazeApiTester:
         self.logger.info(f"Executing Test Suite: {test_suite.name}")
 
         test_suite_result = test_suite.execute(
-            self.templates, self.defaults, self.planet, self.branch, self.api_key, self.traffic_url, self.logger
+            self.templates,
+            self.defaults,
+            self.planet,
+            self.branch,
+            self.api_key,
+            self.email,
+            self.traffic_url,
+            self.logger,
         )
 
         if test_suite_result.result == Result.Passed:
