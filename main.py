@@ -22,7 +22,7 @@ def set_logger(log_file: str, planet: str):
     if not os.path.exists(f"./log/"):
         os.mkdir(f"./log/")
 
-    file_handler = logging.FileHandler(log)
+    file_handler = logging.FileHandler(log, encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
 
     console_handler = logging.StreamHandler()
