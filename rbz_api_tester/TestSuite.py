@@ -58,6 +58,7 @@ class TestSuite:
 
     def execute(
         self,
+        shared_steps: {},
         templates: str,
         defaults: str,
         planet: str,
@@ -82,7 +83,15 @@ class TestSuite:
         result.error_message = f"Test Suite Name: {self.name}\n"
         for test in self.tests:
             test_result = test.execute(
-                templates, defaults, planet, branch, api_key, email, traffic_url, logger
+                shared_steps,
+                templates,
+                defaults,
+                planet,
+                branch,
+                api_key,
+                email,
+                traffic_url,
+                logger,
             )
             result.items.append(test_result)
 

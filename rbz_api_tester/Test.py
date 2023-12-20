@@ -57,6 +57,7 @@ class Test:
 
     def execute(
         self,
+        shared_steps: {},
         templates: str,
         defaults: str,
         planet: str,
@@ -78,6 +79,11 @@ class Test:
         result.total_steps = len(self.steps)
         i = 1
         for step in self.steps:
+            if step.id is not None:
+                skip = step.skip
+                step = shared_steps[step.id]
+                step.skip = skip
+
             step.step = i
             if step.python:
                 test_step_result = step.execute_python(

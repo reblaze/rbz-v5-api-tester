@@ -1,0 +1,65 @@
+[
+    {
+        "ID": "wait-for-logs",
+        "Step": {
+            "Name": "Wait for Logs to be inserted to BQ",
+            "Debug": {
+                "Level": "info",
+                "Message": "Actively waiting 40 seconds for Logs to reach BQ"
+            },
+            "Skip": false,
+            "Python": true,
+            "Code": 
+            [
+                "import time",
+                "time.sleep(40)"
+            ]
+        }
+    },
+    {
+        "ID": "publish-changes",
+        "Step": {
+            "Name": "Publish changes",
+            "Skip": false,
+            "GenerateID": false,
+            "Debug": {
+                "Level": "info",
+                "Message": "Calling publish changes, might take a few seconds"
+            },
+            "Method" :"PUT",
+            "API": 
+            {
+                "Base": "publish",
+                "Path": ""
+            },
+            "Payload":
+            {
+                "Params": []
+            },
+            "Expected":
+            {
+                "Code": "204",
+                "Type": "content",
+                "Single": true,
+                "Text": "b''"
+            }
+        }
+    },
+    {
+        "ID": "wait-for-publish",
+        "Step": {
+            "Name": "Wait for Publish changes to take affect",
+            "Debug": {
+                "Level": "info",
+                "Message": "Actively waiting 30 seconds for publish to take effect"
+            },
+            "Skip": false,
+            "Python": true,
+            "Code": 
+            [
+                "import time",
+                "time.sleep(30)"
+            ]
+        }
+    }
+]

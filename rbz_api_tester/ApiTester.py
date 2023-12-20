@@ -7,6 +7,8 @@ from rbz_api_tester.TestSuite import TestSuite
 from rbz_api_tester.TestSuiteResult import TestSuiteResult
 from rbz_api_tester.ApiExecuter import ApiExecuter
 
+_shared_steps = "./shared-steps/shared-steps.json"
+
 
 class ReblazeApiTester:
     templates: str
@@ -64,6 +66,7 @@ class ReblazeApiTester:
         return ""
 
     def execute(self, test_suite_file: str):
+        self._load_shared_steps()
         ts = read_json(test_suite_file)
         test_suite = TestSuite.from_dict(ts)
 
@@ -72,6 +75,7 @@ class ReblazeApiTester:
         self.logger.info(f"Executing Test Suite: {test_suite.name}")
 
         test_suite_result = test_suite.execute(
+            self.shared_steps,
             self.templates,
             self.defaults,
             self.planet,
@@ -96,6 +100,12 @@ class ReblazeApiTester:
             self.failed_test_suites += 1
 
         return test_suite_result
+
+    def _load_shared_steps(self):
+        self.shared_steps = {}
+        shared = read_json(_shared_steps)
+        for step in shared:
+            self.shared_steps[step["ID"]] = TestStep.from_dict(step["Step"])
 
     def get_special_ids(self, test_suite_file: str):
         results = set()

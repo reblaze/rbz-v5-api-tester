@@ -2,6 +2,8 @@ import json
 import socket
 import requests
 
+_api_mapping = "./rbz_api_tester/api-map.json"
+
 
 def read_json(file_path: str):
     try:
@@ -14,7 +16,7 @@ def read_json(file_path: str):
 
 
 def alias_from_api(api_str: str) -> str:
-    apis = read_json("./api-map.json")
+    apis = read_json(_api_mapping)
     for api in apis:
         if api["API"] == api_str:
             return api["alias"]
@@ -22,7 +24,7 @@ def alias_from_api(api_str: str) -> str:
 
 
 def api_from_alias(alias_str: str) -> str:
-    apis = read_json("./rbz_api_tester/api-map.json")
+    apis = read_json(_api_mapping)
     for api in apis["api-to-alias"]:
         if api["alias"] == alias_str:
             return api["API"]
@@ -30,7 +32,7 @@ def api_from_alias(alias_str: str) -> str:
 
 
 def template_from_alias(alias_str: str) -> str:
-    apis = read_json("./rbz_api_tester/api-map.json")
+    apis = read_json(_api_mapping)
     for api in apis["api-to-alias"]:
         if api["alias"] == alias_str:
             return api["template"]
@@ -38,7 +40,7 @@ def template_from_alias(alias_str: str) -> str:
 
 
 def defaults_from_alias(alias_str: str) -> str:
-    apis = read_json("./rbz_api_tester/api-map.json")
+    apis = read_json(api_mapping)
     for api in apis["api-to-alias"]:
         if api["alias"] == alias_str:
             return api["defaults"]
@@ -46,7 +48,7 @@ def defaults_from_alias(alias_str: str) -> str:
 
 
 def template_from_api(api_str: str) -> str:
-    apis = read_json("./rbz_api_tester/api-map.json")
+    apis = read_json(_api_mapping)
     for api in apis["api-to-alias"]:
         if api["API"] == api_str:
             return api["template"]
@@ -54,7 +56,7 @@ def template_from_api(api_str: str) -> str:
 
 
 def defaults_from_api(api_str: str) -> str:
-    apis = read_json("./rbz_api_tester/api-map.json")
+    apis = read_json(_api_mapping)
     for api in apis["api-to-alias"]:
         if api["API"] == api_str:
             return api["defaults"]
@@ -63,7 +65,7 @@ def defaults_from_api(api_str: str) -> str:
 
 def available_api(clean: bool) -> []:
     res = []
-    apis = read_json("./rbz_api_tester/api-map.json")
+    apis = read_json(_api_mapping)
     for api in apis["api-to-alias"]:
         if bool(api["clean"]) == clean:
             res.append(api["API"])

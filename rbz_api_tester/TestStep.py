@@ -26,6 +26,7 @@ from rbz_api_tester.utils import defaults_from_api
 @dataclass
 class TestStep:
     step: int
+    id: int
     name: str
     skip: bool
     debug_level: str
@@ -43,6 +44,7 @@ class TestStep:
 
     @staticmethod
     def from_dict(obj: Any) -> "TestStep":
+        _id = None
         _debug_level = None
         _debug_str = None
         _generate_id = None
@@ -59,6 +61,8 @@ class TestStep:
             _step = int(obj.get("Step"))
         else:
             _step = 0
+        if obj.get("ID") is not None:
+            _id = obj.get("ID")
         _name = str(obj.get("Name"))
         _skip = bool(obj.get("Skip"))
         if obj.get("Debug") is not None:
@@ -88,6 +92,7 @@ class TestStep:
 
         return TestStep(
             _step,
+            _id,
             _name,
             _skip,
             _debug_level,
@@ -105,6 +110,7 @@ class TestStep:
         )
 
     def to_dict(self) -> dict:
+        _id = None
         _debug = None
         _generate_id = None
         _api = None
@@ -117,6 +123,8 @@ class TestStep:
         _python = None
         _code = None
 
+        if self.id is not None:
+            _id = self.id
         if self.debug_level is not None and self.debug_str is not None:
             debug = {"Level": self.debug_level, "Message": self.debug_str}
         if self.generate_id is not None:
@@ -142,6 +150,7 @@ class TestStep:
 
         return {
             "Step": self.step,
+            "ID": _id,
             "Name": self.name,
             "Skip": self.skip,
             "Debug": _debug,
