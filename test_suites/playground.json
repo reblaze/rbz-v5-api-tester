@@ -34,12 +34,13 @@
                         "res = requests.put('https://@@planet@@.dev.app.reblaze.io/reblaze/api/v3/reblaze/configs/@@branch@@/d/planet/', headers=headers, json=document)",
                         "print(f'put status: {res.status_code}')",
                         "if res.status_code != 204:",
-                        "   print(f'put response: {res.content}')"
+                        "   print(f'put response: {res.content}')",
+                        "   exit(1)"
                     ]
                 },
                 {
                     "Name": "Create Rate limit with Name: 'My rate limit'",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": 
                     {
@@ -69,7 +70,6 @@
                                 "Key": "threshold",
                                 "Value": "1"
                             }
-
                         ]
                     },
                     "Expected":
@@ -88,7 +88,7 @@
                 },
                 {
                     "Name": "Add Rate limit with Name: 'My rate limit' to default Security policy",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": 
                     {
@@ -128,7 +128,7 @@
                 },
                 {
                     "Name": "List rate limits",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": 
                     {
@@ -147,6 +147,20 @@
                                 {
                                     "Key": "name",
                                     "Value": "My rate limit"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "api_tester_cccbbbaaa"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit asn per host+path 10k/60"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-asn-path-ddos"
                                 }
                             ]
                         ]
@@ -154,7 +168,7 @@
                 },
                 {
                     "Name": "Publish changes",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "Debug": {
                         "Level": "info",
@@ -186,7 +200,7 @@
                         "Level": "info",
                         "Message": "Actively waiting 30 seconds for publish to take effect"
                     },
-                    "Skip": true,
+                    "Skip": false,
                     "Python": true,
                     "Code": 
                     [
@@ -195,7 +209,7 @@
                     ]
                 },
                 {
-                    "Name": "Send Traffic",
+                    "Name": "Send Traffic using GET method",
                     "Skip": false,
                     "API": 
                     {
@@ -242,8 +256,8 @@
                     }
                 },
                 {
-                    "Name": "Send Traffic",
-                    "Skip": true,
+                    "Name": "Send Traffic using POST method",
+                    "Skip": false,
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -289,8 +303,8 @@
                     }
                 },
                 {
-                    "Name": "Send Traffic",
-                    "Skip": true,
+                    "Name": "Send Traffic using PUT method",
+                    "Skip": false,
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -347,7 +361,7 @@
                     }
                 },
                 {
-                    "Name": "Send Traffic",
+                    "Name": "Send Traffic using DELETE method",
                     "Skip": false,
                     "API": 
                     {
@@ -387,10 +401,10 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "471",
                         "Type": "content",
 						"Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
