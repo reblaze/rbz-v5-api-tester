@@ -10,7 +10,6 @@ from pathlib import Path
 from dataclasses import dataclass
 from logging import Logger
 
-from rbz_api_tester.utils import from_alias, from_api
 from rbz_api_tester.Param import Param
 from rbz_api_tester.Payload import Payload
 from rbz_api_tester.Expected import Expected
@@ -20,6 +19,8 @@ from rbz_api_tester.ApiExecuter import ApiExecuter
 from rbz_api_tester.API import API
 from rbz_api_tester.Time import convert_time_macros
 from rbz_api_tester.utils import get_my_external_ip
+from rbz_api_tester.utils import template_from_api
+from rbz_api_tester.utils import defaults_from_api
 
 
 @dataclass
@@ -178,8 +179,12 @@ class TestStep:
     def _get_payload(
         self, payload: Payload, id: str, templates_folder: str, defaults_folder: str
     ):
-        template_file = os.path.join(Path(templates_folder).resolve(), payload.template)
-        defaults_file = os.path.join(Path(defaults_folder).resolve(), payload.defaults)
+        template_file = os.path.join(
+            Path(templates_folder).resolve(), template_from_api(self.api.base)
+        )
+        defaults_file = os.path.join(
+            Path(defaults_folder).resolve(), defaults_from_api(self.api.base)
+        )
         templates_contents = Path(template_file).read_text()
 
         if id is not None:
@@ -373,9 +378,11 @@ class TestStep:
         final_api_url = final_api_url.replace("@@branch@@", self.branch)
         final_api_url = final_api_url.replace("@@ip@@", get_my_external_ip())
 
-        actual_payload = self._get_payload(
-            self.payload, id, templates_folder, defaults_folder
-        )
+        actual_payload = None
+        if self.payload is not None:
+            actual_payload = self._get_payload(
+                self.payload, id, templates_folder, defaults_folder
+            )
 
         return final_api_url, id, expected_text, actual_payload
 
