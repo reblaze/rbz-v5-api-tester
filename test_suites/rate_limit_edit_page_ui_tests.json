@@ -1,0 +1,381 @@
+{
+    "Name": "TA 1302 Rate limit edit page UI tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Name field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "User can create a rate limit with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"testname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_a\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_b\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit with trimmed name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"  trimmedname  \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_c\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can not create a rate limit with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_d\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \n'' is too short\n\nFailed validating 'minLength' in schema['properties']['name']:\n    {'description': 'Name of entity shown in UI',\n     'minLength': 1,\n     'title': 'Name',\n     'type': 'string'}\n\nOn instance['name']:\n    ''\""
+                    }
+                },
+                {
+                    "Name": "User can not create a rate limit with the same name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"testname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_e\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'409 Conflict: entry with name testname already exists in document [ratelimits]'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Timeframe validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "User can create a rate limit`s timeframe with positive number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeframepositive\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_f\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can not create a rate limit`s timeframe with '0' number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeframezero\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_g\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can not create a rate limit`s timeframe with negative number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeframenegative\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_i\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "-10"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can not create a rate limit`s timeframe with decimal number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeframedecimal\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_j\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n1.25 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['timeframe']:\\n    {'description': 'The time in which to limit the requests according to '\\n                    'the threshold',\\n     'title': 'Time To Limit',\\n     'type': 'integer'}\\n\\nOn instance['timeframe']:\\n    1.25\""
+                    }
+                },
+                {
+                    "Name": "User can not create a rate limit`s timeframe with empty value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeframe\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_k\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['timeframe']:\\n    {'description': 'The time in which to limit the requests according to '\\n                    'the threshold',\\n     'title': 'Time To Limit',\\n     'type': 'integer'}\\n\\nOn instance['timeframe']:\\n    ''\""
+                    }
+                }
+            ]
+        }
+    ]
+}
