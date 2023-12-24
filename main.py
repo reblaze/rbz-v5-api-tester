@@ -55,46 +55,51 @@ def enumerate_files(dir: str):
 
 
 def main():
-    CommonParameters.logger.info(
-        "-------------------------------- starting new run --------------------------------"
-    )
-    tester = Tester()
-    ids = set()
-    test_suite_files = enumerate_files(CommonParameters.tests_folder)
-    CommonParameters.logger.debug("Test Suites Files:")
-    CommonParameters.logger.debug("\n".join(test_suite_files))
+    try:
+        CommonParameters.logger.info(
+            "-------------------------------- starting new run --------------------------------"
+        )
+        tester = Tester()
+        ids = set()
+        test_suite_files = enumerate_files(CommonParameters.tests_folder)
+        CommonParameters.logger.debug("Test Suites Files:")
+        CommonParameters.logger.debug("\n".join(test_suite_files))
 
-    num_of_test_suites = len(test_suite_files)
+        num_of_test_suites = len(test_suite_files)
 
-    results = []
+        results = []
 
-    for test_suite_file in test_suite_files:
-        suite_ids = tester.get_special_ids(str(test_suite_file))
-        ids = ids.union(suite_ids)
-        results.append(tester.execute(str(test_suite_file)))
-        if cleanup:
-            CommonParameters.logger.info(f"Performing Cleanup...")
-            cleaner = Cleaner(ids=ids)
-            cleaner.execute()
+        for test_suite_file in test_suite_files:
+            suite_ids = tester.get_special_ids(str(test_suite_file))
+            ids = ids.union(suite_ids)
+            results.append(tester.execute(str(test_suite_file)))
+            if cleanup:
+                CommonParameters.logger.info(f"Performing Cleanup...")
+                cleaner = Cleaner(ids=ids)
+                cleaner.execute()
 
-    CommonParameters.logger.info(
-        f"---------------------------------  Summary --------------------------------"
-    )
-    CommonParameters.logger.info(f"Total Test Suites: {num_of_test_suites}")
-    CommonParameters.logger.info(f"Passed Test Suites: {tester.passed_test_suites}")
-    CommonParameters.logger.info(f"Failed Test Suites: {tester.failed_test_suites}")
-    CommonParameters.logger.info(f"Skipped Test Suites: {tester.skipped_test_suites}")
-    CommonParameters.logger.info(
-        f"--------------------------- details on failures ---------------------------"
-    )
-    tester.failure_report(results)
-    CommonParameters.logger.info(
-        f"---------------------------------------------------------------------------"
-    )
-
-    # assert (
-    #    tester.failed_test_suites == 0
-    # ), f"{tester.failed_test_suites} test suites failed"
+        CommonParameters.logger.info(
+            f"---------------------------------  Summary --------------------------------"
+        )
+        CommonParameters.logger.info(f"Total Test Suites: {num_of_test_suites}")
+        CommonParameters.logger.info(f"Passed Test Suites: {tester.passed_test_suites}")
+        CommonParameters.logger.info(f"Failed Test Suites: {tester.failed_test_suites}")
+        CommonParameters.logger.info(
+            f"Skipped Test Suites: {tester.skipped_test_suites}"
+        )
+        CommonParameters.logger.info(
+            f"--------------------------- details on failures ---------------------------"
+        )
+        tester.failure_report(results)
+        CommonParameters.logger.info(
+            f"---------------------------------------------------------------------------"
+        )
+        return
+    except Exception as e:
+        CommonParameters.logger.error(
+            f"Application terminated abnormally due to exception:\n{repr(e)}"
+        )
+        cleanup_only()
 
 
 def cleanup_only():
