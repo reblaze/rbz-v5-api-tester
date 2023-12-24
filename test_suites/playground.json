@@ -1,6 +1,6 @@
 {
     "Name": "My Test Suite",
-    "Skip": true,
+    "Skip": false,
     "Tests": 
     [
         {
@@ -402,6 +402,88 @@
                             }
                         ]
                     }
+                },
+                {
+                    "Name": "run command on proxy pod",
+                    "Skip": false,
+                    "Type": "kubernetes",
+                    "Arguments":
+                    [
+                        {
+                            "Key": "container",
+                            "Value": "curieproxy"
+                        },
+                        {
+                            "Key": "pod",
+                            "Value": ".*-proxy-@@branch@@-.*"
+                        },
+                        {
+                            "Key": "cluster",
+                            "Value": "data"
+                        },
+                        {
+                            "Key": "operation",
+                            "Value": "run"
+                        },
+                        {
+                            "Key": "command",
+                            "Value": "nginx -T > ~/res-nginx-t.txt"
+                        }                        
+                    ]
+                },
+                {
+                    "Name": "copy file from proxy pod",
+                    "Skip": false,
+                    "Type": "kubernetes",
+                    "Arguments":
+                    [
+                        {
+                            "Key": "container",
+                            "Value": "curieproxy"
+                        },
+                        {
+                            "Key": "pod",
+                            "Value": ".*-proxy-@@branch@@-.*"
+                        },
+                        {
+                            "Key": "cluster",
+                            "Value": "data"
+                        },
+                        {
+                            "Key": "operation",
+                            "Value": "copy"
+                        },
+                        {
+                            "Key": "source",
+                            "Value": "/root/res-nginx-t.txt"
+                        },
+                        {
+                            "Key": "destination",
+                            "Value": "./test_files/res-nginx-t.txt"
+                        }                        
+                    ]
+                },
+                {
+                    "Name": "check that client_body_timeout value is 30 in copied file",
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import re",
+                        "try:",
+                        "   filename = './test_files/res-nginx-t.txt'",
+                        "   with open(filename, 'r') as file:",
+                        "       for line in file:",
+                        "           pattern = r'^\\s*client_body_timeout\\s+30;$'",
+                        "           match = re.match(pattern, line)",
+                        "           if match:",
+                        "               print(f'Line found: {line}')",
+                        "               exit(0)",
+                        "   print(f'regex: {pattern} not found in: {filename}')",
+                        "   exit(1)",
+                        "except FileNotFoundError:",
+                        "   print(f'Error: File: {filename} not found')",
+                        "   exit(1)"
+                    ]
                 }
             ]
         }

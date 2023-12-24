@@ -2,12 +2,15 @@ import argparse
 import logging
 import os
 
+from logging import Logger
 from pathlib import Path
-from rbz_api_tester.ApiTester import ReblazeApiTester
+from rbz_api_tester.Tester import Tester
 from rbz_api_tester.Cleaner import Cleaner
+from rbz_api_tester.Executers.ApiExecuter import ApiExecuter
+from rbz_api_tester.CommonParameters import CommonParameters
 
 
-def set_logger(log_file: str, planet: str):
+def set_logger(log_file: str, planet: str) -> Logger:
     os.environ["PYTHONIOENCODING"] = "utf-8"
     logger = logging.getLogger("my_logger")
     logger.setLevel(logging.DEBUG)
@@ -53,22 +56,14 @@ def enumerate_files(dir: str):
 
 def main():
     try:
-        logger.info(
+        CommonParameters.logger.info(
             "-------------------------------- starting new run --------------------------------"
         )
-        tester = ReblazeApiTester(
-            templates_folder,
-            defaults_folder,
-            planet_name,
-            branch_name,
-            api_key,
-            email,
-            logger,
-        )
+        tester = Tester()
         ids = set()
-        test_suite_files = enumerate_files(tests_folder)
-        logger.debug("Test Suites Files:")
-        logger.debug("\n".join(test_suite_files))
+        test_suite_files = enumerate_files(CommonParameters.tests_folder)
+        CommonParameters.logger.debug("Test Suites Files:")
+        CommonParameters.logger.debug("\n".join(test_suite_files))
 
         num_of_test_suites = len(test_suite_files)
 
@@ -79,60 +74,44 @@ def main():
             ids = ids.union(suite_ids)
             results.append(tester.execute(str(test_suite_file)))
             if cleanup:
-                logger.info(f"Performing Cleanup...")
-                cleaner = Cleaner(
-                    api_key=api_key,
-                    planet=planet_name,
-                    branch=branch_name,
-                    ids=ids,
-                    logger=logger,
-                )
+                CommonParameters.logger.info(f"Performing Cleanup...")
+                cleaner = Cleaner(ids=ids)
                 cleaner.execute()
 
-        logger.info(
+        CommonParameters.logger.info(
             f"---------------------------------  Summary --------------------------------"
         )
-        logger.info(f"Total Test Suites: {num_of_test_suites}")
-        logger.info(f"Passed Test Suites: {tester.passed_test_suites}")
-        logger.info(f"Failed Test Suites: {tester.failed_test_suites}")
-        logger.info(f"Skipped Test Suites: {tester.skipped_test_suites}")
-        logger.info(
+        CommonParameters.logger.info(f"Total Test Suites: {num_of_test_suites}")
+        CommonParameters.logger.info(f"Passed Test Suites: {tester.passed_test_suites}")
+        CommonParameters.logger.info(f"Failed Test Suites: {tester.failed_test_suites}")
+        CommonParameters.logger.info(
+            f"Skipped Test Suites: {tester.skipped_test_suites}"
+        )
+        CommonParameters.logger.info(
             f"--------------------------- details on failures ---------------------------"
         )
         tester.failure_report(results)
-        logger.info(
+        CommonParameters.logger.info(
             f"---------------------------------------------------------------------------"
         )
         return
     except Exception as e:
-        logger.error(f"Application terminated abnormally due to exception:\n{repr(e)}")
+        CommonParameters.logger.error(
+            f"Application terminated abnormally due to exception:\n{repr(e)}"
+        )
         cleanup_only()
 
 
 def cleanup_only():
-    tester = ReblazeApiTester(
-        templates_folder,
-        defaults_folder,
-        planet_name,
-        branch_name,
-        api_key,
-        email,
-        logger,
-    )
+    tester = Tester()
     ids = set()
-    test_suite_files = enumerate_files(tests_folder)
+    test_suite_files = enumerate_files(CommonParameters.tests_folder)
     for test_suite_file in test_suite_files:
         suite_ids = tester.get_special_ids(str(test_suite_file))
         ids = ids.union(suite_ids)
 
-    logger.info(f"Performing Cleanup...")
-    cleaner = Cleaner(
-        api_key=api_key,
-        planet=planet_name,
-        branch=branch_name,
-        ids=ids,
-        logger=logger,
-    )
+    CommonParameters.logger.info(f"Performing Cleanup...")
+    cleaner = Cleaner(ids=ids)
     cleaner.execute()
 
 
@@ -164,21 +143,42 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    planet_name = args.planet
-    branch_name = args.branch
-    api_key = args.api_token
-    email = args.email
+    CommonParameters.planet = args.planet
+    CommonParameters.planet_url = f"{CommonParameters.planet}.dev.app.reblaze.io"
+    CommonParameters.branch = args.branch
+    CommonParameters.api_key = args.api_token
+    CommonParameters.email = args.email
     output = None
     cleanup = args.cleanup
 
     if args.output_log_file is not None:
         output = args.output_log_file
 
-    defaults_folder = "./defaults"
-    templates_folder = "./templates"
-    tests_folder = "./test_suites"
+    CommonParameters.defaults_folder = "./defaults"
+    CommonParameters.templates_folder = "./templates"
+    CommonParameters.tests_folder = "./test_suites"
+    CommonParameters.api_mapping = "./rbz_api_tester/api-map.json"
+    CommonParameters.shared_steps = "./shared-steps/shared-steps.json"
+    CommonParameters.control_cluster_name = (
+        "gke_rbz-dev-002_europe-west3_cp-v5dev2-euw3-dev-gcp"
+    )
+    CommonParameters.data_cluster_name = (
+        "gke_rbz-dev-002_europe-west3_dp-v5dev2-euw3-dev-gcp"
+    )
+    CommonParameters.broker_cluster_name = (
+        "gke_rbz-dev-000_europe-west3_gke-dev-broker-cluster"
+    )
 
-    logger = set_logger(args.output_log_file, args.planet)
+    CommonParameters.logger = set_logger(args.output_log_file, args.planet)
+    CommonParameters.traffic_url = ApiExecuter(
+        generate_id=False,
+        headers=None,
+        arguments=None,
+        files=None,
+        api=None,
+        method=None,
+        payload=None,
+    ).get_traffic_url()
 
     if args.cleanup_only:
         cleanup_only()

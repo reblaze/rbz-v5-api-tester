@@ -1,11 +1,12 @@
 from typing import List
 from typing import Any
 from dataclasses import dataclass
-from logging import Logger
-from rbz_api_tester.Result import Result
 
+from rbz_api_tester.Result import Result
 from rbz_api_tester.TestStep import TestStep
 from rbz_api_tester.TestResult import TestResult
+from rbz_api_tester.utils import read_json
+from rbz_api_tester.CommonParameters import CommonParameters
 
 
 @dataclass
@@ -40,35 +41,31 @@ class Test:
             "Steps": [test_step.to_dict() for test_step in self.steps],
         }
 
-    def show_debug(self, logger: Logger):
+    def show_debug(self):
         if self.debug_level is not None and self.debug_str is not None:
             if self.debug_level == "info":
-                logger.info(f">>>>> Debug from: {self.name}")
-                logger.info(f"      {self.debug_str}")
+                CommonParameters.logger.info(f">>>>> Debug from: {self.name}")
+                CommonParameters.logger.info(f"      {self.debug_str}")
             elif self.debug_level == "warning":
-                logger.warning(f">>>>> Debug from: {self.name}")
-                logger.warning(f"      {self.debug_str}")
+                CommonParameters.logger.warning(f">>>>> Debug from: {self.name}")
+                CommonParameters.logger.warning(f"      {self.debug_str}")
             elif self.debug_level == "error":
-                logger.error(f">>>>> Debug from: {self.name}")
-                logger.error(f"      {self.debug_str}")
+                CommonParameters.logger.error(f">>>>> Debug from: {self.name}")
+                CommonParameters.logger.error(f"      {self.debug_str}")
             elif self.debug_level == "debug":
-                logger.debug(f">>>>> Debug from: {self.name}")
-                logger.debug(f"      {self.debug_str}")
+                CommonParameters.logger.debug(f">>>>> Debug from: {self.name}")
+                CommonParameters.logger.debug(f"      {self.debug_str}")
 
-    def execute(
-        self,
-        shared_steps: {},
-        templates: str,
-        defaults: str,
-        planet: str,
-        branch: str,
-        api_key: str,
-        email: str,
-        traffic_url: str,
-        logger: Logger,
-    ):
-        self.show_debug(logger)
-        logger.debug(f"\tStarting to execute test: {self.name}")
+    def load_shared_steps(self) -> {}:
+        shared_steps = {}
+        shared = read_json(CommonParameters.shared_steps)
+        for step in shared:
+            shared_steps[step["ID"]] = TestStep.from_dict(step["Step"])
+        return shared_steps
+
+    def execute(self):
+        self.show_debug()
+        CommonParameters.logger.debug(f"\tStarting to execute test: {self.name}")
         result = TestResult()
 
         if self.skip:
@@ -78,6 +75,8 @@ class Test:
 
         result.total_steps = len(self.steps)
         i = 1
+        shared_steps = self.load_shared_steps()
+
         for step in self.steps:
             if step.id is not None:
                 skip = step.skip
@@ -85,47 +84,39 @@ class Test:
                 step.skip = skip
 
             step.step = i
-            if step.python:
-                test_step_result = step.execute_python(
-                    planet, branch, api_key, email, traffic_url, logger
-                )
-            else:
-                test_step_result = step.execute(
-                    templates,
-                    defaults,
-                    planet,
-                    branch,
-                    api_key,
-                    email,
-                    traffic_url,
-                    logger,
-                )
+            test_step_result = step.execute()
 
             result.items.append(test_step_result)
 
             if test_step_result.result == Result.Passed:
-                logger.debug(f"\t\tStep: {step.step} - {step.name} Passed")
+                CommonParameters.logger.debug(
+                    f"\t\tStep: {step.step} - {step.name} Passed"
+                )
                 result.passed_steps += 1
             elif test_step_result.result == Result.Skipped:
-                logger.warning(f"\t\tStep: {step.step} - {step.name} Skipped")
+                CommonParameters.logger.warning(
+                    f"\t\tStep: {step.step} - {step.name} Skipped"
+                )
                 result.skipped_steps += 1
             else:
-                logger.error(f"\t\tStep: {step.step} - {step.name} Failed")
+                CommonParameters.logger.error(
+                    f"\t\tStep: {step.step} - {step.name} Failed"
+                )
                 result.error_message = f"{self.name} ----->>>>> Failed in Step: {step.step}\n\t\t{test_step_result.error_message}"
                 result.failed_steps += 1
                 break
 
             i += 1
 
-        logger.debug(
+        CommonParameters.logger.debug(
             f"\t---------------------------------------------------------------------------"
         )
-        logger.debug(f"\tDone executing test: {self.name}")
-        logger.debug(f"\tTotal Steps: {result.total_steps}")
-        logger.debug(f"\tPassed Steps: {result.passed_steps}")
-        logger.debug(f"\tFailed Steps: {result.failed_steps}")
-        logger.debug(f"\tSkipped Steps: {result.skipped_steps}")
-        logger.debug(
+        CommonParameters.logger.debug(f"\tDone executing test: {self.name}")
+        CommonParameters.logger.debug(f"\tTotal Steps: {result.total_steps}")
+        CommonParameters.logger.debug(f"\tPassed Steps: {result.passed_steps}")
+        CommonParameters.logger.debug(f"\tFailed Steps: {result.failed_steps}")
+        CommonParameters.logger.debug(f"\tSkipped Steps: {result.skipped_steps}")
+        CommonParameters.logger.debug(
             f"\t---------------------------------------------------------------------------"
         )
 
