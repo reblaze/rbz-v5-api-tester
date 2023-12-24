@@ -5,6 +5,7 @@ from typing import List
 from kubernetes import client, config
 
 from rbz_api_tester.Param import Param
+from rbz_api_tester.utils import get_my_external_ip
 from rbz_api_tester.CommonParameters import CommonParameters
 
 
@@ -43,7 +44,10 @@ class KubernetesExecuter:
     def _get(self, name: str) -> str:
         for param in self.params:
             if param.key == name:
-                return param.value
+                value = param.value
+                value = value.replace("@@branch@@", CommonParameters.branch)
+                value = value.replace("@@ip@@", get_my_external_ip())
+                return value
         raise Exception("Could not find {name} argument")
 
     def _use_kube_context(self):
