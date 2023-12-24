@@ -52,60 +52,61 @@ def enumerate_files(dir: str):
 
 
 def main():
-    logger.info(
-        "-------------------------------- starting new run --------------------------------"
-    )
-    tester = ReblazeApiTester(
-        templates_folder,
-        defaults_folder,
-        planet_name,
-        branch_name,
-        api_key,
-        email,
-        logger,
-    )
-    ids = set()
-    test_suite_files = enumerate_files(tests_folder)
-    logger.debug("Test Suites Files:")
-    logger.debug("\n".join(test_suite_files))
+    try:
+        logger.info(
+            "-------------------------------- starting new run --------------------------------"
+        )
+        tester = ReblazeApiTester(
+            templates_folder,
+            defaults_folder,
+            planet_name,
+            branch_name,
+            api_key,
+            email,
+            logger,
+        )
+        ids = set()
+        test_suite_files = enumerate_files(tests_folder)
+        logger.debug("Test Suites Files:")
+        logger.debug("\n".join(test_suite_files))
 
-    num_of_test_suites = len(test_suite_files)
+        num_of_test_suites = len(test_suite_files)
 
-    results = []
+        results = []
 
-    for test_suite_file in test_suite_files:
-        suite_ids = tester.get_special_ids(str(test_suite_file))
-        ids = ids.union(suite_ids)
-        results.append(tester.execute(str(test_suite_file)))
-        if cleanup:
-            logger.info(f"Performing Cleanup...")
-            cleaner = Cleaner(
-                api_key=api_key,
-                planet=planet_name,
-                branch=branch_name,
-                ids=ids,
-                logger=logger,
-            )
-            cleaner.execute()
+        for test_suite_file in test_suite_files:
+            suite_ids = tester.get_special_ids(str(test_suite_file))
+            ids = ids.union(suite_ids)
+            results.append(tester.execute(str(test_suite_file)))
+            if cleanup:
+                logger.info(f"Performing Cleanup...")
+                cleaner = Cleaner(
+                    api_key=api_key,
+                    planet=planet_name,
+                    branch=branch_name,
+                    ids=ids,
+                    logger=logger,
+                )
+                cleaner.execute()
 
-    logger.info(
-        f"---------------------------------  Summary --------------------------------"
-    )
-    logger.info(f"Total Test Suites: {num_of_test_suites}")
-    logger.info(f"Passed Test Suites: {tester.passed_test_suites}")
-    logger.info(f"Failed Test Suites: {tester.failed_test_suites}")
-    logger.info(f"Skipped Test Suites: {tester.skipped_test_suites}")
-    logger.info(
-        f"--------------------------- details on failures ---------------------------"
-    )
-    tester.failure_report(results)
-    logger.info(
-        f"---------------------------------------------------------------------------"
-    )
-
-    # assert (
-    #    tester.failed_test_suites == 0
-    # ), f"{tester.failed_test_suites} test suites failed"
+        logger.info(
+            f"---------------------------------  Summary --------------------------------"
+        )
+        logger.info(f"Total Test Suites: {num_of_test_suites}")
+        logger.info(f"Passed Test Suites: {tester.passed_test_suites}")
+        logger.info(f"Failed Test Suites: {tester.failed_test_suites}")
+        logger.info(f"Skipped Test Suites: {tester.skipped_test_suites}")
+        logger.info(
+            f"--------------------------- details on failures ---------------------------"
+        )
+        tester.failure_report(results)
+        logger.info(
+            f"---------------------------------------------------------------------------"
+        )
+        return
+    except Exception as e:
+        logger.error(f"Application terminated abnormally due to exception:\n{repr(e)}")
+        cleanup_only()
 
 
 def cleanup_only():
