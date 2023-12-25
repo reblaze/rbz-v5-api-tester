@@ -139,6 +139,36 @@
                     }
                 },
                 {
+                    "Name": "User can check trimmedname",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "trimmedname"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "api_tester_c"
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
                     "Name": "User can not create a rate limit with empty name",
                     "Skip": false,
                     "GenerateID": false,
@@ -163,7 +193,7 @@
                         "Code": "400",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b\"schema mismatched: \n'' is too short\n\nFailed validating 'minLength' in schema['properties']['name']:\n    {'description': 'Name of entity shown in UI',\n     'minLength': 1,\n     'title': 'Name',\n     'type': 'string'}\n\nOn instance['name']:\n    ''\""
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
                     }
                 },
                 {
@@ -198,7 +228,7 @@
         },
         {
             "Name": "Timeframe validations",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit`s timeframe with positive number",
@@ -373,6 +403,486 @@
                         "Type": "content",
                         "Single": true,
                         "Text": "b\"schema mismatched: \\n'' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['timeframe']:\\n    {'description': 'The time in which to limit the requests according to '\\n                    'the threshold',\\n     'title': 'Time To Limit',\\n     'type': 'integer'}\\n\\nOn instance['timeframe']:\\n    ''\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Ban action timeframe",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "User can create a ban with '0' value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"banzero\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_a\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "\"true\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a ban with '1' value",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"banone\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_b\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": true
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a ban with '1440' value",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"banforty\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_c\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": true
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1440"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a ban with '1441' value",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"banfortyone\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_d\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": true
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1441"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a ban with empty value",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"banempty\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_e\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": true
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "\"\""
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a ban with negative value",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"bannegative\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_f\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": true
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "-1"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a ban with decimal value",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"bandec\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_g\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": true
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1.22"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Number of events validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "User can create a rate limit`s events validations with '0' number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeevzero\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev-zero\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit`s events validations with '15' number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeevfifteen\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev-fifteen\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "15"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit`s events validations with text value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeevtext\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev_test\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'text' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['threshold']:\\n    {'description': 'The threshold of requests allowed',\\n     'title': 'Threshold',\\n     'type': 'integer'}\\n\\nOn instance['threshold']:\\n    'text'\""
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit`s events validations with negative number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeevnegative\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev_negative\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "-1"
+                            }
+                        ]
+                    },
+                     "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit`s events validations with decimal number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeevdec\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev_dec\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n1.25 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['threshold']:\\n    {'description': 'The threshold of requests allowed',\\n     'title': 'Threshold',\\n     'type': 'integer'}\\n\\nOn instance['threshold']:\\n    1.25\""
                     }
                 }
             ]
