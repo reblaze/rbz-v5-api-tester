@@ -3,6 +3,132 @@
     "Skip": false,
     "Tests": [
         {
+            "Name": "Create a rate limit from the list page",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "User can create new rate limit",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+
+                            {
+                                "Key": "id",
+                                "Value": "\"default_rl\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can check created ratelimit`s params",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "New Rate Limit Rule"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "default_rl"
+                                },
+                                {
+                                    "Key": "description",
+                                    "Value": "New Rate Limit Rule Description and Remarks"
+                                },
+                                {
+                                    "Key": "global",
+                                    "Value": false
+                                },
+                                {
+                                    "Key": "active",
+                                    "Value": false
+                                },
+                                {
+                                    "Key": "last_activated",
+                                    "Value": "1703515890"
+                                },
+                                {
+                                    "Key": "timeframe",
+                                    "Value": "60"
+                                },
+                                {
+                                    "Key": "threshold",
+                                    "Value": "5"
+                                },
+                                {
+                                    "Key": "action",
+                                    "Value": "action-rate-limit-block"
+                                },
+                                {
+                                    "Key": "is_action_ban",
+                                    "Value": false
+                                },
+                                {
+                                    "Key": "ttl",
+                                    "Value": 3600
+                                },
+                                {
+                                    "Key": "include",
+                                    "Value": ["all"]
+                                },
+                                {
+                                    "Key": "exclude",
+                                    "Value": []
+                                },
+                                {
+                                    "Key": "key",
+                                    "Value": [
+                                        {"attrs":"securitypolicyname"},
+                                        {"attrs":"securitypolicyentryname"},
+                                        {"attrs":"session"}
+                                    ]
+                                },
+                                {
+                                    "Key": "pairwith",
+                                    "Value": {"self":"self"}
+                                },
+                                {
+                                    "Key": "tags",
+                                    "Value": []
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
             "Name": "Name field validations",
             "Skip": true,
             "Steps": [
@@ -432,7 +558,7 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": "\"true\""
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -441,20 +567,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text":  "b\"schema mismatched: \\n0 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['ttl']:\\n    {'description': 'Duration time for ban action',\\n     'minimum': 1,\\n     'title': 'Ban TTL',\\n     'type': 'integer'}\\n\\nOn instance['ttl']:\\n    0\""
                     }
                 },
                 {
                     "Name": "User can create a ban with '1' value",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
@@ -473,30 +594,24 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": true
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
                                 "Value": "1"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text":  "b'ttl can only be a multiple of 60'"
                     }
                 },
                 {
                     "Name": "User can create a ban with '1440' value",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
@@ -515,7 +630,7 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": true
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -538,7 +653,7 @@
                 },
                 {
                     "Name": "User can create a ban with '1441' value",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
@@ -557,7 +672,7 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": true
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -567,20 +682,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text":  "b'ttl can only be a multiple of 60'"
                     }
                 },
                 {
                     "Name": "User can create a ban with empty value",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
@@ -599,7 +709,7 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": true
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -609,20 +719,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text":  "b\"schema mismatched: \\n'' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['ttl']:\\n    {'description': 'Duration time for ban action',\\n     'minimum': 1,\\n     'title': 'Ban TTL',\\n     'type': 'integer'}\\n\\nOn instance['ttl']:\\n    ''\""
                     }
                 },
                 {
                     "Name": "User can create a ban with negative value",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
@@ -641,7 +746,7 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": true
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -651,20 +756,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text":  "b\"schema mismatched: \\n-1 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['ttl']:\\n    {'description': 'Duration time for ban action',\\n     'minimum': 1,\\n     'title': 'Ban TTL',\\n     'type': 'integer'}\\n\\nOn instance['ttl']:\\n    -1\""
                     }
                 },
                 {
                     "Name": "User can create a ban with decimal value",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
@@ -683,7 +783,7 @@
                             },
                             {
                                 "Key": "is_action_ban",
-                                "Value": true
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -693,22 +793,17 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text":  "b\"schema mismatched: \\n1.22 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['ttl']:\\n    {'description': 'Duration time for ban action',\\n     'minimum': 1,\\n     'title': 'Ban TTL',\\n     'type': 'integer'}\\n\\nOn instance['ttl']:\\n    1.22\""
                     }
                 }
             ]
         },
         {
             "Name": "Number of events validations",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit`s events validations with '0' number",
@@ -883,6 +978,295 @@
                         "Type": "content",
                         "Single": true,
                         "Text": "b\"schema mismatched: \\n1.25 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['threshold']:\\n    {'description': 'The threshold of requests allowed',\\n     'title': 'Threshold',\\n     'type': 'integer'}\\n\\nOn instance['threshold']:\\n    1.25\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Global checkbox",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "User can switch ON global checkbox",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gcon\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"check_cb_on\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can check global checkbox ON",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "gcon"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "check_cb_on"
+                                },
+                                {
+                                    "Key": "global",
+                                    "Value": true
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can switch OFF global checkbox",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"check_cb_on\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gcon\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can check global checkbox OFF",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "gcon"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "check_cb_on"
+                                },
+                                {
+                                    "Key": "global",
+                                    "Value": false
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Active checkbox",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "User can switch ON active checkbox",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"activecbon\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"active_check_cb_on\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can check active checkbox ON",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "activecbon"
+                                },
+                                 {
+                                    "Key": "name",
+                                    "Value": "activecbon"
+                                },
+                                {
+                                    "Key": "active",
+                                    "Value": "true"
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can switch OFF active checkbox",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+
+                            {
+                                "Key": "id",
+                                "Value": "\"activecbon\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can check active checkbox OFF",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limits",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "activecbon"
+                                },
+                                {
+                                    "Key": "active",
+                                    "Value": false
+                                }
+                            ]
+                        ]
                     }
                 }
             ]
