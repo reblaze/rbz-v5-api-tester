@@ -3,134 +3,8 @@
     "Skip": false,
     "Tests": [
         {
-            "Name": "Create a rate limit from the list page",
-            "Skip": true,
-            "Steps": [
-                {
-                    "Name": "User can create new rate limit",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "rate-limit",
-                        "Path": ""
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-
-                            {
-                                "Key": "id",
-                                "Value": "\"default_rl\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "User can check created ratelimit`s params",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "rate-limits",
-                        "Path": ""
-                    },
-                    "Method" :"GET",
-                    "Expected":
-                    {
-                        "Code": "200",
-                        "Type": "json",
-						"Single": false,
-                        "MultipleResults":
-                        [
-                            [
-                                {
-                                    "Key": "name",
-                                    "Value": "New Rate Limit Rule"
-                                },
-                                {
-                                    "Key": "id",
-                                    "Value": "default_rl"
-                                },
-                                {
-                                    "Key": "description",
-                                    "Value": "New Rate Limit Rule Description and Remarks"
-                                },
-                                {
-                                    "Key": "global",
-                                    "Value": false
-                                },
-                                {
-                                    "Key": "active",
-                                    "Value": false
-                                },
-                                {
-                                    "Key": "last_activated",
-                                    "Value": "1703515890"
-                                },
-                                {
-                                    "Key": "timeframe",
-                                    "Value": "60"
-                                },
-                                {
-                                    "Key": "threshold",
-                                    "Value": "5"
-                                },
-                                {
-                                    "Key": "action",
-                                    "Value": "action-rate-limit-block"
-                                },
-                                {
-                                    "Key": "is_action_ban",
-                                    "Value": false
-                                },
-                                {
-                                    "Key": "ttl",
-                                    "Value": 3600
-                                },
-                                {
-                                    "Key": "include",
-                                    "Value": ["all"]
-                                },
-                                {
-                                    "Key": "exclude",
-                                    "Value": []
-                                },
-                                {
-                                    "Key": "key",
-                                    "Value": [
-                                        {"attrs":"securitypolicyname"},
-                                        {"attrs":"securitypolicyentryname"},
-                                        {"attrs":"session"}
-                                    ]
-                                },
-                                {
-                                    "Key": "pairwith",
-                                    "Value": {"self":"self"}
-                                },
-                                {
-                                    "Key": "tags",
-                                    "Value": []
-                                }
-                            ]
-                        ]
-                    }
-                }
-            ]
-        },
-        {
             "Name": "Name field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "User can create a rate limit with text name",
@@ -353,8 +227,273 @@
             ]
         },
         {
+            "Name": "Count by validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "User can create rate limit with one rate limit",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"securitypolicyname\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User cannot delete Count by keys when we have only one",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "count_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                                {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                                },
+                                {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                                },
+                                {
+                                    "Key": "key",
+                                    "Value": "[]"
+                                }
+                        ]
+                    },
+                     "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add more than one Count by keys",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "count_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"securitypolicyentryname\"},{\"attrs\":\"session\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Check that count by `header` can not be empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "count_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"headers\":\"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Check that count by `cookie` can not be empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "count_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"cookies\":\"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Check that count by `argument` can not be empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "count_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"arguments\":\"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can not add same key twice",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "count_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"counta\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"securitypolicyentryname\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
             "Name": "Timeframe validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "User can create a rate limit`s timeframe with positive number",
@@ -535,7 +674,7 @@
         },
         {
             "Name": "Ban action timeframe",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "User can create a ban with '0' value",
@@ -802,8 +941,342 @@
             ]
         },
         {
+            "Name": "Include/Exclude",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "User can create a rate limit with one include",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include_a\""
+                            },
+                            {   "Key": "include",
+                                "Value": "[\"tag-include\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can create a rate limit with one exclude",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude_a\""
+                            },
+                            {   "Key": "exclude",
+                                "Value": "[\"tag-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add tag to include",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "include_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include_a\""
+                            },
+                            {   "Key": "include",
+                                "Value": "[\"add-tag-include\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add tag to exclude",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "exclude_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude_a\""
+                            },
+                            {   "Key": "exclude",
+                                "Value": "[\"add-tag-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can`t add same tag to include",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "include_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include_a\""
+                            },
+                            {   "Key": "include",
+                                "Value": "[\"add-tag-include\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can`t add same tag to exclude",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "exclude_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude_a\""
+                            },
+                            {   "Key": "exclude",
+                                "Value": "[\"add-tag-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can`t add one tag to exclude and include",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "exclude_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude_a\""
+                            },
+                            {   "Key": "include",
+                                "Value": "[\"include-exclude\"]"
+                            },
+                            {   "Key": "exclude",
+                                "Value": "[\"include-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can't add tag less then 3 chars to include",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "include_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include_a\""
+                            },
+                            {   "Key": "include",
+                                "Value": "[\"in\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can't add tag less then 3 chars to exclude",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "exclude_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude_a\""
+                            },
+                            {   "Key": "exclude",
+                                "Value": "[\"ex\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+
+            ]
+        },
+        {
             "Name": "Number of events validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "User can create a rate limit`s events validations with '0' number",
@@ -984,7 +1457,7 @@
         },
         {
             "Name": "Global checkbox",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "User can switch ON global checkbox",
@@ -1059,11 +1532,11 @@
                 },
                 {
                     "Name": "User can switch OFF global checkbox",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
-                        "Path": ""
+                        "Path": "check_cb_on/"
                     },
                     "Method": "PUT",
                     "Payload": {
@@ -1096,7 +1569,7 @@
                 },
                 {
                     "Name": "User can check global checkbox OFF",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
@@ -1132,7 +1605,7 @@
         },
         {
             "Name": "Active checkbox",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "User can switch ON active checkbox",
@@ -1191,7 +1664,7 @@
                             [
                                 {
                                     "Key": "id",
-                                    "Value": "activecbon"
+                                    "Value": "active_check_cb_on"
                                 },
                                  {
                                     "Key": "name",
@@ -1199,7 +1672,7 @@
                                 },
                                 {
                                     "Key": "active",
-                                    "Value": "true"
+                                    "Value": true
                                 }
                             ]
                         ]
@@ -1207,18 +1680,21 @@
                 },
                 {
                     "Name": "User can switch OFF active checkbox",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "rate-limit",
-                        "Path": ""
+                        "Path": "active_check_cb_on/"
                     },
                     "Method": "PUT",
                     "Payload": {
                         "Params": [
-
                             {
                                 "Key": "id",
+                                "Value": "\"active_check_cb_on\""
+                            },
+                            {
+                                "Key": "name",
                                 "Value": "\"activecbon\""
                             },
                             {
@@ -1241,7 +1717,7 @@
                 },
                 {
                     "Name": "User can check active checkbox OFF",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
@@ -1259,13 +1735,343 @@
                             [
                                 {
                                     "Key": "id",
-                                    "Value": "activecbon"
+                                    "Value": "active_check_cb_on"
                                 },
                                 {
                                     "Key": "active",
                                     "Value": false
                                 }
                             ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Tags field",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "User can create a rate limit without tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"facebook\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add more than one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"api\", \"allowedlist\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a very long tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a tag with specify chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a tag with 1/2 chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"1/2\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a tag with space chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a tag with leading space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"  leading\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add a tag with trailing space char ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"trailing  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
                         ]
                     }
                 }
