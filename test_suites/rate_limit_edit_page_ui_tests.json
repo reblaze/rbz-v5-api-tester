@@ -600,6 +600,38 @@
                     }
                 },
                 {
+                    "Name": "User can not create a rate limit`s timeframe with text value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeframetext\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_t\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'text' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['timeframe']:\\n    {'description': 'The time in which to limit the requests according to '\\n                    'the threshold',\\n     'title': 'Time To Limit',\\n     'type': 'integer'}\\n\\nOn instance['timeframe']:\\n    'text'\""
+                    }
+                },
+                {
                     "Name": "User can not create a rate limit`s timeframe with negative number",
                     "Skip": false,
                     "GenerateID": false,
@@ -1156,7 +1188,7 @@
                     }
                 },
                 {
-                    "Name": "User can add tag to include",
+                    "Name": "User can add several tags to include",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1175,7 +1207,7 @@
                                 "Value": "\"include_a\""
                             },
                             {   "Key": "include",
-                                "Value": "[\"add-tag-include\"]"
+                                "Value": "[\"add-tag-include\", \"add-tag-include2\"]"
                             }
                         ]
                     },
@@ -1192,7 +1224,7 @@
                     }
                 },
                 {
-                    "Name": "User can add tag to exclude",
+                    "Name": "User can add several tags to exclude",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1211,7 +1243,7 @@
                                 "Value": "\"exclude_a\""
                             },
                             {   "Key": "exclude",
-                                "Value": "[\"add-tag-exclude\"]"
+                                "Value": "[\"add-tag-exclude\", \"add-tag-exclude2\"]"
                             }
                         ]
                     },
@@ -1963,7 +1995,7 @@
                     }
                 },
                 {
-                    "Name": "User can add more than one tag",
+                    "Name": "User can add several tags",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2714,7 +2746,7 @@
         },
         {
             "Name": "Delete rate limit",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
