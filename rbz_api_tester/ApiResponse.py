@@ -19,21 +19,25 @@ class ApiResponse:
             self.expected.text = self.expected.text.replace("@@id@@", self.id)
 
     def _prepare_single_result(self):
+        i = 0
         for param in self.expected.single_result:
             if type(param.value) is str and self.id is not None:
-                self.expected.single_result[param.key] = param.value.replace(
+                self.expected.single_result[i].value = param.value.replace(
                     "@@id@@", self.id
                 )
+            i = i + 1
 
     def _prepare_multiple_results(self):
-        index = 0
+        index1 = 0
         for result in self.expected.multiple_results:
+            index2 = 0
             for param in result:
                 if type(param.value) is str and self.id is not None:
-                    self.expected.multiple_results[index][
-                        param.key
-                    ] = param.value.replace("@@id@@", self.id)
-            index = index + 1
+                    self.expected.multiple_results[index1][
+                        index2
+                    ].value = param.value.replace("@@id@@", self.id)
+                index2 = index2 + 1
+            index1 = index1 + 1
 
     def _prepare_expected_results(self):
         if self.expected.single_result is not None:
