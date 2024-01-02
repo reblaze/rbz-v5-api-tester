@@ -1,5 +1,5 @@
 {
-  "Name": "Rate limit - 'Global' checkbox functional tests TA-1430",
+  "Name": "Rate limit - 'Global' checkbox functional tests TA-1417",
   "Skip": false,
   "Tests": [
     {
@@ -155,51 +155,46 @@
             ]
           }
         },
-                {
-                    "Name": "Create Security Policy'",
-                    "Skip": false,
-                    "API":
-                    {
-                        "Base": "security-policy",
-                        "Path": ""
-                    },
-                    "Method" :"POST",
-                    "Payload":
-                    {
-                        "Params":
-                        [
-                            {
-                                "Key": "name",
-                                "Value": "\"testSP\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"test_security_policy\""
-                            },
-                            {
-                                "Key": "session",
-                                "Value": "[{\n\"attrs\":\"ip\"\n}]"
-                            },
-                            {
-                                "Value": "[\n{\n\"id\": \"__default_entry__\",\n\"match\": \"/\",\n\"name\": \"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\": false,\n\"content_filter_active\": false,\n\"limit_ids\": [],\n\"cloud_functions\": []\n},\n{\n\"id\": \"d38c9d54e9eb\",\n\"match\": \"/new\",\n\"name\": \"testSP\",\n\"acl_profile\": \"__acldefault__\",\n\"content_filter_profile\": \"__defaultcontentfilter__\",\n\"backend_id\": \"__default__\",\n\"acl_active\": false,\n\"content_filter_active\": false,\n\"limit_ids\": [\"api_tester_cccbbbaaa\"],\n\"cloud_functions\": []\n}\n]",
-                                "Key": "map"
-                            }
-                        ]
-                    },
-                    "Expected":
-                    {
-                        "Code": "200",
-                        "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
+        {
+          "Name": "Create Security Policy'",
+          "Skip": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"testSP\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_security_policy\""
+              },
+              {
+                "Key": "session",
+                "Value": "[{\n\"attrs\":\"ip\"\n}]"
+              },
+              {
+                "Value": "[\n{\n\"id\": \"__default_entry__\",\n\"match\": \"/\",\n\"name\": \"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\": false,\n\"content_filter_active\": false,\n\"limit_ids\": [],\n\"cloud_functions\": []\n},\n{\n\"id\": \"d38c9d54e9eb\",\n\"match\": \"/new\",\n\"name\": \"testSP\",\n\"acl_profile\": \"__acldefault__\",\n\"content_filter_profile\": \"__defaultcontentfilter__\",\n\"backend_id\": \"__default__\",\n\"acl_active\": false,\n\"content_filter_active\": false,\n\"limit_ids\": [\"api_tester_cccbbbaaa\"],\n\"cloud_functions\": []\n}\n]",
+                "Key": "map"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
         {
           "ID": "publish-changes",
           "Skip": false
