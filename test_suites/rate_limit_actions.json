@@ -1,44 +1,11 @@
 {
    "Name":"TA 1303 Rate limit actions",
-   "Skip": false,
+   "Skip":false,
    "Tests":[
       {
          "Name":"Add Security policy",
          "Skip":false,
          "Steps":[
-            {
-               "Name":"User can add security policy to new rate limit",
-               "Skip":false,
-               "GenerateID":false,
-               "API":{
-                  "Base":"security-policy",
-                  "Path":"__default__/"
-               },
-               "Method":"PUT",
-               "Payload":{
-                  "Params":[
-                     {
-                        "Key":"id",
-                        "Value":"\"__default__\""
-                     },
-                     {
-                        "Key":"map",
-                        "Value":"[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"name\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
-                     }
-                  ]
-               },
-               "Expected":{
-                  "Code":"200",
-                  "Type":"json",
-                  "Single":true,
-                  "SingleResult":[
-                     {
-                        "Key":"ok",
-                        "Value":true
-                     }
-                  ]
-               }
-            },
             {
                "Name":"User can create a rate limit with name `Action default`",
                "Skip":false,
@@ -64,11 +31,11 @@
                      },
                      {
                         "Key":"global",
-                        "Value":"true"
+                        "Value":"false"
                      },
                      {
                         "Key":"active",
-                        "Value":"false"
+                        "Value":"true"
                      },
                      {
                         "Key":"threshold",
@@ -86,6 +53,7 @@
                         "Key":"action",
                         "Value":"\"action-rate-limit-block\""
                      }
+
                   ]
                },
                "Expected":{
@@ -101,23 +69,163 @@
                }
             },
             {
-               "Name":"User can add `test` security policy to new rate limit",
+               "Name":"User can add rate limit to security policy",
                "Skip":false,
                "GenerateID":false,
                "API":{
                   "Base":"security-policy",
-                  "Path":"__default__/"
+                  "Path":""
+               },
+               "Method":"POST",
+               "Payload":
+                    {
+                  "Params":[
+                     {
+                        "Key": "id",
+                        "Value": "\"test-sp\""
+                     },
+                     {
+                        "Key": "name",
+                        "Value": "\"test-sp\""
+                     },
+                     {
+                        "Key":"map",
+                        "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"action_default\"]}]"
+                     }
+                  ]
+               },
+               "Expected":{
+                  "Code":"200",
+                  "Type":"json",
+                  "Single":true,
+                  "SingleResult":[
+                     {
+                        "Key":"ok",
+                        "Value":true
+                     }
+                  ]
+               }
+            },
+            {
+               "Name":"Create new server group 'test.site' ",
+               "Skip":false,
+               "GenerateID":false,
+               "API":{
+                  "Base":"server-group",
+                  "Path":"test-site/"
+               },
+               "Method":"POST",
+               "Payload":{
+                  "Params":[
+                     {
+                        "Key":"id",
+                        "Value":"\"test-site\""
+                     },
+                     {
+                        "Key":"name",
+                        "Value":"\"test-site\""
+                     },
+                     {
+                        "Key":"server_names",
+                        "Value":"[\"test.site\"]"
+                     },
+                     {
+                        "Key":"security_policy",
+                        "Value":"\"test-sp\""
+                     }
+                  ]
+               },
+               "Expected":{
+                  "Code":"201",
+                  "Type":"json",
+                  "Single":true,
+                  "SingleResult":[
+                     {
+                        "Key":"id",
+                        "Value":"test-site"
+                     }
+                  ]
+               }
+            },
+
+            {
+               "ID":"publish-changes",
+               "Skip":false
+            },
+            {
+               "ID":"wait-for-publish",
+               "Skip":false
+            },
+            {
+               "Name": "Send Traffic 1 request",
+               "Skip": false,
+               "API":
+               {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers":
+               [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected":
+               {
+                  "Code": "200",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "Name": "Send Traffic 2 request",
+               "Skip": false,
+               "API":
+               {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers":
+               [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected":
+               {
+                  "Code": "471",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "Name":"User can delete rate limit from security policy",
+               "Skip":false,
+               "GenerateID":false,
+               "API":{
+                  "Base":"security-policy",
+                  "Path":"test-sp/"
                },
                "Method":"PUT",
                "Payload":{
                   "Params":[
                      {
                         "Key":"id",
-                        "Value":"\"__default__\""
+                        "Value":"\"test-sp\""
+                     },
+                     {
+                        "Key": "name",
+                        "Value": "\"test-sp\""
                      },
                      {
                         "Key":"map",
-                        "Value":"[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"name\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"action_default\"]}]"
+                        "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                      }
                   ]
                },
@@ -134,111 +242,130 @@
                }
             },
             {
-                    "Name": "Create new server group 'test.site' with security policy 'test-sp'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "server-group",
-                        "Path": "test-site/"
-                    },
-                    "Method" :"POST",
-                    "Payload":
-                    {
-                        "Template": "servergroup.template",
-                        "Defaults": "servergroup.defaults",
-                        "Params":
-                        [
-                            {
-                                "Key": "id",
-                                "Value": "\"test-site\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"test-site\""
-                            },
-                            {
-                                "Key": "server_names",
-                                "Value": "[\"test.site\"]"
-                            },
-                            {
-                                "Key": "security_policy",
-                                "Value": "\"test\""
-                            }
-                        ]
-                    },
-                    "Expected":
-                    {
-                        "Code": "201",
-                        "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
-                            {
-                                "Key": "id",
-                                "Value": "test-site"
-                            }
-                        ]
-                    }
+               "ID":"publish-changes",
+               "Skip":false
             },
             {
-                    "Name": "Wait for Publish changes to take affect",
-                    "Skip": false,
-                    "Python": true,
-                    "Code":
-                    [
-                        "import time",
-                        "time.sleep(30)"
-                    ]
-                },
-             {
-                    "ID": "wait-for-publish",
-                    "Skip": false
-                },
+               "ID":"wait-for-publish",
+               "Skip":false
+            },
             {
-                    "ID": "publish-changes",
-                    "Skip": false
-                },
-            {
-               "Name":"Send Traffic - request 1 ",
-               "Skip":true,
-               "GenerateID":false,
-               "Traffic":true,
-               "Method":"GET",
-               "Headers":[
+               "Name": "Send Traffic 1 request",
+               "Skip": false,
+               "API":
+               {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers":
+               [
                   {
-                     "Key":"Host",
-                     "Value":"test.site"
+                     "Key": "Host",
+                     "Value": "test.site"
                   }
                ],
-               "Expected":{
-                  "Code":"200",
-                  "Type":"content",
-                  "Single":true,
-                  "Text":"b''"
+               "Expected":
+               {
+                  "Code": "200",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
                }
             },
             {
-               "Name":"Send Traffic - request 2",
-               "Skip":true,
-               "GenerateID":false,
-               "Traffic":true,
+               "Name": "Send Traffic 2 request",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "200",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "ID":"wait-for-logs",
+               "Skip":false
+            },
+            {
+               "Name":"Get Logs",
+               "Skip":false,
+               "API":{
+                  "Base":"logs",
+                  "Path":""
+               },
                "Method":"GET",
                "Headers":[
                   {
-                     "Key":"Host",
-                     "Value":"test.site"
-                  },
+                     "Key":"syntax",
+                     "Value":"string_query"
+                  }
+               ],
+               "Arguments":[
                   {
-                     "Key":"Cookie",
-                     "Value":"os=something"
+                     "Key": "filters",
+                     "Value": "timestamp between @@NOW(-2minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                   }
                ],
                "Expected":{
                   "Code":"200",
-                  "Type":"content",
+                  "Type":"jsonpath",
                   "Single":true,
-                  "Text":"b''"
+                  "Headers":[
+                     {
+                        "Key":"Server",
+                        "Value":"rhino-core-shield"
+                     }
+                  ],
+                  "SingleResult":[
+                     {
+                        "Key":"data/results/3/tags/*",
+                        "Value":"status:200"
+                     },
+                     {
+                        "Key":"data/results/2/tags/*",
+                        "Value":"status:471"
+                     },
+                     {
+                        "Key":"data/results/2/tags/*",
+                        "Value":"action:rate-limit-block"
+                     },
+                     {
+                        "Key":"data/results/2/tags/*",
+                        "Value":"limit-name:actiondefault"
+                     },
+                     {
+                        "Key":"data/results/2/reason",
+                        "Value":"Block - rate limit threshold=1 - actiondefault - [request]"
+                     },
+                     {
+                        "Key":"data/results/2/rl_triggers/0/trigger_name",
+                        "Value":"actiondefault"
+                     },
+                     {
+                        "Key":"data/results/2/rl_triggers/0/action",
+                        "Value":"block"
+                     },
+                     {
+                        "Key":"data/results/1/tags/*",
+                        "Value":"status:200"
+                     },
+                     {
+                        "Key":"data/results/0/tags/*",
+                        "Value":"status:200"
+                     }
+                  ]
                }
             }
          ]
