@@ -19,7 +19,7 @@
                   "Params":[
                      {
                         "Key":"name",
-                        "Value":"\"actiondefault\""
+                        "Value":"\"action_default\""
                      },
                      {
                         "Key":"id",
@@ -69,7 +69,7 @@
                }
             },
             {
-               "Name":"User can add rate limit to security policy",
+               "Name":"User can add rate limit `actual_default` to security policy",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -147,7 +147,6 @@
                   ]
                }
             },
-
             {
                "ID":"publish-changes",
                "Skip":false
@@ -157,7 +156,7 @@
                "Skip":false
             },
             {
-               "Name": "Send Traffic 1 request",
+               "Name": "Send Traffic 1 to rate limit `action_default`",
                "Skip": false,
                "API":
                {
@@ -181,7 +180,7 @@
                }
             },
             {
-               "Name": "Send Traffic 2 request",
+               "Name": "Send Traffic 2 to rate limit `action_default`",
                "Skip": false,
                "API":
                {
@@ -205,7 +204,7 @@
                }
             },
             {
-               "Name":"User can delete rate limit from security policy",
+               "Name":"User can detach rate limit `action_default` from security policy",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -250,7 +249,7 @@
                "Skip":false
             },
             {
-               "Name": "Send Traffic 1 request",
+               "Name": "Send Traffic 1 to rate limit `action_default`",
                "Skip": false,
                "API":
                {
@@ -274,7 +273,7 @@
                }
             },
             {
-               "Name": "Send Traffic 2 request",
+               "Name": "Send Traffic 2 to rate limit `action_default`",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -315,7 +314,7 @@
                "Arguments":[
                   {
                      "Key": "filters",
-                     "Value": "timestamp between @@NOW(-2minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                     "Value": "status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                   }
                ],
                "Expected":{
@@ -343,15 +342,15 @@
                      },
                      {
                         "Key":"data/results/2/tags/*",
-                        "Value":"limit-name:actiondefault"
+                        "Value":"limit-name:action-default"
                      },
                      {
                         "Key":"data/results/2/reason",
-                        "Value":"Block - rate limit threshold=1 - actiondefault - [request]"
+                        "Value":"Block - rate limit threshold=1 - action_default - [request]"
                      },
                      {
                         "Key":"data/results/2/rl_triggers/0/trigger_name",
-                        "Value":"actiondefault"
+                        "Value":"action_default"
                      },
                      {
                         "Key":"data/results/2/rl_triggers/0/action",
@@ -363,6 +362,569 @@
                      },
                      {
                         "Key":"data/results/0/tags/*",
+                        "Value":"status:200"
+                     }
+                  ]
+               }
+            }
+         ]
+      },
+      {
+         "Name": "Set `Number of events` to zero",
+         "Skip": false,
+         "Steps": [
+            {
+               "Name": "User can update the rate limit with name `action_default`",
+               "Skip": false,
+               "GenerateID": false,
+               "API": {
+                  "Base": "rate-limit",
+                  "Path": "action_default/"
+               },
+               "Method": "PUT",
+               "Payload": {
+                  "Params": [
+                     {
+                        "Key": "name",
+                        "Value": "\"action_default\""
+                     },
+                     {
+                        "Key": "id",
+                        "Value": "\"action_default\""
+                     },
+                     {
+                        "Key": "description",
+                        "Value": "\"Action default\""
+                     },
+                     {
+                        "Key": "global",
+                        "Value": "false"
+                     },
+                     {
+                        "Key": "active",
+                        "Value": "true"
+                     },
+                     {
+                        "Key": "threshold",
+                        "Value": "0"
+                     },
+                     {
+                        "Key": "timeframe",
+                        "Value": "10"
+                     },
+                     {
+                        "Key": "key",
+                        "Value": "[{\"attrs\":\"ip\"}]"
+                     },
+                     {
+                        "Key": "action",
+                        "Value": "\"action-rate-limit-block\""
+                     }
+                  ]
+               },
+               "Expected": {
+                  "Code": "200",
+                  "Type": "json",
+                  "Single": true,
+                  "SingleResult": [
+                     {
+                        "Key": "ok",
+                        "Value": true
+                     }
+                  ]
+               }
+            },
+            {
+               "Name":"User can add rate limit 'actual_default'to security policy",
+               "Skip":false,
+               "GenerateID":false,
+               "API":{
+                  "Base":"security-policy",
+                  "Path":"test-sp/"
+               },
+               "Method":"PUT",
+               "Payload":{
+                  "Params":[
+                     {
+                        "Key":"id",
+                        "Value":"\"test-sp\""
+                     },
+                     {
+                        "Key": "name",
+                        "Value": "\"test-sp\""
+                     },
+                     {
+                        "Key":"map",
+                        "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"action_default\"]}]"
+                     }
+                  ]
+               },
+               "Expected":{
+                  "Code":"200",
+                  "Type":"json",
+                  "Single":true,
+                  "SingleResult":[
+                     {
+                        "Key":"ok",
+                        "Value":true
+                     }
+                  ]
+               }
+            },
+            {
+               "ID": "publish-changes",
+               "Skip": false
+            },
+            {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "471",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "Name":"User can detach rate limit `action_default` from security policy",
+               "Skip":false,
+               "GenerateID":false,
+               "API":{
+                  "Base":"security-policy",
+                  "Path":"test-sp/"
+               },
+               "Method":"PUT",
+               "Payload":{
+                  "Params":[
+                     {
+                        "Key":"id",
+                        "Value":"\"test-sp\""
+                     },
+                     {
+                        "Key": "name",
+                        "Value": "\"test-sp\""
+                     },
+                     {
+                        "Key":"map",
+                        "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                     }
+                  ]
+               },
+               "Expected":{
+                  "Code":"200",
+                  "Type":"json",
+                  "Single":true,
+                  "SingleResult":[
+                     {
+                        "Key":"ok",
+                        "Value":true
+                     }
+                  ]
+               }
+            },
+            {
+               "ID": "publish-changes",
+               "Skip": false
+            },
+            {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "200",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "ID":"wait-for-logs",
+               "Skip":false
+            },
+            {
+               "Name":"Get Logs",
+               "Skip":false,
+               "API":{
+                  "Base":"logs",
+                  "Path":""
+               },
+               "Method":"GET",
+               "Headers":[
+                  {
+                     "Key":"syntax",
+                     "Value":"string_query"
+                  }
+               ],
+               "Arguments":[
+                  {
+                     "Key": "limit",
+                     "Value": "200"
+                  },
+                  {
+                     "Key": "filters",
+                     "Value": "status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                  }
+               ],
+               "Expected":{
+                  "Code":"200",
+                  "Type":"jsonpath",
+                  "Single":true,
+                  "Headers":[
+                     {
+                        "Key":"Server",
+                        "Value":"rhino-core-shield"
+                     }
+                  ],
+                  "SingleResult":[
+                     {
+                        "Key":"data/results/0/tags/*",
+                        "Value":"status:200"
+                     },
+                     {
+                        "Key":"data/results/1/tags/*",
+                        "Value":"status:471"
+                     },
+                     {
+                        "Key":"data/results/1/tags/*",
+                        "Value":"action:rate-limit-block"
+                     },
+                     {
+                        "Key":"data/results/1/tags/*",
+                        "Value":"limit-name:action-default"
+                     },
+                     {
+                        "Key":"data/results/1/reason",
+                        "Value":"Block - rate limit threshold=0 - action_default - [request]"
+                     },
+                     {
+                        "Key":"data/results/1/rl_triggers/0/trigger_name",
+                        "Value":"action_default"
+                     },
+                     {
+                        "Key":"data/results/1/rl_triggers/0/action",
+                        "Value":"block"
+                     }
+                  ]
+               }
+            }
+         ]
+      },
+      {
+         "Name": "Check Ban",
+         "Skip": false,
+         "Steps": [
+            {
+               "Name": "User can update the rate limit with name `action_default`",
+               "Skip": false,
+               "GenerateID": false,
+               "API": {
+                  "Base": "rate-limit",
+                  "Path": "action_default/"
+               },
+               "Method": "PUT",
+               "Payload": {
+                  "Params": [
+                     {
+                        "Key": "name",
+                        "Value": "\"action_default\""
+                     },
+                     {
+                        "Key": "id",
+                        "Value": "\"action_default\""
+                     },
+                     {
+                        "Key": "description",
+                        "Value": "\"Action default\""
+                     },
+                     {
+                        "Key": "global",
+                        "Value": "false"
+                     },
+                     {
+                        "Key": "active",
+                        "Value": "true"
+                     },
+                     {
+                        "Key": "threshold",
+                        "Value": "1"
+                     },
+                     {
+                        "Key": "timeframe",
+                        "Value": "10"
+                     },
+                     {
+                        "Key": "key",
+                        "Value": "[{\"attrs\":\"ip\"}]"
+                     },
+                     {
+                        "Key": "action",
+                        "Value": "\"action-rate-limit-block\""
+                     },
+                     {
+                        "Key": "is_action_ban",
+                        "Value": "true"
+                     },
+                     {
+                        "Key": "ttl",
+                        "Value": "120"
+                     }
+                  ]
+               },
+               "Expected": {
+                  "Code": "200",
+                  "Type": "json",
+                  "Single": true,
+                  "SingleResult": [
+                     {
+                        "Key": "ok",
+                        "Value": true
+                     }
+                  ]
+               }
+            },
+            {
+               "Name":"User can add rate limit 'actual_default'to security policy",
+               "Skip":false,
+               "GenerateID":false,
+               "API":{
+                  "Base":"security-policy",
+                  "Path":"test-sp/"
+               },
+               "Method":"PUT",
+               "Payload":{
+                  "Params":[
+                     {
+                        "Key":"id",
+                        "Value":"\"test-sp\""
+                     },
+                     {
+                        "Key": "name",
+                        "Value": "\"test-sp\""
+                     },
+                     {
+                        "Key":"map",
+                        "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_sp\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"action_default\"]}]"
+                     }
+                  ]
+               },
+               "Expected":{
+                  "Code":"200",
+                  "Type":"json",
+                  "Single":true,
+                  "SingleResult":[
+                     {
+                        "Key":"ok",
+                        "Value":true
+                     }
+                  ]
+               }
+            },
+            {
+               "ID": "publish-changes",
+               "Skip": false
+            },
+            {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "200",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "Name": "Send Traffic 2 to rate limit `action_default`",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "471",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "Name": "Send Traffic 3 to rate limit `action_default`",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "471",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+             {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "ID": "wait-for-publish",
+               "Skip": false
+            },
+            {
+               "Name": "Send Traffic 4 to rate limit `action_default`",
+               "Skip": false,
+               "API": {
+                  "Base": "send-traffic",
+                  "Path": "/test"
+               },
+               "Method": "GET",
+               "Headers": [
+                  {
+                     "Key": "Host",
+                     "Value": "test.site"
+                  }
+               ],
+               "Expected": {
+                  "Code": "200",
+                  "Type": "content",
+                  "Single": true,
+                  "Text": "b''"
+               }
+            },
+            {
+               "ID":"wait-for-logs",
+               "Skip":false
+            },
+            {
+               "Name":"Get Logs",
+               "Skip":false,
+               "API":{
+                  "Base":"logs",
+                  "Path":""
+               },
+               "Method":"GET",
+               "Headers":[
+                  {
+                     "Key":"syntax",
+                     "Value":"string_query"
+                  }
+               ],
+               "Arguments":[
+                  {
+                     "Key": "limit",
+                     "Value": "200"
+                  },
+                  {
+                     "Key": "filters",
+                     "Value": "status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                  }
+               ],
+               "Expected":{
+                  "Code":"200",
+                  "Type":"jsonpath",
+                  "Single":true,
+                  "Headers":[
+                     {
+                        "Key":"Server",
+                        "Value":"rhino-core-shield"
+                     }
+                  ],
+                  "SingleResult":[
+                     {
+                        "Key":"data/results/0/tags/*",
+                        "Value":"status:200"
+                     },
+                     {
+                        "Key":"data/results/1/tags/*",
+                        "Value":"status:471"
+                     },
+                     {
+                        "Key":"data/results/1/reason",
+                        "Value":"Block - rate limit threshold=1 - action_default - [request]"
+                     },
+                     {
+                        "Key":"data/results/1/rl_triggers/0/action",
+                        "Value":"block"
+                     },
+                     {
+                        "Key":"data/results/2/tags/*",
+                        "Value":"status:471"
+                     },
+                     {
+                        "Key":"data/results/2/reason",
+                        "Value":"Block - rate limit threshold=1 - action_default - [request]"
+                     },
+                     {
+                        "Key":"data/results/2/rl_triggers/0/action",
+                        "Value":"block"
+                     },
+                     {
+                        "Key":"data/results/3/tags/*",
                         "Value":"status:200"
                      }
                   ]
