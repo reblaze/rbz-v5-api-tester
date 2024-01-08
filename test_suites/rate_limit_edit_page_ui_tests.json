@@ -3,7 +3,7 @@
     "Skip": true,
     "Tests": [
         {
-            "Name": "Create a rate limit from the list page",
+            "Name": "Step 1 - Create a rate limit from the list page",
             "Skip": false,
             "Steps": [
                 {
@@ -33,8 +33,8 @@
             ]
         },
         {
-            "Name": "Name field validations",
-            "Skip": false,
+            "Name": "Step 2 - Name field validations",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit with text name",
@@ -257,8 +257,8 @@
             ]
         },
         {
-            "Name": "Count by validations",
-            "Skip": false,
+            "Name": "Step 3 - Count by validations",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create rate limit with one rate limit",
@@ -323,15 +323,10 @@
                         ]
                     },
                      "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
@@ -372,7 +367,7 @@
                     }
                 },
                 {
-                    "Name": "Check that count by `header` can not be empty",
+                    "Name": "Check that count by `header` cannot be empty",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -397,19 +392,14 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Check that count by `cookie` can not be empty",
+                    "Name": "Check that count by `cookie` cannot be empty",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -434,19 +424,16 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Expected": {
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
+                    }
                     }
                 },
                 {
-                    "Name": "Check that count by `argument` can not be empty",
+                    "Name": "Check that count by `argument` cannot be empty",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -471,19 +458,14 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can not add same key twice",
+                    "Name": "User cannot add same key twice",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -503,27 +485,22 @@
                             },
                             {
                                 "Key": "key",
-                                "Value": "[{\"attrs\":\"securitypolicyentryname\"}]"
+                                "Value": "[{\"attrs\":\"securitypolicyentryname\"}, {\"attrs\":\"securitypolicyentryname\"}]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 }
             ]
         },
         {
-            "Name": "Timeframe validations",
-            "Skip": false,
+            "Name": "Step 4 - Timeframe validations:",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit`s timeframe with positive number",
@@ -563,7 +540,7 @@
                     }
                 },
                 {
-                    "Name": "User can not create a rate limit`s timeframe with '0' number",
+                    "Name": "User cannot create a rate limit`s timeframe with '0' number",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -600,7 +577,7 @@
                     }
                 },
                 {
-                    "Name": "User can not create a rate limit`s timeframe with text value",
+                    "Name": "User cannot create a rate limit`s timeframe with text value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -632,7 +609,7 @@
                     }
                 },
                 {
-                    "Name": "User can not create a rate limit`s timeframe with negative number",
+                    "Name": "User cannot create a rate limit`s timeframe with negative number",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -657,19 +634,14 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can not create a rate limit`s timeframe with decimal number",
+                    "Name": "User cannot create a rate limit`s timeframe with decimal number",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -701,7 +673,7 @@
                     }
                 },
                 {
-                    "Name": "User can not create a rate limit`s timeframe with empty value",
+                    "Name": "User cannot create a rate limit`s timeframe with empty value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -735,42 +707,9 @@
             ]
         },
         {
-            "Name": "Verify Action`s types",
-            "Skip": false,
+            "Name": "Step 5 - Action",
+            "Skip": true,
             "Steps": [
-                {
-                    "Name": "User can create a rate limit",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "rate-limit",
-                        "Path": ""
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"actionname\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"action_a\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
                 {
                     "Name": "User can check action`s types",
                     "Skip": false,
@@ -844,11 +783,11 @@
             ]
         },
         {
-            "Name": "Ban action timeframe",
-            "Skip": false,
+            "Name": "Step 6 - Ban action timeframe",
+            "Skip": true,
             "Steps": [
                 {
-                    "Name": "User can create a ban with '0' value",
+                    "Name": "User cannot create a ban with '0' value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -884,7 +823,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a ban with '1' value",
+                    "Name": "User cannot create a ban with '1' value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -962,7 +901,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a ban with '1441' value",
+                    "Name": "User cannot create a ban with '1441' value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -999,7 +938,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a ban with empty value",
+                    "Name": "User cannot create a ban with empty value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1036,7 +975,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a ban with negative value",
+                    "Name": "User cannot create a ban with negative value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1073,7 +1012,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a ban with decimal value",
+                    "Name": "User cannot create a ban with decimal value",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1112,8 +1051,8 @@
             ]
         },
         {
-            "Name": "Include/Exclude",
-            "Skip": false,
+            "Name": "Step 7 -  Include/Exclude",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit with one include",
@@ -1260,7 +1199,7 @@
                     }
                 },
                 {
-                    "Name": "User can`t add same tag to include",
+                    "Name": "User cannot add same tag to include twice",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1279,24 +1218,19 @@
                                 "Value": "\"include_a\""
                             },
                             {   "Key": "include",
-                                "Value": "[\"add-tag-include\"]"
+                                "Value": "[\"add-tag-include\", \"add-tag-include\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can`t add same tag to exclude",
+                    "Name": "User cannot add same tag to exclude twice",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1315,24 +1249,19 @@
                                 "Value": "\"exclude_a\""
                             },
                             {   "Key": "exclude",
-                                "Value": "[\"add-tag-exclude\"]"
+                                "Value": "[\"add-tag-exclude\", \"add-tag-exclude\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can`t add one tag to exclude and include",
+                    "Name": "User cannot add same tag to exclude and include",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1359,19 +1288,14 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can't add tag less then 3 chars to include",
+                    "Name": "User cannot add tag less then 3 chars to include",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1395,19 +1319,14 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can't add tag less then 3 chars to exclude",
+                    "Name": "User cannot add tag less then 3 chars to exclude",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1431,26 +1350,20 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 }
-
             ]
         },
         {
-            "Name": "Number of events validations",
-            "Skip": false,
+            "Name": "Step 8 - Number of events validations",
+            "Skip": true,
             "Steps": [
                 {
-                    "Name": "User can create a rate limit`s events validations with '0' number",
+                    "Name": "User can create a rate limit with number of events: '0'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1487,7 +1400,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a rate limit`s events validations with '15' number",
+                    "Name": "User can create a rate limit with number of events: '15'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1524,7 +1437,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a rate limit`s events validations with text value",
+                    "Name": "User cannot create rate limit with number of events: text",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1556,7 +1469,7 @@
                     }
                 },
                 {
-                    "Name": "User can create a rate limit`s events validations with negative number",
+                    "Name": "User cannot create rate limit with number of events: negative number",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1581,19 +1494,14 @@
                         ]
                     },
                      "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can create a rate limit`s events validations with decimal number",
+                    "Name": "User cannot create rate limit with number of events: decimal number",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1627,11 +1535,11 @@
             ]
         },
         {
-            "Name": "Global checkbox",
-            "Skip": false,
+            "Name": "Step 9 - Global checkbox",
+            "Skip": true,
             "Steps": [
                 {
-                    "Name": "User can switch ON global checkbox",
+                    "Name": "User can create rate limit with global checkbox ON",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1668,7 +1576,7 @@
                     }
                 },
                 {
-                    "Name": "User can check global checkbox ON",
+                    "Name": "Verify global checkbox ON",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1739,7 +1647,7 @@
                     }
                 },
                 {
-                    "Name": "User can check global checkbox OFF",
+                    "Name": "Verify global checkbox OFF",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1775,11 +1683,11 @@
             ]
         },
         {
-            "Name": "Active checkbox",
-            "Skip": false,
+            "Name": "Step 10 - Active checkbox",
+            "Skip": true,
             "Steps": [
                 {
-                    "Name": "User can switch ON active checkbox",
+                    "Name": "User can create rate limit with active checkbox ON",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1816,7 +1724,7 @@
                     }
                 },
                 {
-                    "Name": "User can check active checkbox ON",
+                    "Name": "Verify active checkbox ON",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1887,7 +1795,7 @@
                     }
                 },
                 {
-                    "Name": "User can check active checkbox OFF",
+                    "Name": "Verify active checkbox OFF",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1919,8 +1827,8 @@
             ]
         },
         {
-            "Name": "Tags field",
-            "Skip": false,
+            "Name": "Step 11 - Tags field",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit without tags",
@@ -1959,7 +1867,7 @@
                     }
                 },
                 {
-                    "Name": "User can add a one tag",
+                    "Name": "User can add one tag",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2067,7 +1975,7 @@
                     }
                 },
                 {
-                    "Name": "User can add a tag with specify chars",
+                    "Name": "User can add tag with special chars",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2103,7 +2011,7 @@
                     }
                 },
                 {
-                    "Name": "User can add a tag with 1/2 chars",
+                    "Name": "User cannot add a tag with one char",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2122,24 +2030,50 @@
                                 "Value": "\"tags_a\""
                             },
                             {   "Key": "tags",
-                                "Value": "[\"1/2\"]"
+                                "Value": "[\"a\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "User can add a tag with space chars",
+                    "Name": "User cannot add a tag with two chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"aa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "User cannot add a tag with space chars",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2159,6 +2093,37 @@
                             },
                             {   "Key": "tags",
                                 "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "User can add a tag without spaces char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "rate-limit",
+                        "Path": "tags_a/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tagsa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"testtag\"]"
                             }
                         ]
                     },
@@ -2249,8 +2214,8 @@
             ]
         },
         {
-            "Name": "Save rate limits",
-            "Skip": false,
+            "Name": "Step 12 - save",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
@@ -2318,8 +2283,8 @@
             ]
         },
         {
-            "Name": "Choose Security policy",
-            "Skip": false,
+            "Name": "Step 13 - choose Security policy",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
@@ -2393,8 +2358,8 @@
             ]
         },
         {
-            "Name": "Remove Security policy",
-            "Skip": false,
+            "Name": "Step 14 - remove Security policy",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
@@ -2504,8 +2469,8 @@
             ]
         },
         {
-            "Name": "Edit rate limit",
-            "Skip": false,
+            "Name": "Step 15 - edit a rule",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
@@ -2580,8 +2545,8 @@
             ]
         },
         {
-            "Name": "Linked Security policy we can not Delete",
-            "Skip": false,
+            "Name": "Step 16 - linked Security policy we can not Delete",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
@@ -2653,7 +2618,7 @@
                     }
                 },
                 {
-                    "Name": "User can not delete the rate limit with attached security policy",
+                    "Name": "User cannot delete the rate limit with attached security policy",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -2663,22 +2628,17 @@
                     },
                     "Method" :"DELETE",
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 }
             ]
         },
         {
-            "Name": "Delete rate limit",
-            "Skip": false,
+            "Name": "Step 17 - 'Delete' button",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can create a rate limit",
@@ -2738,8 +2698,8 @@
             ]
         },
         {
-            "Name": "Switch to another existing rule",
-            "Skip": false,
+            "Name": "Step 18 - Switch to another existing rule",
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "User can get all rate limits",
