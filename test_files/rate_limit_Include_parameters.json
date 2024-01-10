@@ -72,164 +72,23 @@
           }
         },
         {
-          "Name": "Add Rate limit with Name: 'rl1' to default Security policy",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "security-policy",
-            "Path": "__default__/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"__default__\""
-              },
-              {
-                "Key": "map",
-                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"rl1\",\n\"name\":\"testPath\",\n\"match\":\"/test\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\"\n]\n}\n]"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 1",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            },
-            {
-              "Key": "x-forwarded-for",
-              "Value": "123.123.123.123"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 2",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            },
-            {
-              "Key": "x-forwarded-for",
-              "Value": "123.123.123.123"
-            }
-          ],
-          "Expected": {
-            "Code": "471",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 3",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            },
-            {
-              "Key": "x-forwarded-for",
-              "Value": "123.123.123.124"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 4",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            },
-            {
-              "Key": "x-forwarded-for",
-              "Value": "123.123.123.124"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Edit Rate limit 'rl1'",
+          "Name": "Create Rate limit 'rl2'",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "rate-limit",
-            "Path": "rl1/"
+            "Path": ""
           },
-          "Method": "PUT",
+          "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl1\""
+                "Value": "\"rl2\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl1\""
+                "Value": "\"rl2\""
               },
               {
                 "Key": "active",
@@ -257,7 +116,7 @@
               },
               {
                 "Key": "include",
-                "Value": " [\n\"gl1\"\n]"
+                "Value": "[\n\"gl1\",\"gl2\"\n]"
               }
             ]
           },
@@ -269,6 +128,89 @@
               {
                 "Key": "ok",
                 "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Security Policy 'testSP'",
+          "Skip": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"testSP\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_security_policy\""
+              },
+              {
+                "Key": "session",
+                "Value": "[{\n\"attrs\":\"ip\"\n}]"
+              },
+              {
+                "Key": "map",
+                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"rl1\",\n\"name\":\"rl1Path\",\n\"match\":\"/rl1\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\"\n]\n},\n{\n\"id\":\"e5da18125bb0\",\n\"name\":\"rl2Path\",\n\"match\":\"/rl2\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl2\"\n]\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create server group 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "servergroup.template",
+            "Defaults": "servergroup.defaults",
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test_security_policy\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "test-site"
               }
             ]
           }
@@ -330,17 +272,117 @@
           "Skip": false
         },
         {
-          "Name": "Send Traffic using GET method to path /test 5",
+          "Name": "Send Traffic using GET method to path /test 1",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/test"
+            "Path": "/rl1"
           },
           "Method": "GET",
           "Headers": [
             {
               "Key": "Host",
-              "Value": "default.site"
+              "Value": "test.site"
+            },
+            {
+              "Key": "x-forwarded-for",
+              "Value": "123.123.123.123"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "x-forwarded-for",
+              "Value": "123.123.123.123"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "x-forwarded-for",
+              "Value": "123.123.123.124"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 4",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "x-forwarded-for",
+              "Value": "123.123.123.124"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 5",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl2"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
             },
             {
               "Key": "test",
@@ -359,13 +401,13 @@
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/test"
+            "Path": "/rl2"
           },
           "Method": "GET",
           "Headers": [
             {
               "Key": "Host",
-              "Value": "default.site"
+              "Value": "test.site"
             },
             {
               "Key": "test",
@@ -420,7 +462,7 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl1"
+                "Value": "limit-name:rl2"
               }
             ]
           }
