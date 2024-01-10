@@ -1,0 +1,1157 @@
+{
+  "Name": "Rate Limit - Event condition TA-1311",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Rate Limit - Event condition",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"company\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\n\"headers\":\"user\"\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Add Rate limit with Name: 'rl1' to default Security policy",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": "__default__/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "map",
+                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"rl1\",\n\"name\":\"testPath\",\n\"match\":\"/test\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\"\n]\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 1",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-timeout-10sec",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 4",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user1"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 5",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user2"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 6",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user3"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl1/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "20"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "exclude",
+                "Value": " [\n\"gl1\"\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "wait-for-timeout-10sec",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 4",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user1"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 5",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user2"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 6",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "user",
+              "Value": "my_user3"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-timeout-10sec",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 7",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 8",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 9",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl1/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"company\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\n\"cookies\":\"user\"\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 10",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "user=my_user1"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 11",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "user=my_user2"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 12",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "user=my_user3"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl1/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"company\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\n\"args\":\"user\"\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 13",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "user",
+              "Value": "my_user1"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 14",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "user",
+              "Value": "my_user2"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 15",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "user",
+              "Value": "my_user3"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl1/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "true"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"company\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\n\"self\":\"self\"\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 16",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 17",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/path"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test 18",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/new"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            },
+            {
+              "Key": "org",
+              "Value": "my_org"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl1' 1",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl1"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl1' 2",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl1"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl1' 3",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/2/tags/*",
+                "Value": "limit-name:rl1"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl1' 4",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/3/tags/*",
+                "Value": "limit-name:rl1"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

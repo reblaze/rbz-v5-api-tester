@@ -1,97 +1,108 @@
 [
-    {
-        "ID": "wait-for-logs",
-        "Step": {
-            "Name": "Wait for Logs to be inserted to BQ",
-            "Debug": {
-                "Level": "info",
-                "Message": "Actively waiting 40 seconds for Logs to reach BQ"
-            },
-            "Skip": false,
-            "Type": "python",
-            "Code": 
-            [
-                "import time",
-                "time.sleep(40)"
-            ]
-        }
-    },
-    {
-        "ID": "publish-changes",
-        "Step": {
-            "Name": "Publish changes",
-            "Skip": false,
-            "GenerateID": false,
-            "Debug": {
-                "Level": "info",
-                "Message": "Calling publish changes, might take a few seconds"
-            },
-            "Method" :"PUT",
-            "API": 
-            {
-                "Base": "publish",
-                "Path": ""
-            },
-            "Payload":
-            {
-                "Params": []
-            },
-            "Expected":
-            {
-                "Code": "204",
-                "Type": "content",
-                "Single": true,
-                "Text": "b''"
-            }
-        }
-    },
-    {
-        "ID": "wait-for-publish",
-        "Step": {
-            "Name": "Wait for Publish changes to take affect",
-            "Debug": {
-                "Level": "info",
-                "Message": "Actively waiting 30 seconds for publish to take effect"
-            },
-            "Skip": false,
-            "Type": "python",
-            "Code": 
-            [
-                "import time",
-                "time.sleep(30)"
-            ]
-        }
-    },
-    {
-        "ID": "add-my-ip-to-trusted-source",
-        "Step": {
-            "Name": "Add my ip to planet trusted net",
-            "Debug": {
-                "Level": "info",
-                "Message": "implemented in python code because of dynamic data from planet to planet"
-            },
-            "Skip": false,
-            "Type": "python",
-            "Code": [
-                "import requests",
-                "headers = {}",
-                "headers['Authorization'] = 'Basic @@api_key@@'",
-                "headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'",
-                "headers['planet-name'] = '@@planet@@'",
-                "headers['planet-hostname'] = '@@planet@@'",
-                "headers['Content-Type'] = 'application/json'",
-                "response = requests.get('https://@@planet@@.dev.app.reblaze.io/reblaze/api/v3/reblaze/configs/@@branch@@/d/planet/', headers=headers)",
-                "print(f'get status: {response.status_code}')",
-                "document = response.json()",
-                "element = {'address': '@@ip@@', 'comment': 'my machine'}",
-                "if all(e != element for e in document['trusted_nets']):",
-                "   document['trusted_nets'].append(element)",
-                "res = requests.put('https://@@planet@@.dev.app.reblaze.io/reblaze/api/v3/reblaze/configs/@@branch@@/d/planet/', headers=headers, json=document)",
-                "print(f'put status: {res.status_code}')",
-                "if res.status_code != 204:",
-                "   print(f'put response: {res.content}')",
-                "   exit(1)"
-            ]
-        }
+  {
+    "ID": "wait-for-logs",
+    "Step": {
+      "Name": "Wait for Logs to be inserted to BQ",
+      "Debug": {
+        "Level": "info",
+        "Message": "Actively waiting 40 seconds for Logs to reach BQ"
+      },
+      "Skip": false,
+      "Type": "python",
+      "Code": [
+        "import time",
+        "time.sleep(40)"
+      ]
     }
+  },
+  {
+    "ID": "publish-changes",
+    "Step": {
+      "Name": "Publish changes",
+      "Skip": false,
+      "GenerateID": false,
+      "Debug": {
+        "Level": "info",
+        "Message": "Calling publish changes, might take a few seconds"
+      },
+      "Method": "PUT",
+      "API": {
+        "Base": "publish",
+        "Path": ""
+      },
+      "Payload": {
+        "Params": []
+      },
+      "Expected": {
+        "Code": "204",
+        "Type": "content",
+        "Single": true,
+        "Text": "b''"
+      }
+    }
+  },
+  {
+    "ID": "wait-for-publish",
+    "Step": {
+      "Name": "Wait for Publish changes to take affect",
+      "Debug": {
+        "Level": "info",
+        "Message": "Actively waiting 30 seconds for publish to take effect"
+      },
+      "Skip": false,
+      "Type": "python",
+      "Code": [
+        "import time",
+        "time.sleep(30)"
+      ]
+    }
+  },
+  {
+    "ID": "add-my-ip-to-trusted-source",
+    "Step": {
+      "Name": "Add my ip to planet trusted net",
+      "Debug": {
+        "Level": "info",
+        "Message": "implemented in python code because of dynamic data from planet to planet"
+      },
+      "Skip": false,
+      "Type": "python",
+      "Code": [
+        "import requests",
+        "headers = {}",
+        "headers['Authorization'] = 'Basic @@api_key@@'",
+        "headers['User-Agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36'",
+        "headers['planet-name'] = '@@planet@@'",
+        "headers['planet-hostname'] = '@@planet@@'",
+        "headers['Content-Type'] = 'application/json'",
+        "response = requests.get('https://@@planet@@.dev.app.reblaze.io/reblaze/api/v3/reblaze/configs/@@branch@@/d/planet/', headers=headers)",
+        "print(f'get status: {response.status_code}')",
+        "document = response.json()",
+        "element = {'address': '@@ip@@', 'comment': 'my machine'}",
+        "if all(e != element for e in document['trusted_nets']):",
+        "   document['trusted_nets'].append(element)",
+        "res = requests.put('https://@@planet@@.dev.app.reblaze.io/reblaze/api/v3/reblaze/configs/@@branch@@/d/planet/', headers=headers, json=document)",
+        "print(f'put status: {res.status_code}')",
+        "if res.status_code != 204:",
+        "   print(f'put response: {res.content}')",
+        "   exit(1)"
+      ]
+    }
+  },
+  {
+    "ID": "wait-for-timeout-10sec",
+    "Step": {
+      "Name": "Timeout",
+      "Debug": {
+        "Level": "info",
+        "Message": "Wait for timeout 10sec"
+      },
+      "Skip": false,
+      "Type": "python",
+      "Code": [
+        "import time",
+        "time.sleep(10)"
+      ]
+    }
+  }
 ]
