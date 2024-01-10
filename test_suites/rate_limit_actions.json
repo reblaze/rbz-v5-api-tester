@@ -3,11 +3,11 @@
    "Skip":false,
    "Tests":[
       {
-         "Name":"Add Security policy",
+         "Name":"Step 1: Add Security policy",
          "Skip":false,
          "Steps":[
             {
-               "Name":"User can create a rate limit with name `Action default`",
+               "Name": "Test: User can create a rate limit with name `Action default`",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -69,7 +69,7 @@
                }
             },
             {
-               "Name":"User can add rate limit `actual_default` to security policy",
+               "Name": "Test: User can add rate limit `action_default` to security policy `test-sp`",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -107,7 +107,7 @@
                }
             },
             {
-               "Name":"Create new server group 'test.site' ",
+               "Name": "Test: Create new server group 'test.site' ",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -156,7 +156,7 @@
                "Skip":false
             },
             {
-               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 1 to rate limit `action_default`",
                "Skip": false,
                "API":
                {
@@ -180,7 +180,7 @@
                }
             },
             {
-               "Name": "Send Traffic 2 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 2 to rate limit `action_default`",
                "Skip": false,
                "API":
                {
@@ -204,7 +204,7 @@
                }
             },
             {
-               "Name":"User can detach rate limit `action_default` from security policy",
+               "Name": "Test: User can detach rate limit `action_default` from security policy `test-sp`",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -249,7 +249,7 @@
                "Skip":false
             },
             {
-               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 1 to rate limit `action_default` after detach from security policy",
                "Skip": false,
                "API":
                {
@@ -273,7 +273,7 @@
                }
             },
             {
-               "Name": "Send Traffic 2 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 2 to rate limit `action_default` after detach from security policy",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -298,7 +298,7 @@
                "Skip":false
             },
             {
-               "Name":"Get Logs",
+               "Name":"Test: Get Logs with rate limits threshold = 1",
                "Skip":false,
                "API":{
                   "Base":"logs",
@@ -370,11 +370,11 @@
          ]
       },
       {
-         "Name": "Set `Number of events` to zero",
+         "Name": "Step 2: Set `Number of events` = 0",
          "Skip": false,
          "Steps": [
             {
-               "Name": "User can update the rate limit with name `action_default`",
+               "Name": "Test: User can update the rate limit `action_default` with `Number of events` = 0",
                "Skip": false,
                "GenerateID": false,
                "API": {
@@ -435,7 +435,7 @@
                }
             },
             {
-               "Name":"User can add rate limit 'actual_default'to security policy",
+               "Name":"Test: User can add rate limit 'action_default' to security policy",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -480,7 +480,7 @@
                "Skip": false
             },
             {
-               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 1 to rate limit `action_default`",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -501,7 +501,7 @@
                }
             },
             {
-               "Name":"User can detach rate limit `action_default` from security policy",
+               "Name": "Test: User can detach rate limit `action_default` from security policy",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -546,7 +546,7 @@
                "Skip": false
             },
             {
-               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 1 to rate limit `action_default` after detach from security policy",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -571,7 +571,7 @@
                "Skip":false
             },
             {
-               "Name":"Get Logs",
+               "Name":"Test: Get Logs with rate limits threshold = 0",
                "Skip":false,
                "API":{
                   "Base":"logs",
@@ -639,11 +639,11 @@
          ]
       },
       {
-         "Name": "Check Ban",
+         "Name": "Step 3: Check Ban",
          "Skip": false,
          "Steps": [
             {
-               "Name": "User can update the rate limit with name `action_default`",
+               "Name": "Test: User can update the rate limit `action_default` with Ban params 2 minutes",
                "Skip": false,
                "GenerateID": false,
                "API": {
@@ -712,7 +712,7 @@
                }
             },
             {
-               "Name":"User can add rate limit 'actual_default'to security policy",
+               "Name":"Test: User can add rate limit 'action_default' to security policy",
                "Skip":false,
                "GenerateID":false,
                "API":{
@@ -757,7 +757,7 @@
                "Skip": false
             },
             {
-               "Name": "Send Traffic 1 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 1 to rate limit `action_default`",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -778,7 +778,7 @@
                }
             },
             {
-               "Name": "Send Traffic 2 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 2 to rate limit `action_default`",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -799,15 +799,11 @@
                }
             },
             {
-               "ID": "wait-for-publish",
+               "ID": "wait-1-minute",
                "Skip": false
             },
             {
-               "ID": "wait-for-publish",
-               "Skip": false
-            },
-            {
-               "Name": "Send Traffic 3 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 3 to rate limit `action_default`",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -827,16 +823,12 @@
                   "Text": "b''"
                }
             },
-             {
-               "ID": "wait-for-publish",
+            {
+               "ID": "wait-1-minute",
                "Skip": false
             },
             {
-               "ID": "wait-for-publish",
-               "Skip": false
-            },
-            {
-               "Name": "Send Traffic 4 to rate limit `action_default`",
+               "Name": "Test: Send Traffic 4 to rate limit `action_default`",
                "Skip": false,
                "API": {
                   "Base": "send-traffic",
@@ -861,7 +853,7 @@
                "Skip":false
             },
             {
-               "Name":"Get Logs",
+               "Name":"Test: Get rate limit`s logs with ban params",
                "Skip":false,
                "API":{
                   "Base":"logs",
