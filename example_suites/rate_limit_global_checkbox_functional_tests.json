@@ -1,0 +1,400 @@
+{
+  "Name": "Rate limit - 'Global' checkbox functional tests TA-1417",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Rate limit - with Global:active",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create Rate limit 'test-rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test-rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test-rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "true"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send traffic for rate limit to path /test-rl1 1",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-rl"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send traffic for rate limit to path /new 1",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/new"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Get log to verify tag 'limit-name:test-rl1'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "tags=\"status:471\", timestamp between @@NOW(-2minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:test-rl1"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Security Policy 'testSP'",
+          "Skip": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"testSP\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_security_policy\""
+              },
+              {
+                "Key": "session",
+                "Value": "[{\n\"attrs\":\"ip\"\n}]"
+              },
+              {
+                "Value": "[\n{\n\"id\": \"__default_entry__\",\n\"match\": \"/\",\n\"name\": \"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\": false,\n\"content_filter_active\": false,\n\"limit_ids\": [],\n\"cloud_functions\": []\n},\n{\n\"id\": \"d38c9d54e9eb\",\n\"match\": \"/new\",\n\"name\": \"testSP\",\n\"acl_profile\": \"__acldefault__\",\n\"content_filter_profile\": \"__defaultcontentfilter__\",\n\"backend_id\": \"__default__\",\n\"acl_active\": false,\n\"content_filter_active\": false,\n\"limit_ids\": [\"api_tester_cccbbbaaa\"],\n\"cloud_functions\": []\n}\n]",
+                "Key": "map"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send traffic for rate limit to path /test-rl1 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-rl"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send traffic for rate limit to path /new 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/new"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Get log to verify tag 'limit-name:test-rl1'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "tags=\"status:471\", timestamp between @@NOW(-2minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:test-rl1"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'test-rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "test-rl1/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test-rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test-rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "false"
+              },
+              {
+                "Key": "global",
+                "Value": "true"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send traffic for rate limit to path /test-rl1 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-rl"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send traffic for rate limit to path /new 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/new"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,191 @@
+{
+  "Name": "API facade tests",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Test: Planet APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "GET planet",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "planet",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "__default__"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "PUT planet",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "planet",
+            "Path": "__default__/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "204",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Server Group APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "POST server group with id:'server-group-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"server-group-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "PUT server group, set name:'server-group-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"server-group-test\""
+              },
+               {
+                "Key": "name",
+                "Value": "\"server-group-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "GET server group id:'server-group-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-test/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "GET all server groups",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": false,
+            "MultipleResults":
+              [
+                [
+                  {
+                    "Key": "id",
+                    "Value": "server-group-test"
+                  }
+                ]
+              ]
+          }
+        },
+        {
+          "Name": "DELETE server group id:'server-group-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-test/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-test"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
