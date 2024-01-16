@@ -1,0 +1,1692 @@
+{
+  "Name": "Rate Limit - Event condition TA-1312",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Rate Limit - Event condition",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl2'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl2\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl2\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl3'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl3\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl3\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "10"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\":\"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              },
+              {
+                "Key": "is_action_ban",
+                "Value": "true"
+              },
+              {
+                "Key": "ttl",
+                "Value": "120"
+              },
+              {
+                "Key": "tags",
+                "Value": " [\n\"my-test\"\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl4'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl4\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl4\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "60"
+              },
+              {
+                "Key": "threshold",
+                "Value": "4"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl5'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl5\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl5\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "20"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\":\"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-challenge\""
+              },
+              {
+                "Key": "is_action_ban",
+                "Value": "true"
+              },
+              {
+                "Key": "ttl",
+                "Value": "120"
+              },
+              {
+                "Key": "tags",
+                "Value": " [\n\"my-test\"\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl6'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl6\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl6\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "60"
+              },
+              {
+                "Key": "threshold",
+                "Value": "4"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl7'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl7\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl7\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "20"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\":\"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "is_action_ban",
+                "Value": "true"
+              },
+              {
+                "Key": "ttl",
+                "Value": "120"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl8'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl8\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl8\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "60"
+              },
+              {
+                "Key": "threshold",
+                "Value": "4"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              },
+              {
+                "Key": "tags",
+                "Value": " [\n\"my-test\"\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl9'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl9\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl9\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "20"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\":\"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "is_action_ban",
+                "Value": "true"
+              },
+              {
+                "Key": "ttl",
+                "Value": "120"
+              },
+              {
+                "Key": "tags",
+                "Value": " [\n\"my-test\"\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'rl10'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl10\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl10\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "60"
+              },
+              {
+                "Key": "threshold",
+                "Value": "4"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-challenge\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Security Policy 'testSP'",
+          "Skip": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"testSP\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_security_policy\""
+              },
+              {
+                "Key": "session",
+                "Value": "[{\n\"attrs\":\"ip\"\n}]"
+              },
+              {
+                "Key": "map",
+                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"rl1\",\n\"name\":\"rl1Path\",\n\"match\":\"/rl1\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\",\n\"rl2\"\n]\n},\n{\n\"id\":\"0586a73b55e6\",\n\"name\":\"rl3Path\",\n\"match\":\"/rl3\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl3\",\n\"rl4\"\n]\n},\n{\n\"id\":\"66264c0060a7\",\n\"name\":\"rl5Path\",\n\"match\":\"/rl5\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl5\",\n\"rl6\"\n]\n},\n{\n\"id\":\"09f7e239828b\",\n\"name\":\"rl7Path\",\n\"match\":\"/rl7\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl7\",\n\"rl8\"\n]\n},\n{\n\"id\":\"2d0e0e570a77\",\n\"name\":\"rl9Path\",\n\"match\":\"/rl9\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl9\",\n\"rl10\"\n]\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create server group 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "servergroup.template",
+            "Defaults": "servergroup.defaults",
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test_security_policy\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "test-site"
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl1 1",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl1 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 4",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 5",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 6",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 7",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl5 8",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl5 9",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl5 10",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "247",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl5 11",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "247",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl5 12",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl7 13",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl7"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl7 14",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl7"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl7 15",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl7"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl7 16",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl7"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl7 17",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl7"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl9 18",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl9"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl9 19",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl9"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl9 20",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl9"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl9 21",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl9"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl9 22",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl9"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl1/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-challenge\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl3'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl3/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl3\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl3\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl4'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "rl4/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl4\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl4\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl1 22",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl1 23",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl1"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 24",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /rl3 25",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/rl3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl1'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/rl1\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl1"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl2"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl1"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl2"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl3'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/rl3\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl3"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl4"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl3"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl5'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/rl5\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl5"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl6"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl7'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/rl7\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl7"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl8"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl7"
+              },
+              {
+                "Key": "data/results/2/tags/*",
+                "Value": "limit-name:rl7"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify tag 'limit-name:rl9'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/rl9\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl9"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl10"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl9"
+              },
+              {
+                "Key": "data/results/2/tags/*",
+                "Value": "limit-name:rl9"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
