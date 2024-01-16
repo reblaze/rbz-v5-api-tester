@@ -7,11 +7,11 @@
       "Skip": false,
       "Steps": [
         {
-          "Name": "GET planet",
+          "Name": "Step: GET planet id:'__default__'",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "planet",
+            "Base": "planets",
             "Path": ""
           },
           "Method": "GET",
@@ -28,27 +28,32 @@
           }
         },
         {
-          "Name": "PUT planet",
+          "Name": "Step:PUT planet id:'__default__'",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "planet",
+            "Base": "planets",
             "Path": "__default__/"
           },
           "Method": "PUT",
           "Payload": {
             "Params": [
               {
-                "Key": "id",
-                "Value": "\"__default__\""
+                "Key": "trusted_nets",
+                "Value": "[\n{\n\"address\": \"1.1.1.1\",\n\"comment\": \"test\"\n}\n]"
               }
             ]
           },
           "Expected": {
-            "Code": "204",
-            "Type": "content",
+            "Code": "200",
+            "Type": "json",
             "Single": true,
-            "Text": "b''"
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
           }
         }
       ]
@@ -58,7 +63,7 @@
       "Skip": false,
       "Steps": [
         {
-          "Name": "POST server group with id:'server-group-test'",
+          "Name": "Step:POST server group with id:'server-group-test'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -87,14 +92,14 @@
           }
         },
         {
-          "Name": "PUT server group, set name:'server-group-test'",
+          "Name": "Step:PUT server group id:'server-group-test', set name:'server-group-test'",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "server-group",
             "Path": "server-group-test/"
           },
-          "Method": "POST",
+          "Method": "PUT",
           "Payload": {
             "Params": [
               {
@@ -108,14 +113,19 @@
             ]
           },
          "Expected": {
-            "Code": "204",
-            "Type": "content",
+            "Code": "200",
+            "Type": "json",
             "Single": true,
-            "Text": "b''"
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
           }
         },
         {
-          "Name": "GET server group id:'server-group-test'",
+          "Name": "Step:GET server group id:'server-group-test'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -136,11 +146,648 @@
           }
         },
         {
-          "Name": "GET all server groups",
+          "Name": "Step:GET all server groups",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "server-group",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult":
+              [
+                {
+                    "Key": "items/[1]/id",
+                    "Value": "server-group-test"
+                }
+              ]
+          }
+        },
+        {
+          "Name": "Step:DELETE server group id:'server-group-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-test/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Proxy Template APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST proxy template with id:'proxy-template-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy-template-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"proxy-template-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy template id:'proxy-template-test', set name:'proxy-template-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy-template-test/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"proxy-template-test\""
+              },
+               {
+                "Key": "name",
+                "Value": "\"proxy-template-test\""
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET proxy template id:'proxy-template-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy-template-test/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "proxy-template-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all proxy templates",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult":
+              [
+                {
+                    "Key": "items/[1]/id",
+                    "Value": "proxy-template-test"
+                }
+              ]
+          }
+        },
+        {
+          "Name": "Step:POST server group with id:'server-group-pt' and proxy template id:'proxy-template-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-pt/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"server-group-pt\""
+              },
+              {
+                "Key": "proxy_template",
+                "Value": "\"proxy-template-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-pt"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET proxy template id:'proxy-template-test' links",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy-template-test/links"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": false,
+            "MultipleResults":
+              [
+                [
+                  {
+                    "Key": "id",
+                    "Value": "server-group-pt"
+                  }
+                ]
+              ]
+          }
+        },
+        {
+          "Name": "Step:DELETE proxy template id:'proxy-template-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy-template-test/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "path",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+      {
+      "Name": "Test: Dynamic rule APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST dynamic rule with id:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "dynamic-rule-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "dynamic-rule-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT dynamic rule id:'dynamic-rule-test', set name:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "dynamic-rule-test/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"dynamic-rule-test\""
+              },
+               {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET dynamic rule id:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "dynamic-rule-test/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "dynamic-rule-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all dynamic rules",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult":
+              [
+                {
+                    "Key": "items/[0]/id",
+                    "Value": "dynamic-rule-test"
+                }
+              ]
+          }
+        },
+        {
+          "Name": "Step:DELETE dynamic rule id:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "dynamic-rule-test/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+      {
+      "Name": "Test: Mobile SDK APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST mobile sdk with id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "mobile-sdks",
+            "Path": "mobile-sdk-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"mobile-sdk-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "mobile-sdk-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT mobile sdk id:'mobile-sdk-test', set name:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "mobile-sdks",
+            "Path": "mobile-sdk-test/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"mobile-sdk-test\""
+              },
+               {
+                "Key": "name",
+                "Value": "\"mobile-sdk-test\""
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET mobile sdk id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "mobile-sdks",
+            "Path": "mobile-sdk-test/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "mobile-sdk-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all mobile sdks",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "mobile-sdks",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult":
+              [
+                {
+                    "Key": "items/[0]/id",
+                    "Value": "mobile-sdk-test"
+                }
+              ]
+          }
+        },
+        {
+          "Name": "Step:POST server group with id:'server-group-ms' and proxy template id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "server-group-ms/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"server-group-ms\""
+              },
+              {
+                "Key": "mobile_sdk",
+                "Value": "\"mobile-sdk-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-ms"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET mobile sdk id:'mobile-sdk-test' links",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "mobile-sdks",
+            "Path": "mobile-sdk-test/links"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": false,
+            "MultipleResults":
+              [
+                [
+                  {
+                    "Key": "id",
+                    "Value": "server-group-ms"
+                  }
+                ]
+              ]
+          }
+        },
+        {
+          "Name": "Step:DELETE mobile sdk id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "mobile-sdks",
+            "Path": "mobile-sdk-test/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Certificate APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST certificate with id:'certificate-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"certificate-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "certificate-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT certificate id:'certificate-test', set le_auto_replace=false",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-test?le_auto_renew=false&le_auto_replace=false&replace_cert_id=certificate-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"certificate-test\""
+              },
+              {
+                "Key": "le_auto_replace",
+                "Value": "false"
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "204",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Step:GET certificate id:'certificate-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-test/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "certificate-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all certificates",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
             "Path": ""
           },
           "Method": "GET",
@@ -153,19 +800,97 @@
                 [
                   {
                     "Key": "id",
-                    "Value": "server-group-test"
+                    "Value": "certificate-test"
                   }
                 ]
               ]
           }
         },
         {
-          "Name": "DELETE server group id:'server-group-test'",
+          "Name": "Step:POST server group with id:'server-group-cert' and certificate id:'certificate-test'",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "server-group",
-            "Path": "server-group-test/"
+            "Path": "server-group-cert/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"server-group-ms\""
+              },
+              {
+                "Key": "ssl_certificate",
+                "Value": "\"certificate-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-cert"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET certificate id:'certificate-test' links",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-test/links"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": false,
+            "MultipleResults":
+              [
+                [
+                  {
+                    "Key": "id",
+                    "Value": "server-group-cert"
+                  }
+                ]
+              ]
+          }
+        },
+        {
+          "Name": "Step:GET certificate id:'certificate-test' pfx",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-test/pfx"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "certificate-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE certificate id:'certificate-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-test/"
           },
           "Method": "DELETE",
           "Expected": {
@@ -173,6 +898,327 @@
             "Type": "content",
             "Single": true,
             "Text": "b''"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Load balancer APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:GET all load balancers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "load-balancers",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": ""
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST certificate with id:'certificate-lb'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "certificates",
+            "Path": "certificate-lb/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"certificate-lb\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "certificate-lb"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT certificate with id:'certificate-lb'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "load-balancers",
+            "Path": "@@planet@@-euw3-lb-prod-443/certificates/certificate-lb"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+               {
+                "Key": "name",
+                "Value": "\"lb-id\""
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE certificate id:'certificate-lb'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "load-balancers",
+            "Path": "lb-id/certificates"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Backend APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST backend with id:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": "backend-test/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT backend id:'backend-test', set name:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": "backend-test/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              },
+               {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET backend id:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": "backend-test/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all backend services",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult":
+              [
+                {
+                    "Key": "items/[0]/id",
+                    "Value": "backend-test"
+                }
+              ]
+          }
+        },
+        {
+          "Name": "Step:DELETE backend id:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": "backend-test/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT backend services doc",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              },
+               {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+         "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE backend services doc",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST backend services doc",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              }
+            ]
           }
         }
       ]
