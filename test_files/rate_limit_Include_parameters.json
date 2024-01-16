@@ -272,7 +272,7 @@
           "Skip": false
         },
         {
-          "Name": "Send Traffic using GET method to path /test 1",
+          "Name": "Send Traffic using GET method to path /rl1 1",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -297,7 +297,7 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /test 2",
+          "Name": "Send Traffic using GET method to path /rl1 2",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -322,7 +322,7 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /test 3",
+          "Name": "Send Traffic using GET method to path /rl1 3",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -347,7 +347,7 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /test 4",
+          "Name": "Send Traffic using GET method to path /rl1 4",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -372,7 +372,7 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /test 5",
+          "Name": "Send Traffic using GET method to path /rl2 5",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -397,7 +397,7 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /test 6",
+          "Name": "Send Traffic using GET method to path /rl2 6",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -426,6 +426,48 @@
           "Skip": false
         },
         {
+          "Name": "Assert logs for tag 'limit-name:rl2'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path = \"/rl2\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:rl2"
+              }
+            ]
+          }
+        },
+        {
           "Name": "Assert logs for tag 'limit-name:rl1'",
           "Skip": false,
           "API": {
@@ -446,7 +488,7 @@
             },
             {
               "Key": "filters",
-              "Value": "tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path = \"/rl1\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -461,8 +503,8 @@
             ],
             "SingleResult": [
               {
-                "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl2"
+                "Key": "data/results/1/tags/*",
+                "Value": "limit-name:rl1"
               }
             ]
           }
