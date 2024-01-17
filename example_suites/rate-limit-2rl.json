@@ -1,13 +1,13 @@
 {
-  "Name": "Rate Limit - Event condition TA-1312",
+  "Name": "Rate Limit - 2 rl TA-1312",
   "Skip": false,
   "Tests": [
     {
-      "Name": "Rate Limit - Event condition",
+      "Name": "Rate Limit - 2 rl",
       "Skip": false,
       "Steps": [
         {
-          "Name": "Create Rate limit 'rl1'",
+          "Name": "Create Rate limit 'step1-monitor'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -19,11 +19,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl1\""
+                "Value": "\"step1-monitor\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl1\""
+                "Value": "\"step1-monitor\""
               },
               {
                 "Key": "active",
@@ -64,7 +64,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl2'",
+          "Name": "Create Rate limit 'step1-block'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -76,11 +76,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl2\""
+                "Value": "\"step1-block\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl2\""
+                "Value": "\"step1-block\""
               },
               {
                 "Key": "active",
@@ -121,7 +121,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl3'",
+          "Name": "Create Rate limit 'step2-challenge'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -133,11 +133,239 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl3\""
+                "Value": "\"step2-challenge\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl3\""
+                "Value": "\"step2-challenge\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-challenge\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'step2-block'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"step2-block\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"step2-block\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'step3-block1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"step3-block1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"step3-block1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'step3-block2'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"step3-block2\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"step3-block2\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "15"
+              },
+              {
+                "Key": "threshold",
+                "Value": "1"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Rate limit 'step4-ban-monitor'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"step4-ban-monitor\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"step4-ban-monitor\""
               },
               {
                 "Key": "active",
@@ -190,7 +418,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl4'",
+          "Name": "Create Rate limit 'step4-block'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -202,11 +430,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl4\""
+                "Value": "\"step4-block\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl4\""
+                "Value": "\"step4-block\""
               },
               {
                 "Key": "active",
@@ -243,7 +471,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl5'",
+          "Name": "Create Rate limit 'step5-ban-challenge'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -255,11 +483,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl5\""
+                "Value": "\"step5-ban-challenge\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl5\""
+                "Value": "\"step5-ban-challenge\""
               },
               {
                 "Key": "active",
@@ -312,7 +540,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl6'",
+          "Name": "Create Rate limit 'step5-block'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -324,11 +552,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl6\""
+                "Value": "\"step5-block\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl6\""
+                "Value": "\"step5-block\""
               },
               {
                 "Key": "active",
@@ -365,7 +593,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl7'",
+          "Name": "Create Rate limit 'step6-ban-block'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -377,11 +605,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl7\""
+                "Value": "\"step6-ban-block\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl7\""
+                "Value": "\"step6-ban-block\""
               },
               {
                 "Key": "active",
@@ -430,7 +658,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl8'",
+          "Name": "Create Rate limit 'step6-monitor'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -442,11 +670,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl8\""
+                "Value": "\"step6-monitor\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl8\""
+                "Value": "\"step6-monitor\""
               },
               {
                 "Key": "active",
@@ -487,7 +715,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl9'",
+          "Name": "Create Rate limit 'step7-ban-block'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -499,11 +727,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl9\""
+                "Value": "\"step7-ban-block\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl9\""
+                "Value": "\"step7-ban-block\""
               },
               {
                 "Key": "active",
@@ -556,7 +784,7 @@
           }
         },
         {
-          "Name": "Create Rate limit 'rl10'",
+          "Name": "Create Rate limit 'step7-challenge'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -568,11 +796,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"rl10\""
+                "Value": "\"step7-challenge\""
               },
               {
                 "Key": "id",
-                "Value": "\"rl10\""
+                "Value": "\"step7-challenge\""
               },
               {
                 "Key": "active",
@@ -632,7 +860,7 @@
               },
               {
                 "Key": "map",
-                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"rl1\",\n\"name\":\"rl1Path\",\n\"match\":\"/rl1\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\",\n\"rl2\"\n]\n},\n{\n\"id\":\"0586a73b55e6\",\n\"name\":\"rl3Path\",\n\"match\":\"/rl3\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl3\",\n\"rl4\"\n]\n},\n{\n\"id\":\"66264c0060a7\",\n\"name\":\"rl5Path\",\n\"match\":\"/rl5\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl5\",\n\"rl6\"\n]\n},\n{\n\"id\":\"09f7e239828b\",\n\"name\":\"rl7Path\",\n\"match\":\"/rl7\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl7\",\n\"rl8\"\n]\n},\n{\n\"id\":\"2d0e0e570a77\",\n\"name\":\"rl9Path\",\n\"match\":\"/rl9\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":false,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl9\",\n\"rl10\"\n]\n}\n]"
+                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"d8a077aceec1\",\n\"name\":\"step1\",\n\"match\":\"/step1\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step1-block\",\n\"step1-monitor\"\n]\n},\n{\n\"id\":\"63444656b321\",\n\"name\":\"step2\",\n\"match\":\"/step2\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step2-block\",\n\"step2-challenge\"\n]\n},\n{\n\"id\":\"fc7ee586dffe\",\n\"name\":\"step3\",\n\"match\":\"/step3\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step3-block1\",\n\"step3-block2\"\n]\n},\n{\n\"id\":\"8f2369f8c3cb\",\n\"name\":\"step4\",\n\"match\":\"/step4\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step4-ban-monitor\",\n\"step4-block\"\n]\n},\n{\n\"id\":\"b34c23eccd23\",\n\"name\":\"step5\",\n\"match\":\"/step5\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step5-ban-challenge\",\n\"step5-block\"\n]\n},\n{\n\"id\":\"aa41ec8fbf67\",\n\"name\":\"step6\",\n\"match\":\"/step6\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step6-ban-block\",\n\"step6-monitor\"\n]\n},\n{\n\"id\":\"25fe0b2388d2\",\n\"name\":\"step7\",\n\"match\":\"/step7\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[\n\"step7-ban-block\",\n\"step7-challenge\"\n]\n}\n]"
               }
             ]
           },
@@ -700,11 +928,11 @@
           "Skip": false
         },
         {
-          "Name": "Send Traffic using GET method to path /rl1 1",
+          "Name": "Send Traffic using GET method to path /step1 1",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl1"
+            "Path": "/step1"
           },
           "Method": "GET",
           "Headers": [
@@ -721,11 +949,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl1 2",
+          "Name": "Send Traffic using GET method to path /step1 2",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl1"
+            "Path": "/step1"
           },
           "Method": "GET",
           "Headers": [
@@ -742,11 +970,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl3 3",
+          "Name": "Send Traffic using GET method to path /step2 22",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl3"
+            "Path": "/step2"
           },
           "Method": "GET",
           "Headers": [
@@ -763,74 +991,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl3 4",
+          "Name": "Send Traffic using GET method to path /step2 23",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl3"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl3 5",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl3"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl3 6",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl3"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl3 7",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl3"
+            "Path": "/step2"
           },
           "Method": "GET",
           "Headers": [
@@ -847,11 +1012,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl5 8",
+          "Name": "Send Traffic using GET method to path /step3 24",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl5"
+            "Path": "/step3"
           },
           "Method": "GET",
           "Headers": [
@@ -868,11 +1033,32 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl5 9",
+          "Name": "Send Traffic using GET method to path /step3 25",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl5"
+            "Path": "/step3"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step4 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step4"
           },
           "Method": "GET",
           "Headers": [
@@ -889,11 +1075,137 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl5 10",
+          "Name": "Send Traffic using GET method to path /step4 4",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl5"
+            "Path": "/step4"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step4 5",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step4"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step4 6",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step4"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step4 7",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step4"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step5 8",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step5 9",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step5"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /step5 10",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/step5"
           },
           "Method": "GET",
           "Headers": [
@@ -910,11 +1222,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl5 11",
+          "Name": "Send Traffic using GET method to path /step5 11",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl5"
+            "Path": "/step5"
           },
           "Method": "GET",
           "Headers": [
@@ -931,11 +1243,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl5 12",
+          "Name": "Send Traffic using GET method to path /step5 12",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl5"
+            "Path": "/step5"
           },
           "Method": "GET",
           "Headers": [
@@ -952,11 +1264,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl7 13",
+          "Name": "Send Traffic using GET method to path /step6 13",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl7"
+            "Path": "/step6"
           },
           "Method": "GET",
           "Headers": [
@@ -973,11 +1285,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl7 14",
+          "Name": "Send Traffic using GET method to path /step6 14",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl7"
+            "Path": "/step6"
           },
           "Method": "GET",
           "Headers": [
@@ -994,11 +1306,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl7 15",
+          "Name": "Send Traffic using GET method to path /step6 15",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl7"
+            "Path": "/step6"
           },
           "Method": "GET",
           "Headers": [
@@ -1015,11 +1327,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl7 16",
+          "Name": "Send Traffic using GET method to path /step6 16",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl7"
+            "Path": "/step6"
           },
           "Method": "GET",
           "Headers": [
@@ -1036,11 +1348,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl7 17",
+          "Name": "Send Traffic using GET method to path /step6 17",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl7"
+            "Path": "/step6"
           },
           "Method": "GET",
           "Headers": [
@@ -1057,11 +1369,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl9 18",
+          "Name": "Send Traffic using GET method to path /step7 18",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl9"
+            "Path": "/step7"
           },
           "Method": "GET",
           "Headers": [
@@ -1078,11 +1390,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl9 19",
+          "Name": "Send Traffic using GET method to path /step7 19",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl9"
+            "Path": "/step7"
           },
           "Method": "GET",
           "Headers": [
@@ -1099,11 +1411,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl9 20",
+          "Name": "Send Traffic using GET method to path /step7 20",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl9"
+            "Path": "/step7"
           },
           "Method": "GET",
           "Headers": [
@@ -1120,11 +1432,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl9 21",
+          "Name": "Send Traffic using GET method to path /step7 21",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl9"
+            "Path": "/step7"
           },
           "Method": "GET",
           "Headers": [
@@ -1141,274 +1453,11 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /rl9 22",
+          "Name": "Send Traffic using GET method to path /step7 22",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": "/rl9"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "471",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Edit Rate limit 'rl1'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "rate-limit",
-            "Path": "rl1/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"rl1\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"rl1\""
-              },
-              {
-                "Key": "active",
-                "Value": "true"
-              },
-              {
-                "Key": "global",
-                "Value": "false"
-              },
-              {
-                "Key": "timeframe",
-                "Value": "15"
-              },
-              {
-                "Key": "threshold",
-                "Value": "1"
-              },
-              {
-                "Key": "key",
-                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-challenge\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Edit Rate limit 'rl3'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "rate-limit",
-            "Path": "rl3/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"rl3\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"rl3\""
-              },
-              {
-                "Key": "active",
-                "Value": "true"
-              },
-              {
-                "Key": "global",
-                "Value": "false"
-              },
-              {
-                "Key": "timeframe",
-                "Value": "15"
-              },
-              {
-                "Key": "threshold",
-                "Value": "1"
-              },
-              {
-                "Key": "key",
-                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-rate-limit-block\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Edit Rate limit 'rl4'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "rate-limit",
-            "Path": "rl4/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"rl4\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"rl4\""
-              },
-              {
-                "Key": "active",
-                "Value": "true"
-              },
-              {
-                "Key": "global",
-                "Value": "false"
-              },
-              {
-                "Key": "timeframe",
-                "Value": "15"
-              },
-              {
-                "Key": "threshold",
-                "Value": "1"
-              },
-              {
-                "Key": "key",
-                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-rate-limit-block\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl1 22",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl1"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl1 23",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl1"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "471",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl3 24",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl3"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "471",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /rl3 25",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/rl3"
+            "Path": "/step7"
           },
           "Method": "GET",
           "Headers": [
@@ -1429,7 +1478,7 @@
           "Skip": false
         },
         {
-          "Name": "Assert logs verify tag 'limit-name:rl1'",
+          "Name": "Assert logs verify path '/step1'",
           "Skip": false,
           "API": {
             "Base": "logs",
@@ -1449,7 +1498,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path=\"/rl1\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path=\"/step1\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -1465,25 +1514,17 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl1"
+                "Value": "limit-name:step1-block"
               },
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl2"
-              },
-              {
-                "Key": "data/results/1/tags/*",
-                "Value": "limit-name:rl1"
-              },
-              {
-                "Key": "data/results/1/tags/*",
-                "Value": "limit-name:rl2"
+                "Value": "limit-name:step1-monitor"
               }
             ]
           }
         },
         {
-          "Name": "Assert logs verify tag 'limit-name:rl3'",
+          "Name": "Assert logs verify path '/step2'",
           "Skip": false,
           "API": {
             "Base": "logs",
@@ -1503,7 +1544,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path=\"/rl3\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path=\"/step2\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -1519,21 +1560,17 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl3"
+                "Value": "limit-name:step2-block"
               },
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl4"
-              },
-              {
-                "Key": "data/results/1/tags/*",
-                "Value": "limit-name:rl3"
+                "Value": "limit-name:step2-challenge"
               }
             ]
           }
         },
         {
-          "Name": "Assert logs verify tag 'limit-name:rl5'",
+          "Name": "Assert logs verify path '/step3'",
           "Skip": false,
           "API": {
             "Base": "logs",
@@ -1553,7 +1590,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path=\"/rl5\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path=\"/step3\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -1569,17 +1606,17 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl5"
+                "Value": "limit-name:step3-block1"
               },
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl6"
+                "Value": "limit-name:step3-block2"
               }
             ]
           }
         },
         {
-          "Name": "Assert logs verify tag 'limit-name:rl7'",
+          "Name": "Assert logs verify path 'step4'",
           "Skip": false,
           "API": {
             "Base": "logs",
@@ -1599,7 +1636,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path=\"/rl7\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path=\"/step4\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -1615,25 +1652,117 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl7"
+                "Value": "limit-name:step4-ban-monitor"
               },
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl8"
+                "Value": "limit-name:step4-block"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify path 'step5'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/step5\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:step5-ban-challenge"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:step5-block"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs verify path 'step6'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=\"/step6\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:step6-ban-block"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "limit-name:step6-monitor"
               },
               {
                 "Key": "data/results/1/tags/*",
-                "Value": "limit-name:rl7"
+                "Value": "limit-name:step6-ban-block"
               },
               {
                 "Key": "data/results/2/tags/*",
-                "Value": "limit-name:rl7"
+                "Value": "limit-name:step6-ban-block"
               }
             ]
           }
         },
         {
-          "Name": "Assert logs verify tag 'limit-name:rl9'",
+          "Name": "Assert logs verify path 'step7'",
           "Skip": false,
           "API": {
             "Base": "logs",
@@ -1653,7 +1782,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path=\"/rl9\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path=\"/step7\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -1669,19 +1798,19 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl9"
+                "Value": "limit-name:step7-ban-block"
               },
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl10"
+                "Value": "limit-name:step7-challenge"
               },
               {
                 "Key": "data/results/1/tags/*",
-                "Value": "limit-name:rl9"
+                "Value": "limit-name:step7-ban-block"
               },
               {
                 "Key": "data/results/2/tags/*",
-                "Value": "limit-name:rl9"
+                "Value": "limit-name:step7-ban-block"
               }
             ]
           }
