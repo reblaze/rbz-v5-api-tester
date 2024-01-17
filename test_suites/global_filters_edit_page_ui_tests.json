@@ -1,0 +1,3420 @@
+{
+    "Name": "TA 1291 Global filters edit page UI tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create a global filter from the list page",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: delete global filter",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf1\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf1\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can delete global filter 'gf1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf1/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a global filter 'gf-source1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf-source1\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf-source1\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Update source of the global filter 'gf_source1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "gf-fetch",
+                        "Path": "?url=https://lists.blocklist.de/lists/strongips.txt"
+                    },
+                    "Method": "GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b'<!DOCTYPE html>\\n<html lang=\"en\">\\n  <head>\\n    <meta charset=\"UTF-8\">\\n    \\n    <link rel=\"icon\" type=\"image/png\" sizes=\"16x16\" href=\"/login_static/favicon-16x16-de84842a.png\">\\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\\n    <script src=\"https://www.google.com/recaptcha/api.js\" async defer></script>\\n    <script id=\"data-script\">\\n      \\n      \\n        planet_name=\"rbzdevdima1701\"\\n      \\n        customer_name=\"Reblaze Dev Team\"\\n      \\n      \\n        profiles=[{\"link\": \"reblaze-sso-okta-login\", \"title\": \"Okta Reblaze\", \"provider\": \"okta\"}]\\n      \\n        recaptchaSiteKey=\"stam\"\\n    </script>\\n    <title>Reblaze Login</title>\\n    <script type=\"module\" crossorigin src=\"/login_static/index-d7ff112a.js\"></script>\\n    <link rel=\"stylesheet\" href=\"/login_static/index-6dbd9d4c.css\">\\n  </head>\\n  <body>\\n    <div class=\"background-image\"></div>\\n    <div id=\"app\"></div>\\n    \\n  </body>\\n</html>'"
+                    }
+                },
+                {
+                    "Name": "Step: Verify global filter rule",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "/gf_source1"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf_source1"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf_source1"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "___"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can delete global filter 'gf-source1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf-source1/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot delete global filter 'API Discovery'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "rbz-api-discovery/"
+                    },
+                    "Method": "DELETE",
+
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Edit global filters",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf2'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf2\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf2\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add entries to the section global filter 'gf2'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf2/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf2\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf2\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change name of global filter 'gf2'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf2/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf2-changed\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf2\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a global filter 'gf_source2'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_source2\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_source2\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Update source of the global filter 'gf_source2'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "gf-fetch",
+                        "Path": "?url=https://lists.blocklist.de/lists/strongips.txt"
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "___",
+                            "Value": "___"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify global filter rule",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf_source1/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf_source1"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf_source1"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "___"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add entries to the section global filter 'gf_source2'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf_source2/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_source2\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_source2\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot change name of global filter 'gf_source2'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf_source2/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_source2_changed\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_source2\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Test": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add entries to the section global filter 'Applebot'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "rbz-applebot/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"Applebot\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rbz-applebot\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot change source global filter 'Applebot'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "rbz-applebot/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"Applebot\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rbz-applebot\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot change name of global filter 'Applebot'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "rbz-applebot/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"Applebot-changed\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rbz-applebot\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Test": "b''"
+                    }
+                }
+
+            ]
+        },
+        {
+            "Name": "Test 4: Global filter`s name field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a global filter with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"textname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"textname\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a global filter with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf3\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a global filter with the same name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"textname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf4\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'409 Conflict: entry with name textname already exists in document [globalfilters]'"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a global filter with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf5\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a global filter with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf6\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a global filter with space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\" \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf7\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User can create a global filter with leading name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"   leading\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf8\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify global filter`s name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf8/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "leading"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf8"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a global filter with trailing name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"trailing   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf9\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify global filter`s name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf9/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "trailing"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf9"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Tags field",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf10'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add `no tags` to the global filter `gf9`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add one tag to the global filter `gf10`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"one\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add several tags to the global filter `gf9`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"one\", \"two\", \"three\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add long tag to the global filter `gf10`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add tag with special chars to the global filter `gf10`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add a tag with two chars to the global filter `gf10`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"aa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add a tag with space chars to global filter `gf10`.",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can add to global filter `gf10` a tag with leading space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"  leading\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with leading space was trimmed",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf10"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf10"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['leading']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to global filter `gf10` a tag with trailing space char ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf10\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf10\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"trailing  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with trailing space was trimmed",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf10/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "gf10"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf10"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['trailing']"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Section",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf11'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf11\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add one section to the global filter `gf11`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf11/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": []}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add several section to the global filter `gf11`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf11/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"AND\", \"entries\": []}, {\"relation\": \"OR\", \"entries\": []}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add section in section to the global filter `gf11`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf11/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf11\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": []}]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Entry",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf12'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf12\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add one entry to the global filter `gf12`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf12/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"q\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add two entries to the global filter `gf12`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf12/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"q\"], [\"ip\", \"2.2.2.2\", \"w\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add one entry to the one section of the global filter `gf12`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf12/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add two entries to the section of the global filter `gf12`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf12/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf12\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test\", \"test\"], [\"path\", \"/new\", \"new\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Entry validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf13'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add valid value to ip of the global filter `gf13`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.2.3.4\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty value to ip of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.2.3.4\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty value to headers of the global filter `gf13`",
+                    "Skip":true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test\", \"\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty value to cookies of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"test\", \"\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty value to arguments of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test\", \"\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty name to headers of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"\", \"test\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty name to cookies of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"\", \"test\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add empty name to arguments of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"args\", [\"\", \"test\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add same entry to the same section of the global filter `gf13`",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test\", \"\"], [\"path\", \"/test\", \"\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can add capital name/value to the headers of the global filter `gf13`",
+                    "Skip":false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"NAME\", \"VALUE\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can verify capitalized header`s name/value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': [['headers', ['NAME', 'VALUE'], '']]}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add capital name/value to the cookies of the global filter `gf13`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"NAME\", \"VALUE\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can verify capitalized header`s name/value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': [['cookies', ['NAME', 'VALUE'], '']]}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add capital name/value to the arguments of the global filter `gf13`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"args\", [\"NAME\", \"VALUE\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can verify capitalized argument`s name/value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': [['args', ['NAME', 'VALUE'], '']]}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add entry with argument `d:<script>alert()</script>` to the global filter `gf13`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"args\", [\"d\", \"<script>alert()</script>\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can verify argument `d:<script>alert()</script>`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': [['args', ['d', '<script>alert()</script>'], '']]}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "User can add entry with argument `d:<select>`to the global filter `gf13`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf13\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"args\", [\"d\", \"<select>\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can verify argument `d:<select>`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf13/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf13"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': [['args', ['d', '<select>'], '']]}"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Relation",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf14'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create two sections with same type of the global filter `gf14`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": []}, {\"relation\": \"OR\", \"entries\": []}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create two sections with different type of the global filter `gf14`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"AND\", \"entries\": []}, {\"relation\": \"OR\", \"entries\": []}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: Description",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf15' with description",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf15\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf15\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"Global filter with description\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a global filter 'gf16' without description",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf16\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf16\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Action",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf16'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'action' to 'action-challenge'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf17/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {   "Key": "\"action\"",
+                                "Value": "\"action-challenge\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'action' to 'action-monitor'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf17/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {   "Key": "\"action\"",
+                                "Value": "\"action-monitor\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'action' to 'action-skip'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf17/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {   "Key": "\"action\"",
+                                "Value": "\"action-skip\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'action' to 'action-global-filter-block'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf17/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {   "Key": "\"action\"",
+                                "Value": "\"action-global-filter-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'action' to 'action-reblaze-feed-block'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf17/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {   "Key": "\"action\"",
+                                "Value": "\"action-reblaze-feed-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'action' to 'action-https-redirect'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf17/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf17\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf17\""
+                            },
+                            {   "Key": "\"action\"",
+                                "Value": "\"action-https-redirect\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12: Filter drop down",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf18'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'argument'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"args\", [\"/test\", \"test\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'asn'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"asn\", \"1\", \"Level 3 Parent, LLC\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'authority'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"authority\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"/test\", \"test\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'country'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [\n[\"country\", \"Ukraine\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"/test\", \"test\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'ip'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'method'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"method\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'company'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"company\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'path'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'securitypolicyentryname'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"securitypolicyentryname\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'query'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"query\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'region'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"region\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'securitypolicyname'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"securitypolicyname\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'subregion'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"subregion\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },{
+                    "Name": "Step: User can change 'filter' to 'tag'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"tag\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can change 'filter' to 'uri'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf18/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf18\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"uri\", \"/test\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
