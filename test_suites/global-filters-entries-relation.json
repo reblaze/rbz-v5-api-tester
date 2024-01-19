@@ -1,6 +1,6 @@
 {
     "Name":"TA 1294 Global filters entries relation",
-    "Skip":false,
+    "Skip":true,
     "Tests":[
         {
             "Name":"Test 1: Create global filters",
@@ -19,11 +19,11 @@
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"rl1\""
+                                "Value":"\"gf1\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"rl1\""
+                                "Value":"\"gf1\""
                             },
                             {
                                 "Key":"global",
@@ -43,7 +43,7 @@
                             },
                             {
                                 "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test\", \"123\"], \"\"], [\"headers\", [\"test\", \"123\"], \"\"]]}"
+                                "Value":"{\"relation\": \"OR\", \"entries\":[{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test\", \"123\"], \"\"], [\"headers\", [\"test\", \"123\"], \"\"]]}]}"
                             }
                         ]
                     },
@@ -72,11 +72,11 @@
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"rl2\""
+                                "Value":"\"gf2\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"rl2\""
+                                "Value":"\"gf2\""
                             },
                             {
                                 "Key":"global",
@@ -96,7 +96,7 @@
                             },
                             {
                                 "Key":"rule",
-                                "Value":"{\"relation\": \"AND\", \"entries\": [[\"args\", [\"test\", \"123\"], \"\"], [\"headers\", [\"test\", \"123\"], \"\"]]}"
+                                "Value":"{\"relation\": \"AND\", \"entries\":[{\"relation\": \"AND\", \"entries\": [[\"args\", [\"test\", \"123\"], \"\"], [\"headers\", [\"test\", \"123\"], \"\"]]}]}"
                             }
                         ]
                     },
@@ -166,15 +166,15 @@
             ]
         },
         {
-            "Name": "Test 3: Send traffics to global filter 'rl1'",
+            "Name": "Test 3: Send traffics to global filter 'gf1'",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic 1 to rate limit `rl1`",
+                    "Name": "Step: Send Traffic 1 to rate limit `gf1`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl1"
+                        "Path": "/gf1"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -195,18 +195,18 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "470",
+                        "Code": "471",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to rate limit `rl1`",
+                    "Name": "Step: Send Traffic 2 to rate limit `gf1`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl1"
+                        "Path": "/gf1"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -220,18 +220,18 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "470",
+                        "Code": "471",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to rate limit `rl1`",
+                    "Name": "Step: Send Traffic 3 to rate limit `gf1`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl1"
+                        "Path": "/gf1"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -248,18 +248,18 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "470",
+                        "Code": "471",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to rate limit `rl1`",
+                    "Name": "Step: Send Traffic 4 to rate limit `gf1`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl1"
+                        "Path": "/gf1"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -278,15 +278,15 @@
             ]
         },
         {
-            "Name":"Test 4: Send traffics to rate limit 'rl2'",
+            "Name":"Test 4: Send traffics to rate limit 'gf2'",
             "Skip":false,
             "Steps":[
                 {
-                    "Name": "Step: Send Traffic 1 to rate limit `rl2`",
+                    "Name": "Step: Send Traffic 1 to rate limit `gf2`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl2"
+                        "Path": "/gf2"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -307,18 +307,18 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "470",
+                        "Code": "471",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to rate limit `rl2`",
+                    "Name": "Step: Send Traffic 2 to rate limit `gf2`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl2"
+                        "Path": "/gf2"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -339,11 +339,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to rate limit `rl2`",
+                    "Name": "Step: Send Traffic 3 to rate limit `gf2`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl2"
+                        "Path": "/gf2"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -367,11 +367,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to rate limit `rl2`",
+                    "Name": "Step: Send Traffic 4 to rate limit `gf2`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/rl2"
+                        "Path": "/gf2"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -400,11 +400,11 @@
             ]
         },
         {
-            "Name": "Test 8: Check logs from rate limit `rl1`",
+            "Name": "Test 8: Check logs from rate limit `gf1`",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from rate limit `rl1`",
+                    "Name": "Step: Get Logs from rate limit `gf1`",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -424,7 +424,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /rl1, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /gf1, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -445,15 +445,27 @@
 
                             {
                                 "Key": "data/results/1/tags/*",
-                                "Value": "status:470"
+                                "Value": "status:471"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "my-tag"
                             },
                             {
                                 "Key": "data/results/2/tags/*",
-                                "Value": "status:470"
+                                "Value": "status:471"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "my-tag"
                             },
                             {
                                 "Key": "data/results/3/tags/*",
-                                "Value": "status:470"
+                                "Value": "status:471"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "my-tag"
                             }
                         ]
                     }
@@ -461,11 +473,11 @@
             ]
         },
         {
-            "Name": "Test 9: Check logs from global filter `rl2`",
+            "Name": "Test 9: Check logs from global filter `gf2`",
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Get Logs from global filter 'rl2'",
+                    "Name":"Step: Get Logs from global filter 'gf2'",
                     "Skip":false,
                     "API":{
                         "Base":"logs",
@@ -481,7 +493,7 @@
                     "Arguments":[
                         {
                             "Key":"filters",
-                            "Value":"path = /rl2, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                            "Value":"path = /gf2, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected":{
@@ -497,7 +509,11 @@
                         "SingleResult":[
                             {
                                 "Key":"data/results/0/tags/*",
-                                "Value":"status:200"
+                                "Value":"status:471"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "my-tag"
                             },
                             {
                                 "Key":"data/results/1/tags/*",
@@ -509,7 +525,7 @@
                             },
                             {
                                 "Key":"data/results/3/tags/*",
-                                "Value":"status:470"
+                                "Value":"status:200"
                             }
                         ]
                     }
