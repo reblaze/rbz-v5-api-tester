@@ -1,0 +1,115 @@
+{
+    "Name":"TA 1303 Global filter reblaze managed filters",
+    "Skip":false,
+    "Tests": [
+        {
+            "Name":"Test 1: Check global filter",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can check global filter 'Applebots'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":"rbz-applebot/"
+                    },
+                    "Method":"GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key":"name",
+                                "Value":"Applebots"
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"rbz-applebot"
+                            },
+                            {
+                                "Key":"active",
+                                "Value": true
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['apple-crawler']"
+                            },
+                            {
+                                "Key":"description",
+                                "Value": "Applebot is the web crawler for Apple. Products like Siri and Spotlight Suggestions use Applebot."
+                            },
+                            {
+                                "Key":"rule",
+                                "Value": "{'relation': 'OR', 'entries': [['ip', '17.121.112.0/23', 'applebot 0 0'], ['ip', '17.121.114.0/23', 'applebot 0 0'], ['ip', '17.121.116.0/23', 'applebot 0 0'], ['ip', '17.121.118.0/23', 'applebot 0 0'], ['ip', '17.121.120.0/23', 'applebot 0 0'], ['ip', '17.121.122.0/23', 'applebot 0 0'], ['ip', '17.121.124.0/23', 'applebot 0 0'], ['ip', '17.121.126.0/23', 'applebot 0 0'], ['ip', '17.22.237.0/24', 'applebot 0 0'], ['ip', '17.22.245.0/24', 'applebot 0 0'], ['ip', '17.22.253.0/24', 'applebot 0 0'], ['ip', '17.241.193.0/24', 'applebot 0 0'], ['ip', '17.241.200.0/24', 'applebot 0 0'], ['ip', '17.241.208.0/24', 'applebot 0 0'], ['ip', '17.241.219.0/24', 'applebot 0 0'], ['ip', '17.241.227.0/24', 'applebot 0 0'], ['ip', '17.241.75.0/24', 'applebot 0 0'], ['ip', '17.246.15.0/24', 'applebot 0 0'], ['ip', '17.246.19.0/24', 'applebot 0 0'], ['ip', '17.246.23.0/24', 'applebot 0 0'], ['ip', '17.58.100.0/23', 'applebot 0 0'], ['ip', '17.58.102.0/23', 'applebot 0 0'], ['ip', '17.58.106.0/24', 'applebot 0 0'], ['ip', '17.58.96.0/23', 'applebot 0 0'], ['ip', '17.58.98.0/23', 'applebot 0 0']]}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot change name of global filter 'Applebots'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "rbz-applebot/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key":"name",
+                                "Value":"\"Applebots_changed\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"rbz-applebot\""
+                            },
+                            {
+                                "Key":"source",
+                                "Value":"\"https://storage.googleapis.com/curiefense-pub-static/auto-acl-v2/rbz-applebot.json\""
+                            },
+                            {
+                                "Key":"mdate",
+                                "Value":"\"2024-01-18 07:50:44.675057\""
+                            },
+                            {
+                                "Key":"description",
+                                "Value":"\"Applebot is the web crawler for Apple. Products like Siri and Spotlight Suggestions use Applebot.\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-monitor\""
+                            },
+                            {
+                                "Key":"tags",
+                                "Value":"[\"apple-crawler\"]"
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"ip\",\"17.121.112.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.114.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.116.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.118.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.120.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.122.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.124.0/23\",\"applebot 0 0\"],[\"ip\",\"17.121.126.0/23\",\"applebot 0 0\"],[\"ip\",\"17.22.237.0/24\",\"applebot 0 0\"],[\"ip\",\"17.22.245.0/24\",\"applebot 0 0\"],[\"ip\",\"17.22.253.0/24\",\"applebot 0 0\"],[\"ip\",\"17.241.193.0/24\",\"applebot 0 0\"],[\"ip\",\"17.241.200.0/24\",\"applebot 0 0\"],[\"ip\",\"17.241.208.0/24\",\"applebot 0 0\"],[\"ip\",\"17.241.219.0/24\",\"applebot 0 0\"],[\"ip\",\"17.241.227.0/24\",\"applebot 0 0\"],[\"ip\",\"17.241.75.0/24\",\"applebot 0 0\"],[\"ip\",\"17.246.15.0/24\",\"applebot 0 0\"],[\"ip\",\"17.246.19.0/24\",\"applebot 0 0\"],[\"ip\",\"17.246.23.0/24\",\"applebot 0 0\"],[\"ip\",\"17.58.100.0/23\",\"applebot 0 0\"],[\"ip\",\"17.58.102.0/23\",\"applebot 0 0\"],[\"ip\",\"17.58.106.0/24\",\"applebot 0 0\"],[\"ip\",\"17.58.96.0/23\",\"applebot 0 0\"],[\"ip\",\"17.58.98.0/23\",\"applebot 0 0\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
