@@ -1,0 +1,224 @@
+{
+  "Name": "Global filters - functional tests for response and tags TA-1297",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Global filters - functional tests for response and tags",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create Global Filter with Name: 'gl1'",
+          "Skip": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test_gf\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_gf\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\n\"my-test\"\n]"
+              },
+              {
+                "Key": "rule",
+                "Value": "{\n\"relation\":\"OR\",\n\"entries\":[\n[\n\"tag\",\n\"all\",\n\"y\"\n]\n]\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method 1",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Edit Global Filter with Name: 'gl1'",
+          "Skip": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": "test_gf/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test_gf\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_gf\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\n\"my-test1\",\n\"my-test2\",\n\"my-test3\"\n]"
+              },
+              {
+                "Key": "rule",
+                "Value": "{\n\"relation\":\"OR\",\n\"entries\":[\n[\n\"tag\",\n\"all\",\n\"y\"\n]\n]\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "default.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Assert logs for tags",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "timestamp between @@NOW(-5minutes)@@ and @@NOW(+5minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "my-test1"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "my-test2"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "my-test3"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "my-test"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
