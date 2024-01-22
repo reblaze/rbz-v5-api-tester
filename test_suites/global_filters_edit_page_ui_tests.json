@@ -1,10 +1,10 @@
 {
     "Name": "TA 1291 Global filters edit page UI tests",
-    "Skip": true,
+    "Skip": false,
     "Tests": [
         {
             "Name": "Test 1: Create a global filter from the list page",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf'",
@@ -176,14 +176,13 @@
                 },
                 {
                     "Name": "Step: User cannot delete global filter 'API Discovery'",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
                         "Path": "rbz-api-discovery/"
                     },
                     "Method": "DELETE",
-
                     "Expected": {
                         "Code": "400",
                         "Type": "json",
@@ -195,7 +194,7 @@
         },
         {
             "Name": "Test 3: Edit global filters",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf2'",
@@ -338,7 +337,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Update source of the global filter 'gf_source1'",
+                    "Name": "Step: Update source of the global filter 'gf_source2'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -439,6 +438,10 @@
                                 "Value": "\"rbz-deny-tor\""
                             },
                             {
+                                "Key": "source",
+                                "Value": "https://storage.googleapis.com/curiefense-pub-static/auto-acl-v2/rbz-deny-tor.json"
+                            },
+                            {
                                 "Key": "rule",
                                 "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
                             }
@@ -516,7 +519,7 @@
         },
         {
             "Name": "Test 4: Global filter`s name field validations",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: User can create a global filter with text name",
@@ -702,7 +705,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a global filter with leading name",
+                    "Name": "Step: User can create a global filter with leading space char",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -760,7 +763,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a global filter with trailing name",
+                    "Name": "Step: User can create a global filter with trailing space char",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -821,7 +824,7 @@
         },
         {
             "Name": "Test 5: Tags field",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf10'",
@@ -857,7 +860,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can add `no tags` to the global filter `gf9`",
+                    "Name": "Step: User can add `no tags` to the global filter `gf10`",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1240,7 +1243,7 @@
         },
         {
             "Name": "Test 6: Section",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf11'",
@@ -1296,8 +1299,8 @@
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": []}]}"
-                            }
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test\", \"test\"], \"test\"]]}]}"
+}
                         ]
                     },
                     "Expected": {
@@ -1333,7 +1336,7 @@
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"AND\", \"entries\": []}, {\"relation\": \"OR\", \"entries\": []}]}"
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"AND\", \"entries\": [[\"args\", [\"test1\", \"test1\"], \"test1\"]]}, {\"relation\": \"OR\", \"entries\": [[\"args\", [\"test2\", \"test2\"], \"test2\"]]}]}"
                             }
                         ]
                     },
@@ -1370,7 +1373,7 @@
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": []}]}]}"
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test\", \"test\"], \"test\"]]}]}]}"
                             }
                         ]
                     },
@@ -1390,7 +1393,7 @@
         },
         {
             "Name": "Test 7: Entry",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf12'",
@@ -1577,7 +1580,7 @@
         },
         {
             "Name": "Test 8: Entry validations",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf13'",
@@ -2239,7 +2242,7 @@
         },
         {
             "Name": "Test 9: Relation",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf14'",
@@ -2352,7 +2355,7 @@
         },
         {
             "Name": "Test 10: Description",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf15' with description",
@@ -2432,7 +2435,7 @@
         },
         {
             "Name": "Test 11: Action",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf16'",
@@ -2687,7 +2690,7 @@
         },
         {
             "Name": "Test 12: Filter drop down",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Create a global filter 'gf18'",
