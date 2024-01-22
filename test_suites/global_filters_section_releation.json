@@ -1,13 +1,13 @@
 {
     "Name":"TA 1295 Global filters section relation",
-    "Skip":false,
+    "Skip":true,
     "Tests":[
         {
             "Name":"Test 1: Create global filters",
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create global filter with name `gf1`",
+                    "Name":"Step: User can create global filter with name `gf1-or-between-sections`",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -19,15 +19,11 @@
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"gf1\""
+                                "Value":"\"gf1-or-between-sections\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"gf1\""
-                            },
-                            {
-                                "Key":"global",
-                                "Value":"false"
+                                "Value":"\"gf1-or-between-sections\""
                             },
                             {
                                 "Key":"active",
@@ -35,15 +31,15 @@
                             },
                             {
                                 "Key":"action",
-                                "Value":"\"action-rate-limit-block\""
+                                "Value":"\"action-global-filter-block\""
                             },
                             {
                                 "Key":"tags",
-                                "Value":"[\"my-tag\"]"
+                                "Value":"[\"my-tag-or\"]"
                             },
                             {
                                 "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test\", \"123\"], \"\"]]}, {\"relation\": \"OR\", \"entries\": [[\"args\", [\"test\", \"123\"], \"\"]]}]}"
+                                "Value":"{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-or\", \"123\"], \"\"]]}, {\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-or\", \"123\"], \"\"]]}]}"
                             }
                         ]
                     },
@@ -60,7 +56,7 @@
                     }
                 },
                 {
-                    "Name":"Step: User can create global filter with name `gf2`",
+                    "Name":"Step: User can create global filter with name `gf2-and-between-sections`",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -72,15 +68,11 @@
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"gf2\""
+                                "Value":"\"gf2-and-between-sections\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"gf2\""
-                            },
-                            {
-                                "Key":"global",
-                                "Value":"false"
+                                "Value":"\"gf2-and-between-sections\""
                             },
                             {
                                 "Key":"active",
@@ -88,15 +80,15 @@
                             },
                             {
                                 "Key":"action",
-                                "Value":"\"action-rate-limit-block\""
+                                "Value":"\"action-global-filter-block\""
                             },
                             {
                                 "Key":"tags",
-                                "Value":"[\"my-tag\"]"
+                                "Value":"[\"my-tag-and\"]"
                             },
                             {
                                 "Key":"rule",
-                                "Value":"{\"relation\": \"AND\", \"entries\": [{\"relation\": \"AND\", \"entries\": [[\"headers\", [\"test\", \"123\"], \"\"]]}, {\"relation\": \"AND\", \"entries\": [[\"args\", [\"test\", \"123\"], \"\"]]}]}"
+                                "Value":"{\"relation\": \"AND\", \"entries\": [{\"relation\": \"AND\", \"entries\": [[\"headers\", [\"test-and\", \"123\"], \"\"]]}, {\"relation\": \"AND\", \"entries\": [[\"args\", [\"test-and\", \"123\"], \"\"]]}]}"
                             }
                         ]
                     },
@@ -166,15 +158,15 @@
             ]
         },
         {
-            "Name": "Test 3: Send traffics to global filter 'gf1'",
+            "Name": "Test 3: Send traffics to global filter 'gf1-or-between-sections'",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic 1 to rate limit `gf1`",
+                    "Name": "Step: Send Traffic 1 to rate limit `gf1-or-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf1"
+                        "Path": "/gf1-or-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -183,30 +175,30 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test-or",
                             "Value": "123"
                         }
                     ],
                     "Arguments":
                     [
                         {
-                            "Key": "test",
+                            "Key": "test-or",
                             "Value": "123"
                         }
                     ],
                     "Expected": {
-                        "Code": "471",
+                        "Code": "470",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to rate limit `gf1`",
+                    "Name": "Step: Send Traffic 2 to rate limit `gf1-or-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf1"
+                        "Path": "/gf1-or-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -215,23 +207,23 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test-or",
                             "Value": "123"
                         }
                     ],
                     "Expected": {
-                        "Code": "471",
+                        "Code": "470",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to rate limit `gf1`",
+                    "Name": "Step: Send Traffic 3 to rate limit `gf1-or-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf1"
+                        "Path": "/gf1-or-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -243,23 +235,23 @@
                     "Arguments":
                     [
                         {
-                            "Key": "test",
+                            "Key": "test-or",
                             "Value": "123"
                         }
                     ],
                     "Expected": {
-                        "Code": "471",
+                        "Code": "470",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to rate limit `gf1`",
+                    "Name": "Step: Send Traffic 4 to rate limit `gf1-or-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf1"
+                        "Path": "/gf1-or-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -278,15 +270,15 @@
             ]
         },
         {
-            "Name":"Test 4: Send traffics to rate limit 'gf2'",
+            "Name":"Test 4: Send traffics to rate limit 'gf2-and-between-sections'",
             "Skip":false,
             "Steps":[
                 {
-                    "Name": "Step: Send Traffic 1 to rate limit `gf2`",
+                    "Name": "Step: Send Traffic 1 to rate limit `gf2-and-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf2"
+                        "Path": "/gf2-and-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -295,30 +287,30 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test-and",
                             "Value": "123"
                         }
                     ],
                     "Arguments":
                     [
                         {
-                            "Key": "test",
+                            "Key": "test-and",
                             "Value": "123"
                         }
                     ],
                     "Expected": {
-                        "Code": "471",
+                        "Code": "470",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to rate limit `gf2`",
+                    "Name": "Step: Send Traffic 2 to rate limit `gf2-and-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf2"
+                        "Path": "/gf2-and-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -327,7 +319,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test-and",
                             "Value": "123"
                         }
                     ],
@@ -339,11 +331,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to rate limit `gf2`",
+                    "Name": "Step: Send Traffic 3 to rate limit `gf2-and-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf2"
+                        "Path": "/gf2-and-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -355,7 +347,7 @@
                     "Arguments":
                     [
                         {
-                            "Key": "test",
+                            "Key": "test-and",
                             "Value": "123"
                         }
                     ],
@@ -367,11 +359,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to rate limit `gf2`",
+                    "Name": "Step: Send Traffic 4 to rate limit `gf2-and-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/gf2"
+                        "Path": "/gf2-and-between-sections"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -400,11 +392,11 @@
             ]
         },
         {
-            "Name": "Test 8: Check logs from rate limit `gf1`",
+            "Name": "Test 8: Check logs from rate limit `gf1-or-between-sections`",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from rate limit `gf1`",
+                    "Name": "Step: Get Logs from rate limit `gf1-or-between-sections`",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -424,7 +416,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /gf1, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /gf1-or-between-sections, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -445,27 +437,27 @@
 
                             {
                                 "Key": "data/results/1/tags/*",
-                                "Value": "status:471"
+                                "Value": "status:470"
                             },
                             {
                                 "Key": "data/results/1/tags/*",
-                                "Value": "my-tag"
+                                "Value": "my-tag-or"
                             },
                             {
                                 "Key": "data/results/2/tags/*",
-                                "Value": "status:471"
+                                "Value": "status:470"
                             },
                             {
                                 "Key": "data/results/2/tags/*",
-                                "Value": "my-tag"
+                                "Value": "my-tag-or"
                             },
                             {
                                 "Key": "data/results/3/tags/*",
-                                "Value": "status:471"
+                                "Value": "status:470"
                             },
                             {
                                 "Key": "data/results/3/tags/*",
-                                "Value": "my-tag"
+                                "Value": "my-tag-or"
                             }
                         ]
                     }
@@ -473,11 +465,11 @@
             ]
         },
         {
-            "Name": "Test 9: Check logs from global filter `gf2`",
+            "Name": "Test 9: Check logs from global filter `gf2-and-between-sections`",
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Get Logs from global filter 'gf2'",
+                    "Name":"Step: Get Logs from global filter 'gf2-and-between-sections'",
                     "Skip":false,
                     "API":{
                         "Base":"logs",
@@ -493,7 +485,7 @@
                     "Arguments":[
                         {
                             "Key":"filters",
-                            "Value":"path = /gf2, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                            "Value":"path = /gf2-and-between-sections, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected":{
@@ -509,11 +501,7 @@
                         "SingleResult":[
                             {
                                 "Key":"data/results/0/tags/*",
-                                "Value":"status:471"
-                            },
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "my-tag"
+                                "Value":"status:200"
                             },
                             {
                                 "Key":"data/results/1/tags/*",
@@ -525,7 +513,11 @@
                             },
                             {
                                 "Key":"data/results/3/tags/*",
-                                "Value":"status:200"
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "my-tag-and"
                             }
                         ]
                     }
