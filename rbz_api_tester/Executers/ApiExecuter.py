@@ -153,8 +153,15 @@ class ApiExecuter:
         self._add_arguments(params)
         final_api_url = f"https://{CommonParameters.planet_url}{api}"
         CommonParameters.logger.debug(f"\t\tCalling: {final_api_url}")
+
+
+        final_api_url = f"{final_api_url.rstrip('/')}"
+        """
         if len(params) > 0:
             final_api_url = f"{final_api_url.rstrip('/')}"
+        """
+
+
         response = requests.get(final_api_url, headers=headers, params=params)
         CommonParameters.logger.debug(f"\t\tResponse Code: {response.status_code}")
         CommonParameters.logger.debug(f"\t\tResponse: {response.text}")

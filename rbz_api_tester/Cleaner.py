@@ -59,7 +59,11 @@ class Cleaner:
     def execute(self):
         for api in self.apis:
             branch_api = api.replace("@@branch@@", CommonParameters.branch)
+
+            final_api_url = f"https://{CommonParameters.planet_url}{branch_api}"
+            """
             final_api_url = f"https://{CommonParameters.planet_url}{branch_api}/"
+            """
             res, ids = self.get_ids(final_api_url)
             if res:
                 for id in ids:
