@@ -428,6 +428,2365 @@
           }
         }
       ]
+    },
+    {
+      "Name": "Test: Dynamic rule APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST dynamic rule with id:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "/dynamic-rule-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"dynamic-rule-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT dynamic rule id:'dynamic-rule-test', set name:'dynamic-rule-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "/dynamic-rule-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"dynamic-rule-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET dynamic rule id:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "/dynamic-rule-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "dynamic-rule-test"
+              },
+              {
+                "Key": "name",
+                "Value": "dynamic-rule-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all dynamic rules",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "dynamic-rule-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE dynamic rule id:'dynamic-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "dynamic-rule",
+            "Path": "/dynamic-rule-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Backend APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST backend with id:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backend",
+            "Path": "/backend-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"backend-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT backend id:'backend-test', set name:'backend-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backend",
+            "Path": "/backend-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"backend-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET backend id:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backend",
+            "Path": "/backend-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              },
+              {
+                "Key": "name",
+                "Value": "backend-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all backend services",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "backend-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE backend id:'backend-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "backend",
+            "Path": "/backend-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT backend services doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE backend services doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST backend services doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "backends",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"backend-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Action APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST action with id:'action-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "action",
+            "Path": "/action-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"action-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"action-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT action id:'action-test', set name:'action-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "action",
+            "Path": "/action-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"action-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"action-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET action id:'action-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "action",
+            "Path": "/action-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "action-test"
+              },
+              {
+                "Key": "name",
+                "Value": "action-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all actions",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "actions",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "action-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE action id:'action-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "action",
+            "Path": "/action-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT actions doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "actions",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"action-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE actions doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "actions",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST actions doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "actions",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"action-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "action-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Rate Limit APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST rate-limit with id:'rate-limit-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "/rate-limit-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"rate-limit-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"rate-limit-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit id:'rate-limit-test', set name:'rate-limit-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "/rate-limit-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"rate-limit-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"rate-limit-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET rate-limit id:'rate-limit-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "/rate-limit-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "rate-limit-test"
+              },
+              {
+                "Key": "name",
+                "Value": "rate-limit-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all rate-limits",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limits",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "rate-limit-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE rate-limit id:'rate-limit-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": "/rate-limit-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limits doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limits",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"rate-limit-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE rate-limits doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limits",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limits doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limits",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"rate-limit-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "rate-limit-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Security Policy APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST security-policy with id:'security-policy-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": "/security-policy-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"security-policy-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"security-policy-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT security-policy id:'security-policy-test', set name:'security-policy-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": "/security-policy-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"security-policy-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"security-policy-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET security-policy id:'security-policy-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": "/security-policy-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "security-policy-test"
+              },
+              {
+                "Key": "name",
+                "Value": "security-policy-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all security-policys",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policies",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "security-policy-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE security-policy id:'security-policy-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": "/security-policy-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT security-policys doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policies",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"security-policy-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE security-policys doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policies",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST security-policys doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policies",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"security-policy-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "security-policy-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Content Filter Rule APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST content-filter-rule with id:'content-filter-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rule",
+            "Path": "/content-filter-rule-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-rule-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"content-filter-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule id:'content-filter-rule-test', set name:'content-filter-rule-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rule",
+            "Path": "/content-filter-rule-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-rule-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"content-filter-rule-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET content-filter-rule id:'content-filter-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rule",
+            "Path": "/content-filter-rule-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "content-filter-rule-test"
+              },
+              {
+                "Key": "name",
+                "Value": "content-filter-rule-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all content-filter-rules",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rules",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "content-filter-rule-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE content-filter-rule id:'content-filter-rule-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rule",
+            "Path": "/content-filter-rule-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rules doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rules",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-rule-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE content-filter-rules doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rules",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rules doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-rules",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "content-filter-rule-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Content Filter Profile APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST content-filter-profile with id:'content-filter-profile-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": "/content-filter-profile-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-profile-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"content-filter-profile-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-profile id:'content-filter-profile-test', set name:'content-filter-profile-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": "/content-filter-profile-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-profile-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"content-filter-profile-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET content-filter-profile id:'content-filter-profile-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": "/content-filter-profile-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "content-filter-profile-test"
+              },
+              {
+                "Key": "name",
+                "Value": "content-filter-profile-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all content-filter-profiles",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profiles",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "content-filter-profile-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE content-filter-profile id:'content-filter-profile-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": "/content-filter-profile-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-profiles doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profiles",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-profile-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE content-filter-profiles doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profiles",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-profiles doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profiles",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content-filter-profile-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "content-filter-profile-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: ACL Profile APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST acl-profile with id:'acl-profile-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "/acl-profile-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"acl-profile-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"acl-profile-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile id:'acl-profile-test', set name:'acl-profile-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "/acl-profile-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"acl-profile-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"acl-profile-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET acl-profile id:'acl-profile-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "/acl-profile-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "acl-profile-test"
+              },
+              {
+                "Key": "name",
+                "Value": "acl-profile-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all acl-profiles",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profiles",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "acl-profile-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE acl-profile id:'acl-profile-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "/acl-profile-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profiles doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profiles",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"acl-profile-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE acl-profiles doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profiles",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profiles doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profiles",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"acl-profile-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "acl-profile-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Global Filter APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST global-filter with id:'global-filter-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": "/global-filter-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"global-filter-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"global-filter-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT global-filter id:'global-filter-test', set name:'global-filter-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": "/global-filter-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"global-filter-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"global-filter-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET global-filter id:'global-filter-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": "/global-filter-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "global-filter-test"
+              },
+              {
+                "Key": "name",
+                "Value": "global-filter-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all global-filters",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filters",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "global-filter-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE global-filter id:'global-filter-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": "/global-filter-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT global-filters doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filters",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"global-filter-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE global-filters doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filters",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST global-filters doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "global-filters",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"global-filter-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "global-filter-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Flow Control Policy APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST flow-control-policy with id:'flow-control-policy-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policy",
+            "Path": "/flow-control-policy-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"flow-control-policy-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"flow-control-policy-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policy id:'flow-control-policy-test', set name:'flow-control-policy-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policy",
+            "Path": "/flow-control-policy-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"flow-control-policy-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"flow-control-policy-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET flow-control-policy id:'flow-control-policy-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policy",
+            "Path": "/flow-control-policy-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "flow-control-policy-test"
+              },
+              {
+                "Key": "name",
+                "Value": "flow-control-policy-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all flow-control-policies",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policies",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "flow-control-policy-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE flow-control-policy id:'flow-control-policy-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policy",
+            "Path": "/flow-control-policy-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policies",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"flow-control-policy-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE flow-control-policies doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policies",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "flow-control-policies",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"flow-control-policy-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "flow-control-policy-test"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Edge Function APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST edge-function with id:'edge-function-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-function",
+            "Path": "/edge-function-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"edge-function-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"edge-function-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT edge-function id:'edge-function-test', set name:'edge-function-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-function",
+            "Path": "/edge-function-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"edge-function-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"edge-function-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET edge-function id:'edge-function-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-function",
+            "Path": "/edge-function-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "edge-function-test"
+              },
+              {
+                "Key": "name",
+                "Value": "edge-function-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all edge-functions",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-functions",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/[0]/id",
+                "Value": "edge-function-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE edge-function id:'edge-function-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-function",
+            "Path": "/edge-function-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT edge-functions doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-functions",
+            "Path": ""
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"edge-function-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"dynamic-rule-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE edge-functions doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-functions",
+            "Path": ""
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST edge-functions doc",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "edge-functions",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"edge-function-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "edge-function-test"
+              }
+            ]
+          }
+        }
+      ]
     }
   ]
 }
