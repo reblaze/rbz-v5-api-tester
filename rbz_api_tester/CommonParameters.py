@@ -13,7 +13,9 @@ class CommonParameters:
     email: str
     logger: Logger
     api_mapping: str
+    cluster_mapping: str
     shared_steps: str
     control_cluster_name: str
     data_cluster_name: str
     broker_cluster_name: str
+    har_file: str
