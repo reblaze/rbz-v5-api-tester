@@ -45,7 +45,11 @@ class Cleaner:
                 "Content-Type": "application/json",
             }
 
+            final_url = f"{api}/{id}"
+
+            """
             final_url = f"{api}/e/{id}/"
+            """
             response = requests.delete(final_url, headers=headers)
             if response.status_code == 200 and response.json()["ok"]:
                 return True
