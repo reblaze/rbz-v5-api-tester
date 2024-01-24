@@ -31,7 +31,7 @@
               },
               {
                 "Key": "global",
-                "Value": "true"
+                "Value": "false"
               },
               {
                 "Key": "timeframe",
@@ -48,6 +48,123 @@
               {
                 "Key": "action",
                 "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },{
+          "Name": "Create Rate limit 'rl2'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl2\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl2\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "false"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "20"
+              },
+              {
+                "Key": "threshold",
+                "Value": "2"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Edit Rate limit 'rl3'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "rate-limit",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"rl3\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"rl3\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "global",
+                "Value": "true"
+              },
+              {
+                "Key": "timeframe",
+                "Value": "20"
+              },
+              {
+                "Key": "threshold",
+                "Value": "0"
+              },
+              {
+                "Key": "key",
+                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-rate-limit-block\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\"my-test\"]"
               }
             ]
           },
@@ -91,7 +208,7 @@
               },
               {
                 "Key": "rule",
-                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
+                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test-gf\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
               }
             ]
           },
@@ -105,77 +222,6 @@
                 "Value": true
               }
             ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 1",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 2",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 3",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "default.site"
-            }
-          ],
-          "Expected": {
-            "Code": "471",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
           }
         },
         {
@@ -201,7 +247,7 @@
               },
               {
                 "Key": "map",
-                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"bbed6cf8165f\",\n\"match\":\"/test\",\n\"name\":\"r1Path\",\n\"acl_profile\":\"__acldenyall__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
+                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"bbed6cf8165f\",\n\"match\":\"/test-gf\",\n\"name\":\"r1Path\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\"\n],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"2bc56a35a473\",\n\"match\":\"/test-acl\",\n\"name\":\"rl2Path\",\n\"acl_profile\":\"__acldenyall__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl2\"\n],\n\"cloud_functions\":[]\n}\n]"
               }
             ]
           },
@@ -261,77 +307,6 @@
           }
         },
         {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 4",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "472",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 5",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "472",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send Traffic using GET method to path /test 6",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "471",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
           "Name": "Create Flow Control with Name:'test'",
           "Skip": false,
           "GenerateID": false,
@@ -383,67 +358,6 @@
           }
         },
         {
-          "Name": "Edit Rate limit 'rl1'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "rate-limit",
-            "Path": "rl1/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"rl1\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"rl1\""
-              },
-              {
-                "Key": "active",
-                "Value": "true"
-              },
-              {
-                "Key": "global",
-                "Value": "true"
-              },
-              {
-                "Key": "timeframe",
-                "Value": "20"
-              },
-              {
-                "Key": "threshold",
-                "Value": "0"
-              },
-              {
-                "Key": "key",
-                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-rate-limit-block\""
-              },
-              {
-                "Key": "include",
-                "Value": "[\"my-test\"]"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
           "ID": "publish-changes",
           "Skip": false
         },
@@ -452,7 +366,133 @@
           "Skip": false
         },
         {
-          "Name": "Send Traffic using GET method to path /test 7",
+          "Name": "Send Traffic using GET method to path /test-gf 1",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-gf"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test-gf 2",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-gf"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test-gf 3",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-gf"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test-acl 4",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-acl"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "472",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test-acl 5",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-acl"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "472",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test-acl 6",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test-acl"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "471",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /flowa 7",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -473,7 +513,7 @@
           }
         },
         {
-          "Name": "Send Traffic using GET method to path /test 8",
+          "Name": "Send Traffic using GET method to path /flowb 8",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
@@ -534,7 +574,7 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl1"
+                "Value": "limit-name:rl3"
               },
               {
                 "Key": "data/results/0/tags/*",
@@ -564,7 +604,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path = \"/test\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path = \"/test-gf\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -578,10 +618,6 @@
               }
             ],
             "SingleResult": [
-              {
-                "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl1"
-              },
               {
                 "Key": "data/results/0/tags/*",
                 "Value": "limit-name:rl1"
@@ -610,7 +646,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path = \"/test\", tags=\"status:472\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path = \"/test-acl\", tags=\"status:472\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
