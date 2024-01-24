@@ -7,7 +7,7 @@
       "Skip": false,
       "Steps": [
         {
-          "Name": "Create Global Filter with Name: 'gl1'",
+          "Name": "Create Global Filter with Name: 'test_gf1'",
           "Skip": false,
           "API": {
             "Base": "global-filter",
@@ -18,11 +18,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"test_gf\""
+                "Value": "\"test_gf1\""
               },
               {
                 "Key": "id",
-                "Value": "\"test_gf\""
+                "Value": "\"test_gf1\""
               },
               {
                 "Key": "active",
@@ -38,7 +38,55 @@
               },
               {
                 "Key": "rule",
-                "Value": "{\n\"relation\":\"OR\",\n\"entries\":[\n[\n\"tag\",\n\"all\",\n\"y\"\n]\n]\n}"
+                "Value": "{\n\"relation\":\"AND\",\n\"entries\":[\n[\n\"tag\",\n\"all\",\n\"y\"\n],\n[\n\"path\",\n\"/one_tag\",\n\"y\"\n]\n]\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Global Filter with Name: 'test_gf2'",
+          "Skip": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test_gf2\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_gf2\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\n\"my-test1\",\n\"my-test2\",\n\"my-test3\"\n]"
+              },
+              {
+                "Key": "rule",
+                "Value": "{\n\"relation\":\"AND\",\n\"entries\":[\n[\n\"tag\",\n\"all\",\n\"y\"\n],\n[\n\"path\",\n\"/several_tags\",\n\"y\"\n]\n]\n}"
               }
             ]
           },
@@ -67,7 +115,7 @@
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": ""
+            "Path": "/one_tag"
           },
           "Method": "GET",
           "Headers": [
@@ -84,67 +132,11 @@
           }
         },
         {
-          "Name": "Edit Global Filter with Name: 'gl1'",
-          "Skip": false,
-          "API": {
-            "Base": "global-filter",
-            "Path": "test_gf/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"test_gf\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"test_gf\""
-              },
-              {
-                "Key": "active",
-                "Value": "true"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-monitor\""
-              },
-              {
-                "Key": "tags",
-                "Value": "[\n\"my-test1\",\n\"my-test2\",\n\"my-test3\"\n]"
-              },
-              {
-                "Key": "rule",
-                "Value": "{\n\"relation\":\"OR\",\n\"entries\":[\n[\n\"tag\",\n\"all\",\n\"y\"\n]\n]\n}"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
           "Name": "Send Traffic using GET method 2",
           "Skip": false,
           "API": {
             "Base": "send-traffic",
-            "Path": ""
+            "Path": "/several_tags"
           },
           "Method": "GET",
           "Headers": [
@@ -185,7 +177,7 @@
             },
             {
               "Key": "filters",
-              "Value": "timestamp between @@NOW(-5minutes)@@ and @@NOW(+5minutes)@@, branch=@@branch@@"
+              "Value": "path=/several_tags, timestamp between @@NOW(-5minutes)@@ and @@NOW(+5minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -210,9 +202,47 @@
               {
                 "Key": "data/results/0/tags/*",
                 "Value": "my-test3"
-              },
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs for tags",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path=/one_tag, timestamp between @@NOW(-5minutes)@@ and @@NOW(+5minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
               {
-                "Key": "data/results/1/tags/*",
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
                 "Value": "my-test"
               }
             ]
