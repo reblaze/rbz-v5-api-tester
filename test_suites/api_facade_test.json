@@ -2856,11 +2856,11 @@
         },
         {
           "Name": "Step:GET certificate id:'certificate-test'",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "certificate",
-            "Path": "certificate-test/"
+            "Path": "/certificate-test"
           },
           "Method": "GET",
           "Expected": {
@@ -2886,15 +2886,13 @@
           "Method": "GET",
           "Expected": {
             "Code": "200",
-            "Type": "json",
-            "Single": false,
-            "MultipleResults": [
-              [
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult": [
                 {
-                  "Key": "id",
+                  "Key": "items/1/id",
                   "Value": "certificate-test"
                 }
-              ]
             ]
           }
         },
@@ -2955,6 +2953,27 @@
                   "Value": "server-group-cert"
                 }
               ]
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE server group id:'server-group-ms'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "/server-group-ms"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
             ]
           }
         },
