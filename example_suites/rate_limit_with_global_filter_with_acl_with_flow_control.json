@@ -62,7 +62,8 @@
               }
             ]
           }
-        },{
+        },
+        {
           "Name": "Create Rate limit 'rl2'",
           "Skip": false,
           "GenerateID": false,
@@ -204,7 +205,7 @@
               },
               {
                 "Key": "action",
-                "Value": "\"global-filter block\""
+                "Value": "\"action-global-filter-block\""
               },
               {
                 "Key": "rule",
@@ -380,7 +381,7 @@
             }
           ],
           "Expected": {
-            "Code": "200",
+            "Code": "470",
             "Type": "content",
             "Single": true,
             "Text": "b''"
@@ -401,7 +402,7 @@
             }
           ],
           "Expected": {
-            "Code": "200",
+            "Code": "470",
             "Type": "content",
             "Single": true,
             "Text": "b''"
@@ -422,7 +423,7 @@
             }
           ],
           "Expected": {
-            "Code": "471",
+            "Code": "470",
             "Type": "content",
             "Single": true,
             "Text": "b''"
@@ -604,7 +605,7 @@
             },
             {
               "Key": "filters",
-              "Value": "path = \"/test-gf\", tags=\"status:471\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+              "Value": "path = \"/test-gf\", tags=\"status:470\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
             }
           ],
           "Expected": {
@@ -620,7 +621,15 @@
             "SingleResult": [
               {
                 "Key": "data/results/0/tags/*",
-                "Value": "limit-name:rl1"
+                "Value": "action:global-filter-block"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "action:global-filter-block"
+              },
+              {
+                "Key": "data/results/2/tags/*",
+                "Value": "action:global-filter-block"
               }
             ]
           }
