@@ -7,7 +7,7 @@
       "Skip": false,
       "Steps": [
         {
-          "Name": "Create Global Filter with Name: 'test_gf'",
+          "Name": "Create Global Filter with Name: 'test_gf' -Test 'AND' between sections with 'AND' between entries",
           "Skip": false,
           "API": {
             "Base": "global-filter",
@@ -34,7 +34,7 @@
               },
               {
                 "Key": "rule",
-                "Value": "{\n\"relation\":\"AND\",\n\"entries\":[\n[\n\"cookies\",\n[\n\"foo\",\n\"bar\"\n],\n\"y\"\n],\n[\n\"path\",\n\"/test\",\n\"y\"\n],\n[\n\"headers\",\n[\n\"test\",\n\"val\"\n],\n\"y\"\n]\n]\n}"
+                "Value": "{\"relation\":\"AND\",\"entries\":[{\"relation\":\"AND\",\"entries\":[[\"headers\",[\"test\",\"val\"],\"y\"],[\"method\",\"GET\",\"y\"]]},{\"relation\":\"AND\",\"entries\":[[\"cookies\",[\"foo\",\"bar\"],\"y\"],[\"path\",\"/test\",\"y\"]]}]}"
               }
             ]
           },
@@ -134,7 +134,7 @@
           }
         },
         {
-          "Name": "Edit Global Filter with Name: 'test_gf'",
+          "Name": "Edit Global Filter with Name: 'test_gf' -Test 'AND' between sections with 'OR' between entries",
           "Skip": false,
           "API": {
             "Base": "global-filter",
@@ -161,7 +161,7 @@
               },
               {
                 "Key": "rule",
-                "Value": "{\n\"relation\":\"OR\",\n\"entries\":[\n[\n\"cookies\",\n[\n\"foo\",\n\"bar\"\n],\n\"y\"\n],\n[\n\"path\",\n\"/test\",\n\"y\"\n],\n[\n\"headers\",\n[\n\"test\",\n\"val\"\n],\n\"y\"\n]\n]\n}"
+                "Value": "{\"relation\":\"AND\",\"entries\":[{\"relation\":\"OR\",\"entries\":[[\"headers\",[\"test\",\"val\"],\"y\"],[\"method\",\"GET\",\"y\"]]},{\"relation\":\"OR\",\"entries\":[[\"cookies\",[\"foo\",\"bar\"],\"y\"],[\"path\",\"/test\",\"y\"]]}]}"
               }
             ]
           },
@@ -253,7 +253,7 @@
           }
         },
         {
-          "Name": "Edit Global Filter with Name: 'test_gf' 2",
+          "Name": "Edit Global Filter with Name: 'test_gf' -Test 'OR' between sections with 'AND' between entries",
           "Skip": false,
           "API": {
             "Base": "global-filter",
@@ -368,6 +368,12 @@
               "Value": "foo=bar"
             }
           ],
+          "Arguments": [
+            {
+              "Key": "a",
+              "Value": "b"
+            }
+          ],
           "Expected": {
             "Code": "470",
             "Type": "content",
@@ -376,7 +382,7 @@
           }
         },
         {
-          "Name": "Edit Global Filter with Name: 'test_gf' 3",
+          "Name": "Edit Global Filter with Name: 'test_gf' -Test 'OR' between sections with 'OR' between entries",
           "Skip": false,
           "API": {
             "Base": "global-filter",
@@ -544,6 +550,10 @@
               {
                 "Key": "data/results/0/tags/*",
                 "Value": "action:global-filter-block"
+              },
+              {
+                "Key": "data/results/0/reason",
+                "Value": "Block - global filter - test_gf - [uri]"
               },
               {
                 "Key": "data/results/1/tags/*",
