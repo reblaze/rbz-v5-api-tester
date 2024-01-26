@@ -1,0 +1,5060 @@
+{
+    "Name":"TA 1300 Global test all types of entry",
+    "Skip":false,
+    "Tests":[
+        {
+         "Name": "Test 1: Add to trusted sources your IP.",
+         "Skip": false,
+         "Steps": [
+                 {
+                    "ID": "add-my-ip-to-trusted-source",
+                    "Skip": false
+                 }
+             ]
+        },
+        {
+            "Name":"Test 2: Create global filters",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create global filter with name `gf-args1`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-args1\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-args1\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-args1\", \"test-args-boo1\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"args-tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-args2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-args2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-args2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-args2\", \"!test-args-boo2\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"args-tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-args3`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-args3\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-args3\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-args3\", \"(1|2|3|4|5|6|7|8|9)\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"args-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-args4`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-args4\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-args4\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-args4\", \".+\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"args-tag4\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-asn`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-asn\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-asn\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"asn\", \"16276\", \"OVH SAS\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"asn-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-authority`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-authority\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-authority\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"authority\", \"test.site\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"authority-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-cookies1`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-cookies1\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-cookies1\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"test-cookies1\", \"test-cookies-boo1\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"cookies-tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-cookies2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-cookies2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-cookies2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"test-cookies2\", \"!test-cookies-boo2\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"cookies-tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-cookies3`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-cookies3\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-cookies3\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"test-cookies3\", \"(1|2|3|4|5|6|7|8|9)\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"cookies-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-cookies4`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-cookies4\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-cookies4\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"cookies\", [\"test-cookies4\", \".+\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"cookies-tag4\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-country`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-country\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-country\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"country\", \"Israel\", \" \"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"country-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-headers1`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-headers1\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-headers1\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-headers1\", \"test-headers-boo1\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"headers-tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-headers2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-headers2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-headers2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-headers2\", \"!test-headers-boo2\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"headers-tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-headers3`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-headers3\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-headers3\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-headers3\", \"(1|2|3|4|5|6|7|8|9)\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"headers-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-headers4`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-headers4\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-headers4\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-headers4\", \".+\"], \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"headers-tag4\"]"
+                            }
+
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-ip`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-ip\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-ip\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"1.0.0.0/8- 1.1.0.0/16- test by invalid CIDR (for example: 168.11.226.200/26- 11.22.33.1/16)\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"ip-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-method`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-method\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-method\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"method\", \"GET\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"method-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-company`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-company\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-company\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"company\", \"ASN16276 OVH SAS\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"company-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-path1`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-path1\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-path1\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"test-path1\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"path-tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-path2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-path2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-path2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"^/test-path2$\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"path-tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-path3`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-path3\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-path3\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"!test-path3\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"path-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-path4`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-path4\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-path4\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/.+\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"path-tag4\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-securitypolicyentryname`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-securitypolicyentryname\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-securitypolicyentryname\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"securitypolicyentryname\", \"test-mathing\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"securitypolicyentryname-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-query1`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-query1\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-query1\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"query\", \"data=a\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"query-tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-query2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-query2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-query2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"query\", \"data=(a|b|c)\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"query-tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-query3`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-query3\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-query3\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"query\", \"!data=a\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"query-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-region`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-region\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-region\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"region\", \"quebec\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"region-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-securitypolicyname`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-securitypolicyname\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-securitypolicyname\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"securitypolicyname\", \"test-gf-sp\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"securitypolicyname-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-subregion`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-subregion\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-subregion\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"subregion\", \"h3h\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"subregion-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-tag`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-tag\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-tag\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"tag\", \"ip:123-123-123-129\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"tag-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-uri1`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-uri1\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-uri1\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"uri\", \"path?a=b\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"uri-tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `gf-uri2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-uri2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-uri2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"uri\", \"(new|path|test)?a=b\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"uri-tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 3: Create Security policy ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\": \"__default_entry__\", \"match\": \"/\", \"name\": \"default\", \"acl_profile\": \"__acldefault__\", \"content_filter_profile\": \"__defaultcontentfilter__\", \"backend_id\": \"__default__\", \"acl_active\": false, \"content_filter_active\": false, \"limit_ids\": [], \"cloud_functions\": []}, {\"id\": \"8b7bae7e8abe\", \"match\": \"/test-mathing\", \"name\": \"test-mathing\", \"acl_profile\": \"__acldefault__\", \"content_filter_profile\": \"__defaultcontentfilter__\", \"backend_id\": \"__default__\", \"acl_active\": false, \"content_filter_active\": false, \"limit_ids\": [], \"cloud_functions\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Create server groups and publish changes",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test-gf.site' ",
+                    "Skip": false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-gf.site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test-gf.site\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name":"Test 5: Send traffics to global filter 'gf-args1'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-args1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"Test-args1",
+                            "Value":"test-args-boo1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-args1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test-args1",
+                            "Value":"test-args-boo1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 6: Send traffics to global filter 'gf-args2'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-args2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test-args2",
+                            "Value":"west-args-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-args2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test-args2",
+                            "Value":"test-args-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 7: Send traffics to global filter 'gf-args3'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-args3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test-args3",
+                            "Value":"123"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-args3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test-args3",
+                            "Value":"test-args-boo3"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 8: Send traffics to global filter 'gf-args4'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-args4`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-args4"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test-args2",
+                            "Value":"west-args-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 9: Send traffics to global filter 'gf-asn'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-asn`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-asn"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.47"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-asn`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-asn"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 10: Send traffics to global filter 'gf-authority'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-authority`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-authority"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-authority`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-authority"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 11: Send traffics to global filter 'gf-cookies1'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-cookies1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "Test-cookies1=test-cookies-boo1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-cookies1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "Test-cookies1=test-cookies-boo1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 12: Send traffics to global filter 'gf-cookies2'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-cookies2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "test-cookies2=west-cookies-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-cookies2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "test-cookies2=test-cookies-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 13: Send traffics to global filter 'gf-cookies3'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-cookies3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "test-cookies3=123"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-cookies3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "test-cookies3=test-cookies-boo3"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 14: Send traffics to global filter 'gf-cookies4'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-cookies4`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-cookies4"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "test-cookies4=west-cookies-boo4"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 15: Send traffics to global filter 'gf-country'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-country`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-country"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "212.59.70.214"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-country`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-country"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.124"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 16: Send traffics to global filter 'gf-headers1'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-headers1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Test-headers1",
+                            "Value": "test-headers-boo1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-headers1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-headers1",
+                            "Value": "test-headers-boo1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 17: Send traffics to global filter 'gf-headers2'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-headers2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-headers2",
+                            "Value": "west-headers-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-headers2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-headers2",
+                            "Value": "test-headers-boo2"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 18: Send traffics to global filter 'gf-headers3'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-headers3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-headers3",
+                            "Value": "123"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-headers3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-headers3",
+                            "Value": "test-headers-boo3"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 19: Send traffics to global filter 'gf-headers4'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-headers4`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-headers4"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-headers4",
+                            "Value": "test-headers-boo4"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 20: Send traffics to global filter 'gf-ip'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-ip`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-ip"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.125"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-ip`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-ip"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.126"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 21: Send traffics to global filter 'gf-method'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-method`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-method"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-method`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-method"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"a",
+                            "Value":"b"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 22: Send traffics to global filter 'gf-company'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-company`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-company"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.47"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-company`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-company"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.127"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 23: Send traffics to global filter 'gf-path1'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-path1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test-path1123"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-path1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/TEST_PATH1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3 to rate limit `gf-path1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 24: Send traffics to global filter 'gf-path2'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-path2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test-path2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-path2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test-path2123"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 25: Send traffics to global filter 'gf-path3'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-path3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test-path3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-path3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 26: Send traffics to global filter 'gf-path4'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-path4`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-path4123"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-path4`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 27: Send traffics to global filter 'gf-securitypolicyentryname'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-securitypolicyentryname`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test-mathing"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-securitypolicyentryname`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 28: Send traffics to global filter 'gf-query1'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-query1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-query1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3 to rate limit `gf-query1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 29: Send traffics to global filter 'gf-query2'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-query2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-query2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 30: Send traffics to global filter 'gf-query3'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-query3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-query3`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-query3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 31: Send traffics to global filter 'gf-region'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-region`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-region"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.48"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-region`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-region"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.128"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 32: Send traffics to global filter 'gf-tag'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-tag`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-tag"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-tag`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-tag"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.130"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 33: Send traffics to global filter 'gf-securitypolicyname'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-securitypolicyname`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-securitypolicyname"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-securitypolicyname`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-securitypolicyname"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 34: Send traffics to global filter 'gf-subregion'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-subregion`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-subregion"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-subregion`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-subregion"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 35: Send traffics to global filter 'gf-uri1'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-uri1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-uri1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-uri1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-uri1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3 to rate limit `gf-uri1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-uri1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 4 to rate limit `gf-uri1`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-uri1"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 36: Send traffics to global filter 'gf-uri2'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to rate limit `gf-uri2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-uri2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "149.56.44.49"
+                        }
+
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to rate limit `gf-uri2`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/gf-uri2"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.129"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 37: Wait for logs",
+            "Skip":false,
+            "Steps":[
+                {
+                    "ID":"wait-for-logs",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name":"Test 38: Check logs from global filter `gf-args1`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-args1'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-args1, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"args-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 39: Check logs from global filter `gf-args2`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-args2'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-args2, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"args-tag2"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 40: Check logs from global filter `gf-args3`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-args3'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-args3, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"args-tag3"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 41: Check logs from global filter `gf-args4`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-args4",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-args4, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"args-tag4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 42: Check logs from global filter `gf-asn`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-asn'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-asn, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"asn-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 43: Check logs from global filter `gf-authority`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-authority'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-authority, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"authority-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 44: Check logs from global filter `gf-cookies1`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-cookies1'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-cookies1, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"cookies-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 45: Check logs from global filter `gf-cookies2`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-cookies2'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-cookies2, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"cookies-tag2"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 46: Check logs from global filter `gf-cookies3`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-cookies3'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-cookies3, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"cookies-tag3"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 47: Check logs from global filter `gf-cookies4`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-cookies4'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-cookies4, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"cookies-tag4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 48: Check logs from global filter `gf-country`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-country'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-country, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"country-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 49: Check logs from global filter `gf-headers1`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-headers1'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-headers1, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"headers-tag1"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"headers-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 50: Check logs from global filter `gf-headers2`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-headers2'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-headers2, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"headers-tag2"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 51: Check logs from global filter `gf-headers3`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-headers3'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-headers3, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"headers-tag3"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 52: Check logs from global filter `gf-headers4`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-headers4'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-headers4, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"headers-tag4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 53: Check logs from global filter `gf-ip`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-ip'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-ip, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"ip-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 54: Check logs from global filter `gf-method`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-method'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-method, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"method-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 55: Check logs from global filter `gf-company`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-company'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-company, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"company-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 56: Check logs from global filter `gf-path1`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-path1'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-path1, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"path-tag1"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"path-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 57: Check logs from global filter `gf-path2`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-path2'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-path2, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"path-tag2"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 58: Check logs from global filter `gf-path3`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-path3'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-path3, status != 403, status != 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"path-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 59: Check logs from global filter `gf-path4`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-path4'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-path4, status != 403, status != 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"path-tag4"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 60: Check logs from global filter `gf-securitypolicyentryname`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-securitypolicyentryname'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-securitypolicyentryname, status != 403, status != 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"securitypolicyentryname-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 61: Check logs from global filter `gf-query1`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-query1'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-query1, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"query-tag1"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"query-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 62: Check logs from global filter `gf-query2`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-query2'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-query2, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"query-tag2"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 63: Check logs from global filter `gf-region`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-region'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-region, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"region-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 64: Check logs from global filter `gf-securitypolicyname`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-securitypolicyname'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-securitypolicyname, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"securitypolicyname-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 65: Check logs from global filter `gf-subregion`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-subregion'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-subregion, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"subregion-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 66: Check logs from global filter `gf-tag`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-tag'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-tag, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"tag-tag"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 67: Check logs from global filter `gf-uri1`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-uri1'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-uri1, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"uri-tag1"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/1/tags/*",
+                                "Value":"uri-tag1"
+                            },
+                            {
+                                "Key":"data/results/2/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/2/tags/*",
+                                "Value":"uri-tag1"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 68: Check logs from global filter `gf-uri2`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'gf-uri2'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /gf-uri2, status != 403, status != 200, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"uri-tag2"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
