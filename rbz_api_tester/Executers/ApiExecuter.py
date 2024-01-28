@@ -175,7 +175,12 @@ class ApiExecuter:
         self._add_custom_headers(headers)
         self._add_arguments(params)
         self._add_files(files)
+
+
         final_api_url = f"https://{api}"
+
+        final_api_url = f"{final_api_url.rstrip('/')}"
+
         CommonParameters.logger.debug(f"\t\tCalling: {final_api_url}")
         if method == "GET":
             response = requests.get(

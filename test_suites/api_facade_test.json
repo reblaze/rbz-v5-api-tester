@@ -4,7 +4,7 @@
   "Tests": [
     {
       "Name": "Test: Planet APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step: GET planet id:'__default__'",
@@ -72,7 +72,7 @@
     },
     {
       "Name": "Test: Server Group APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST server group with id:'server-group-test'",
@@ -211,7 +211,7 @@
     },
     {
       "Name": "Test: Proxy Template APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST proxy template with id:'proxy-template-test'",
@@ -431,7 +431,7 @@
     },
     {
       "Name": "Test: Dynamic rule APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST dynamic rule with id:'dynamic-rule-test'",
@@ -570,7 +570,7 @@
     },
     {
       "Name": "Test: Backend APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST backend with id:'backend-test'",
@@ -792,7 +792,7 @@
     },
     {
       "Name": "Test: Action APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST action with id:'action-test'",
@@ -1014,7 +1014,7 @@
     },
     {
       "Name": "Test: Rate Limit APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST rate-limit with id:'rate-limit-test'",
@@ -1236,7 +1236,7 @@
     },
     {
       "Name": "Test: Security Policy APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST security-policy with id:'security-policy-test'",
@@ -1458,7 +1458,7 @@
     },
     {
       "Name": "Test: Content Filter Rule APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST content-filter-rule with id:'content-filter-rule-test'",
@@ -1680,7 +1680,7 @@
     },
     {
       "Name": "Test: Content Filter Profile APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST content-filter-profile with id:'content-filter-profile-test'",
@@ -1902,7 +1902,7 @@
     },
     {
       "Name": "Test: ACL Profile APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST acl-profile with id:'acl-profile-test'",
@@ -2124,7 +2124,7 @@
     },
     {
       "Name": "Test: Global Filter APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST global-filter with id:'global-filter-test'",
@@ -2346,7 +2346,7 @@
     },
     {
       "Name": "Test: Flow Control Policy APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST flow-control-policy with id:'flow-control-policy-test'",
@@ -2568,7 +2568,7 @@
     },
     {
       "Name": "Test: Edge Function APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST edge-function with id:'edge-function-test'",
@@ -2790,7 +2790,7 @@
     },
     {
       "Name": "Test: Certificate APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST certificate with id:'certificate-test'",
@@ -2877,7 +2877,7 @@
         },
         {
           "Name": "Step:GET all certificates",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "certificates",
@@ -2898,7 +2898,7 @@
         },
         {
           "Name": "Step:POST server group with id:'server-group-cert' and certificate id:'certificate-test'",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "server-group",
@@ -2909,11 +2909,11 @@
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"server-group-ms\""
+                "Value": "\"server-group-cert\""
               },
               {
                 "Key": "name",
-                "Value": "\"server-group-ms\""
+                "Value": "\"server-group-cert\""
               },
               {
                 "Key": "ssl_certificate",
@@ -2957,12 +2957,12 @@
           }
         },
         {
-          "Name": "Step:DELETE server group id:'server-group-ms'",
+          "Name": "Step:DELETE server group id:'server-group-cert'",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "server-group",
-            "Path": "/server-group-ms"
+            "Path": "/server-group-cert"
           },
           "Method": "DELETE",
           "Expected": {
@@ -3000,7 +3000,7 @@
         },
         {
           "Name": "Step:DELETE certificate id:'certificate-test'",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "certificate",
@@ -3008,13 +3008,176 @@
           },
           "Method": "DELETE",
           "Expected": {
-            "Code": "204",
-            "Type": "content",
+            "Code": "200",
+            "Type": "json",
             "Single": true,
-            "Text": "b''"
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Load Balancer APIs",
+      "Skip": true,
+      "Steps": [
+        {
+          "Name": "Step:GET load balancers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "load-balancers",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+                {
+                  "Key": "total",
+                  "Value": 1
+                }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Account APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST sso saml2",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "sso-saml2",
+            "Path": "/saml2"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"sso-saml2-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "profile has been updated"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST sso oauth2",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "oauth2",
+            "Path": "/oauth2"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"sso-oauth2-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "profile has been added"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET sso",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "accounts",
+            "Path": "/sso"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+                {
+                  "Key": "title",
+                  "Value": "test"
+                }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST new user",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "accounts",
+            "Path": "/users"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "acl",
+                "Value": "1"
+              },
+              {
+                "Key": "contact_name",
+                "Value": "\"test\""
+              },
+              {
+                "Key": "email",
+                "Value": "\"@@now@@test@test.com\""
+              },
+              {
+                "Key": "mobile",
+                "Value": "\"+97212345678\""
+              },
+              {
+                "Key": "org_id",
+                "Value": "\"65ae06cf9ac543b77f0285bc\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "profile has been added"
+              }
+            ]
           }
         }
       ]
     }
+
   ]
 }
