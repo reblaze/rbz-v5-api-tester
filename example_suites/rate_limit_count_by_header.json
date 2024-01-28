@@ -1,5 +1,5 @@
 {
-    "Name":"TA 1305 Rate limit count by cookie",
+    "Name":"TA 1304 Rate limit count by header",
     "Skip":false,
     "Tests":[
         {
@@ -7,7 +7,7 @@
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create rate limit with name `rl_cookie_test`",
+                    "Name":"Step: User can create rate limit with name `rl_header_test`",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -19,11 +19,11 @@
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"rl_cookie_test\""
+                                "Value":"\"rl_header_test\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"rl_cookie_test\""
+                                "Value":"\"rl_header_test\""
                             },
                             {
                                 "Key":"global",
@@ -47,7 +47,7 @@
                             },
                             {
                                 "Key":"key",
-                                "Value":"[{\"cookies\":\"os\"}]"
+                                "Value":"[{\"headers\":\"os\"}]"
                             }
                         ]
                     },
@@ -104,64 +104,7 @@
                             },
                             {
                                 "Key":"key",
-                                "Value":"[{\"cookies\":\"os\"}]"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: User can create rate limit with name `rl_empty`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"rate-limit",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"name",
-                                "Value":"\"rl_empty\""
-                            },
-                            {
-                                "Key":"id",
-                                "Value":"\"rl_empty\""
-                            },
-                            {
-                                "Key":"global",
-                                "Value":"false"
-                            },
-                            {
-                                "Key":"active",
-                                "Value":"true"
-                            },
-                            {
-                                "Key":"threshold",
-                                "Value":"3"
-                            },
-                            {
-                                "Key":"timeframe",
-                                "Value":"15"
-                            },
-                            {
-                                "Key":"action",
-                                "Value":"\"action-rate-limit-block\""
-                            },
-                            {
-                                "Key":"key",
-                                "Value":"[{\"cookies\":\"os\"}]"
+                                "Value":"[{\"headers\":\"os\"}]"
                             }
                         ]
                     },
@@ -218,7 +161,7 @@
                             },
                             {
                                 "Key":"key",
-                                "Value":"[{\"cookies\":\"os\"}]"
+                                "Value":"[{\"headers\":\"os\"}]"
                             }
                         ]
                     },
@@ -241,7 +184,7 @@
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create security policy with attached rate limits",
+                    "Name":"Step: User can create security policy and add rate limit `header_test` to security policy",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -261,7 +204,7 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"cookie_sp\", \"name\": \"cookie_sp\", \"match\": \"/cookie_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_cookie_test\"]},{\"id\": \"dv_sp\", \"name\": \"dv_sp\", \"match\": \"/dv_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_different_value\"]},{\"id\": \"empty_sp\", \"name\": \"empty_sp\", \"match\": \"/empty_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_empty\"]},{\"id\": \"zero_sp\", \"name\": \"zero_sp\", \"match\": \"/zero_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_zero\"]}]"
+                                "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"header_sp\", \"name\": \"header_sp\", \"match\": \"/header_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_header_test\"]},{\"id\": \"dv_sp\", \"name\": \"dv_sp\", \"match\": \"/dv_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_different_value\"]},{\"id\": \"zero_sp\", \"name\": \"zero_sp\", \"match\": \"/zero_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_zero\"]}]"
                             }
                         ]
                     },
@@ -329,15 +272,15 @@
             ]
         },
         {
-            "Name": "Test 3: Send traffics to rate limit 'rl_cookie_test'",
+            "Name": "Test 3: Send traffics to rate limit 'rl_header_test'",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic 1 to rate limit `rl_cookie_test`",
+                    "Name": "Step: Send Traffic 1 to rate limit `rl_header_test`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/cookie_sp"
+                        "Path": "/header_sp"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -346,8 +289,8 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key": "os",
+                            "Value": "something"
                         }
                     ],
                     "Expected": {
@@ -358,11 +301,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to rate limit `rl_cookie_test`",
+                    "Name": "Step: Send Traffic 2 to rate limit `rl_header_test`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/cookie_sp"
+                        "Path": "/header_sp"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -371,8 +314,8 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key": "os",
+                            "Value": "something"
                         }
                     ],
                     "Expected": {
@@ -383,11 +326,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to rate limit `rl_cookie_test`",
+                    "Name": "Step: Send Traffic 3 to rate limit `rl_header_test`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/cookie_sp"
+                        "Path": "/header_sp"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -396,8 +339,8 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key": "os",
+                            "Value": "something"
                         }
                     ],
                     "Expected": {
@@ -408,11 +351,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to rate limit `rl_cookie_test`",
+                    "Name": "Step: Send Traffic 4 to rate limit `rl_header_test`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/cookie_sp"
+                        "Path": "/header_sp"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -421,8 +364,8 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key": "os",
+                            "Value": "something"
                         }
                     ],
                     "Expected": {
@@ -452,8 +395,8 @@
                             "Value":"test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key":"os",
+                            "Value":"something"
                         }
                     ],
                     "Expected":{
@@ -477,8 +420,8 @@
                             "Value":"test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key":"os",
+                            "Value":"something"
                         }
                     ],
                     "Expected":{
@@ -502,8 +445,8 @@
                             "Value":"test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=linux"
+                            "Key":"os",
+                            "Value":"linux"
                         }
                     ],
                     "Expected":{
@@ -527,8 +470,8 @@
                             "Value":"test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=linux"
+                            "Key":"os",
+                            "Value":"linux"
                         }
                     ],
                     "Expected":{
@@ -541,113 +484,7 @@
             ]
         },
         {
-            "Name":"Test 5: Send traffics to rate limit 'rl_empty'",
-            "Skip":false,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 1 to rate limit `rl_empty`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/empty_sp"
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"Host",
-                            "Value":"test.site"
-                        },
-                        {
-                            "Key": "Cookie",
-                            "Value": "os="
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 2 to rate limit `rl_empty`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/empty_sp"
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"Host",
-                            "Value":"test.site"
-                        },
-                        {
-                            "Key": "Cookie",
-                            "Value": "os="
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 3 to rate limit `rl_empty`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/empty_sp"
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"Host",
-                            "Value":"test.site"
-                        },
-                        {
-                            "Key": "Cookie",
-                            "Value": "os="
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 4 to rate limit `rl_empty`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/empty_sp"
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"Host",
-                            "Value":"test.site"
-                        },
-                        {
-                            "Key": "Cookie",
-                            "Value": "os="
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 6: Send traffics to rate limit 'rl_zero'",
+            "Name":"Test 5: Send traffics to rate limit 'rl_zero'",
             "Skip":false,
             "Steps":[
                 {
@@ -664,8 +501,8 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "Cookie",
-                            "Value": "os=something"
+                            "Key": "os",
+                            "Value": "something"
                         }
                     ],
                     "Expected": {
@@ -678,7 +515,7 @@
             ]
         },
         {
-            "Name": "Test 7: Wait for logs",
+            "Name": "Test 6: Wait for logs",
             "Skip": false,
             "Steps": [
                 {
@@ -688,11 +525,11 @@
             ]
         },
         {
-            "Name": "Test 8: Check logs from rate limit `rl_cookie_test`",
+            "Name": "Test 7: Check logs from rate limit `rl_header_test`",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from rate limit `rl_cookie_test`",
+                    "Name": "Step: Get Logs from rate limit `rl_header_test`",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -712,7 +549,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /cookie_sp, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /header_sp, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -736,15 +573,15 @@
                             },
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "limit-name:rl-cookie-test"
+                                "Value": "limit-name:rl-header-test"
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Block - rate limit threshold=3 - rl_cookie_test - [request]"
+                                "Value": "Block - rate limit threshold=3 - rl_header_test - [request]"
                             },
                             {
                                 "Key": "data/results/0/rl_triggers/0/trigger_name",
-                                "Value": "rl_cookie_test"
+                                "Value": "rl_header_test"
                             },
                             {
                                 "Key": "data/results/0/rl_triggers/0/action",
@@ -768,7 +605,7 @@
             ]
         },
         {
-            "Name": "Test 9: Check logs from rate limit `rl_different_value`",
+            "Name": "Test 8: Check logs from rate limit `rl_different_value`",
             "Skip": false,
             "Steps": [
                 {
@@ -824,63 +661,7 @@
             ]
         },
         {
-            "Name": "Test 10: Check logs from rate limit `rl_empty`",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name":"Step: Get Logs from rate limit `rl_empty`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"logs",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"syntax",
-                            "Value":"string_query"
-                        }
-                    ],
-                    "Arguments":[
-                        {
-                            "Key":"filters",
-                            "Value":"path = /empty_sp, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                                "Key":"Server",
-                                "Value":"rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult":[
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"status:200"
-                            },
-                            {
-                                "Key":"data/results/1/tags/*",
-                                "Value":"status:200"
-                            },
-                            {
-                                "Key":"data/results/2/tags/*",
-                                "Value":"status:200"
-                            },
-                            {
-                                "Key":"data/results/3/tags/*",
-                                "Value":"status:200"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 11: Check logs from rate limit `rl_zero`",
+            "Name": "Test 9: Check logs from rate limit `rl_zero`",
             "Skip": false,
             "Steps": [
                 {
