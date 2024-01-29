@@ -1,0 +1,371 @@
+{
+  "Name": "Global filters - filters and ACL TA-1301",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Global filters - filters and ACL",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create Global Filter with Name: 'gl1'",
+          "Skip": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"gl1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"gl1\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-global-filter-block\""
+              },
+              {
+                "Key": "rule",
+                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test_block\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Global Filter with Name: 'gl2'",
+          "Skip": false,
+          "API": {
+            "Base": "global-filter",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"gl2\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"gl2\""
+              },
+              {
+                "Key": "active",
+                "Value": "true"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-monitor\""
+              },
+              {
+                "Key": "rule",
+                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test_monitor\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Name: 'test_acl'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test_acl\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_acl\""
+              },
+              {
+                "Key": "tags",
+                "Value": " [\n\"acl\"\n]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-acl-block\""
+              },
+              {
+                "Key": "force_deny",
+                "Value": "[\"all\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create security policy ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "securitypolicy.template",
+            "Defaults": "securitypolicy.defaults",
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "map",
+                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"aa1545eb735a\",\n\"match\":\"/test_block\",\n\"name\":\"acl_path_test_block\",\n\"acl_profile\":\"test_acl\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"49a04332c433\",\n\"match\":\"/test_monitor\",\n\"name\":\"acl_path_test_monitor\",\n\"acl_profile\":\"test_acl\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create server group 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "servergroup.template",
+            "Defaults": "servergroup.defaults",
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "test-site"
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test_block",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test_block"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "470",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send Traffic using GET method to path /test_monitor",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test_monitor"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "472",
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Assert logs for path '/test_block'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path = \"/test_block\", tags=\"status:470\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "action:global-filter-block"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert logs for path '/test_monitor'",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "path = \"/test_monitor\", tags=\"status:472\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "Headers": [
+              {
+                "Key": "Server",
+                "Value": "rhino-core-shield"
+              }
+            ],
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "action:acl-block"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "action:monitor"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
