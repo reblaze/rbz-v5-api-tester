@@ -6,6 +6,7 @@ from typing import List
 from typing import Any
 from pathlib import Path
 from dataclasses import dataclass
+from collections import OrderedDict
 
 from rbz_api_tester.Param import Param
 from rbz_api_tester.Payload import Payload
@@ -39,6 +40,42 @@ class TestStep:
     expected: Expected
     type: str
     code: List[str]
+
+    def __init__(
+        self,
+        name: str,
+        skip: bool,
+        step: int = 0,
+        id: str = None,
+        debug_level: str = None,
+        debug_str: str = None,
+        generate_id: bool = False,
+        api: API = None,
+        method: str = None,
+        payload: Payload = None,
+        headers: List[Param] = None,
+        arguments: List[Param] = None,
+        files: List[Param] = None,
+        expected: Expected = None,
+        type: str = None,
+        code: List[str] = None,
+    ):
+        self.id = id
+        self.step = step
+        self.name = name
+        self.skip = skip
+        self.debug_level = debug_level
+        self.debug_str = debug_str
+        self.generate_id = generate_id
+        self.api = api
+        self.method = method
+        self.payload = payload
+        self.headers = headers
+        self.arguments = arguments
+        self.files = files
+        self.expected = expected
+        self.type = type
+        self.code = code
 
     @staticmethod
     def from_dict(obj: Any) -> "TestStep":
@@ -89,22 +126,22 @@ class TestStep:
             _code = obj.get("Code", [])
 
         return TestStep(
-            _step,
-            _id,
-            _name,
-            _skip,
-            _debug_level,
-            _debug_str,
-            _generate_id,
-            _api,
-            _method,
-            _payload,
-            _headers,
-            _arguments,
-            _files,
-            _expected,
-            _type,
-            _code,
+            step=_step,
+            id=_id,
+            name=_name,
+            skip=_skip,
+            debug_level=_debug_level,
+            debug_str=_debug_str,
+            generate_id=_generate_id,
+            api=_api,
+            method=_method,
+            payload=_payload,
+            headers=_headers,
+            arguments=_arguments,
+            files=_files,
+            expected=_expected,
+            type=_type,
+            code=_code,
         )
 
     def to_dict(self) -> dict:
@@ -121,48 +158,40 @@ class TestStep:
         _type = None
         _code = None
 
+        result = OrderedDict(
+            {
+                "Name": self.name,
+                "Skip": self.skip,
+            }
+        )
+
         if self.id is not None:
-            _id = self.id
+            result["ID"] = self.id
         if self.debug_level is not None and self.debug_str is not None:
             debug = {"Level": self.debug_level, "Message": self.debug_str}
+            result["Debug"] = debug
         if self.generate_id is not None:
-            _generate_id = self.generate_id
+            result["GenerateID"] = self.generate_id
         if self.api is not None:
-            _api = self.api.to_dict()
+            result["API"] = self.api.to_dict()
         if self.method is not None:
-            _method = self.method
-        if self.payload is not None:
-            _payload = self.payload.to_dict()
+            result["Method"] = self.method
         if self.headers is not None:
-            _headers = [header.to_dict() for header in self.headers]
+            result["Headers"] = [header.to_dict() for header in self.headers]
         if self.arguments is not None:
-            _arguments = [argument.to_dict() for argument in self.arguments]
+            result["Arguments"] = [argument.to_dict() for argument in self.arguments]
         if self.files is not None:
-            _files = [file.to_dict() for file in self.files]
+            result["Files"] = [file.to_dict() for file in self.files]
+        if self.payload is not None:
+            result["Payload"] = self.payload.to_dict()
         if self.expected is not None:
-            _expected = self.expected.to_dict()
+            result["Expected"] = self.expected.to_dict()
         if self.type is not None:
-            _type = self.type
+            result["Type"] = self.type
         if self.code is not None:
-            _code = [line for line in self.code]
+            result["Code"] = [line for line in self.code]
 
-        return {
-            "Step": self.step,
-            "ID": _id,
-            "Name": self.name,
-            "Skip": self.skip,
-            "Debug": _debug,
-            "GenerateID": _generate_id,
-            "API": _api,
-            "Method": _method,
-            "Payload": _payload,
-            "Headers": _headers,
-            "Arguments": _arguments,
-            "Files": _files,
-            "Expected": _expected,
-            "Type": _type,
-            "Code": _code,
-        }
+        return result
 
     def show_debug(self):
         if self.debug_level is not None and self.debug_str is not None:

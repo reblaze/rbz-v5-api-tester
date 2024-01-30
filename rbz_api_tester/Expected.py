@@ -15,6 +15,35 @@ class Expected:
     single_result: List[Param]
     multiple_results: List[List[Param]]
 
+    def __init__(
+        self,
+        code: str = None,
+        type: str = None,
+        text: str = None,
+        single: bool = True,
+        headers: List[Param] = None,
+        single_result: List[Param] = None,
+        multiple_results: List[List[Param]] = None,
+    ):
+        self.code = code
+        self.type = type
+        self.text = text
+        self.single = single
+        if headers is None:
+            self.headers = list()
+        else:
+            self.headers = headers
+
+        if single_result is None:
+            self.single_result = list()
+        else:
+            self.single_result = single_result
+
+        if multiple_results is None:
+            self.multiple_results = list()
+        else:
+            self.multiple_results = multiple_results
+
     @staticmethod
     def from_dict(obj: Any) -> "Expected":
         _code = int(obj.get("Code"))
@@ -38,7 +67,9 @@ class Expected:
         else:
             _text = str(obj.get("Text"))
 
-        return Expected(_code, _type, _text, _single, _headers, _single_result, _multiple_results)
+        return Expected(
+            _code, _type, _text, _single, _headers, _single_result, _multiple_results
+        )
 
     def to_dict(self) -> dict:
         _multiple_results = None
@@ -46,25 +77,23 @@ class Expected:
         _text = None
         _headers = None
 
+        result = {
+            "Code": self.code,
+            "Type": self.type,
+            "Single": self.single,
+        }
+
         if self.headers is not None:
-            _headers = [header.to_dict() for header in self.headers]
+            result["Headers"] = [header.to_dict() for header in self.headers]
 
         if not self.single:
-            _multiple_results = [
+            result["MultipleResults"] = [
                 [param.to_dict() for param in result_list]
                 for result_list in self.multiple_results
             ]
         elif self.single and self.text is None:
-            _single_result = [result.to_dict() for result in self.single_result]
+            result["SingleResult"] = [result.to_dict() for result in self.single_result]
         else:
-            _text = self.text
+            result["Text"] = self.text
 
-        return {
-            "Code": self.code,
-            "Type": self.type,
-            "Text": _text,
-            "Single": self.single,
-            "Headers": _headers,
-            "MultipleResults": _multiple_results,
-            "SingleResult": _single_result,
-        }
+        return result

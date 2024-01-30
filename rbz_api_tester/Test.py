@@ -1,6 +1,7 @@
 from typing import List
 from typing import Any
 from dataclasses import dataclass
+from collections import OrderedDict
 
 from rbz_api_tester.Result import Result
 from rbz_api_tester.TestStep import TestStep
@@ -17,6 +18,20 @@ class Test:
     debug_str: str
     steps: List[TestStep]
 
+    def __init__(
+        self,
+        name: str,
+        skip: bool,
+        debug_level: str = None,
+        debug_str: str = None,
+        steps: List[TestStep] = None,
+    ):
+        self.name = name
+        self.skip = skip
+        self.debug_level = debug_level
+        self.debug_str = debug_str
+        self.steps = steps
+
     @staticmethod
     def from_dict(obj: Any) -> "Test":
         _name = str(obj.get("Name"))
@@ -27,19 +42,31 @@ class Test:
             _debug_level = str(obj.get("Debug")["Level"])
             _debug_str = str(obj.get("Debug")["Message"])
         _steps = [TestStep.from_dict(y) for y in obj.get("Steps")]
-        return Test(_name, _skip, _debug_level, _debug_str, _steps)
+        return Test(
+            name=_name,
+            skip=_skip,
+            debug_level=_debug_level,
+            debug_str=_debug_str,
+            steps=_steps,
+        )
 
     def to_dict(self) -> dict:
         debug = None
         if self.debug_level is not None and self.debug_str is not None:
             debug = {"Level": self.debug_level, "Message": self.debug_str}
 
-        return {
-            "Name": self.name,
-            "Skip": self.skip,
-            "Debug": debug,
-            "Steps": [test_step.to_dict() for test_step in self.steps],
-        }
+        result = OrderedDict(
+            {
+                "Name": self.name,
+                "Skip": self.skip,
+                "Steps": [test_step.to_dict() for test_step in self.steps],
+            }
+        )
+
+        if debug is not None:
+            result["Debug"] = debug
+
+        return result
 
     def show_debug(self):
         if self.debug_level is not None and self.debug_str is not None:
