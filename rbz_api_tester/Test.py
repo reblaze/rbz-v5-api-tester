@@ -57,10 +57,10 @@ class Test:
 
         result = OrderedDict(
             {
-            "Name": self.name,
-            "Skip": self.skip,
-            "Steps": [test_step.to_dict() for test_step in self.steps],
-        }
+                "Name": self.name,
+                "Skip": self.skip,
+                "Steps": [test_step.to_dict() for test_step in self.steps],
+            }
         )
 
         if debug is not None:

@@ -54,10 +54,10 @@ class TestSuite:
 
         result = OrderedDict(
             {
-            "Name": self.name,
-            "Skip": self.skip,
-            "Tests": [test.to_dict() for test in self.tests],
-        }
+                "Name": self.name,
+                "Skip": self.skip,
+                "Tests": [test.to_dict() for test in self.tests],
+            }
         )
 
         if debug is not None:

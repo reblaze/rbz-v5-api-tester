@@ -53,7 +53,7 @@ class API:
 
     def alias_from_api(self, api_str: str) -> str:
         apis = read_json(CommonParameters.api_mapping)
-        for api in apis:
+        for api in apis["api-to-alias"]:
             if api["API"] == api_str:
                 return api["alias"]
         raise Exception(f"mapping does not contain api: {api_str}")
