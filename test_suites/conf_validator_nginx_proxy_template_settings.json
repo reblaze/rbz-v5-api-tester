@@ -1,0 +1,3706 @@
+{
+  "Name": "Conf Validator - nginx proxy template settings (Test 576)",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "General",
+      "Skip": false,
+      "Steps": [
+        {
+          "ID": "add-my-ip-to-trusted-source",
+          "Skip": false
+        }
+      ]
+    },
+    {
+      "Name": "Invalid Proxy Template Fields",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Update Client IP Header Name - Empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client IP Header Name - my header name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\"my header name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client IP Header Name back to 'X-Forwarded-For'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\"X-Forwarded-For\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Requests per second per IP address - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Requests per second per IP address - (-9)",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Requests per second per IP address - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Requests per second per IP address - 0",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"0\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Requests per second per IP address - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Requests per second per IP address back to 500",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"500\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Burst of requests per second per IP address - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Burst of requests per second per IP address - (-9)",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Burst of requests per second per IP address - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Burst of requests per second per IP address - 0",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"0\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Burst of requests per second per IP address - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Burst of requests per second per IP address back to 40",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"40\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Body Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_body_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Body Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_body_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Body Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_body_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Body Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_body_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Body Timeout back to 30",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_body_timeout",
+                "Value": "\"30\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Header Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Header Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Header Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Header Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Client Header Timeout back to 10",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"10\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Max Body Size - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Max Body Size - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Max Body Size - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Max Body Size - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Max Body Size back to 150",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"150\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Keepalive Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Keepalive Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Keepalive Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Keepalive Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Keepalive Timeout back to 60",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"60\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Send Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Send Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Send Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Send Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Send Timeout back to 10",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"10\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Connect Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Connect Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Connect Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Connect Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Connect Timeout back to 15",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"15\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Send Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Send Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Send Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Send Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Send Timeout back to 15",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"15\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Read Timeout - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Read Timeout - (-9))",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"-9\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Read Timeout - text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"text\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Read Timeout - 9.8",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"9.8\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Proxy Read Timeout back to 60",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"60\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Backend Service Host Header - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Backend Service Host Header - my test header",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\"my test header\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Backend Service Host Header back to $host",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\"$host\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Real IP Header Name - empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\"\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Real IP Header Name - my test header",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\"my test header\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method" :"PUT",
+          "API":
+          {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload":
+          {
+            "Params": []
+          },
+          "Expected":
+          {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Real IP Header Name back to X-Real-IP",
+          "Skip": false,
+          "GenerateID": false,
+          "API": 
+          {
+            "Base": "api-proxy-templates",
+            "Path": "__default__"
+          },
+          "Method" :"PUT",
+          "Payload":
+          {
+            "Params":
+            [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\"X-Real-IP\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

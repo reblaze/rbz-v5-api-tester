@@ -8,6 +8,7 @@ from rbz_api_tester.Tester import Tester
 from rbz_api_tester.Cleaner import Cleaner
 from rbz_api_tester.Executers.ApiExecuter import ApiExecuter
 from rbz_api_tester.CommonParameters import CommonParameters
+from rbz_api_tester.Result import Result
 
 
 def set_logger(log_file: str, planet: str) -> Logger:
@@ -72,8 +73,9 @@ def main():
         for test_suite_file in test_suite_files:
             suite_ids = tester.get_special_ids(str(test_suite_file))
             ids = ids.union(suite_ids)
-            results.append(tester.execute(str(test_suite_file)))
-            if cleanup:
+            result = tester.execute(str(test_suite_file))
+            results.append(result)
+            if result.result != Result.Skipped and cleanup:
                 CommonParameters.logger.info(f"Performing Cleanup...")
                 cleaner = Cleaner(ids=ids)
                 cleaner.execute()

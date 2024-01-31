@@ -11,7 +11,7 @@ class Cleaner:
 
     def __init__(self, ids: List[str]):
         self.ids = ids
-        self.apis = API("", "").available_api(True)
+        self.apis = API("", "", False).available_api(True)
 
     def get_ids(self, api: str):
         try:
