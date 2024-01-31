@@ -1,0 +1,662 @@
+{
+  "Name": "ACL - Add/Edit/Duplicate/Delete ACL policy TA-1274",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "ACL - Add/Edit/Duplicate/Delete ACL policy",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create ACL Profile with Valid Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test_acl_valid\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_acl_valid\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Empty Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"empty_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Existing Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"test_acl_valid\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"test_acl_existing\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "409",
+            "Type": "content",
+            "Single": true,
+            "Text": "b'409 Conflict: entry with name test_acl_valid already exists in document [aclprofiles]'"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Very Long Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"very_long_name_12345678901234567890\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"very_long_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Special Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"special_char_name!@#$%^&*()<>'_-\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"special_char_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Space Characters Only in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"    \""
+              },
+              {
+                "Key": "id",
+                "Value": "\"space_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Leading/Trailing Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"  space_name_with_spaces  \""
+              },
+              {
+                "Key": "id",
+                "Value": "\"space_name_with_spaces\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Edit default ACL Profile acl-default",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "__acldefault__/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl-default-1\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"__acldefault__\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"one_tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Delete ACL Profile with Name: 'test_acl_valid' (Not attached to security policy)",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "test_acl_valid/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Delete default ACL Profile with Name: 'acl-default-1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "__acldefault__/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Add ACL with Name: 'space_name_with_spaces' to default Security policy",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": "__default__/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              },
+              {
+                "Key": "map",
+                "Value": "[\n{\n\"id\":\"__root_entry__\",\n\"name\":\"__root__\",\n\"match\":\"^/(\\\\W.*)?$\",\n\"acl_profile\":\"__acldefault__\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n},\n{\n\"id\":\"__default_entry__\",\n\"name\":\"__default__\",\n\"match\":\"/\",\n\"acl_profile\":\"space_name_with_spaces\",\n\"acl_active\":true,\n\"backend_id\":\"__default__\",\n\"cloud_functions\":[],\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"content_filter_active\":true,\n\"limit_ids\":[]\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Delete ACL Profile with Name: 'space_name_with_spaces'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "space_name_with_spaces/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert Action Type from Dropdown",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-actions",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": false,
+            "MultipleResults": [
+              [
+                {
+                  "Key": "id",
+                  "Value": "action-acl-block"
+                },
+                {
+                  "Key": "name",
+                  "Value": "ACL block"
+                }
+              ],
+              [
+                {
+                  "Key": "id",
+                  "Value": "action-reblaze-feed-block"
+                },
+                {
+                  "Key": "name",
+                  "Value": "Reblaze feed block"
+                }
+              ],
+              [
+                {
+                  "Key": "id",
+                  "Value": "action-https-redirect"
+                },
+                {
+                  "Key": "name",
+                  "Value": "https redirect"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with No Tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_no_tags\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_no_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with One Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_one_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_one_tag\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"one_tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Several Tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_several_tags\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_several_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"tag1\", \"tag2\", \"tag3\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Very Long Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_long_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_long_tag\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Special Character in Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_special_char_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_special_char_tag\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"tag_with_special_char\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Short Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_short_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_short_tag\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Tag Containing Space Characters Only",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_space_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_space_tag\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"   \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Tag Containing Leading/Trailing Space Characters",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_tag_with_spaces\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_tag_with_spaces\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"  tag_with_spaces  \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        }
+      ]
+    }
+  ]
+}
