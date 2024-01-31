@@ -39,52 +39,7 @@
                             },
                             {
                                 "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test111\", \"\"]]}"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: User can create global filter with name `gf2`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"global-filter",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"name",
-                                "Value":"\"gf2\""
-                            },
-                            {
-                                "Key":"id",
-                                "Value":"\"gf2\""
-                            },
-                            {
-                                "Key":"active",
-                                "Value":"true"
-                            },
-                            {
-                                "Key":"action",
-                                "Value":"\"action-monitor\""
-                            },
-                            {
-                                "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test222\", \"\"]]}"
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test123\", \"\"]]}"
                             }
                         ]
                     },
@@ -107,7 +62,7 @@
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create ACL Profile with name `acl1`",
+                    "Name":"Step: User can create ACL Profile with name `acl-with-tag`",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -116,18 +71,20 @@
                     },
                     "Method":"POST",
                     "Payload":{
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"acl1\""
+                                "Value":"\"acl-with-tag\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"acl1\""
+                                "Value":"\"acl-with-tag\""
                             },
                             {
-                                "Key":"tags",
-                                "Value":" [\"tag1\"]"
+                                "Key":"allow",
+                                "Value":"[\"tag1\"]"
                             },
                             {
                                 "Key":"action",
@@ -136,6 +93,49 @@
                             {
                                 "Key":"deny",
                                 "Value":"[\"yahoo-crawler\", \"yandex-crawler\", \"site24x7-probe\", \"pingdom-probe\", \"facebook\", \"google-crawler\", \"legit-flow-ui-login\", \"newrelic-probe\", \"apple-crawler\", \"aws-cloudfront\", \"baidu-crawler\", \"bing-crawler\", \"allowlist\", \"static-content\",\"crawler\", \"curiefense\", \"api\", \"all\", \"blocklist\", \"cve-2022-22963\", \"owasp-app01-bac\", \"owasp-app02-cf\", \"owasp-app03-i\", \"owasp-app04-id\", \"owasp-app05-sm\", \"owasp-app06-vaoc\", \"owasp-app07-iaaf\", \"owasp-app08-sadif\", \"owasp-app09-slamf\", \"owasp-app10-ssrf\", \"owasp-api01-bola\", \"owasp-api02-bua\", \"owasp-api03-ede\", \"owasp-api04-lroarl\", \"owasp-api05-bfla\", \"owasp-api06-ma\", \"owasp-api07-sm\", \"owasp-api08-i\", \"owasp-api09-iam\", \"owasp-api10-ilm\", \"rtc:account-takeover\", \"rtc:ato\", \"rtc:ddos\", \"rtc:injection\", \"rtc:trojan/backdoor\", \"spamhaus\", \"spamhaus-asn\", \"spamhaus-drop\", \"spamhaus-edrop\", \"spamhaus-ipv6\", \"tor\"]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create ACL Profile with name `acl-without-tag`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"acl-profile",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"acl-without-tag\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"acl-without-tag\""
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-acl-block\""
+                            },
+                            {
+                                "Key":"deny",
+                                "Value":"[\"yahoo-crawler\", \"yandex-crawler\", \"site24x7-probe\", \"pingdom-probe\", \"facebook\", \"google-crawler\", \"legit-flow-ui-login\", \"newrelic-probe\", \"apple-crawler\", \"aws-cloudfront\", \"baidu-crawler\", \"bing-crawler\", \"allowlist\", \"static-content\",\"crawler\", \"curiefense\", \"api\", \"all\", \"blocklist\", \"cve-2022-22963\", \"owasp-app01-bac\", \"owasp-app02-cf\", \"owasp-app03-i\", \"owasp-app04-id\", \"owasp-app05-sm\", \"owasp-app06-vaoc\", \"owasp-app07-iaaf\", \"owasp-app08-sadif\", \"owasp-app09-slamf\", \"owasp-app10-ssrf\", \"owasp-api01-bola\", \"owasp-api02-bua\", \"owasp-api03-ede\", \"owasp-api04-lroarl\", \"owasp-api05-bfla\", \"owasp-api06-ma\", \"owasp-api07-sm\", \"owasp-api08-i\", \"owasp-api09-iam\", \"owasp-api10-ilm\", \"rtc:account-takeover\", \"rtc:ato\", \"rtc:ddos\", \"rtc:injection\", \"rtc:trojan/backdoor\", \"spamhaus\", \"spamhaus-asn\", \"spamhaus-drop\", \"spamhaus-edrop\", \"spamhaus-ipv6\", \"tor\", \"tag1\"]"
                             }
                         ]
                     },
@@ -178,7 +178,44 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test\",\"match\": \"/test\",\"name\": \"test\",\"acl_profile\": \"acl1\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
+                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test\",\"match\": \"/test\",\"name\": \"test\",\"acl_profile\": \"acl-with-tag\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create security policy `test-sp2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp2\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp2\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test2\",\"match\": \"/test2\",\"name\": \"test2\",\"acl_profile\": \"acl-without-tag\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
@@ -242,6 +279,47 @@
                     }
                 },
                 {
+                    "Name":"Step: Create new server group 'test2.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site2/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site2\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site2\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test2.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp2\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site2"
+                            }
+                        ]
+                    }
+                },
+                {
                     "ID":"publish-changes",
                     "Skip":false
                 },
@@ -277,17 +355,17 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic to path `/test222`",
+                    "Name": "Step: Send Traffic to path `/test123`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test222"
+                        "Path": "/test123"
                     },
                     "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
-                            "Value": "test.site"
+                            "Value": "test2.site"
                         }
                     ],
                     "Expected": {
@@ -298,21 +376,17 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic to path `test222 -d 'a=<select>`",
+                    "Name": "Step: Send Traffic to path `test123' -d a=<select>`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test222"
+                        "Path": "/test123"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                          "Key": "x-forwarded-for",
-                          "Value": "103.102.220.1"
+                            "Value": "test2.site"
                         }
                     ],
                     "Arguments":
@@ -333,7 +407,7 @@
         },
         {
             "Name": "Test 6: Wait for logs",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "ID": "wait-for-logs",
@@ -342,11 +416,11 @@
             ]
         },
         {
-            "Name": "Test 7: Check logs from global filter 'gf2'",
-            "Skip": true,
+            "Name": "Test 7: Check logs from global filter '/test'",
+            "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from global filter 'gf2'",
+                    "Name": "Step: Get Logs from global filter '/test'",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -366,7 +440,59 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test222, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test, status = 472, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:472"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - acl Deny [\"all\"] - acl-with-tag - [request]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Check logs from global filter '/test123'",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from global filter '/test123'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test123, status = 473, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -386,28 +512,13 @@
                             },
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "action:rate-limit-block"
-                            },
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "limit-name:rl-args-test"
-                            },
-                            {
-                                "Key": "data/results/0/reason",
-                                "Value": "Block - rate limit threshold=3 - rl_args_test - [request]"
-                            },
-                            {
-                                "Key": "data/results/0/rl_triggers/0/trigger_name",
-                                "Value": "rl_args_test"
-                            },
-                            {
-                                "Key": "data/results/0/rl_triggers/0/action",
-                                "Value": "block"
+                                "Value": "Block reason - acl"
                             }
                         ]
                     }
                 }
             ]
         }
+
     ]
 }
