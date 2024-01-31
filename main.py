@@ -4,11 +4,13 @@ import os
 
 from logging import Logger
 from pathlib import Path
+from rbz_api_tester.TestBuilder import TestBuilder
 from rbz_api_tester.Tester import Tester
 from rbz_api_tester.Cleaner import Cleaner
 from rbz_api_tester.Executers.ApiExecuter import ApiExecuter
 from rbz_api_tester.CommonParameters import CommonParameters
 from rbz_api_tester.Result import Result
+from rbz_api_tester.utils import get_cluster
 
 
 def set_logger(log_file: str, planet: str) -> Logger:
@@ -55,7 +57,7 @@ def enumerate_files(dir: str):
     return files
 
 
-def main():
+def run_test_suits():
     try:
         CommonParameters.logger.info(
             "-------------------------------- starting new run --------------------------------"
@@ -117,12 +119,17 @@ def cleanup_only():
     cleaner.execute()
 
 
+def translate():
+    builder = TestBuilder()
+    builder.translate()
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-p", "--planet", required=True, help="Name of test planet")
+    parser.add_argument("-p", "--planet", required=False, help="Name of test planet")
     parser.add_argument("-b", "--branch", required=True, help="Name of branch")
-    parser.add_argument("-t", "--api_token", required=True, help="API token")
-    parser.add_argument("-e", "--email", required=True, help="API owner email")
+    parser.add_argument("-t", "--api_token", required=False, help="API token")
+    parser.add_argument("-e", "--email", required=False, help="API owner email")
     parser.add_argument(
         "-c",
         "--cleanup",
@@ -143,8 +150,13 @@ if __name__ == "__main__":
         action="store_true",
         help="Only Cleanup (run no tests)",
     )
+    parser.add_argument(
+        "-i", "--input_file", required=False, help="har file to translate"
+    )
+
     args = parser.parse_args()
 
+    CommonParameters.har_file = args.input_file
     CommonParameters.planet = args.planet
     CommonParameters.planet_url = f"{CommonParameters.planet}.dev.app.reblaze.io"
     CommonParameters.branch = args.branch
@@ -159,30 +171,27 @@ if __name__ == "__main__":
     CommonParameters.defaults_folder = "./defaults"
     CommonParameters.templates_folder = "./templates"
     CommonParameters.tests_folder = "./test_suites"
-    CommonParameters.api_mapping = "./rbz_api_tester/api-map.json"
+    CommonParameters.api_mapping = "./metadata/api-map.json"
+    CommonParameters.cluster_mapping = "./metadata/cluster-map.json"
     CommonParameters.shared_steps = "./shared-steps/shared-steps.json"
-    CommonParameters.control_cluster_name = (
-        "gke_rbz-dev-002_europe-west3_cp-v5dev2-euw3-dev-gcp"
-    )
-    CommonParameters.data_cluster_name = (
-        "gke_rbz-dev-002_europe-west3_dp-v5dev2-euw3-dev-gcp"
-    )
-    CommonParameters.broker_cluster_name = (
-        "gke_rbz-dev-000_europe-west3_gke-dev-broker-cluster"
-    )
+    CommonParameters.control_cluster_name = get_cluster("control")
+    CommonParameters.data_cluster_name = get_cluster("data")
+    CommonParameters.broker_cluster_name = get_cluster("broker")
 
-    CommonParameters.logger = set_logger(args.output_log_file, args.planet)
-    CommonParameters.traffic_url = ApiExecuter(
-        generate_id=False,
-        headers=None,
-        arguments=None,
-        files=None,
-        api=None,
-        method=None,
-        payload=None,
-    ).get_traffic_url()
+    CommonParameters.logger = set_logger(output, args.planet)
 
     if args.cleanup_only:
         cleanup_only()
+    elif CommonParameters.har_file is not None:
+        translate()
     else:
-        main()
+        CommonParameters.traffic_url = ApiExecuter(
+            generate_id=False,
+            headers=None,
+            arguments=None,
+            files=None,
+            api=None,
+            method=None,
+            payload=None,
+        ).get_traffic_url()
+        run_test_suits()

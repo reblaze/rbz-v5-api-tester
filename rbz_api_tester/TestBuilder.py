@@ -1,206 +1,164 @@
 import json
-from rbz_api_tester.Param import TestSuite
-from rbz_api_tester.Param import Test
-from rbz_api_tester.Param import Steps
-from rbz_api_tester.Param import Param
-from rbz_api_tester.Param import Payload
-from rbz_api_tester.Param import Expected
+import requests
+from urllib.parse import urlparse, parse_qsl
+from rbz_api_tester.Expected import Expected
+from rbz_api_tester.Payload import Payload
+from rbz_api_tester.TestSuite import TestSuite
+from rbz_api_tester.Test import Test
+from rbz_api_tester.TestStep import TestStep
+from rbz_api_tester.TestStep import Param
+from rbz_api_tester.utils import read_json
+from rbz_api_tester.CommonParameters import CommonParameters
+from rbz_api_tester.API import API
 from haralyzer import HarParser
 from typing import List
 
 
-def translate_api(url):
-    for key in translator.keys():
-        if str(url).startswith(key):
-            return translator[key]
-    return ""
+class TestBuilder:
+    def extract_api(self, request: requests.Request, apis: []) -> (str, str):
+        for api in apis:
+            if api in request["url"]:
+                index = request["url"].find(api)
+                if index != -1:
+                    path = request["url"][index + len(api) :]
+                    return (api, path.lstrip("/"))
+        return (None, None)
 
+    def extract_query_params(self, request: requests.Request) -> []:
+        parsed_url = urlparse(request["url"])
+        return parse_qsl(parsed_url.query)
 
-planet_url = "https://rbzdevtester.dev.app.reblaze.io"
-har_parser = HarParser.from_file(
-    "c:/Users/Mor/Downloads/rbzdevtester.dev.app.reblaze.io.har"
-)
-translator = {
-    "/conf/api/v3/configs/prod/d/aclprofiles": "aclprofile",
-    "/conf/api/v3/configs/prod/d/actions": "action",
-    "/reblaze/api/v3/reblaze/configs/prod/d/backends": "backend",
-    "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions": "cloudfunction",
-    "/conf/api/v3/configs/prod/d/contentfilterprofiles": "contentfilterprofile",
-    "/conf/api/v3/configs/prod/d/contentfilterrules": "contentfilterrule",
-    "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules": "dynamicrule",
-    "/conf/api/v3/configs/prod/d/flowcontrol": "flowcontrol",
-    "/conf/api/v3/configs/prod/d/globalfilters": "globalfilter",
-    "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates": "proxytemplate",
-    "/conf/api/v3/configs/prod/d/ratelimits": "ratelimit",
-    "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles": "routingprofile",
-    "/conf/api/v3/configs/prod/d/securitypolicies": "securitypolicy",
-    "/reblaze/api/v3/reblaze/configs/prod/d/sites": "servergroup",
-}
+    def extract_args(self, request: requests.Request) -> []:
+        return json.loads(request["postData"]["text"])
 
-mime_types = [
-    "text/plain",
-    "text/html",
-    "text/json",
-    "text/xml",
-    "application/octet-stream",
-    "application/pdf",
-    "application/zip",
-    "application/msword",
-    "application/vnd.ms-excel",
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    "application/json",
-    "application/xml",
-    "application/xhtml+xml",
-]
+    def translate(self):
+        mime_types = [
+            "text/plain",
+            "text/html",
+            "text/json",
+            "text/xml",
+            "application/octet-stream",
+            "application/pdf",
+            "application/zip",
+            "application/msword",
+            "application/vnd.ms-excel",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "application/json",
+            "application/xml",
+            "application/xhtml+xml",
+        ]
 
-types_with_no_quotes = (int, bool, float)
+        request_types_with_no_quotes = (int, bool, float)
+        response_types_with_no_quotes = (int, bool, float)
+        dummy_api = API("", "", False)
+        apis1 = dummy_api.available_api(False)
+        index = 0
+        for api in apis1:
+            apis1[index] = api.replace("@@branch@@", CommonParameters.branch)
+            index = index + 1
 
-# Parse the HAR data
-har_data = har_parser.har_data
+        apis2 = dummy_api.available_api(True)
+        index = 0
+        for api in apis2:
+            apis2[index] = api.replace("@@branch@@", CommonParameters.branch)
+            index = index + 1
 
-test_suite = TestSuite("Add your test suite name here", False, list())
-test = Test("Add your test name here", False, list())
-step_num = 1
-# Print details of each entry
-for entry in har_data["entries"]:
-    request = entry["request"]
-    response = entry["response"]
+        apis = list(set(apis1) | set(apis2))
+        apis.remove("@@traffic@@")
 
-    mime_type = str(entry["response"]["content"]["mimeType"])
+        parser: HarParser = HarParser(read_json(CommonParameters.har_file))
+        # Parse the HAR data
+        har_data = parser.har_data
 
-    if mime_type not in mime_types:
-        continue
+        test_suite = TestSuite("Add your test suite name here", False)
+        test = Test("Add your test name here", False)
+        test.steps = list()
+        for entry in har_data["entries"]:
+            api, path = self.extract_api(entry["request"], apis)
+            if api is None:
+                continue
 
-    url = request["url"]
-    method = request["method"]
-    status = response["status"]
+            response = entry["response"]
+            mime_type = str(entry["response"]["content"]["mimeType"])
 
-    response_type = None
-    results = None
-    response_text = None
+            if mime_type not in mime_types:
+                continue
 
-    if response["content"]["mimeType"] == "application/json":
-        response_type = "json"
-        response_json = json.loads(response["content"]["text"])
-        results = list()
-        if type(response_json) is list:
-            for item in response_json:
-                for key, value in item.items():
-                    val = None
-                    if isinstance(value, types_with_no_quotes):
-                        val = value
-                    else:
-                        val = str(value)
-                    param = Param(Key=key, Value=val)
-                    results.append(param)
-        else:
-            for key, value in response_json.items():
-                val = None
-                if isinstance(value, types_with_no_quotes):
-                    val = value
+            api = api.replace(CommonParameters.branch, "@@branch@@")
+            actual_api = API(
+                dummy_api.alias_from_api(api), path, dummy_api.trim_from_alias(api)
+            )
+            method = entry["request"]["method"]
+            if method == "GET" or method == "DELETE":
+                args = self.extract_query_params(entry["request"])
+            if method == "POST" or method == "PUT":
+                args = self.extract_args(entry["request"])
+
+            step = TestStep("Add your step name here", False)
+            step.type = "request"
+            step.api = actual_api
+            step.method = method
+
+            if method == "POST" or method == "PUT":
+                if len(args) > 0:
+                    step.payload = Payload()
+                    for arg in args.items():
+                        val = None
+                        if isinstance(arg[1], request_types_with_no_quotes):
+                            val = arg[1]
+                        else:
+                            val = f'"{arg[1]}"'
+                        step.payload.params.append(Param(arg[0], val))
+
+            elif method == "GET" or method == "DELETE":
+                if len(args) > 0:
+                    step.arguments = list()
+                    for arg in args:
+                        val = None
+                        if isinstance(arg[1], request_types_with_no_quotes):
+                            val = arg[1]
+                        else:
+                            val = f'"{arg[1]}"'
+                        step.arguments.append(Param(arg[0], val))
+
+            step.expected = Expected()
+            step.expected.code = int(response["status"])
+            if response["content"]["mimeType"] == "application/json":
+                step.expected.type = "json"
+                response_json = json.loads(response["content"]["text"])
+                if type(response_json) is list:
+                    step.expected.single = False
+                    for item in response_json:
+                        results = list()
+                        for key, value in item.items():
+                            val = None
+                            if isinstance(value, response_types_with_no_quotes):
+                                val = value
+                            else:
+                                val = str(value)
+                            param = Param(key, val)
+                            results.append(param)
+                        step.expected.multiple_results.append(results)
                 else:
-                    val = str(value)
-                param = Param(Key=key, Value=val)
-                results.append(param)
-
-    else:
-        response_text = response["content"]["text"]
-        response_type = "text"
-
-    if method == "POST" or method == "PUT":
-        payload = json.loads(request["postData"]["text"])
-        params = list()
-        for key, value in payload.items():
-            val = None
-            if type(value) is str:
-                val = '"' + value + '"'
-            elif isinstance(value, types_with_no_quotes):
-                val = value
+                    step.expected.single = True
+                    for key, value in response_json.items():
+                        val = None
+                        if isinstance(value, response_types_with_no_quotes):
+                            val = value
+                        else:
+                            val = str(value)
+                        param = Param(key, val)
+                        step.expected.single_result.append(param)
             else:
-                val = str(value)
-            param = Param(Key=key, Value=val)
-            params.append(param)
+                step.expected.type = "text"
+                step.expected.single = True
+                step.expected.text = response["content"]["text"]
 
-        if results is None:
-            step = Steps(
-                Name="Add your step name here",
-                Skip=False,
-                GenerateID=False,
-                Step=step_num,
-                Method=method,
-                API=str(url).replace(planet_url, ""),
-                Payload=Payload(
-                    Defaults=f"{translate_api(str(url).replace(planet_url, ''))}.defaults",
-                    Template=f"{translate_api(str(url).replace(planet_url, ''))}.template",
-                    Params=params,
-                ),
-                Expected=Expected(
-                    Code=int(response["status"]),
-                    Type=response_type,
-                    Results=None,
-                    Text=response_text,
-                ),
-            )
-        else:
-            step = Steps(
-                Name="Add your step name here",
-                Skip=False,
-                GenerateID=False,
-                Step=step_num,
-                Method=method,
-                API=str(url).replace(planet_url, ""),
-                Payload=Payload(
-                    Defaults=f"{translate_api(str(url).replace(planet_url, ''))}.defaults",
-                    Template=f"{translate_api(str(url).replace(planet_url, ''))}.template",
-                    Params=params,
-                ),
-                Expected=Expected(
-                    Code=int(response["status"]),
-                    Type=response_type,
-                    Results=results,
-                    Text=None,
-                ),
-            )
+            test.steps.append(step)
 
-    else:
-        if results is None:
-            step = Steps(
-                Name="Add your step name here",
-                Skip=False,
-                GenerateID=False,
-                Step=step_num,
-                Method=method,
-                API=str(url).replace(planet_url, ""),
-                Payload=None,
-                Expected=Expected(
-                    Code=int(response["status"]),
-                    Type=response_type,
-                    Results=None,
-                    Text=response_text,
-                ),
-            )
-        else:
-            step = Steps(
-                Name="Add your step name here",
-                Skip=False,
-                GenerateID=False,
-                Step=step_num,
-                Method=method,
-                API=str(url).replace(planet_url, ""),
-                Payload=None,
-                Expected=Expected(
-                    Code=int(response["status"]),
-                    Type=response_type,
-                    Results=results,
-                    Text=None,
-                ),
-            )
-
-    test.Steps.append(step)
-
-test_suite.Tests.append(test)
-with open("my_suite.json", "w") as output_file:
-    content = json.dumps(test_suite.to_dict())
-    output_file.write(content)
-    output_file.close()
+        test_suite.tests.append(test)
+        with open(f"{CommonParameters.tests_folder}/my_suite.json", "w") as output_file:
+            content = json.dumps(test_suite.to_dict(), indent=4, sort_keys=False)
+            output_file.write(content)
+            output_file.close()

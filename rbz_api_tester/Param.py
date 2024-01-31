@@ -8,6 +8,10 @@ class Param:
     key: str
     value: Any
 
+    def __init__(self, key: str, value: str):
+        self.key = key
+        self.value = value
+
     @staticmethod
     def from_dict(obj: Any) -> "Param":
         _key = str(obj.get("Key"))
