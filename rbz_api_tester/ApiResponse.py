@@ -190,6 +190,9 @@ class ApiResponse:
             return self._check_response_jsonpath()
         elif self.expected.type == "content":
             return self._check_response_content()
+        elif self.expected.type == "status-code":
+            return (True, "")
+
         else:
             return (
                 False,
