@@ -13,7 +13,726 @@
              ]
         },
         {
-            "Name":"Test 2: Create global filters",
+            "Name": "Test 2: Create specific global filters",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create global filter with name `path-regex-not`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"path-regex-not\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"path-regex-not\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"path\", \"!path-regex-not\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"path-regex-not\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create global filter with name `path-regex-all`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"path-regex-all\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"path-regex-all\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"path\", \"/.+\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"path-regex-all\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create global filter with name `query-regex-not`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"query-regex-not\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"query-regex-not\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"query\", \"!query-regex-not=step12-3\", \"\"]]}"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"query-regex-not\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Create Security policy 'test-specific-sp'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create security policy `test-specific-sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "security-policy",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-specific-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-specific-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"match\": \"/\", \"name\": \"default\", \"acl_profile\": \"__acldefault__\", \"content_filter_profile\": \"__defaultcontentfilter__\", \"backend_id\": \"__default__\", \"acl_active\": false, \"content_filter_active\": false, \"limit_ids\": [], \"cloud_functions\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Create server group 'test-specific-site'  and publish changes",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Create new server group 'test-specific-site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-specific-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-specific-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-specific-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test-specific.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-specific-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-specific-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name":"Test 5: Send traffics to global filter 'path-regex-not'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to global filter `path-regex-not`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/step10-3"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "103.119.111.1"
+                        }
+                    ],
+
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to global filter `path-regex-not`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/path-regex-not"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "103.119.111.1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 6: Send traffics to global filter 'path-regex-all'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to global filter `path-regex-all`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/path-regex-all"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "103.119.111.1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to global filter `path-regex-all`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "103.119.111.1"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 7: Send traffics to global filter 'query-regex-not'",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1 to global filter `query-regex-not`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "103.152.99.1"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"query-regex-not",
+                            "Value":"query-regex-not"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"470",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2 to global filter `query-regex-not`",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":"/test"
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "103.152.99.1"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"query-regex-not",
+                            "Value":"step12-3"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"content",
+                        "Single":true,
+                        "Text":"b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 8: Wait for logs",
+            "Skip":false,
+            "Steps":[
+                {
+                    "ID":"wait-for-logs",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name":"Test 9: Check logs from global filter `path-regex-not`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'path-regex-not'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /step10-3, status = 470, timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"path-regex-not"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 10: Check logs from global filter `path-regex-all`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'path-regex-all'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /path-regex-all, status = 470,timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"path-regex-all"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 11: Check logs from global filter `query-regex-not`",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: Get Logs from global filter 'query-regex-not'",
+                    "Skip":false,
+                    "API":{
+                        "Base":"logs",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"filters",
+                            "Value":"path = /test, status = 470, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                                "Key":"Server",
+                                "Value":"rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult":[
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"status:470"
+                            },
+                            {
+                                "Key":"data/results/0/tags/*",
+                                "Value":"query-regex-not"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 12: Delete specific global filters",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Delete global filter 'path-regex-not'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "global-filter",
+                        "Path": "path-regex-not/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Delete global filter 'path-regex-all'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "global-filter",
+                        "Path": "path-regex-all/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Delete global filter 'query-regex-not'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "global-filter",
+                        "Path": "query-regex-not/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 13: Delete security policy 'test-specific-sp'",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Delete security-policy 'test-specific-sp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "security-policy",
+                        "Path": "test-specific-sp/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 14: Delete server group 'test-specific-site'",
+            "Skip":false,
+            "Steps":[
+
+                {
+                    "Name": "Delete server group 'test-specific-site'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "server-group",
+                        "Path": "test-specific-site/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected":
+                    {
+                        "Code": "204",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 15: Create global filters",
             "Skip":false,
             "Steps":[
                 {
@@ -998,104 +1717,6 @@
                     }
                 },
                 {
-                    "Name":"Step: User can create global filter with name `path-regex-not`",
-                    "Skip":true,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"global-filter",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"name",
-                                "Value":"\"path-regex-not\""
-                            },
-                            {
-                                "Key":"id",
-                                "Value":"\"path-regex-not\""
-                            },
-                            {
-                                "Key":"active",
-                                "Value":"true"
-                            },
-                            {
-                                "Key":"action",
-                                "Value":"\"action-global-filter-block\""
-                            },
-                            {
-                                "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"!path-regex-not\", \"\"]]}"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"path-regex-not\"]"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: User can create global filter with name `path-regex-all`",
-                    "Skip":true,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"global-filter",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"name",
-                                "Value":"\"path-regex-all\""
-                            },
-                            {
-                                "Key":"id",
-                                "Value":"\"path-regex-all\""
-                            },
-                            {
-                                "Key":"active",
-                                "Value":"true"
-                            },
-                            {
-                                "Key":"action",
-                                "Value":"\"action-global-filter-block\""
-                            },
-                            {
-                                "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/.+\", \"\"]]}"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"path-regex-all\"]"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
                     "Name":"Step: User can create global filter with name `gf-by-path-name`",
                     "Skip":false,
                     "GenerateID":false,
@@ -1227,55 +1848,6 @@
                             {
                                 "Key": "tags",
                                 "Value": "[\"query-regex-or\"]"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: User can create global filter with name `query-regex-not`",
-                    "Skip":true,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"global-filter",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"name",
-                                "Value":"\"query-regex-not\""
-                            },
-                            {
-                                "Key":"id",
-                                "Value":"\"gquery-regex-not\""
-                            },
-                            {
-                                "Key":"active",
-                                "Value":"true"
-                            },
-                            {
-                                "Key":"action",
-                                "Value":"\"action-global-filter-block\""
-                            },
-                            {
-                                "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"query\", \"!query-regex-not=step12-3\", \"\"]]}"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"query-regex-not\"]"
                             }
                         ]
                     },
@@ -1588,7 +2160,7 @@
             ]
         },
         {
-            "Name":"Test 3: Create Security policy ",
+            "Name":"Test 16: Create Security policies",
             "Skip":false,
             "Steps":[
                 {
@@ -1668,7 +2240,7 @@
             ]
         },
         {
-            "Name":"Test 4: Create server groups and publish changes",
+            "Name":"Test 17: Create server groups and publish changes",
             "Skip": false,
             "Steps":[
                 {
@@ -1693,6 +2265,10 @@
                             {
                                 "Key":"server_names",
                                 "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
                             }
                         ]
                     },
@@ -1797,11 +2373,11 @@
             ]
         },
         {
-            "Name":"Test 5: Send traffics to global filter 'arg-key-case-sensitive'",
+            "Name":"Test 18: Send traffics to global filter 'arg-key-case-sensitive'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `arg-key-case-sensitive`",
+                    "Name":"Step: Send Traffic 1 to global filter `arg-key-case-sensitive`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -1832,7 +2408,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `arg-key-case-sensitive`",
+                    "Name":"Step: Send Traffic 2 to global filter `arg-key-case-sensitive`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -1865,11 +2441,11 @@
             ]
         },
         {
-            "Name":"Test 6: Send traffics to global filter 'arg-not-value'",
+            "Name":"Test 19: Send traffics to global filter 'arg-not-value'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `arg-not-value`",
+                    "Name":"Step: Send Traffic 1 to global filter `arg-not-value`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -1900,7 +2476,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `arg-not-value`",
+                    "Name":"Step: Send Traffic 2 to global filter `arg-not-value`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -1933,11 +2509,11 @@
             ]
         },
         {
-            "Name":"Test 7: Send traffics to global filter 'arg-regex-or'",
+            "Name":"Test 20: Send traffics to global filter 'arg-regex-or'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `arg-regex-or`",
+                    "Name":"Step: Send Traffic 1 to global filter `arg-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -1968,7 +2544,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `arg-regex-or`",
+                    "Name":"Step: Send Traffic 2 to global filter `arg-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2001,11 +2577,11 @@
             ]
         },
         {
-            "Name":"Test 8: Send traffics to global filter 'arg-regex-all'",
+            "Name":"Test 21: Send traffics to global filter 'arg-regex-all'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `arg-regex-all`",
+                    "Name":"Step: Send Traffic 1 to global filter `arg-regex-all`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2038,11 +2614,11 @@
             ]
         },
         {
-            "Name":"Test 9: Send traffics to global filter 'gf-by-asn'",
+            "Name":"Test 22: Send traffics to global filter 'gf-by-asn'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-asn`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-asn`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2068,7 +2644,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-asn`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-asn`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2096,11 +2672,11 @@
             ]
         },
         {
-            "Name":"Test 10: Send traffics to global filter 'gf-by-authority'",
+            "Name":"Test 23: Send traffics to global filter 'gf-by-authority'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-authority`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-authority`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2125,7 +2701,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-authority`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-authority`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2152,11 +2728,11 @@
             ]
         },
         {
-            "Name":"Test 11: Send traffics to global filter 'cookie-key-case-sensitive'",
+            "Name":"Test 24: Send traffics to global filter 'cookie-key-case-sensitive'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `cookie-key-case-sensitive`",
+                    "Name":"Step: Send Traffic 1 to global filter `cookie-key-case-sensitive`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2185,7 +2761,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `cookie-key-case-sensitive`",
+                    "Name":"Step: Send Traffic 2 to global filter `cookie-key-case-sensitive`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2216,11 +2792,11 @@
             ]
         },
         {
-            "Name":"Test 12: Send traffics to global filter 'cookie-not-value'",
+            "Name":"Test 25: Send traffics to global filter 'cookie-not-value'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `cookie-not-value`",
+                    "Name":"Step: Send Traffic 1 to global filter `cookie-not-value`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2249,7 +2825,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `cookie-not-value`",
+                    "Name":"Step: Send Traffic 2 to global filter `cookie-not-value`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2276,11 +2852,11 @@
             ]
         },
         {
-            "Name":"Test 13: Send traffics to global filter 'cookie-regex-or'",
+            "Name":"Test 26: Send traffics to global filter 'cookie-regex-or'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `cookie-regex-or`",
+                    "Name":"Step: Send Traffic 1 to global filter `cookie-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2310,7 +2886,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `cookie-regex-or`",
+                    "Name":"Step: Send Traffic 2 to global filter `cookie-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2341,11 +2917,11 @@
             ]
         },
         {
-            "Name":"Test 14: Send traffics to global filter 'cookie-regex-all'",
+            "Name":"Test 27: Send traffics to global filter 'cookie-regex-all'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `cookie-regex-all`",
+                    "Name":"Step: Send Traffic 1 to global filter `cookie-regex-all`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2376,11 +2952,11 @@
             ]
         },
         {
-            "Name":"Test 15: Send traffics to global filter 'gf-by-country'",
+            "Name":"Test 28: Send traffics to global filter 'gf-by-country'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-country`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-country`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2405,7 +2981,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-country`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-country`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2433,11 +3009,11 @@
             ]
         },
         {
-            "Name":"Test 16: Send traffics to global filter 'header-key-case-insensitive'",
+            "Name":"Test 29: Send traffics to global filter 'header-key-case-insensitive'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `header-key-case-insensitive`",
+                    "Name":"Step: Send Traffic 1 to global filter `header-key-case-insensitive`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2466,7 +3042,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `header-key-case-insensitive`",
+                    "Name":"Step: Send Traffic 2 to global filter `header-key-case-insensitive`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2497,11 +3073,11 @@
             ]
         },
         {
-            "Name":"Test 17: Send traffics to global filter 'header-not-value'",
+            "Name":"Test 30: Send traffics to global filter 'header-not-value'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `header-not-value`",
+                    "Name":"Step: Send Traffic 1 to global filter `header-not-value`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2530,7 +3106,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `header-not-value`",
+                    "Name":"Step: Send Traffic 2 to global filter `header-not-value`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2561,11 +3137,11 @@
             ]
         },
         {
-            "Name":"Test 18: Send traffics to global filter 'header-regex-or'",
+            "Name":"Test 31: Send traffics to global filter 'header-regex-or'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `header-regex-or`",
+                    "Name":"Step: Send Traffic 1 to global filter `header-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2595,7 +3171,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `header-regex-or`",
+                    "Name":"Step: Send Traffic 2 to global filter `header-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2626,11 +3202,11 @@
             ]
         },
         {
-            "Name":"Test 19: Send traffics to global filter 'header-regex-all'",
+            "Name":"Test 32: Send traffics to global filter 'header-regex-all'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `header-regex-all`",
+                    "Name":"Step: Send Traffic 1 to global filter `header-regex-all`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2661,11 +3237,11 @@
             ]
         },
         {
-            "Name":"Test 20: Send traffics to global filter 'gf-by-ip'",
+            "Name":"Test 33: Send traffics to global filter 'gf-by-ip'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-ip`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-ip`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2690,7 +3266,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-ip`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-ip`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2717,11 +3293,11 @@
             ]
         },
         {
-            "Name":"Test 21: Send traffics to global filter 'gf-by-method'",
+            "Name":"Test 34: Send traffics to global filter 'gf-by-method'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-method`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-method`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2746,7 +3322,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-method`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-method`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2779,11 +3355,11 @@
             ]
         },
         {
-            "Name":"Test 22: Send traffics to global filter 'gf-by-organization'",
-            "Skip": false,
+            "Name":"Test 35: Send traffics to global filter 'gf-by-organization'",
+            "Skip": true,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-organization`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-organization`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2808,7 +3384,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-organization`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-organization`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2836,11 +3412,11 @@
             ]
         },
         {
-            "Name":"Test 23: Send traffics to global filter 'path-contains'",
+            "Name":"Test 36: Send traffics to global filter 'path-contains'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `path-contains`",
+                    "Name":"Step: Send Traffic 1 to global filter `path-contains`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2865,7 +3441,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `path-contains`",
+                    "Name":"Step: Send Traffic 2 to global filter `path-contains`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2890,7 +3466,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 3 to rate limit `path-contains`",
+                    "Name":"Step: Send Traffic 3 to global filter `path-contains`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2917,11 +3493,11 @@
             ]
         },
         {
-            "Name":"Test 24: Send traffics to global filter 'path-exact-match'",
+            "Name":"Test 37: Send traffics to global filter 'path-exact-match'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `path-exact-match`",
+                    "Name":"Step: Send Traffic 1 to global filter `path-exact-match`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2946,7 +3522,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `path-exact-match`",
+                    "Name":"Step: Send Traffic 2 to global filter `path-exact-match`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -2973,124 +3549,11 @@
             ]
         },
         {
-            "Name":"Test 25: Send traffics to global filter 'path-regex-not'",
-            "Skip": true,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 1 to rate limit `path-regex-not`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/step10-3"
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "x-forwarded-for",
-                            "Value": "103.119.111.1"
-                        }
-                    ],
-
-                    "Expected":{
-                        "Code":"470",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 2 to rate limit `path-regex-not`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/path-regex-not"
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "x-forwarded-for",
-                            "Value": "103.119.111.1"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 26: Send traffics to global filter 'path-regex-all'",
-            "Skip": true,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 1 to rate limit `path-regex-all`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/path-regex-all"
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "x-forwarded-for",
-                            "Value": "103.119.111.1"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"470",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 2 to rate limit `path-regex-all`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/"
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "x-forwarded-for",
-                            "Value": "103.119.111.1"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 27: Send traffics to global filter 'gf-by-path-name'",
+            "Name":"Test 38: Send traffics to global filter 'gf-by-path-name'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-path-name`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-path-name`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3116,7 +3579,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-path-name`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-path-name`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3143,11 +3606,11 @@
             ]
         },
         {
-            "Name":"Test 28: Send traffics to global filter 'query-simple'",
+            "Name":"Test 39: Send traffics to global filter 'query-simple'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `query-simple`",
+                    "Name":"Step: Send Traffic 1 to global filter `query-simple`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3178,7 +3641,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `query-simple`",
+                    "Name":"Step: Send Traffic 2 to global filter `query-simple`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3213,7 +3676,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 3 to rate limit `query-simple`",
+                    "Name":"Step: Send Traffic 3 to global filter `query-simple`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3246,11 +3709,11 @@
             ]
         },
         {
-            "Name":"Test 29: Send traffics to global filter 'query-regex-or'",
+            "Name":"Test 40: Send traffics to global filter 'query-regex-or'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `query-regex-or`",
+                    "Name":"Step: Send Traffic 1 to global filter `query-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3281,7 +3744,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `query-regex-or`",
+                    "Name":"Step: Send Traffic 2 to global filter `query-regex-or`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3314,79 +3777,11 @@
             ]
         },
         {
-            "Name":"Test 30: Send traffics to global filter 'query-regex-not'",
-            "Skip": true,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 1 to rate limit `query-regex-not`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "x-forwarded-for",
-                            "Value": "103.152.99.1"
-                        }
-                    ],
-                    "Arguments":[
-                        {
-                            "Key":"query-regex-not",
-                            "Value":"query-regex-not"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"470",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 2 to rate limit `query-regex-not`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "x-forwarded-for",
-                            "Value": "103.152.99.1"
-                        }
-                    ],
-                    "Arguments":[
-                        {
-                            "Key":"query-regex-not",
-                            "Value":"step12-3"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 31: Send traffics to global filter 'gf-by-region'",
+            "Name":"Test 41: Send traffics to global filter 'gf-by-region'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-region`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-region`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3411,7 +3806,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-region`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-region`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3439,11 +3834,11 @@
             ]
         },
         {
-            "Name":"Test 32: Send traffics to global filter 'gf-by-tag'",
+            "Name":"Test 42: Send traffics to global filter 'gf-by-tag'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-tag`",
+                    "Name":"Step: Send Traffic 1 to global filter`gf-by-tag`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3469,7 +3864,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-tag`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-tag`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3497,11 +3892,11 @@
             ]
         },
         {
-            "Name":"Test 33: Send traffics to global filter 'gf-by-sp-name'",
+            "Name":"Test 43: Send traffics to global filter 'gf-by-sp-name'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-sp-name`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-sp-name`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3526,7 +3921,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-sp-name`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-sp-name`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3554,11 +3949,11 @@
             ]
         },
         {
-            "Name":"Test 34: Send traffics to global filter 'gf-by-subregion'",
+            "Name":"Test 45: Send traffics to global filter 'gf-by-subregion'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `gf-by-subregion`",
+                    "Name":"Step: Send Traffic 1 to global filter `gf-by-subregion`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3583,7 +3978,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `gf-by-subregion`",
+                    "Name":"Step: Send Traffic 2 to global filter `gf-by-subregion`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3611,11 +4006,11 @@
             ]
         },
         {
-            "Name":"Test 35: Send traffics to global filter 'uri-with-query'",
+            "Name":"Test 46: Send traffics to global filter 'uri-with-query'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `uri-with-query`",
+                    "Name":"Step: Send Traffic 1 to global filter `uri-with-query`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3646,7 +4041,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `uri-with-query`",
+                    "Name":"Step: Send Traffic 2 to global filter `uri-with-query`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3677,7 +4072,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 3 to rate limit `uri-with-query`",
+                    "Name":"Step: Send Traffic 3 to global filter `uri-with-query`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3712,7 +4107,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 4 to rate limit `uri-with-query`",
+                    "Name":"Step: Send Traffic 4 to global filter `uri-with-query`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3745,11 +4140,11 @@
             ]
         },
         {
-            "Name":"Test 36: Send traffics to global filter 'uri-with-regex'",
+            "Name":"Test 47: Send traffics to global filter 'uri-with-regex'",
             "Skip": false,
             "Steps":[
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `uri-with-regex`",
+                    "Name":"Step: Send Traffic 1 to global filter `uri-with-regex`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3780,7 +4175,7 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to rate limit `uri-with-regex`",
+                    "Name":"Step: Send Traffic 2 to global filter `uri-with-regex`",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
@@ -3813,7 +4208,7 @@
             ]
         },
         {
-            "Name":"Test 37: Wait for logs",
+            "Name":"Test 48: Wait for logs",
             "Skip":false,
             "Steps":[
                 {
@@ -3823,7 +4218,7 @@
             ]
         },
         {
-            "Name":"Test 38: Check logs from global filter `arg-key-case-sensitive`",
+            "Name":"Test 49: Check logs from global filter `arg-key-case-sensitive`",
             "Skip":false,
             "Steps":[
                 {
@@ -3871,7 +4266,7 @@
             ]
         },
         {
-            "Name":"Test 39: Check logs from global filter `arg-not-value`",
+            "Name":"Test 50: Check logs from global filter `arg-not-value`",
             "Skip":false,
             "Steps":[
                 {
@@ -3919,7 +4314,7 @@
             ]
         },
         {
-            "Name":"Test 40: Check logs from global filter `arg-regex-or`",
+            "Name":"Test 51: Check logs from global filter `arg-regex-or`",
             "Skip":false,
             "Steps":[
                 {
@@ -3967,7 +4362,7 @@
             ]
         },
         {
-            "Name":"Test 41: Check logs from global filter `arg-regex-all`",
+            "Name":"Test 52: Check logs from global filter `arg-regex-all`",
             "Skip":false,
             "Steps":[
                 {
@@ -4015,7 +4410,7 @@
             ]
         },
         {
-            "Name":"Test 42: Check logs from global filter `gf-by-asn`",
+            "Name":"Test 53: Check logs from global filter `gf-by-asn`",
             "Skip":false,
             "Steps":[
                 {
@@ -4063,7 +4458,7 @@
             ]
         },
         {
-            "Name":"Test 43: Check logs from global filter `gf-by-authority`",
+            "Name":"Test 54: Check logs from global filter `gf-by-authority`",
             "Skip":false,
             "Steps":[
                 {
@@ -4111,7 +4506,7 @@
             ]
         },
         {
-            "Name":"Test 44: Check logs from global filter `cookie-key-case-sensitive`",
+            "Name":"Test 55: Check logs from global filter `cookie-key-case-sensitive`",
             "Skip":false,
             "Steps":[
                 {
@@ -4159,7 +4554,7 @@
             ]
         },
         {
-            "Name":"Test 45: Check logs from global filter `cookie-not-value`",
+            "Name":"Test 56: Check logs from global filter `cookie-not-value`",
             "Skip":false,
             "Steps":[
                 {
@@ -4207,7 +4602,7 @@
             ]
         },
         {
-            "Name":"Test 46: Check logs from global filter `cookie-regex-or`",
+            "Name":"Test 57: Check logs from global filter `cookie-regex-or`",
             "Skip":false,
             "Steps":[
                 {
@@ -4255,7 +4650,7 @@
             ]
         },
         {
-            "Name":"Test 47: Check logs from global filter `cookie-regex-all`",
+            "Name":"Test 58: Check logs from global filter `cookie-regex-all`",
             "Skip":false,
             "Steps":[
                 {
@@ -4303,7 +4698,7 @@
             ]
         },
         {
-            "Name":"Test 48: Check logs from global filter `gf-by-country`",
+            "Name":"Test 59: Check logs from global filter `gf-by-country`",
             "Skip":false,
             "Steps":[
                 {
@@ -4351,7 +4746,7 @@
             ]
         },
         {
-            "Name":"Test 49: Check logs from global filter `header-key-case-insensitive`",
+            "Name":"Test 60: Check logs from global filter `header-key-case-insensitive`",
             "Skip":false,
             "Steps":[
                 {
@@ -4407,7 +4802,7 @@
             ]
         },
         {
-            "Name":"Test 50: Check logs from global filter `header-not-value`",
+            "Name":"Test 61: Check logs from global filter `header-not-value`",
             "Skip":false,
             "Steps":[
                 {
@@ -4455,7 +4850,7 @@
             ]
         },
         {
-            "Name":"Test 51: Check logs from global filter `header-regex-or`",
+            "Name":"Test 62: Check logs from global filter `header-regex-or`",
             "Skip":false,
             "Steps":[
                 {
@@ -4503,7 +4898,7 @@
             ]
         },
         {
-            "Name":"Test 52: Check logs from global filter `header-regex-all`",
+            "Name":"Test 63: Check logs from global filter `header-regex-all`",
             "Skip":false,
             "Steps":[
                 {
@@ -4551,7 +4946,7 @@
             ]
         },
         {
-            "Name":"Test 53: Check logs from global filter `gf-by-ip`",
+            "Name":"Test 64: Check logs from global filter `gf-by-ip`",
             "Skip":false,
             "Steps":[
                 {
@@ -4599,7 +4994,7 @@
             ]
         },
         {
-            "Name":"Test 54: Check logs from global filter `gf-by-method`",
+            "Name":"Test 65: Check logs from global filter `gf-by-method`",
             "Skip":false,
             "Steps":[
                 {
@@ -4647,8 +5042,8 @@
             ]
         },
         {
-            "Name":"Test 55: Check logs from global filter `gf-by-organization`",
-            "Skip":false,
+            "Name":"Test 66: Check logs from global filter `gf-by-organization`",
+            "Skip":true,
             "Steps":[
                 {
                     "Name":"Step: Get Logs from global filter 'gf-by-organization'",
@@ -4695,7 +5090,7 @@
             ]
         },
         {
-            "Name":"Test 56: Check logs from global filter `path-contains`",
+            "Name":"Test 67: Check logs from global filter `path-contains`",
             "Skip":false,
             "Steps":[
                 {
@@ -4785,7 +5180,7 @@
             ]
         },
         {
-            "Name":"Test 57: Check logs from global filter `path-exact-match`",
+            "Name":"Test 68: Check logs from global filter `path-exact-match`",
             "Skip":false,
             "Steps":[
                 {
@@ -4833,103 +5228,7 @@
             ]
         },
         {
-            "Name":"Test 58: Check logs from global filter `path-regex-not`",
-            "Skip":true,
-            "Steps":[
-                {
-                    "Name":"Step: Get Logs from global filter 'path-regex-not'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"logs",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"syntax",
-                            "Value":"string_query"
-                        }
-                    ],
-                    "Arguments":[
-                        {
-                            "Key":"filters",
-                            "Value":"path = /path-regex-not, status = 470, timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                                "Key":"Server",
-                                "Value":"rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult":[
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"status:470"
-                            },
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"path-regex-not"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 59: Check logs from global filter `path-regex-all`",
-            "Skip":true,
-            "Steps":[
-                {
-                    "Name":"Step: Get Logs from global filter 'path-regex-all'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"logs",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"syntax",
-                            "Value":"string_query"
-                        }
-                    ],
-                    "Arguments":[
-                        {
-                            "Key":"filters",
-                            "Value":"path = /path-regex-all, status = 470,timestamp between @@NOW(-5minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                                "Key":"Server",
-                                "Value":"rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult":[
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"status:470"
-                            },
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"path-regex-all"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 60: Check logs from global filter `gf-by-path-name`",
+            "Name":"Test 69: Check logs from global filter `gf-by-path-name`",
             "Skip":false,
             "Steps":[
                 {
@@ -4977,7 +5276,7 @@
             ]
         },
         {
-            "Name":"Test 61: Check logs from global filter `query-simple`",
+            "Name":"Test 70: Check logs from global filter `query-simple`",
             "Skip":false,
             "Steps":[
                 {
@@ -5033,7 +5332,7 @@
             ]
         },
         {
-            "Name":"Test 62: Check logs from global filter `query-regex-or`",
+            "Name":"Test 71: Check logs from global filter `query-regex-or`",
             "Skip":false,
             "Steps":[
                 {
@@ -5081,55 +5380,7 @@
             ]
         },
         {
-            "Name":"Test 63: Check logs from global filter `query-regex-not`",
-            "Skip":true,
-            "Steps":[
-                {
-                    "Name":"Step: Get Logs from global filter 'query-regex-not'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"logs",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                        {
-                            "Key":"syntax",
-                            "Value":"string_query"
-                        }
-                    ],
-                    "Arguments":[
-                        {
-                            "Key":"filters",
-                            "Value":"path = /query-regex-not, status = 470, timestamp between @@NOW(-7minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                                "Key":"Server",
-                                "Value":"rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult":[
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"status:470"
-                            },
-                            {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"query-regex-not"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name":"Test 64: Check logs from global filter `gf-by-region`",
+            "Name":"Test 72: Check logs from global filter `gf-by-region`",
             "Skip":false,
             "Steps":[
                 {
@@ -5177,7 +5428,7 @@
             ]
         },
         {
-            "Name":"Test 65: Check logs from global filter `gf-by-sp-name`",
+            "Name":"Test 73: Check logs from global filter `gf-by-sp-name`",
             "Skip":false,
             "Steps":[
                 {
@@ -5225,7 +5476,7 @@
             ]
         },
         {
-            "Name":"Test 66: Check logs from global filter `gf-by-subregion`",
+            "Name":"Test 74: Check logs from global filter `gf-by-subregion`",
             "Skip":false,
             "Steps":[
                 {
@@ -5273,7 +5524,7 @@
             ]
         },
         {
-            "Name":"Test 67: Check logs from global filter `gf-by-tag`",
+            "Name":"Test 75: Check logs from global filter `gf-by-tag`",
             "Skip":false,
             "Steps":[
                 {
@@ -5321,8 +5572,8 @@
             ]
         },
         {
-            "Name":"Test 68: Check logs from global filter `uri-with-query`",
-            "Skip":false,
+            "Name":"Test 76: Check logs from global filter `uri-with-query`",
+            "Skip":true,
             "Steps":[
                 {
                     "Name":"Step: Get Logs from global filter 'uri-with-query' path '/URI-with-query'",
@@ -5419,7 +5670,7 @@
             ]
         },
         {
-            "Name":"Test 69: Check logs from global filter `uri-with-regex`",
+            "Name":"Test 77: Check logs from global filter `uri-with-regex`",
             "Skip":false,
             "Steps":[
                 {
