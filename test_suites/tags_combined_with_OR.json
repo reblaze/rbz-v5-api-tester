@@ -1,6 +1,6 @@
 {
-    "Name":"TA 1279 ACL Allow",
-    "Skip":true,
+    "Name":"TA 1283 ACL tags combined with OR",
+    "Skip":false,
     "Tests": [
         {
             "Name":"Test 1: Create global filters",
@@ -39,7 +39,56 @@
                             },
                             {
                                 "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test123\", \"\"]]}"
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"tag1\", \"add\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create global filter with name `tag2`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"tag2\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"tag2\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-monitor\""
+                            },
+                            {
+                                "Key":"tags",
+                                "Value":"[\"tag2\"]"
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"tag2\", \"add\"], \"\"]]}"
                             }
                         ]
                     },
@@ -58,7 +107,7 @@
             ]
         },
         {
-            "Name":"Test 2: Create ACL Profile",
+            "Name":"Test 2: Create ACL Profiles",
             "Skip":false,
             "Steps":[
                 {
@@ -83,16 +132,12 @@
                                 "Value":"\"acl1\""
                             },
                             {
-                                "Key":"allow",
-                                "Value":"[\"tag1\"]"
-                            },
-                            {
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
                             },
                             {
                                 "Key":"deny",
-                                "Value":"[\"all\"]"
+                                "Value":"[\"tag1\", \"tag2\"]"
                             }
                         ]
                     },
@@ -135,7 +180,7 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test\",\"match\": \"/test\",\"name\": \"test\",\"acl_profile\": \"acl1\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
+                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test\",\"match\": \"/test\",\"name\": \"test\",\"acl_profile\": \"acl1\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
@@ -224,59 +269,69 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
+                        },
+                        {
+                            "Key": "tag1",
+                            "Value": "add"
                         }
                     ],
                     "Expected": {
                         "Code": "472",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b'access denied'"
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic to path `/test123`",
+                    "Name": "Step: Send Traffic to path `/test`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test123"
+                        "Path": "/test"
                     },
-                    "Method": "POST",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
+                        },
+                        {
+                            "Key": "tag2",
+                            "Value": "add"
                         }
                     ],
                     "Expected": {
-                        "Code": "200",
+                        "Code": "472",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic to path `test123' -d a=<select>`",
+                    "Name": "Step: Send Traffic to path `/test`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test123"
+                        "Path": "/test"
                     },
-                    "Method": "POST",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
-                        }
-                    ],
-                    "Arguments":
-                    [
+                        },
                         {
-                            "Key": "a",
-                            "Value": "<select>"
+                            "Key": "tag2",
+                            "Value": "add"
+                        },
+                        {
+                            "Key": "tag1",
+                            "Value": "add"
                         }
+
                     ],
                     "Expected": {
-                        "Code": "473",
+                        "Code": "472",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
@@ -339,59 +394,23 @@
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Block - acl Deny [\"all\"] - acl1 - [request]"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 8: Check logs from path '/test123'",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Get Logs from path '/test123'",
-                    "Skip": false,
-                    "API": {
-                        "Base": "logs",
-                        "Path": ""
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "syntax",
-                            "Value": "string_query"
-                        }
-                    ],
-                    "Arguments": [
-                        {
-                            "Key": "limit",
-                            "Value": "200"
-                        },
-                        {
-                            "Key": "filters",
-                            "Value": "path = /test123, status = 473, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "jsonpath",
-                        "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "status:473"
+                                "Value": "Block - acl Deny [\"tag1\", \"tag2\"] - acl1 - [header tag2=add]"
                             },
                             {
-                                "Key": "data/results/0/reason",
-                                "Value": "Block - content filter 200039[lvl5] - default contentfilter - [URI argument a=<select>]"
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:472"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
+                                "Value": "Block - acl Deny [\"tag2\"] - acl1 - [header tag2=add]"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:472"
+                            },
+                            {
+                                "Key": "data/results/2/reason",
+                                "Value": "Block - acl Deny [\"tag1\"] - acl1 - [header tag1=add]"
                             }
                         ]
                     }
