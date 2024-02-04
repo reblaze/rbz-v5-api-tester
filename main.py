@@ -9,6 +9,7 @@ from rbz_api_tester.Tester import Tester
 from rbz_api_tester.Cleaner import Cleaner
 from rbz_api_tester.Executers.ApiExecuter import ApiExecuter
 from rbz_api_tester.CommonParameters import CommonParameters
+from rbz_api_tester.Result import Result
 from rbz_api_tester.utils import get_cluster
 
 
@@ -56,7 +57,7 @@ def enumerate_files(dir: str):
     return files
 
 
-def main():
+def run_test_suits():
     try:
         CommonParameters.logger.info(
             "-------------------------------- starting new run --------------------------------"
@@ -74,8 +75,9 @@ def main():
         for test_suite_file in test_suite_files:
             suite_ids = tester.get_special_ids(str(test_suite_file))
             ids = ids.union(suite_ids)
-            results.append(tester.execute(str(test_suite_file)))
-            if cleanup:
+            result = tester.execute(str(test_suite_file))
+            results.append(result)
+            if result.result != Result.Skipped and cleanup:
                 CommonParameters.logger.info(f"Performing Cleanup...")
                 cleaner = Cleaner(ids=ids)
                 cleaner.execute()
@@ -192,4 +194,4 @@ if __name__ == "__main__":
             method=None,
             payload=None,
         ).get_traffic_url()
-        main()
+        run_test_suits()
