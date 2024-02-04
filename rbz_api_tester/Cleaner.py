@@ -11,9 +11,9 @@ class Cleaner:
 
     def __init__(self, ids: List[str]):
         self.ids = ids
-        self.apis = API("", "", False).available_api(True)
+        self.apis = API("", "").available_api(True)
 
-    def get_ids(self, api: str):
+    def get_ids(self, api: str, items: str):
         try:
             results = []
             headers = {
@@ -27,6 +27,8 @@ class Cleaner:
             response = requests.get(api, headers=headers)
             if response.status_code == 200:
                 elements = response.json()
+                if items != "":
+                    elements = elements[items]
                 for element in elements:
                     results.append(element["id"])
                 return True, results
@@ -58,9 +60,14 @@ class Cleaner:
 
     def execute(self):
         for api in self.apis:
-            branch_api = api.replace("@@branch@@", CommonParameters.branch)
-            final_api_url = f"https://{CommonParameters.planet_url}{branch_api}/"
-            res, ids = self.get_ids(final_api_url)
+            _api = API(base=api, path="")
+            branch_api = _api.get().replace("@@branch@@", CommonParameters.branch)
+            final_api_url = f"https://{CommonParameters.planet_url}{branch_api}"
+            if API.trim_from_api(api):
+                final_api_url = final_api_url.rstrip("/")
+            elif final_api_url[-1] != "/":
+                final_api_url = f"{final_api_url}/"
+            res, ids = self.get_ids(final_api_url, API.items_from_api(api))
             if res:
                 for id in ids:
                     if str(id).startswith("api_tester_") or id in self.ids:

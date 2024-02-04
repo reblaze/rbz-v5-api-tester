@@ -8,22 +8,16 @@ from rbz_api_tester.CommonParameters import CommonParameters
 class API:
     base: str
     path: str
-    trim_trailing_slash: bool
 
     @staticmethod
     def from_dict(obj: Any) -> "API":
         try:
             _base = str(API.api_from_alias(obj.get("Base")))
-            _trim = bool(API.trim_from_alias(obj.get("Base")))
         except:
             _base = str(obj.get("Base"))
-            if obj.get("Trim") is not None:
-                _trim = bool(obj.get("Trim"))
-            else:
-                _trim = False
         _path = str(obj.get("Path"))
 
-        return API(_base, _path, _trim)
+        return API(_base, _path)
 
     def to_dict(self) -> dict:
         try:
@@ -50,6 +44,30 @@ class API:
             if api["alias"] == alias_str:
                 return api["trim-trailing-slash"]
         raise Exception(f"mapping does not contain alias: {alias_str}")
+
+    @staticmethod
+    def trim_from_api(api_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["API"] == api_str:
+                return api["trim-trailing-slash"]
+        raise Exception(f"mapping does not contain API: {api_str}")
+
+    @staticmethod
+    def items_from_alias(alias_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["alias"] == alias_str:
+                return api["items"]
+        raise Exception(f"mapping does not contain alias: {alias_str}")
+
+    @staticmethod
+    def items_from_api(api_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["API"] == api_str:
+                return api["items"]
+        raise Exception(f"mapping does not contain API: {api_str}")
 
     def alias_from_api(self, api_str: str) -> str:
         apis = read_json(CommonParameters.api_mapping)
@@ -100,7 +118,7 @@ class API:
     def get(self) -> str:
         trimmed_base = self.base.rstrip("/")
         trimmed_path = self.path.lstrip("/")
-        if self.trim_trailing_slash:
+        if API.trim_from_api(self.base):
             return f"{trimmed_base}/{trimmed_path}".rstrip("/")
         else:
             return f"{trimmed_base}/{trimmed_path}"

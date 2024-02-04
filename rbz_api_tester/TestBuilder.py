@@ -51,7 +51,7 @@ class TestBuilder:
 
         request_types_with_no_quotes = (int, bool, float)
         response_types_with_no_quotes = (int, bool, float)
-        dummy_api = API("", "", False)
+        dummy_api = API("", "")
         apis1 = dummy_api.available_api(False)
         index = 0
         for api in apis1:
@@ -86,9 +86,7 @@ class TestBuilder:
                 continue
 
             api = api.replace(CommonParameters.branch, "@@branch@@")
-            actual_api = API(
-                dummy_api.alias_from_api(api), path, dummy_api.trim_from_alias(api)
-            )
+            actual_api = API(dummy_api.alias_from_api(api), path)
             method = entry["request"]["method"]
             if method == "GET" or method == "DELETE":
                 args = self.extract_query_params(entry["request"])

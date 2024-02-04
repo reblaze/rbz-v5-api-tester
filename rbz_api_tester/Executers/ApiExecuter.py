@@ -39,7 +39,7 @@ class ApiExecuter:
         self.payload = payload
 
     def get_traffic_url(self) -> str:
-        api = API(base=API.api_from_alias("dns"), path="", trim_trailing_slash=False)
+        api = API(base=API.api_from_alias("dns"), path="")
         response = self._get(api.get())
         if response.status_code != 200 or response.reason != "OK":
             return ""
