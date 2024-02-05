@@ -1,0 +1,605 @@
+{
+    "Name": "Rate limit - count by Cookie",
+    "Skip": false,
+    "Tests":
+    [
+        {
+            "Name": "setup",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Name": "Create security policy ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "security-policy",
+                        "Path": ""
+                    },
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "server-group",
+                        "Path": "test-site/"
+                    },
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            }
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "201",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "test-site"
+                            }
+                        ]
+                    }
+                }
+            ]
+           },
+            {
+            "Name": "Same cookie value",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Name": "Create Rate limit with Name: 'Cookie test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limit",
+                        "Path": ""
+                    },
+                    "Method" :"POST",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "\"samecookievaluestep1\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cookie test\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"cookies\": \"os\"}]"
+                            }
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Add Rate limit with Name: 'My rate limit' to Security policy 'test-sp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "security-policy",
+                        "Path": "test-sp/"
+                    },
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"samecookievaluestep1\"]},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Publish changes",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "publish",
+                        "Path": ""
+                    },
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "publish.template",
+                        "Defaults": "publish.defaults",
+                        "Params": []
+                    },
+                    "Expected":
+                    {
+                        "Code": "204",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Wait for Publish changes to take affect",
+                    "Skip": false,
+                    "Python": true,
+                    "Code":
+                    [
+                        "import time",
+                        "time.sleep(30)"
+                    ]
+                },
+                {
+                    "Name": "Send Traffic 1 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic 2 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic 3 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic 4 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "471",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "different cookie value",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Name": "Wait for rate limit time frame",
+                    "Skip": false,
+                    "Python": true,
+                    "Code":
+                    [
+                        "import time",
+                        "time.sleep(15)"
+                    ]
+                },
+                {
+                    "Name": "Send Traffic 1 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic 2 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic 3 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=linux"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic 4 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=linux"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+         {
+            "Name": "Limit 0",
+            "Skip": false,
+            "Steps":
+            [
+                {
+                    "Name": "Edit Rate limit with Name: 'Cookie test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "rate-limit",
+                        "Path": "samecookievaluestep1/"
+                    },
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "ratelimit.template",
+                        "Defaults": "ratelimit.defaults",
+                        "Params":
+                        [
+                           {
+                                "Key": "id",
+                                "Value": "\"samecookievaluestep1\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cookie test\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"cookies\": \"os\"}]"
+                            }
+                        ]
+                    },
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Publish changes",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "publish",
+                        "Path": ""
+                    },
+                    "Method" :"PUT",
+                    "Payload":
+                    {
+                        "Template": "publish.template",
+                        "Defaults": "publish.defaults",
+                        "Params": []
+                    },
+                    "Expected":
+                    {
+                        "Code": "204",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Wait for Publish changes to take affect",
+                    "Skip": false,
+                    "Python": true,
+                    "Code":
+                    [
+                        "import time",
+                        "time.sleep(30)"
+                    ]
+                },
+                {
+                    "Name": "Send Traffic 1 request",
+                    "Skip": false,
+                    "API":
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "os=something"
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "471",
+                        "Type": "content",
+						"Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        }
+    ]
+}

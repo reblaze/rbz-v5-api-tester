@@ -37,9 +37,41 @@ class API:
                 return api["API"]
         raise Exception(f"mapping does not contain alias: {alias_str}")
 
+    @staticmethod
+    def trim_from_alias(alias_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["alias"] == alias_str:
+                return api["trim-trailing-slash"]
+        raise Exception(f"mapping does not contain alias: {alias_str}")
+
+    @staticmethod
+    def trim_from_api(api_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["API"] == api_str:
+                return api["trim-trailing-slash"]
+        raise Exception(f"mapping does not contain API: {api_str}")
+
+    @staticmethod
+    def items_from_alias(alias_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["alias"] == alias_str:
+                return api["items"]
+        raise Exception(f"mapping does not contain alias: {alias_str}")
+
+    @staticmethod
+    def items_from_api(api_str: str) -> bool:
+        apis = read_json(CommonParameters.api_mapping)
+        for api in apis["api-to-alias"]:
+            if api["API"] == api_str:
+                return api["items"]
+        raise Exception(f"mapping does not contain API: {api_str}")
+
     def alias_from_api(self, api_str: str) -> str:
         apis = read_json(CommonParameters.api_mapping)
-        for api in apis:
+        for api in apis["api-to-alias"]:
             if api["API"] == api_str:
                 return api["alias"]
         raise Exception(f"mapping does not contain api: {api_str}")
@@ -86,4 +118,7 @@ class API:
     def get(self) -> str:
         trimmed_base = self.base.rstrip("/")
         trimmed_path = self.path.lstrip("/")
-        return f"{trimmed_base}/{trimmed_path}"
+        if API.trim_from_api(self.base):
+            return f"{trimmed_base}/{trimmed_path}".rstrip("/")
+        else:
+            return f"{trimmed_base}/{trimmed_path}"

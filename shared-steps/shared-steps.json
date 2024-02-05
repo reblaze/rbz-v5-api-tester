@@ -9,7 +9,7 @@
             },
             "Skip": false,
             "Type": "python",
-            "Code": 
+            "Code":
             [
                 "import time",
                 "time.sleep(40)"
@@ -27,9 +27,9 @@
                 "Message": "Calling publish changes, might take a few seconds"
             },
             "Method" :"PUT",
-            "API": 
+            "API":
             {
-                "Base": "publish",
+                "Base": "api-publish",
                 "Path": ""
             },
             "Payload":
@@ -38,10 +38,15 @@
             },
             "Expected":
             {
-                "Code": "204",
-                "Type": "content",
+                "Code": "200",
+                "Type": "json",
                 "Single": true,
-                "Text": "b''"
+                "SingleResult": [
+                    {
+                        "Key": "message",
+                        "Value": "Successfully updated entry"
+                    }
+                ]
             }
         }
     },
@@ -55,10 +60,27 @@
             },
             "Skip": false,
             "Type": "python",
-            "Code": 
+            "Code":
             [
                 "import time",
                 "time.sleep(30)"
+            ]
+        }
+    },
+    {
+        "ID": "wait-1-minute",
+        "Step": {
+            "Name": "Wait 1 minute",
+            "Debug": {
+                "Level": "info",
+                "Message": "Actively waiting 1 minute"
+            },
+            "Skip": false,
+            "Type": "python",
+            "Code":
+            [
+                "import time",
+                "time.sleep(60)"
             ]
         }
     },
@@ -93,5 +115,21 @@
                 "   exit(1)"
             ]
         }
+    },
+  {
+    "ID": "wait-for-timeout-10sec",
+    "Step": {
+      "Name": "Timeout",
+      "Debug": {
+        "Level": "info",
+        "Message": "Wait for timeout 10sec"
+      },
+      "Skip": false,
+      "Type": "python",
+      "Code": [
+        "import time",
+        "time.sleep(10)"
+      ]
     }
+  }
 ]

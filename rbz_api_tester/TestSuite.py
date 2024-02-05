@@ -1,6 +1,7 @@
 from typing import List
 from typing import Any
 from dataclasses import dataclass
+from collections import OrderedDict
 
 from rbz_api_tester.Test import Test
 from rbz_api_tester.TestResult import TestResult
@@ -16,6 +17,23 @@ class TestSuite:
     debug_level: str
     debug_str: str
     tests: List[Test]
+
+    def __init__(
+        self,
+        name: str,
+        skip: bool,
+        debug_level: str = None,
+        debug_str: str = None,
+        tests: List[Test] = None,
+    ):
+        self.name = name
+        self.skip = skip
+        self.debug_level = debug_level
+        self.debug_str = debug_str
+        if tests is None:
+            self.tests = list()
+        else:
+            self.tests = tests
 
     @staticmethod
     def from_dict(obj: Any) -> "TestSuite":
@@ -34,12 +52,18 @@ class TestSuite:
         if self.debug_level is not None and self.debug_str is not None:
             debug = {"Level": self.debug_level, "Message": self.debug_str}
 
-        return {
-            "Name": self.name,
-            "Skip": self.skip,
-            "Debug": debug,
-            "Tests": [test.to_dict() for test in self.tests],
-        }
+        result = OrderedDict(
+            {
+                "Name": self.name,
+                "Skip": self.skip,
+                "Tests": [test.to_dict() for test in self.tests],
+            }
+        )
+
+        if debug is not None:
+            result["Debug"] = debug
+
+        return result
 
     def show_debug(self):
         if self.debug_level is not None and self.debug_str is not None:

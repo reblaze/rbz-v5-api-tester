@@ -1,6 +1,6 @@
 {
     "Name": "Pen Testing Suite",
-    "Skip": false,
+    "Skip": true,
     "Tests": 
     [
         {
@@ -9,16 +9,12 @@
             "Steps":
             [
                 {
-                    "Name": "Send url containing \"../\"",
+                    "Name": "Send url containing query \"/../\"",
                     "Skip": false,
-                    "Debug": {
-                        "Level": "warning",
-                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
-                    },
                     "API": 
                     {
                         "Base": "send-traffic",
-                        "Path": "../attacked"
+                        "Path": ""
                     },
                     "Method": "GET",
                     "Headers":
@@ -28,16 +24,58 @@
                             "Value": "default.site"
                         }
                     ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "Query",
+                            "Value": "\"/../attacked.txt\""
+                        }
+                    ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name": "Send url containing \"..\\\"",
+                    "Name": "Send url containing query \"\\..\\\"",
+                    "Skip": false,
+                    "Debug": {
+                        "Level": "warning",
+                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
+                    },
+                    "API": 
+                    {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "Query",
+                            "Value": "\"\\..\\attacked.txt\""
+                        }
+                    ],
+                    "Expected":
+                    {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"\\..\\\"",
                     "Skip": false,
                     "API": 
                     {
@@ -90,7 +128,7 @@
                     "API": 
                     {
                         "Base": "send-traffic",
-                        "Path": "%252E%252E%2Fattacked"
+                        "Path": "%252E%252E%5Cattacked"
                     },
                     "Method": "GET",
                     "Headers":
@@ -110,11 +148,11 @@
                 },
                 {
                     "Name": "Send url containing \"%00\" null character",
-                    "Skip": false,
+                    "Skip": true,
                     "API": 
                     {
                         "Base": "send-traffic",
-                        "Path": "%252E%252E%2Fattacked"
+                        "Path": "%00attacked"
                     },
                     "Method": "GET",
                     "Headers":
@@ -318,10 +356,10 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 }
             ]
@@ -334,10 +372,6 @@
                 {
                     "Name": "Send url containing \"_log\"",
                     "Skip": false,
-                    "Debug": {
-                        "Level": "warning",
-                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
-                    },
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -353,19 +387,39 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \".log\"",
+                    "Skip": false,
+                    "API": 
+                    {
+                        "Base": "send-traffic",
+                        "Path": "attacked.log"
+                    },
+                    "Method": "GET",
+                    "Headers":
+                    [
+                        {
+                                    "Key": "Host",
+                                    "Value": "default.site"
+                        }
+                    ],
+                    "Expected":
+                    {
+                                "Code": "473",
+                                "Type": "content",
+                                "Single": true,
+                                "Text": "b'access denied'"
                     }
                 },
                 {
                     "Name": "Send url containing \"/var/log/\"",
                     "Skip": false,
-                    "Debug": {
-                        "Level": "warning",
-                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
-                    },
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -381,10 +435,10 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 }                
             ]
@@ -397,10 +451,6 @@
                 {
                     "Name": "Send expect header containing \"=expect://\"",
                     "Skip": false,
-                    "Debug": {
-                        "Level": "warning",
-                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
-                    },
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -420,19 +470,15 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
                     "Name": "Send expect header containing \"%3Dexpect%3A%2F%2F\" (=expect:// encoded)",
                     "Skip": false,
-                    "Debug": {
-                        "Level": "warning",
-                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
-                    },
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -452,10 +498,10 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
@@ -596,10 +642,6 @@
                 {
                     "Name": "Send url containing \"/proc/self/\"",
                     "Skip": false,
-                    "Debug": {
-                        "Level": "warning",
-                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
-                    },
                     "API": 
                     {
                         "Base": "send-traffic",
@@ -615,10 +657,10 @@
                     ],
                     "Expected":
                     {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 }
             ]

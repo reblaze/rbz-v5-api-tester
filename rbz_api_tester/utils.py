@@ -32,3 +32,11 @@ def get_my_external_ip() -> str:
         return response.json()["ip"]
     except:
         return get_my_ip()
+
+
+def get_cluster(alias_str: str) -> str:
+    clusters = read_json(CommonParameters.cluster_mapping)
+    for cluster in clusters["clusters"]:
+        if cluster["alias"] == alias_str:
+            return cluster["location"]
+    raise Exception(f"mapping does not contain alias: {alias_str}")
