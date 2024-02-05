@@ -66,7 +66,9 @@
           },
           "Expected": {
             "Code": "400",
-            "Type": "json"
+            "Type": "content",
+            "Single": true,
+            "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
           }
         },
         {
@@ -198,7 +200,7 @@
           }
         },
         {
-          "Name": "Create ACL Profile with Leading/Trailing Space Characters in Name",
+          "Name": "Create ACL Profile with Trailing Space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -212,7 +214,7 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"  space_name_with_spaces  \""
+                "Value": "\"space_name_with_trailing_space  \""
               },
               {
                 "Key": "id",
@@ -222,39 +224,86 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
-          "Name": "Edit default ACL Profile acl-default",
+          "Name": "Create ACL Profile with Leading Space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "acl-profile",
-            "Path": "__acldefault__/"
+            "Path": ""
           },
-          "Method": "PUT",
+          "Method": "POST",
           "Payload": {
             "Template": "aclprofile.template",
             "Defaults": "aclprofile.defaults",
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"acl-default-1\""
+                "Value": "\"  space_name_with_leading_space\""
               },
               {
                 "Key": "id",
-                "Value": "\"__acldefault__\""
-              },
-              {
-                "Key": "tags",
-                "Value": "[\"one_tag\"]"
+                "Value": "\"space_name_with_leading_space\""
               }
             ]
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Names Assertions",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profiles",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": false,
+            "MultipleResults": [
+              [
+                {
+                  "Key": "id",
+                  "Value": "space_name_with_spaces"
+                },
+                {
+                  "Key": "name",
+                  "Value": "space_name_with_trailing_space"
+                }
+              ],
+              [
+                {
+                  "Key": "id",
+                  "Value": "space_name_with_leading_space"
+                },
+                {
+                  "Key": "name",
+                  "Value": "space_name_with_leading_space"
+                }
+              ]
+            ]
           }
         },
         {
@@ -288,15 +337,8 @@
           },
           "Method": "DELETE",
           "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
+            "Code": "400",
+            "Type": "json"
           }
         },
         {
@@ -342,15 +384,8 @@
           },
           "Method": "DELETE",
           "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
+            "Code": "400",
+            "Type": "json"
           }
         },
         {
@@ -429,7 +464,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -461,7 +503,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -493,7 +542,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -525,7 +581,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -551,13 +614,20 @@
               },
               {
                 "Key": "tags",
-                "Value": "[\"tag_with_special_char\"]"
+                "Value": "[\"!@#$%^&*()<>'_-.\"]"
               }
             ]
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -625,7 +695,7 @@
           }
         },
         {
-          "Name": "Create ACL Profile with Tag Containing Leading/Trailing Space Characters",
+          "Name": "Create ACL Profile with Tag Containing Leading Space Characters",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -639,21 +709,109 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"acl_profile_tag_with_spaces\""
+                "Value": "\"acl_profile_tag_with_leading_spaces\""
               },
               {
                 "Key": "id",
-                "Value": "\"acl_profile_tag_with_spaces\""
+                "Value": "\"acl_profile_tag_with_leading_spaces\""
               },
               {
                 "Key": "tags",
-                "Value": "[\"  tag_with_spaces  \"]"
+                "Value": "[\"  tag_with_leading_spaces\"]"
               }
             ]
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Tag Containing Trailing Space Characters",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_tag_with_trailing_spaces\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_tag_with_trailing_spaces\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"tag_with_trailing_spaces  \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Verify tag acl_profile_tag_with_leading_spaces",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_profile_tag_with_leading_spaces/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "tags",
+                "Value": "['tag_with_leading_spaces']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Verify tag acl_profile_tag_with_trailing_spaces",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_profile_tag_with_trailing_spaces/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "tags",
+                "Value": "['tag_with_trailing_spaces']"
+              }
+            ]
           }
         }
       ]
