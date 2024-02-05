@@ -7,7 +7,7 @@
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create ACL Profile with name `acl-block`",
+                    "Name":"Step: User can create ACL Profile with name `acl-test-deny-bot`",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -21,58 +21,15 @@
                         "Params":[
                             {
                                 "Key":"name",
-                                "Value":"\"acl-block\""
+                                "Value":"\"acl-test-deny-bot\""
                             },
                             {
                                 "Key":"id",
-                                "Value":"\"acl-block\""
+                                "Value":"\"acl-test-deny-bot\""
                             },
                             {
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
-                            },
-                            {
-                                "Key":"deny_bot",
-                                "Value":"[\"all\"]"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: User can create ACL Profile with name `acl-monitor",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"acl-profile",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Template": "aclprofile.template",
-                        "Defaults": "aclprofile.defaults",
-                        "Params":[
-                            {
-                                "Key":"name",
-                                "Value":"\"acl-monitor\""
-                            },
-                            {
-                                "Key":"id",
-                                "Value":"\"acl-monitor\""
-                            },
-                            {
-                                "Key":"action",
-                                "Value":"\"action-monitor\""
                             },
                             {
                                 "Key":"deny_bot",
@@ -162,7 +119,7 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-block\",\"match\": \"/test-block\",\"name\": \"test-block\",\"acl_profile\": \"acl-block\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-monitor\",\"match\": \"/test-monitor\",\"name\": \"test-monitor\",\"acl_profile\": \"acl-monitor\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-tag123\",\"match\": \"/test-tag123\",\"name\": \"test-tag123\",\"acl_profile\": \"acl-tag123\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
+                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-deny-bot\",\"match\": \"/test-deny-bot\",\"name\": \"test-deny-bot\",\"acl_profile\": \"acl-test-deny-bot\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"inactive-deny-bot\",\"match\": \"/inactive-deny-bot\",\"name\": \"inactive-deny-bot\",\"acl_profile\": \"acl-test-deny-bot\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-tag123\",\"match\": \"/test-tag123\",\"name\": \"test-tag123\",\"acl_profile\": \"acl-tag123\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
@@ -240,11 +197,11 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic to path `/test-block`",
+                    "Name": "Step: Send Traffic to path `/test-deny-bot`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test-block"
+                        "Path": "/test-deny-bot"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -261,11 +218,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic to path `/test-monitor`",
+                    "Name": "Step: Send Traffic to path `/inactive-deny-bot`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test-monitor"
+                        "Path": "/inactive-deny-bot"
                     },
                     "Method": "POST",
                     "Headers": [
@@ -316,11 +273,11 @@
             ]
         },
         {
-            "Name": "Test 6: Check logs from path '/test-block'",
+            "Name": "Test 6: Check logs from path '/test-deny-bot'",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path '/test-block'",
+                    "Name": "Step: Get Logs from path '/test-deny-bot'",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -340,7 +297,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-block, status = 247, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-deny-bot, status = 247, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -360,7 +317,7 @@
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Challenge - acl DenyBot [\"all\"] - acl-block - [request]"
+                                "Value": "Challenge - acl DenyBot [\"all\"] - acl-test-deny-bot - [request]"
                             }
                         ]
                     }
@@ -368,11 +325,11 @@
             ]
         },
         {
-            "Name": "Test 7: Check logs from path '/test-monitor'",
+            "Name": "Test 7: Check logs from path '/inactive-deny-bot'",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path '/test-monitor'",
+                    "Name": "Step: Get Logs from path '/inactive-deny-bot'",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -392,7 +349,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-monitor, status = 247, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /inactive-deny-bot, status = 247, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -412,7 +369,7 @@
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Challenge - acl DenyBot [\"all\"] - acl-monitor - [request]"
+                                "Value": "Challenge - acl DenyBot [\"all\"] - acl-test-deny-bot - [request]"
                             }
                         ]
                     }
