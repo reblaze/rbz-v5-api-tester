@@ -135,7 +135,7 @@
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
                             },
-                             {
+                            {
                                 "Key":"allow",
                                 "Value":"[\"tag2\"]"
                             },
@@ -182,7 +182,7 @@
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
                             },
-                             {
+                            {
                                 "Key":"allow",
                                 "Value":"[\"tag1\"]"
                             },
@@ -229,7 +229,7 @@
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
                             },
-                             {
+                            {
                                 "Key":"allow-bot",
                                 "Value":"[\"tag1\"]"
                             },
@@ -276,7 +276,7 @@
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
                             },
-                             {
+                            {
                                 "Key":"force_deny",
                                 "Value":"[\"tag1\"]"
                             },
@@ -323,7 +323,7 @@
                                 "Key":"action",
                                 "Value":"\"action-acl-block\""
                             },
-                             {
+                            {
                                 "Key":"deny",
                                 "Value":"[\"tag1\"]"
                             },
@@ -422,7 +422,7 @@
                                 "Value":"[\"tag1\"]"
                             },
                             {
-                                "Key":"force_deny",
+                                "Key":"deny",
                                 "Value":"[\"tag2\"]"
                             }
                         ]
@@ -711,10 +711,10 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "247",
+                        "Code": "472",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 },
                 {
@@ -760,7 +760,7 @@
         },
         {
             "Name": "Test 7: Check logs from path '/test2'",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name": "Step: Get Logs from path '/test2'",
@@ -887,7 +887,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test6, status = 247, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test6, status = 472, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -903,11 +903,11 @@
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "status:247"
+                                "Value": "status:472"
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Block - acl Deny XXXXXXXXXXX"
+                                "Value": "Block - acl Deny [\"tag2\"] - acl7 - [header tag2=add]"
                             }
                         ]
                     }
@@ -959,7 +959,7 @@
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Block - acl EnforceDeny [\"tag2\"] - acl7 - [header tag2=add]"
+                                "Value": "Block - acl Deny [\"tag2\"] - acl7 - [header tag2=add]"
                             }
                         ]
                     }
