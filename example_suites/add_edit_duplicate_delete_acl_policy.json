@@ -3,7 +3,7 @@
   "Skip": false,
   "Tests": [
     {
-      "Name": "ACL - Add/Edit/Duplicate/Delete ACL policy",
+      "Name": "'Name' field validations",
       "Skip": false,
       "Steps": [
         {
@@ -114,7 +114,7 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"very_long_name_12345678901234567890\""
+                "Value": "\"very_looooooooooooooooooooooooooooooooooong_name\""
               },
               {
                 "Key": "id",
@@ -198,7 +198,7 @@
           }
         },
         {
-          "Name": "Create ACL Profile with Leading/Trailing Space Characters in Name",
+          "Name": "Create ACL Profile with Leading Space Characters in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -212,7 +212,7 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"  space_name_with_spaces  \""
+                "Value": "\"  space_name_with_spaces\""
               },
               {
                 "Key": "id",
@@ -222,9 +222,119 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
+        {
+          "Name": "Assert ACL Profile with Leading Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "space_name_with_spaces/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "name",
+                "Value": "\"space_name_with_spaces\""
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Trailing Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"space_name_with_trailing_spaces  \""
+              },
+              {
+                "Key": "id",
+                "Value": "\"space_name_with_trailing_spaces\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert ACL Profile with Leading Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "space_name_with_trailing_spaces/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "name",
+                "Value": "\"space_name_with_trailing_spaces\""
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Delete Default ACL",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Delete default ACL Profile with Name: 'acl-default-1'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "__acldefault__/"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Edit default ACL Profile acl-default",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Edit default ACL Profile acl-default",
           "Skip": false,
@@ -254,9 +364,43 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
+        {
+          "Name": "Assert default ACL Profile acl-default",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "__acldefault__/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "tags",
+                "Value": "[\"one_tag\"]"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Delete Not Attached ACL Policy",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Delete ACL Profile with Name: 'test_acl_valid' (Not attached to security policy)",
           "Skip": false,
@@ -277,21 +421,13 @@
               }
             ]
           }
-        },
-        {
-          "Name": "Delete default ACL Profile with Name: 'acl-default-1'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "acl-profile",
-            "Path": "__acldefault__/"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "400",
-            "Type": "json"
-          }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Delete Attached ACL Policy",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Add ACL with Name: 'space_name_with_spaces' to default Security policy",
           "Skip": false,
@@ -335,17 +471,16 @@
           },
           "Method": "DELETE",
           "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
+            "Code": "400",
+            "Type": "json"
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Assert Action Type from Dropdown",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Assert Action Type from Dropdown",
           "Skip": false,
@@ -392,7 +527,13 @@
               ]
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Tag field validations",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Create ACL Profile with No Tags",
           "Skip": false,
@@ -422,7 +563,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -454,7 +602,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -486,7 +641,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -518,7 +680,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -550,7 +719,14 @@
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
           }
         },
         {
@@ -618,7 +794,7 @@
           }
         },
         {
-          "Name": "Create ACL Profile with Tag Containing Leading/Trailing Space Characters",
+          "Name": "Create ACL Profile with Trailing Space Characters in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -632,21 +808,109 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"acl_profile_tag_with_spaces\""
+                "Value": "\"acl_profile_tag_with_trailing_spaces\""
               },
               {
                 "Key": "id",
-                "Value": "\"acl_profile_tag_with_spaces\""
+                "Value": "\"acl_profile_tag_with_trailing_spaces\""
               },
               {
                 "Key": "tags",
-                "Value": "[\"  tag_with_spaces  \"]"
+                "Value": "[\"tag_with_trailing_spaces  \"]"
               }
             ]
           },
           "Expected": {
             "Code": "200",
-            "Type": "json"
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert ACL Profile with Trailing Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_profile_tag_with_trailing_spaces/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_tag_with_trailing_spaces\""
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create ACL Profile with Leading Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_tag_with_leading_spaces\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_profile_tag_with_leading_spaces\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"  tag_with_leading_spaces\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Assert ACL Profile with Leading Space Characters in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_profile_tag_with_leading_spaces/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "name",
+                "Value": "\"acl_profile_tag_with_leading_spaces\""
+              }
+            ]
           }
         }
       ]
