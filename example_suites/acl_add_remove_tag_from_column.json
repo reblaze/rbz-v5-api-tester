@@ -3,7 +3,7 @@
   "Skip": false,
   "Tests": [
     {
-      "Name": "ACL - Add/Remove tag from column",
+      "Name": "Add One Tag to Each Column",
       "Skip": false,
       "Steps": [
         {
@@ -33,11 +33,11 @@
               },
               {
                 "Key": "allow_bot",
-                "Value": "[\"allow_bot-tag\"]"
+                "Value": "[\"allow-bot-tag\"]"
               },
               {
                 "Key": "deny_bot",
-                "Value": "[\"deny_bot-tag\"]"
+                "Value": "[\"deny-bot-tag\"]"
               },
               {
                 "Key": "passthrough",
@@ -49,7 +49,7 @@
               },
               {
                 "Key": "force_deny",
-                "Value": "[\"force_deny-tag\"]"
+                "Value": "[\"force-deny-tag\"]"
               }
             ]
           },
@@ -64,7 +64,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Add Several Tags to One Column",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Add Several Tags to One Column",
           "Skip": false,
@@ -103,7 +109,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "No Tags",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "No Tags",
           "Skip": false,
@@ -138,7 +150,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "One Tag",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "One Tag",
           "Skip": false,
@@ -177,7 +195,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Several Tags",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Several Tags",
           "Skip": false,
@@ -216,7 +240,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Very Long Tag",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Very Long Tag",
           "Skip": false,
@@ -255,7 +285,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Tag with Special Characters",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Tag with Special Characters",
           "Skip": false,
@@ -294,9 +330,15 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Tag with 1/2 Chars",
+      "Skip": false,
+      "Steps": [
         {
-          "Name": "Tag with 1/2 Chars",
+          "Name": "Tag with 1 Char",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -310,11 +352,11 @@
             "Params": [
               {
                 "Key": "name",
-                "Value": "\"acl_tags_verification_short_tag\""
+                "Value": "\"acl_tags_verification_short_tag_one_char\""
               },
               {
                 "Key": "id",
-                "Value": "\"acl_tags_verification_short_tag\""
+                "Value": "\"acl_tags_verification_short_tag_one_char\""
               },
               {
                 "Key": "allow",
@@ -327,6 +369,44 @@
             "Type": "json"
           }
         },
+        {
+          "Name": "Tag with 2 Chars",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_short_tag_two_chars\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_short_tag_two_chars\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"aa\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Tag with Space Char Only",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Tag with Space Char Only",
           "Skip": false,
@@ -358,7 +438,13 @@
             "Code": "400",
             "Type": "json"
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Tag with Leading Space Char",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Tag with Leading Space Char",
           "Skip": false,
@@ -411,7 +497,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Tag with Trailing Space Char",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Tag with Trailing Space Char",
           "Skip": false,
@@ -464,7 +556,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Same Tag Twice",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Same Tag Twice",
           "Skip": false,
@@ -496,7 +594,13 @@
             "Code": "400",
             "Type": "json"
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Same Tag Different Columns",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Same Tag Different Columns",
           "Skip": false,
@@ -524,7 +628,7 @@
               },
               {
                 "Key": "allow_bot",
-                "Value": "[\"same-tag\"]"
+                "Value": "[\"same-bot-tag\"]"
               }
             ]
           },
@@ -532,7 +636,13 @@
             "Code": "400",
             "Type": "json"
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Remove Tag",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Remove Tag",
           "Skip": false,
@@ -571,7 +681,13 @@
               }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Edit Remove Tag",
+      "Skip": false,
+      "Steps": [
         {
           "Name": "Edit Remove Tag",
           "Skip": false,
