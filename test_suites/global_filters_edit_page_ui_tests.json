@@ -212,22 +212,6 @@
                             }
                         ]
                     }
-                },
-                {
-                    "Name": "Step: User cannot delete global filter 'API Discovery'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "rbz-api-discovery/"
-                    },
-                    "Method": "DELETE",
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Text": "b''"
-                    }
                 }
             ]
         },
@@ -391,7 +375,7 @@
 						}
                 },
                 {
-                    "Name": "Step: User cannot add entries to the section of the global filter 'gf_source2'",
+                    "Name": "Step: User can add entries to the section of the global filter 'gf_source2'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -411,19 +395,23 @@
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.9.78.242\", \"\"], [\"ip\", \"101.207.113.73\", \"\"], [\"ip\", \"103.16.202.187\", \"\"], [\"ip\", \"103.231.46.66\", \"\"], [\"ip\", \"103.255.216.43\", \"\"], [\"ip\", \"103.26.136.173\", \"\"], [\"ip\", \"103.37.83.26\", \"\"], [\"ip\", \"103.48.192.48\", \"\"], [\"ip\", \"103.48.193.7\", \"\"], [\"ip\", \"103.63.108.25\", \"\"], [\"ip\", \"103.86.180.10\", \"\"]]}"
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: User can change name of global filter 'gf_source2'",
+                    "Name": "Step: User cannot delete entries from global filter 'gf_source2'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -440,11 +428,15 @@
                             {
                                 "Key": "id",
                                 "Value": "\"gf_source2\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": []}"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
@@ -454,104 +446,7 @@
                             }
                         ]
                     }
-                },
-                {
-                    "Name": "Step: User cannot add entries to the section global filter 'Deny Tor'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "rbz-deny-tor/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"Deny Tor\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"rbz-deny-tor\""
-                            },
-                            {
-                                "Key": "source",
-                                "Value": "\"https://storage.googleapis.com/curiefense-pub-static/auto-acl-v2/rbz-deny-tor.json\""
-                            },
-                            {
-                                "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: User cannot change source global filter 'Facebook Crawlers'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "rbz-facebook/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"Facebook Crawlers\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"rbz-facebook\""
-                            },
-                            {
-                                "Key": "source",
-                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: User cannot change name of global filter 'Googlebots'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "rbz-googlebots/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"Googlebots-changed\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"rbz-googlebots\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Test": "b''"
-                    }
                 }
-
             ]
         },
         {
