@@ -1,0 +1,1895 @@
+{
+    "Name": "TA 1367 Content filter rules ui tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create filter rule with default values",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a filter rule with name `default_filter_rule` and default values",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"default_filter_rule\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Name field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_text_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_empty_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with exist name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_exist_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'409 Conflict: entry with name filter_rule_text_name already exists in document [contentfilterrules]'"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_long_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_spec_chars_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with space char name",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_space_char_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\" \""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with leading space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_leading_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"  filter_rule_leading_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check filter rule with leading space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-rules",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "filter_rule_leading_name"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "filter_rule_leading_name"
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_trailing_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_trailing_name  \""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check filter rule with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-rules",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "filter_rule_trailing_name"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "filter_rule_trailing_name"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3:  Match field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with name `filter_rule_match_regex`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_match_regex\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_match_regex\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"\\\\s(and|or)\\\\s+\\\\d+\\\\s+.*between\\\\s.*\\\\d+\\\\s+and\\\\s+\\\\d+.*\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with name `filter_rule_match_text`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_match_text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_match_text\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"textregex\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with name `filter_rule_match_empty`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_match_empty\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_match_empty\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['operand']:\\n    {'description': 'Matching domain(s) regex',\\n     'minLength': 1,\\n     'title': 'Operand',\\n     'type': 'string'}\\n\\nOn instance['operand']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with name `filter_rule_match_already_exist`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_match_already_exist\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_match_already_exist\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"textregex\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Description field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with description ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_description\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_description\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"Test description\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with empty description ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_empty_description\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_empty_description\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Log Message field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with log message",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_log_message\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_log_message\""
+                            },
+                            {
+                                "Key": "msg",
+                                "Value": "\"Test log message\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with empty log message",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_empty_log_message\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_empty_log_message\""
+                            },
+                            {
+                                "Key": "msg",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with exist log message",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_exist_log_message\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_exist_log_message\""
+                            },
+                            {
+                                "Key": "msg",
+                                "Value": "\"Test log message\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with special chars log message",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_special_chars_log_message\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_special_chars_log_message\""
+                            },
+                            {
+                                "Key": "msg",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Category field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-category\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with empty category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_empty_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_empty_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with exist category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_exist_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_exist_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-category\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with several words category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_several_words_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_several_words_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"my test category\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with special chars category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_special_chars_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_special_chars_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with long name category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_long_name_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_long_name_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Subcategory field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with subcategory",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_subcategory\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_subcategory\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"test-subcategory\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with empty subcategory",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_empty_subcategory\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_empty_subcategory\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with subcategory same as category",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_subcategory_as_category\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_subcategory_as_category\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-subcategory\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"test-subcategory\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with several words subcategory",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_several_words_subcategory\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_several_words_subcategory\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"my test subcategory\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with special chars subcategory",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_special_chars_subcategory\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_special_chars_subcategory\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with long name subcategory",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_long_name_subcategory\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_long_name_subcategory\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Risk level field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with risk number 1",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_risk_1\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_risk_1\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "1"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with risk number 2",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_risk_2\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_risk_2\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "2"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with risk number 3",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_risk_3\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_risk_3\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "3"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with risk number 4",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_risk_4\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_risk_4\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "4"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with risk number 5",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_risk_5\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_risk_5\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "5"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a filter rule with several risk numbers",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_several_risks\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_several_risks\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "[1, 2]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n[1, 2] is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['risk']:\\n    {'description': 'Risk level of this rule, between 1 (lowest risk) and '\\n                    '5 (highest risk)',\\n     'maximum': 5,\\n     'minimum': 1,\\n     'title': 'Risk Level',\\n     'type': 'integer'}\\n\\nOn instance['risk']:\\n    [1, 2]\""
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a filter rule with more than maximum risk numbers",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_more_than_max_risks\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_more_than_max_risks\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "6"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n6 is greater than the maximum of 5\\n\\nFailed validating 'maximum' in schema['properties']['risk']:\\n    {'description': 'Risk level of this rule, between 1 (lowest risk) and '\\n                    '5 (highest risk)',\\n     'maximum': 5,\\n     'minimum': 1,\\n     'title': 'Risk Level',\\n     'type': 'integer'}\\n\\nOn instance['risk']:\\n    6\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Tags field validations",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with no tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_no_tags\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_no_tags\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_one_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_one_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with several tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_several_tags\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_several_tags\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-tag1\",\"my-tag2\", \"my-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with long tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_long_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_long_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with special chars tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_special_chars_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_special_chars_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with length 1 char tag",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_one_char_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_one_char_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"m\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with length 2 chars tag",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_two_chars_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_two_chars_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"mm\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_space_char_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_space_char_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with leading space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_leading_space_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_leading_space_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"  leading_tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check filter rule with leading space char tag",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-rule",
+                        "Path": "filter_rule_leading_space_tag/"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "filter_rule_leading_space_tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "filter_rule_leading_space_tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['leading_tag']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a filter rule with trailing space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_trailing_space_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_trailing_space_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"trailing_tag  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check filter rule with trailing space char tag",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-rule",
+                        "Path": "filter_rule_trailing_space_tag/"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "filter_rule_trailing_space_tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "filter_rule_trailing_space_tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['trailing_tag']"
+                            }
+
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
