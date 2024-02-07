@@ -2210,7 +2210,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create entry/section with the same type in the global filter `gf14`",
+                    "Name": "Step: User can create 2 entries with same type with OR relation in same section",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2230,7 +2230,7 @@
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"],[\"ip\", \"2.2.2.2\", \"ip\"]]}]}"
                             }
                         ]
                     },
@@ -2247,7 +2247,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create entry/section with different types in the global filter `gf14`",
+                    "Name": "Step: User can create 2 entries with same type with OR relation in different sections",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2267,7 +2267,219 @@
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"AND\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"]]}]}"
+                                "Value": "{\"relation\":\"OR\",\"entries\":[{\"relation\":\"OR\",\"entries\":[[\"ip\",\"1.1.1.1\",\"ip\"]]},{\"relation\":\"OR\",\"entries\":[[\"ip\",\"2.2.2.2\",\"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create 2 entries with same type with AND relation in same section",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"AND\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"],[\"ip\", \"2.2.2.2\", \"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create 2 entries with same type with AND relation in different sections",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\":\"AND\",\"entries\":[{\"relation\":\"AND\",\"entries\":[[\"ip\",\"1.1.1.1\",\"ip\"]]},{\"relation\":\"AND\",\"entries\":[[\"ip\",\"2.2.2.2\",\"ip\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create 2 entries with different type with OR relation in same section",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"],[\"args\", \"test\", \"test\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create 2 entries with different type with OR relation in different sections",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\":\"OR\",\"entries\":[{\"relation\":\"OR\",\"entries\":[[\"ip\",\"1.1.1.1\",\"ip\"]]},{\"relation\":\"OR\",\"entries\":[[\"args\", \"test\", \"test\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create 2 entries with different type with AND relation in same section",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [{\"relation\": \"AND\", \"entries\": [[\"ip\", \"1.1.1.1\", \"ip\"],[\"args\", \"test\", \"test\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create 2 entries with different type with AND relation in different sections",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "global-filter",
+                        "Path": "gf14/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf14\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\":\"AND\",\"entries\":[{\"relation\":\"AND\",\"entries\":[[\"ip\",\"1.1.1.1\",\"ip\"]]},{\"relation\":\"AND\",\"entries\":[[\"args\", \"test\", \"test\"]]}]}"
                             }
                         ]
                     },
@@ -2370,251 +2582,120 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a global filter 'gf16'",
+                    "Name": "Step: User can check all global filter action`s types",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "global-filter",
+                        "Base": "actions",
                         "Path": ""
                     },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            }
-                        ]
-                    },
-                    "Expected": {
+                    "Method" :"GET",
+                    "Expected":
+                    {
                         "Code": "200",
                         "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can change 'action' to 'action-challenge'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "gf17/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                         "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {   "Key": "\"action\"",
-                                "Value": "\"action-challenge\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can change 'action' to 'action-monitor'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "gf17/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                         "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {   "Key": "\"action\"",
-                                "Value": "\"action-monitor\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can change 'action' to 'action-skip'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "gf17/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                         "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {   "Key": "\"action\"",
-                                "Value": "\"action-skip\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can change 'action' to 'action-global-filter-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "gf17/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                         "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {   "Key": "\"action\"",
-                                "Value": "\"action-global-filter-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can change 'action' to 'action-reblaze-feed-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "gf17/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                         "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {   "Key": "\"action\"",
-                                "Value": "\"action-reblaze-feed-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can change 'action' to 'action-https-redirect'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "global-filter",
-                        "Path": "gf17/"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                         "Params": [
-                            {
-                                "Key": "name",
-                                "Value": "\"gf17\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"gf17\""
-                            },
-                            {   "Key": "\"action\"",
-                                "Value": "\"action-https-redirect\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-challenge"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "challenge"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-monitor"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "monitor (tag only)"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-global-filter-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Global filter block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-skip"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "skip security"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-rate-limit-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Rate-limit block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-acl-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "ACL block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-contentfilter-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Content-filter block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-dynamic-rule-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Dynamic-rule block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-reblaze-feed-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Reblaze feed block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-https-redirect"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "https redirect"
+                                }
+                            ]
                         ]
                     }
                 }
@@ -2625,7 +2706,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a global filter 'gf18'",
+                    "Name": "Step: Create a global filter 'gf17'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2637,11 +2718,11 @@
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             }
                         ]
                     },
@@ -2663,18 +2744,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2700,18 +2781,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2737,18 +2818,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2774,18 +2855,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2811,22 +2892,22 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [\n[\"country\", \"Ukraine\", \"\"]]}"
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"country\", \"Ukraine\", \"\"]]}"
                             }
                         ]
                     },
@@ -2848,18 +2929,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2885,18 +2966,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2922,22 +3003,22 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
-                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"method\", \"/test\", \"\"]]}"
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"method\", \"get\", \"\"]]}"
                             }
                         ]
                     },
@@ -2959,18 +3040,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -2996,18 +3077,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3033,18 +3114,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3070,18 +3151,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3107,18 +3188,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3144,18 +3225,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3181,18 +3262,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3211,24 +3292,25 @@
                             }
                         ]
                     }
-                },{
+                },
+                {
                     "Name": "Step: User can change 'filter' to 'tag'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
@@ -3254,18 +3336,18 @@
                     "GenerateID": false,
                     "API": {
                         "Base": "global-filter",
-                        "Path": "gf18/"
+                        "Path": "gf17/"
                     },
                     "Method": "PUT",
                     "Payload": {
                          "Params": [
                             {
                                 "Key": "name",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "id",
-                                "Value": "\"gf18\""
+                                "Value": "\"gf17\""
                             },
                             {
                                 "Key": "rule",
