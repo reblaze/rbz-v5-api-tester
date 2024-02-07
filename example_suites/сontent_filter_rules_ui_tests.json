@@ -4,7 +4,7 @@
     "Tests": [
         {
             "Name": "Test 1: Create filter rule with default values",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a filter rule with name `default_filter_rule` and default values",
@@ -39,7 +39,7 @@
         },
         {
             "Name": "Test 2: Name field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with text name",
@@ -75,7 +75,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with empty name",
+                    "Name": "Step: User cannot create a filter rule with empty name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -103,7 +103,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with exist name",
+                    "Name": "Step: User cannot create a filter rule with exist name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -197,8 +197,8 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with space char name",
-                    "Skip": true,
+                    "Name": "Step: User cannot create a filter rule with space char name",
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "content-filter-rule",
@@ -237,11 +237,11 @@
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"filter_rule_leading_name\""
+                                "Value": "\"filter_rule_leading_space_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"  filter_rule_leading_name\""
+                                "Value": "\"  filter_rule_leading_space_name\""
                             }
                         ]
                     },
@@ -277,11 +277,11 @@
                             [
                                 {
                                     "Key": "name",
-                                    "Value": "filter_rule_leading_name"
+                                    "Value": "filter_rule_leading_space_name"
                                 },
                                 {
                                     "Key": "id",
-                                    "Value": "filter_rule_leading_name"
+                                    "Value": "filter_rule_leading_space_name"
                                 }
                             ]
                         ]
@@ -300,11 +300,11 @@
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"filter_rule_trailing_name\""
+                                "Value": "\"filter_rule_trailing_space_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"filter_rule_trailing_name  \""
+                                "Value": "\"filter_rule_trailing_space_name  \""
                             }
                         ]
                     },
@@ -340,11 +340,11 @@
                             [
                                 {
                                     "Key": "name",
-                                    "Value": "filter_rule_trailing_name"
+                                    "Value": "filter_rule_trailing_space_name"
                                 },
                                 {
                                     "Key": "id",
-                                    "Value": "filter_rule_trailing_name"
+                                    "Value": "filter_rule_trailing_space_name"
                                 }
                             ]
                         ]
@@ -354,7 +354,7 @@
         },
         {
             "Name": "Test 3:  Match field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with name `filter_rule_match_regex`",
@@ -431,7 +431,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with name `filter_rule_match_empty`",
+                    "Name": "Step: User cannot create a filter rule with name `filter_rule_match_empty`",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -503,7 +503,7 @@
         },
         {
             "Name": "Test 4: Description field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with description ",
@@ -543,7 +543,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with empty description ",
+                    "Name": "Step: User can create a filter rule with empty description",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -583,7 +583,7 @@
         },
         {
             "Name": "Test 5: Log Message field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with log message",
@@ -737,7 +737,7 @@
         },
         {
             "Name": "Test 6: Category field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with category",
@@ -965,7 +965,7 @@
         },
         {
             "Name": "Test 7: Subcategory field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with subcategory",
@@ -1197,7 +1197,7 @@
         },
         {
             "Name": "Test 8: Risk level field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with risk number 1",
@@ -1415,44 +1415,12 @@
                         "Single": true,
                         "Text": "b\"schema mismatched: \\n[1, 2] is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['risk']:\\n    {'description': 'Risk level of this rule, between 1 (lowest risk) and '\\n                    '5 (highest risk)',\\n     'maximum': 5,\\n     'minimum': 1,\\n     'title': 'Risk Level',\\n     'type': 'integer'}\\n\\nOn instance['risk']:\\n    [1, 2]\""
                     }
-                },
-                {
-                    "Name": "Step: User cannot create a filter rule with more than maximum risk numbers",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "content-filter-rule",
-                        "Path": ""
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"filter_rule_more_than_max_risks\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"filter_rule_more_than_max_risks\""
-                            },
-                            {
-                                "Key": "risk",
-                                "Value": "6"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b\"schema mismatched: \\n6 is greater than the maximum of 5\\n\\nFailed validating 'maximum' in schema['properties']['risk']:\\n    {'description': 'Risk level of this rule, between 1 (lowest risk) and '\\n                    '5 (highest risk)',\\n     'maximum': 5,\\n     'minimum': 1,\\n     'title': 'Risk Level',\\n     'type': 'integer'}\\n\\nOn instance['risk']:\\n    6\""
-                    }
                 }
             ]
         },
         {
             "Name": "Test 9: Tags field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a filter rule with no tags",
@@ -1640,8 +1608,8 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with length 1 char tag",
-                    "Skip": true,
+                    "Name": "Step: User cannot create a filter rule with length 1 char tag",
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "content-filter-rule",
@@ -1677,8 +1645,8 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with length 2 chars tag",
-                    "Skip": true,
+                    "Name": "Step: User cannot create a filter rule with length 2 chars tag",
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "content-filter-rule",
@@ -1789,7 +1757,7 @@
                 },
                 {
                     "Name": "Step: User check filter rule with leading space char tag",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
@@ -1858,7 +1826,7 @@
                 },
                 {
                     "Name": "Step: User check filter rule with trailing space char tag",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
@@ -1887,6 +1855,358 @@
                             }
 
                         ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: Edit custom rule",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with name 'filter_rule_edit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_edit\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_edit\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can edit name and match in filter rule 'filter_rule_edit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": "filter_rule_edit/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_edit\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_edit_changed\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"match_edit\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check 'filter_rule_edit' filter rule",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-rules",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                 {
+                                    "Key": "id",
+                                    "Value": "filter_rule_edit"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "filter_rule_edit_changed"
+                                },
+                                {
+                                    "Key": "operand",
+                                    "Value": "match_edit"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Edit pre-defined rule",
+            "Skip": false,
+            "Steps": [
+
+                {
+                    "Name": "Step: User can edit all fields in pre-defined filter rule '100001'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": "10000/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"100001\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"100001_edited\""
+                            }
+                            ,
+                            {
+                                "Key": "category",
+                                "Value": "\"new_category\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"new_description\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"match_edit\""
+                            },
+                            {
+                                "Key": "msg",
+                                "Value": "\"new_msg\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"match_edit\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "2"
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"new_subcategory\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"new_tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check 'filter_rule_edit' filter rule",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-rule",
+                        "Path": "100001/"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "100001"
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "100001_edited"
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "new_category"
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "new_description"
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "match_edit"
+                            },
+                            {
+                                "Key": "msg",
+                                "Value": "new_msg"
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "match_edit"
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": 2
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "new_subcategory"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['new_tag']"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12: Delete custom rule",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule 'filter_rule_for_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"filter_rule_for_delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"filter_rule_for_delete\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Delete a filter rule 'filter_rule_for_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": "filter_rule_for_delete/"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: Delete pre-defined rule",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Delete a filter rule '100002'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": "100002/"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 14: Rules selection",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can get all filter rules.",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rules",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 }
             ]
