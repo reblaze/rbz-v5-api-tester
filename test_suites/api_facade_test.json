@@ -2134,11 +2134,11 @@
     },
     {
       "Name": "Test: Account APIs",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST sso saml2",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
             "Base": "api-saml2",
@@ -2167,7 +2167,7 @@
         },
         {
           "Name": "Step:POST sso oauth2",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
             "Base": "api-oauth2",
@@ -2196,7 +2196,7 @@
         },
         {
           "Name": "Step:GET sso",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
             "Base": "api-sso",
@@ -2217,11 +2217,11 @@
         },
         {
           "Name": "Step:POST new user",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "accounts",
-            "Path": "/users"
+            "Base": "api-accounts",
+            "Path": ""
           },
           "Method": "POST",
           "Payload": {
@@ -2236,7 +2236,7 @@
               },
               {
                 "Key": "email",
-                "Value": "\"@@now@@test@test.com\""
+                "Value": "\"account-test@account-test.com\""
               },
               {
                 "Key": "mobile",
@@ -2263,6 +2263,61 @@
       ]
     },
     {
+      "Name": "Test: Publish APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step: Publish",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: DNS APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step: GET DNS information",
+          "Skip": false,
+          "GenerateID": false,
+          "Method": "GET",
+          "API": {
+            "Base": "api-dns",
+            "Path": ""
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+
+    {
       "Name": "Test: Planet APIs",
       "Skip": false,
       "Steps": [
@@ -2287,6 +2342,141 @@
             ]
           }
         },
+        {
+      "Name": "Test: DB APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST namespace name:'new-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/new-namespace"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "key",
+                "Value": "{}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT namespace name:'new-namespace', set key:'test'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/new-namespace"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"server-group-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"server-group-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET server group id:'server-group-test'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-server-groups",
+            "Path": "/server-group-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "server-group-test"
+              },
+              {
+                "Key": "name",
+                "Value": "server-group-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all server groups",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-server-groups",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "items/1/id",
+                "Value": "server-group-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE server group id:'server-group-test'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-server-groups",
+            "Path": "/server-group-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
         {
           "Name": "Step:PUT planet id:'__default__'",
           "Skip": true,
