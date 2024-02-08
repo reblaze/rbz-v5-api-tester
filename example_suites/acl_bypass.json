@@ -187,7 +187,7 @@
           }
         },
         {
-          "Name": "Send request to /test123 path with query parameters",
+          "Name": "Send request to /test123 path, bypass WAF",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -199,10 +199,12 @@
             {
               "Key": "Host",
               "Value": "test.site"
-            },
+            }
+          ],
+          "Arguments": [
             {
               "Key": "a",
-              "Value": "b"
+              "Value": "b'--'"
             }
           ],
           "Expected": {
@@ -248,16 +250,16 @@
             ],
             "SingleResult": [
               {
-                "Key": "data/results/0/tags/*",
-                "Value": "gf-tag"
+                "Key": "data/results/0/monitor_reasons",
+                "Value": "['Monitor - acl Bypass [\"gf-tag\"] - acl_bypass_tag_policy - [uri]']"
               },
               {
                 "Key": "data/results/0/tags/*",
                 "Value": "aclname:acl-bypass-tag-policy"
               },
               {
-                "Key": "data/results/1/tags/*",
-                "Value": "gf-tag"
+                "Key": "data/results/1/monitor_reasons",
+                "Value": "['Monitor - acl Bypass [\"gf-tag\"] - acl_bypass_tag_policy - [uri]']"
               },
               {
                 "Key": "data/results/1/tags/*",
