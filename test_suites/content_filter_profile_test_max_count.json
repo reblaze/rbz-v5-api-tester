@@ -3,43 +3,1048 @@
     "Skip":false,
     "Tests":[
         {
-            "Name":"Test 1: Create global filters",
+            "Name":"Test 1: Check enable/disable toggle in Headers/Cookies/Arguments",
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create global filter with name `gf1-active-on`",
+                    "Name": "Step: Create new filter rule profile with name `cfr_headers_check_toggle`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_check_toggle\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_check_toggle\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": true, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check header`s toggle in filter rule profile `cfr_headers_check_toggle`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_headers_check_toggle/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "cfr_headers_check_toggle"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "cfr_headers_check_toggle"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{'enable_max_count': True, 'enable_max_length': True, 'max_count': 42, 'max_length': 1024, 'names': [], 'regex': []}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_cookies_check_toggle`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_check_toggle\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_check_toggle\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": true, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check header`s toggle in filter rule profile `cfr_headers_check_toggle`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_cookies_check_toggle/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "cfr_cookies_check_toggle"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "cfr_cookies_check_toggle"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{'enable_max_count': True, 'enable_max_length': True, 'max_count': 42, 'max_length': 1024, 'names': [], 'regex': []}"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_args_check_toggle`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_check_toggle\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_check_toggle\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": true, \"max_count\": 512, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check header`s toggle in filter rule profile `cfr_headers_check_toggle`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_args_check_toggle/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "cfr_args_check_toggle"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "cfr_args_check_toggle"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{'enable_max_count': True, 'enable_max_length': True, 'max_count': 512, 'max_length': 1024, 'names': [], 'regex': []}"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Headers: `Max count` field validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_headers_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Set headers max count '0' in filter rule profile `cfr_headers_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_headers_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 0, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n0 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['headers']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['headers']['max_count']:\\n    0\""
+                    }
+                },
+                {
+                    "Name": "Step: Set headers max count '-1' number in filter rule profile `cfr_headers_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_headers_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": -1, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n-1 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['headers']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['headers']['max_count']:\\n    -1\""
+                    }
+                },
+                {
+                    "Name": "Step: Set headers max count '1.25' number in filter rule profile `cfr_headers_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_headers_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 1.25, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n1.25 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['headers']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['headers']['max_count']:\\n    1.25\""
+                    }
+                },
+                {
+                    "Name": "Step: Set header`s max count `text` value in filter rule profile `cfr_headers_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_headers_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": \"text\", \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'text' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['headers']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['headers']['max_count']:\\n    'text'\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 3: Cookies: `Max count` field validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_cookies_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Set cookies max count '0' in filter rule profile `cfr_cookies_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_cookies_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 0, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n0 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['cookies']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['cookies']['max_count']:\\n    0\""
+                    }
+                },
+                {
+                    "Name": "Step: Set cookies max count '-1' number in filter rule profile `cfr_cookies_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_cookies_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": -1, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n-1 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['cookies']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['cookies']['max_count']:\\n    -1\""
+                    }
+                },
+                {
+                    "Name": "Step: Set cookies max count '1.25' number in filter rule profile `cfr_cookies_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_cookies_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 1.25, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n1.25 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['cookies']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['cookies']['max_count']:\\n    1.25\""
+                    }
+                },
+                {
+                    "Name": "Step: Set cookies max count `text` value in filter rule profile `cfr_cookies_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_cookies_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": \"text\", \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'text' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['cookies']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['cookies']['max_count']:\\n    'text'\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Arguments: `Max count` field validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_args_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Set args max count '0' in filter rule profile `cfr_args_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_args_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 0, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n0 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['args']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['args']['max_count']:\\n    0\""
+                    }
+                },
+                {
+                    "Name": "Step: Set args max count '-1' number in filter rule profile `cfr_args_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_args_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": -1, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n-1 is less than the minimum of 1\\n\\nFailed validating 'minimum' in schema['properties']['args']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['args']['max_count']:\\n    -1\""
+                    }
+                },
+                {
+                    "Name": "Step: Set args max count '1.25' number in filter rule profile `cfr_args_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_args_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 1.25, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n1.25 is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['args']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['args']['max_count']:\\n    1.25\""
+                    }
+                },
+                {
+                    "Name": "Step: Set args max count `text` value in filter rule profile `cfr_args_max_count`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfr_args_max_count/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_max_count\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": \"text\", \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'text' is not of type 'integer'\\n\\nFailed validating 'type' in schema['properties']['args']['properties']['max_count']:\\n    {'description': 'Max amount of items of the section type allowed in '\\n                    'the request',\\n     'minimum': 1,\\n     'title': 'Max Count',\\n     'type': 'integer'}\\n\\nOn instance['args']['max_count']:\\n    'text'\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 5: Create filter rule profiles",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_header_count_10_toggle_on`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_header_count_10_toggle_on\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_header_count_10_toggle_on\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 10, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_headers_count_10_toggle_off`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_headers_count_10_toggle_off\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_headers_count_10_toggle_off\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 10, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_cookies_count_4_toggle_on`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_count_4_toggle_on\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_count_4_toggle_on\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 4, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_cookies_count_4_toggle_off`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_cookies_count_4_toggle_off\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_cookies_count_4_toggle_off\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 4, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_args_count_4_toggle_on`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_count_4_toggle_on\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_count_4_toggle_on\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 4, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new filter rule profile with name `cfr_args_count_4_toggle_off`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_args_count_4_toggle_off\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_args_count_4_toggle_off\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "\"content-filter-test\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 4, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 6: Create security policy ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy with attached content filter profiles",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
-                        "Base":"global-filter",
+                        "Base":"security-policy",
                         "Path":""
                     },
                     "Method":"POST",
                     "Payload":{
                         "Params":[
                             {
-                                "Key":"name",
-                                "Value":"\"gf1-active-on\""
-                            },
-                            {
                                 "Key":"id",
-                                "Value":"\"gf1-active-on\""
+                                "Value":"\"test-sp\""
                             },
                             {
-                                "Key":"active",
-                                "Value":"true"
+                                "Key":"name",
+                                "Value":"\"test-sp\""
                             },
                             {
-                                "Key":"action",
-                                "Value":"\"action-global-filter-block\""
-                            },
-                            {
-                                "Key":"tags",
-                                "Value":"[\"my-tag-active-on\"]"
-                            },
-                            {
-                                "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-on\", \"123\"], \"\"]]}, {\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-on\", \"123\"], \"\"]]}]}"
+                                "Key":"map",
+                                "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"header_10_on\", \"name\": \"header_10_on\", \"match\": \"/header_10_on\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"cfr_header_count_10_toggle_on\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"headrer_10_off\", \"name\": \"headrer_10_off\", \"match\": \"/headrer_10_off\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"cfr_headers_count_10_toggle_off\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"cookies_4_on\", \"name\": \"cookies_4_on\", \"match\": \"/cookies_4_on\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"cfr_cookies_count_4_toggle_on\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"cookies_4_off\", \"name\": \"cookies_4_off\", \"match\": \"/cookies_4_off\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"cfr_cookies_count_4_toggle_off\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"args_4_on\", \"name\": \"args_4_on\", \"match\": \"/args_4_on\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"cfr_args_count_4_toggle_on\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"args_4_off\", \"name\": \"args_4_off\", \"match\": \"/args_4_off\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"cfr_args_count_4_toggle_off\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -53,6 +1058,599 @@
                                 "Value":true
                             }
                         ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path `/header_10_on` with 4 headers",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/header_10_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path `/header_10_on` with 10 headers",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/header_10_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        },
+                        {
+                            "Key": "qa5",
+                            "Value": "test5"
+                        },
+                        {
+                            "Key": "qa6",
+                            "Value": "test6"
+                        },
+                        {
+                            "Key": "qa7",
+                            "Value": "test7"
+                        },
+                        {
+                            "Key": "qa8",
+                            "Value": "test8"
+                        },
+                        {
+                            "Key": "qa9",
+                            "Value": "test9"
+                        },
+                        {
+                            "Key": "qa10",
+                            "Value": "test10"
+                        }
+
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to path `/header_10_on` with 11 headers",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/header_10_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        },
+                        {
+                            "Key": "qa5",
+                            "Value": "test5"
+                        },
+                        {
+                            "Key": "qa6",
+                            "Value": "test6"
+                        },
+                        {
+                            "Key": "qa7",
+                            "Value": "test7"
+                        },
+                        {
+                            "Key": "qa8",
+                            "Value": "test8"
+                        },
+                        {
+                            "Key": "qa9",
+                            "Value": "test9"
+                        },
+                        {
+                            "Key": "qa10",
+                            "Value": "test10"
+                        },
+                        {
+                            "Key": "qa11",
+                            "Value": "test11"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to path `/headrer_10_off` with 11 headers",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/headrer_10_off"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        },
+                        {
+                            "Key": "qa5",
+                            "Value": "test5"
+                        },
+                        {
+                            "Key": "qa6",
+                            "Value": "test6"
+                        },
+                        {
+                            "Key": "qa7",
+                            "Value": "test7"
+                        },
+                        {
+                            "Key": "qa8",
+                            "Value": "test8"
+                        },
+                        {
+                            "Key": "qa9",
+                            "Value": "test9"
+                        },
+                        {
+                            "Key": "qa10",
+                            "Value": "test10"
+                        },
+                        {
+                            "Key": "qa11",
+                            "Value": "test11"
+                        }
+
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 5 to path `/cookies_4_on` with 2 cookies",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/cookies_4_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "foo=book"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "boo=go"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 6 to path `/cookies_4_on` with 4 cookies",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/cookies_4_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "foo=book"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "boo=go"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "goo=hook"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "hoo=fook"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 7 to path `/cookies_4_on` with 5 cookies",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/cookies_4_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "foo=book"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "boo=go"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "goo=hook"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "hoo=fook"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "koo=cook"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 8 to path `/cookies_4_off` with 5 cookies",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/cookies_4_off"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "foo=book"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "boo=go"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "goo=hook"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "hoo=fook"
+                        },
+                        {
+                            "Key": "Cookie",
+                            "Value": "koo=cook"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 9 to path `/args_4_on` with 2 args",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_4_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 10 to path `/args_4_on` with 4 args",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_4_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 11 to path `/args_4_on` with 5 args",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_4_on"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        },
+                        {
+                            "Key": "qa5",
+                            "Value": "test5"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 12 to path `/args_4_off` with 5 args",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_4_off"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "qa1",
+                            "Value": "test1"
+                        },
+                        {
+                            "Key": "qa2",
+                            "Value": "test2"
+                        },
+                        {
+                            "Key": "qa3",
+                            "Value": "test3"
+                        },
+                        {
+                            "Key": "qa4",
+                            "Value": "test4"
+                        },
+                        {
+                            "Key": "qa5",
+                            "Value": "test5"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 }
             ]
