@@ -1,0 +1,61 @@
+{
+    "Name":"TA 1285 Content filter profile test max count",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: Create global filters",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create global filter with name `gf1-active-on`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"global-filter",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf1-active-on\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf1-active-on\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-global-filter-block\""
+                            },
+                            {
+                                "Key":"tags",
+                                "Value":"[\"my-tag-active-on\"]"
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\", \"entries\": [{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test-on\", \"123\"], \"\"]]}, {\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-on\", \"123\"], \"\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
