@@ -308,10 +308,10 @@
             "Type": "jsonpath",
             "Single": true,
             "SingleResult": [
-                {
-                  "Key": "items/0/name",
-                  "Value": "server-group-pt"
-                }
+              {
+                "Key": "items/0/name",
+                "Value": "server-group-pt"
+              }
             ]
           }
         },
@@ -1989,10 +1989,10 @@
             "Type": "jsonpath",
             "Single": true,
             "SingleResult": [
-                {
-                  "Key": "items/2/id",
-                  "Value": "certificate-test"
-                }
+              {
+                "Key": "items/2/id",
+                "Value": "certificate-test"
+              }
             ]
           }
         },
@@ -2047,10 +2047,10 @@
             "Type": "jsonpath",
             "Single": true,
             "SingleResult": [
-                {
-                  "Key": "items/0/name",
-                  "Value": "server-group-cert"
-                }
+              {
+                "Key": "items/0/name",
+                "Value": "server-group-cert"
+              }
             ]
           }
         },
@@ -2208,43 +2208,113 @@
             "Type": "json",
             "Single": true,
             "SingleResult": [
-                {
-                  "Key": "title",
-                  "Value": "test"
-                }
+              {
+                "Key": "title",
+                "Value": "test"
+              }
             ]
           }
-        },
+        }
+      ]
+    },
+    {
+      "Name": "Test: DNS APIs",
+      "Skip": false,
+      "Steps": [
         {
-          "Name": "Step:POST new user",
+          "Name": "Step: GET DNS information",
+          "Skip": false,
+          "GenerateID": false,
+          "Method": "GET",
+          "API": {
+            "Base": "api-dns",
+            "Path": ""
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Planet APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step: GET planet id:'__default__'",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-accounts",
+            "Base": "api-planets",
             "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "__default__"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: DB APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST namespace name:'new-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/new-namespace"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
-                "Key": "acl",
-                "Value": "1"
+                "Key": "key",
+                "Value": "{}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT namespace name:'new-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/new-namespace"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"new-namespace\""
               },
               {
-                "Key": "contact_name",
-                "Value": "\"test\""
-              },
-              {
-                "Key": "email",
-                "Value": "\"account-test@account-test.com\""
-              },
-              {
-                "Key": "mobile",
-                "Value": "\"+97212345678\""
-              },
-              {
-                "Key": "org_id",
-                "Value": "\"65ae06cf9ac543b77f0285bc\""
+                "Key": "name",
+                "Value": "\"new-namespace\""
               }
             ]
           },
@@ -2255,7 +2325,266 @@
             "SingleResult": [
               {
                 "Key": "message",
-                "Value": "profile has been added"
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET namespace id:'new-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/new-namespace"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "key",
+                "Value": "{}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all namespaces",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+             "Single": true,
+            "SingleResult": [
+              {
+                "Key": "items",
+                "Value": "['new-namespace', 'system']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET versions namespaces",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/versions"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step:DELETE namespace id:'new-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/new-namespace"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST namespace name:'key-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/key-namespace"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "key",
+                "Value": "{}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT key:'new' to namespace name:'key-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/key-namespace/new"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "key",
+                "Value": "{}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET  from key:'new' namespace id:'key-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/key-namespace/new"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "key",
+                "Value": "{}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET key: 'new' versions",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/key-namespace/new/versions"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step:DELETE key: 'new'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/key-namespace/new"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE namespace id:'key-namespace'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-db",
+            "Path": "/key-namespace"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Planet APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:PUT planet id:'__default__'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-planets",
+            "Path": "/__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "__default__"
+              },
+              {
+                "Key": "trusted_nets",
+                "Value": []
+              },
+              {
+                "Key": "name",
+                "Value": "__default__"
+              },
+              {
+                "Key": "ichallenge",
+                "Value": {}
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
               }
             ]
           }
@@ -2292,231 +2621,6 @@
                 "Value": "Successfully updated entry"
               }
             ]
-          }
-        }
-      ]
-    },
-    {
-      "Name": "Test: DNS APIs",
-      "Skip": false,
-      "Steps": [
-        {
-          "Name": "Step: GET DNS information",
-          "Skip": false,
-          "GenerateID": false,
-          "Method": "GET",
-          "API": {
-            "Base": "api-dns",
-            "Path": ""
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        }
-      ]
-    },
-
-    {
-      "Name": "Test: Planet APIs",
-      "Skip": false,
-      "Steps": [
-        {
-          "Name": "Step: GET planet id:'__default__'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-planets",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "__default__"
-              }
-            ]
-          }
-        },
-        {
-      "Name": "Test: DB APIs",
-      "Skip": false,
-      "Steps": [
-        {
-          "Name": "Step:POST namespace name:'new-namespace'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-db",
-            "Path": "/new-namespace"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "key",
-                "Value": "{}"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully created entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:PUT namespace name:'new-namespace', set key:'test'",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-db",
-            "Path": "/new-namespace"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"server-group-test\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"server-group-test-name-change\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET server group id:'server-group-test'",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-server-groups",
-            "Path": "/server-group-test"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "server-group-test"
-              },
-              {
-                "Key": "name",
-                "Value": "server-group-test-name-change"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET all server groups",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-server-groups",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "items/1/id",
-                "Value": "server-group-test"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:DELETE server group id:'server-group-test'",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-server-groups",
-            "Path": "/server-group-test"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully deleted entry"
-              }
-            ]
-          }
-        }
-      ]
-    },
-        {
-          "Name": "Step:PUT planet id:'__default__'",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-planets",
-            "Path": "/__default__"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "__default__"
-              },
-              {
-                "Key": "trusted_nets",
-                "Value" :[]
-              },
-              {
-                "Key": "name",
-                "Value": "__default__"
-              },
-              {
-                "Key": "ichallenge",
-                "Value": {}
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
-
           }
         }
       ]
