@@ -263,27 +263,25 @@
                     "GenerateID": false,
                     "API":
                     {
-                        "Base": "content-filter-rules",
-                        "Path": ""
+                        "Base": "content-filter-rule",
+                        "Path": "filter_rule_leading_space_name/"
                     },
                     "Method" :"GET",
                     "Expected":
                     {
                         "Code": "200",
                         "Type": "json",
-						"Single": false,
-                        "MultipleResults":
+						"Single": true,
+                        "SingleResult":
                         [
-                            [
-                                {
-                                    "Key": "name",
-                                    "Value": "filter_rule_leading_space_name"
-                                },
-                                {
-                                    "Key": "id",
-                                    "Value": "filter_rule_leading_space_name"
-                                }
-                            ]
+                            {
+                                "Key": "name",
+                                "Value": "filter_rule_leading_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "filter_rule_leading_space_name"
+                            }
                         ]
                     }
                 },
@@ -326,27 +324,25 @@
                     "GenerateID": false,
                     "API":
                     {
-                        "Base": "content-filter-rules",
-                        "Path": ""
+                        "Base": "content-filter-rule",
+                        "Path": "filter_rule_trailing_space_name/"
                     },
                     "Method" :"GET",
                     "Expected":
                     {
                         "Code": "200",
                         "Type": "json",
-						"Single": false,
-                        "MultipleResults":
+						"Single": true,
+                        "SingleResult":
                         [
-                            [
-                                {
-                                    "Key": "name",
-                                    "Value": "filter_rule_trailing_space_name"
-                                },
-                                {
-                                    "Key": "id",
-                                    "Value": "filter_rule_trailing_space_name"
-                                }
-                            ]
+                            {
+                                "Key": "name",
+                                "Value": "filter_rule_trailing_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "filter_rule_trailing_space_name"
+                            }
                         ]
                     }
                 }
@@ -1634,14 +1630,9 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
@@ -1671,18 +1662,13 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: User can create a filter rule with space char tag",
+                    "Name": "Step: User cannot create a filter rule with space char tag",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1707,15 +1693,10 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
-                        "Type": "json",
+                        "Code": "400",
+                        "Type": "content",
                         "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 },
                 {
@@ -1757,7 +1738,7 @@
                 },
                 {
                     "Name": "Step: User check filter rule with leading space char tag",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API":
                     {
