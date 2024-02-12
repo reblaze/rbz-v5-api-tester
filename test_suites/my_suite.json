@@ -1,0 +1,695 @@
+{
+  "Name": "Content filter profile - test Max length TA-1284",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Headers: Max length field validations",
+      "Skip": true,
+      "Steps": [
+        {
+          "Name": "Headers: Max count field empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_empty_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_empty_max_count\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": \"\",\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max count field zero",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_empty_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_empty_max_count\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 0,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max count field negative number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_negative_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_negative_max_count\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": -5,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max count field decimal number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_decimal_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_decimal_max_count\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 3.5,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max count field text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_text_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_text_max_count\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": \"text\",\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Cookies: Max length field validations",
+      "Skip": true,
+      "Steps": [
+        {
+          "Name": "Cookies: Max count field empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_empty_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_empty_max_count\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": \"\",\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max count field zero",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_zero_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_zero_max_count\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 0,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max count field negative number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_negative_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_negative_max_count\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": -5,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max count field decimal number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_decimal_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_decimal_max_count\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 3.5,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max count field text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_text_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_text_max_count\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": \"text\",\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Arguments: Max length field validations",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Arguments: Max count field empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_empty_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_empty_max_count\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": \"\",\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max count field zero",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_zero_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_zero_max_count\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 0,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max count field negative number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_negative_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_negative_max_count\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": -5,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max count field decimal number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_decimal_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_decimal_max_count\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 3.5,\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max count field text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_text_max_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_text_max_count\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": \"text\",\"enable_max_count\": true,\"max_length\": 1024,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Headers: Max length field validations",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Headers: Max length field validations",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field\""
+              },
+              {
+                "Key": "ignore_alphanum",
+                "Value": "true"
+              },
+              {
+                "Key": "args",
+                "Value": "\"{'names': [], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}\""
+              },
+              {
+                "Key": "headers",
+                "Value": "\"{'names': [], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "\"{'names': [], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}\""
+              },
+              {
+                "Key": "path",
+                "Value": "\"{'names': [], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}\""
+              },
+              {
+                "Key": "allsections",
+                "Value": "\"{'names': [], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}\""
+              },
+              {
+                "Key": "decoding",
+                "Value": "\"{'base64': True, 'dual': True, 'html': False, 'unicode': False}\""
+              },
+              {
+                "Key": "masking_seed",
+                "Value": "\"CHANGEME\""
+              },
+              {
+                "Key": "graphql_path",
+                "Value": "\"\""
+              },
+              {
+                "Key": "content_type",
+                "Value": "\"[]\""
+              },
+              {
+                "Key": "active",
+                "Value": "\"['cf-rule-risk:5', 'cf-rule-risk:4', 'cf-rule-risk:3', 'cf-rule-subcategory:libinjection-xss']\""
+              },
+              {
+                "Key": "report",
+                "Value": "\"['cf-rule-name:200003', 'cf-rule-name:200160', 'cf-rule-name:200161', 'cf-rule-name:200162', 'cf-rule-name:300008', 'cf-rule-name:300009', 'cf-rule-name:300010', 'cf-rule-name:500001', 'cf-rule-name:500002', 'cf-rule-name:500110', 'cf-rule-name:500111', 'cf-rule-name:500112', 'cf-rule-name:700010', 'cf-rule-name:700011', 'cf-rule-name:700012', 'cf-rule-name:800013', 'cf-rule-name:900004', 'cf-rule-name:910000', 'cf-rule-name:910001', 'cf-rule-name:920005', 'cf-rule-name:920006', 'cf-rule-name:920007', 'cf-rule-name:920008', 'cf-rule-name:920009', 'cf-rule-name:920010', 'cf-rule-name:920011', 'cf-rule-name:920012', 'cf-rule-name:920013', 'cf-rule-name:920014', 'cf-rule-name:920015', 'cf-rule-name:920016', 'cf-rule-name:920017']\""
+              },
+              {
+                "Key": "ignore",
+                "Value": "\"[]\""
+              },
+              {
+                "Key": "tags",
+                "Value": "\"['content-filter-test']\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "Headers": [],
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          },
+          "Type": "request"
+        }
+      ]
+    }
+  ]
+}
