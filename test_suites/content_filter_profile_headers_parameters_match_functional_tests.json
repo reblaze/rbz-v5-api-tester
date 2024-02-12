@@ -1,0 +1,211 @@
+{
+    "Name":"TA 1287 Content filter profile headers parameters match functional tests",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: Create filter rule profiles",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new filter rule profile with name `test_cfr_match`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_match\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_match\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Edit filter rule profiles",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Update filter rule profile with name `test_cfr_match`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "ttest_cfr_match/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_match\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_match\""
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_match\", \"reg\": \"('|”)[^-]*--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_match\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": false, \"max_length\": 1024, \"enable_max_length\": false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Create security policy ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy with attached content filter profiles",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_match\", \"name\": \"test_match\", \"match\": \"/test_match\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_match\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path `/test_match` ",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test_match"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_match",
+                            "Value": "a--"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        }
+    ]
+}
