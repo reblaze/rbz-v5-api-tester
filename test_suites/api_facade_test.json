@@ -2299,8 +2299,8 @@
       ]
     },
     {
-      "Name": "Test: Account APIs",
-      "Skip": true,
+      "Name": "Test: SSO APIs",
+      "Skip": false,
       "Steps": [
         {
           "Name": "Step:POST sso saml2",
@@ -2362,23 +2362,21 @@
         },
         {
           "Name": "Step:GET sso",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-sso",
             "Path": ""
           },
           "Method": "GET",
+          "Headers": [
+            {
+              "Key": "X-Planet-Hostname",
+              "Value": "@@planet@@.dev.app.reblaze.io"
+            },
           "Expected": {
             "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "title",
-                "Value": "test"
-              }
-            ]
+            "Type": "status-code"
           }
         }
       ]
