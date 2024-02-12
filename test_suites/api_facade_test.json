@@ -615,6 +615,89 @@
           }
         },
         {
+          "Name": "Step:POST security-policy with id:'security-policy-backend'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-security-policies",
+            "Path": "/security-policy-backend"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"security-policy-backend\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"security-policy-backend\""
+              },
+              {
+                "Key": "map",
+                "Value": "[{ \"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"backend-test\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET backend id:'backend-test' links",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "/backend-test/links"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              },
+              {
+                "Key": "name",
+                "Value": "backend-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE security-policy id:'security-policy-backend'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-security-policies",
+            "Path": "/security-policy-backend"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
           "Name": "Step:DELETE backend id:'backend-test'",
           "Skip": false,
           "GenerateID": false,
@@ -1866,6 +1949,89 @@
           }
         },
         {
+          "Name": "Step:POST security-policy with id:'security-policy-ef'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-security-policies",
+            "Path": "/security-policy-ef"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"security-policy-ef\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"security-policy-ef\""
+              },
+              {
+                "Key": "map",
+                "Value": "[{ \"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [\"edge-function-test\"],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET edge function id:'edge-function-test' links",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-edge-functions",
+            "Path": "/edge-function-test/links"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "backend-test"
+              },
+              {
+                "Key": "name",
+                "Value": "backend-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE security-policy id:'security-policy-ef'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-security-policies",
+            "Path": "/security-policy-ef"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        },
+        {
           "Name": "Step:DELETE edge-function id:'edge-function-test'",
           "Skip": false,
           "GenerateID": false,
@@ -2261,6 +2427,35 @@
               }
             ]
           }
+        },
+        {
+          "Name": "Step:PUT planet id:'__default__'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-planets",
+            "Path": "/__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "__default__"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
         }
       ]
     },
@@ -2363,7 +2558,7 @@
           "Expected": {
             "Code": "200",
             "Type": "json",
-             "Single": true,
+            "Single": true,
             "SingleResult": [
               {
                 "Key": "items",
@@ -2545,48 +2740,115 @@
       ]
     },
     {
-      "Name": "Test: Planet APIs",
+      "Name": "Test: Datalayer APIs",
       "Skip": false,
       "Steps": [
         {
-          "Name": "Step:PUT planet id:'__default__'",
-          "Skip": true,
+          "Name": "Step: GET stats",
+          "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-planets",
-            "Path": "/__default__"
+            "Base": "api-data",
+            "Path": "/stats"
           },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "__default__"
-              },
-              {
-                "Key": "trusted_nets",
-                "Value": []
-              },
-              {
-                "Key": "name",
-                "Value": "__default__"
-              },
-              {
-                "Key": "ichallenge",
-                "Value": {}
-              }
-            ]
-          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "filters",
+              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
           "Expected": {
             "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step: GET timeline",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/timeline"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "filters",
+              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step: GET topx",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/topx"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "filters",
+              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step: GET logs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/logs"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
           }
         }
       ]
