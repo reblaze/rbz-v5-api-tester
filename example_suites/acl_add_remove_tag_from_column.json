@@ -1,0 +1,700 @@
+{
+  "Name": "ACL - Add/Remove tag from column TA-1275",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Add One Tag to Each Column",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Add One Tag to Each Column",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_with_one_tag_to_each_column\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_with_one_tag_to_each_column\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"allow-tag\"]"
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "[\"allow-bot-tag\"]"
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "[\"deny-bot-tag\"]"
+              },
+              {
+                "Key": "passthrough",
+                "Value": "[\"passthrough-tag\"]"
+              },
+              {
+                "Key": "deny",
+                "Value": "[\"deny-tag\"]"
+              },
+              {
+                "Key": "force_deny",
+                "Value": "[\"force-deny-tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Add Several Tags to One Column",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Add Several Tags to One Column",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_with_several_tags_to_one_column\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_with_several_tags_to_one_column\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"allow-tag-1\",\"allow-tag-2\",\"allow-tag-3\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Tags verifications",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "No Tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_no_tags\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_no_tags\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "One Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_one_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_one_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"allow-tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Several Tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_several_tags\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_several_tags\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"allow-tag-1\",\"allow-tag-2\",\"allow-tag-3\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Very Long Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_long_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_long_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong-tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Tag with Special Characters",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_special_chars\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_special_chars\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Tag with 1 Char",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_short_tag_one_char\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_short_tag_one_char\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"a\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Tag with 2 Chars",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_short_tag_two_chars\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_short_tag_two_chars\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"aa\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Tag with Space Char Only",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_space_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_space_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\" \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Tag with Leading Space Char",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_leading_space_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_leading_space_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\" space-tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Check tag with Leading Space Char",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_tags_verification_leading_space_tag/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "allow",
+                "Value": "['space-tag']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Tag with Trailing Space Char",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_tags_verification_trailing_space_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_tags_verification_trailing_space_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"space-tag \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json"
+          }
+        },
+        {
+          "Name": "Check tag with Trailing Space Char",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_tags_verification_trailing_space_tag/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "allow",
+                "Value": "['space-tag']"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Same Tag Twice",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Same Tag Twice",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_same_tag_twice\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_same_tag_twice\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"same-tag\",\"same-tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Same Tag Different Columns",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Same Tag Different Columns",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_same_tag_diff_columns\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_same_tag_diff_columns\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"same-tag\"]"
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "[\"same-tag\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Remove Tag",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Remove Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_remove_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_remove_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"tag-to-be-removed\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Edit Remove Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_remove_tag/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Template": "aclprofile.template",
+            "Defaults": "aclprofile.defaults",
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"acl_remove_tag\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"acl_remove_tag\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Check Removed Tag",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "acl-profile",
+            "Path": "acl_remove_tag/"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "allow",
+                "Value": "[]"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
