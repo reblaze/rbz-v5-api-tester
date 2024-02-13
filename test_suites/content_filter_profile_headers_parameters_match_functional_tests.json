@@ -175,7 +175,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-ignore-empty-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [], \"ignore\": [], \"id\": \"cfr_ignore_empty\"}], \"regex\": [\"(ooo|test_cfr_regex)\"], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-ignore-empty-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [], \"ignore\": [], \"id\": \"cfr_ignore_empty\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -193,7 +193,7 @@
                 },
                 {
                     "Name": "Step: Create new content filter profile with name `test_cfr_regex`",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "content-filter-profile",
@@ -212,7 +212,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-regex-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_regex\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-regex-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_regex\"}], \"regex\": [\"(ooo|test_regex)\"], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -232,7 +232,7 @@
         },
         {
             "Name":"Test 2: Create security policy ",
-            "Skip":true,
+            "Skip":false,
             "Steps":[
                 {
                     "Name":"Step: User can create security policy with attached content filter profiles",
@@ -325,7 +325,7 @@
         },
         {
             "Name": "Test 3: Send traffics ",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Send Traffic 1 to `-H test-match-key:a--`",
@@ -557,7 +557,7 @@
         },
         {
             "Name": "Test 4: Wait for logs",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "ID": "wait-for-logs",
@@ -567,7 +567,7 @@
         },
         {
             "Name": "Test 5: Check logs from path /test-match",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Get Logs from path /test-match",
@@ -590,7 +590,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-match, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-match, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -606,15 +606,15 @@
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "status:200"
-                            },
-                            {
-                                "Key": "data/results/1/tags/*",
                                 "Value": "status:473"
                             },
                             {
-                                "Key": "data/results/2/tags/*",
-                                "Value": "status:200"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 100031[lvl5] - test_cfr_match - [header foo=a--]"
                             }
                         ]
                     }
@@ -623,7 +623,7 @@
         },
         {
             "Name": "Test 6: Check logs from path /test-restrict",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Get Logs from path /test-restrict",
@@ -646,7 +646,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-restrict, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-restrict, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -663,6 +663,14 @@
                             {
                                 "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted restricted[a/('|”)[^-]*--] - test_cfr_restrict - [header test-restrict-key=a]"
                             }
                         ]
                     }
@@ -671,7 +679,7 @@
         },
         {
             "Name": "Test 7: Check logs from path /test-restrict-mask",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Get Logs from path /test-restrict-mask",
@@ -694,7 +702,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-restrict-mask, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-restrict-mask, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -713,56 +721,12 @@
                                 "Value": "status:473"
                             },
                             {
-                                "Key": "data/results/1/tags/*",
-                                "Value": "status:200"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 8: Check logs from path /test-ignore",
-            "Skip": true,
-            "Steps": [
-                {
-                    "Name": "Step: Get Logs from path /test-ignore",
-                    "Skip": false,
-                    "API": {
-                        "Base": "logs",
-                        "Path": ""
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "syntax",
-                            "Value": "string_query"
-                        }
-                    ],
-                    "Arguments": [
-                        {
-                            "Key": "limit",
-                            "Value": "200"
-                        },
-                        {
-                            "Key": "filters",
-                            "Value": "path = /test-ignore, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "jsonpath",
-                        "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult": [
-                            {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "status:200"
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted restricted[a/('|”)[^-]*--] - test_cfr_restrict_mask - [header test-restrict-mask-key=a]"
                             }
                         ]
                     }
@@ -770,8 +734,8 @@
             ]
         },
         {
-            "Name": "Test 9: Check logs from path /test-ignore-empty",
-            "Skip": true,
+            "Name": "Test 8: Check logs from path /test-ignore-empty",
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Get Logs from path /test-ignore-empty",
@@ -794,7 +758,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-ignore-empty, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-ignore-empty, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -811,6 +775,14 @@
                             {
                                 "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 100031[lvl5] - test_cfr_ignore - [header test-ignore-empty-key=a--]"
                             }
                         ]
                     }
@@ -818,7 +790,7 @@
             ]
         },
         {
-            "Name": "Test 10: Check logs from path /test-regex",
+            "Name": "Test 9: Check logs from path /test-regex",
             "Skip": true,
             "Steps": [
                 {
@@ -842,7 +814,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-regex, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-regex, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -859,6 +831,14 @@
                             {
                                 "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 100031[lvl5] - test_cfr_ignore - [header test-ignore-empty-key=a--]"
                             }
                         ]
                     }
