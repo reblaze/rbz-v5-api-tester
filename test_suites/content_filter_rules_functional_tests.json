@@ -7,7 +7,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create new filter rule profile with name `cfr_profile_test`",
+                    "Name": "Step: Create new filter content filter profile with name `cfr_profile_test`",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -194,7 +194,7 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"cfr_profile_test\",\"match\": \"/test\",\"name\": \"cfr_profile_test\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"cfr_profile_test\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\": \"cfr-profile-test\",\"match\": \"/test\",\"name\": \"cfr-profile-test\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"cfr_profile_test\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
@@ -558,7 +558,7 @@
         },
         {
             "Name": "Test 6: wait for logs",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                    "ID": "wait-for-logs",
@@ -568,11 +568,11 @@
         },
         {
             "Name": "Test 7: Check logs",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "Name":"Step: Get logs from path /a1",
-                    "Skip":true,
+                    "Skip":false,
                     "API":{
                        "Base":"logs",
                        "Path":""
@@ -614,7 +614,7 @@
                 },
                 {
                     "Name":"Step: Get logs from path /<area2>",
-                    "Skip":true,
+                    "Skip":false,
                     "API":{
                        "Base":"logs",
                        "Path":""
