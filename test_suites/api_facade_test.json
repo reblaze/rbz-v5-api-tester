@@ -653,7 +653,7 @@
         },
         {
           "Name": "Step:GET backend id:'backend-test' links",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-backends",
@@ -662,18 +662,7 @@
           "Method": "GET",
           "Expected": {
             "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "backend-test"
-              },
-              {
-                "Key": "name",
-                "Value": "backend-test-name-change"
-              }
-            ]
+            "Type": "status-code"
           }
         },
         {
@@ -1987,7 +1976,7 @@
         },
         {
           "Name": "Step:GET edge function id:'edge-function-test' links",
-          "Skip": true,
+          "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-edge-functions",
@@ -1996,18 +1985,7 @@
           "Method": "GET",
           "Expected": {
             "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "backend-test"
-              },
-              {
-                "Key": "name",
-                "Value": "backend-test-name-change"
-              }
-            ]
+            "Type": "status-code"
           }
         },
         {
@@ -2038,6 +2016,404 @@
           "API": {
             "Base": "api-edge-functions",
             "Path": "/edge-function-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Virtual tags APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST virtual tag with id:'virtual-tag-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-virtual-tags",
+            "Path": "/virtual-tag-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"virtual-tag-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"virtual-tag-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT virtual tag id:'virtual-tag-test', set name:'virtual-tag-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-virtual-tags",
+            "Path": "/virtual-tag-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"virtual-tag-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"virtual-tag-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET virtual tag id:'virtual-tag-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-virtual-tags",
+            "Path": "/virtual-tag-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "virtual-tag-test"
+              },
+              {
+                "Key": "name",
+                "Value": "virtual-tag-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all virtual tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-virtual-tags",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/1/id",
+                "Value": "virtual-tag-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE virtual tag id:'virtual-tag-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-virtual-tags",
+            "Path": "/virtual-tag-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Mobile SDK APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST mobile sdk profile with id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-mobile-sdks",
+            "Path": "/mobile-sdk-test"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"mobile-sdk-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"mobile-sdk-test\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT mobile sdk profile id:'mobile-sdk-test', set name:'mobile-sdk-test-name-change'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-mobile-sdks",
+            "Path": "/mobile-sdk-test"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"mobile-sdk-test\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"mobile-sdk-test-name-change\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET mobile sdk profile id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-mobile-sdks",
+            "Path": "/mobile-sdk-test"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "mobile-sdk-test"
+              },
+              {
+                "Key": "name",
+                "Value": "mobile-sdk-test-name-change"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all mobile sdk profiles",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-mobile-sdks",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": false,
+            "SingleResult": [
+              {
+                "Key": "items/0/id",
+                "Value": "mobile-sdk-test"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:DELETE mobile sdk profile id:'mobile-sdk-test'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-mobile-sdks",
+            "Path": "/mobile-sdk-test"
+          },
+          "Method": "DELETE",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully deleted entry"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Blob APIs",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:POST blob with id:'customconf'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-blobs",
+            "Path": "/customconf"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "blob",
+                "Value": "\"VGhpcyBpcyBzaW1wbGUgdGV4dGZpbGUgcGF5bG9hZAo=\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT blob id:'customconf'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-blobs",
+            "Path": "/customconf"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "format",
+                "Value": "\"base64\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET blob id:'customconf'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-blobs",
+            "Path": "/customconf"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "format",
+                "Value": "base64"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:GET all blobs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-blobs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step:DELETE blob id:'blob-test'",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-blobs",
+            "Path": "/customconf"
           },
           "Method": "DELETE",
           "Expected": {
