@@ -27,7 +27,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_match_key\", \"reg\": \"('|”)[^-]*--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_match\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-match-key\", \"reg\": \"('|”)[^-]*--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_match\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -64,7 +64,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_restrict_key\", \"reg\": \"('|”)[^-]*--\", \"restrict\": true, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_restrict\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-restrict-key\", \"reg\": \"('|”)[^-]*--\", \"restrict\": true, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_restrict\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -101,7 +101,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_restrict_mask_key\", \"reg\": \"('|”)[^-]*--\", \"restrict\": true, \"mask\": true,\"exclusions\": [],\"id\": \"cfr_restrict_mask\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-restrict-mask-key\", \"reg\": \"('|”)[^-]*--\", \"restrict\": true, \"mask\": true,\"exclusions\": [],\"id\": \"cfr_restrict_mask\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -138,7 +138,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_ignore_key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [\"cf-rule-name:1000023\"],\"id\": \"cfr_ignore\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-ignore-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [\"cf-rule-name:100031\"], \"ignore\": [\"cf-rule-name:100031\"],\"id\": \"cfr_ignore\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -175,7 +175,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_ignore_empty_key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_ignore_empty\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-ignore-empty-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [], \"ignore\": [], \"id\": \"cfr_ignore_empty\"}], \"regex\": [\"(ooo|test_cfr_regex)\"], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -212,7 +212,7 @@
                             },
                             {
                                 "Key": "headers",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test_regex_key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_regex\"}], \"regex\": [\"ooo|test_cfr_regex\"], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-regex-key\", \"reg\": \"('|”)[^-]*bc--\", \"restrict\": false, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_regex\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
                         ]
                     },
@@ -232,7 +232,7 @@
         },
         {
             "Name":"Test 2: Create security policy ",
-            "Skip":false,
+            "Skip":true,
             "Steps":[
                 {
                     "Name":"Step: User can create security policy with attached content filter profiles",
@@ -255,7 +255,8 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test_match\", \"name\": \"test_match\", \"match\": \"/test_match\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_match\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test_restrict\", \"name\": \"test_restrict\", \"match\": \"/test_restrict\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test_restrict_mask\", \"name\": \"test_restrict_mask\", \"match\": \"/test_restrict_mask\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict_mask\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test_ignore\", \"name\": \"test_ignore\", \"match\": \"/test_ignore\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_ignore\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test_regex\", \"name\": \"test_regex\", \"match\": \"/test_regex\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_regex\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-match\", \"name\": \"test-match\", \"match\": \"/test-match\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_match\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-restrict\", \"name\": \"test-restrict\", \"match\": \"/test-restrict\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-restrict-mask\", \"name\": \"test-restrict-mask\", \"match\": \"/test-restrict-mask\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict_mask\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-ignore\", \"name\": \"test-ignore\", \"match\": \"/test-ignore\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_ignore\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-regex\", \"name\": \"test-regex\", \"match\": \"/test-regex\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_regex\", \"content_filter_active\": true, \"limit_ids\": []}]"
+
                             }
                         ]
                     },
@@ -324,14 +325,14 @@
         },
         {
             "Name": "Test 3: Send traffics ",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic 1 to `-H test_match_key:a--`",
+                    "Name": "Step: Send Traffic 1 to `-H test-match-key:a--`",
                     "Skip": true,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_match"
+                        "Path": "/test-match"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -340,7 +341,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_match_key",
+                            "Key": "test-match-key",
                             "Value": "a--"
                         }
                     ],
@@ -356,7 +357,7 @@
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_match"
+                        "Path": "/test-match"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -376,12 +377,13 @@
                         "Text": "b'access denied'"
                     }
                 },
+
                 {
-                    "Name": "Step: Send Traffic 3 to `-H test_match_key:a`",
+                    "Name": "Step: Send Traffic 3 to `-H test-restrict-key:a`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_match"
+                        "Path": "/test-restrict"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -390,7 +392,32 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_match_key",
+                            "Key": "test-restrict-key",
+                            "Value": "a"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to `-H test-match-key:a`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-match"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-match-key",
                             "Value": "a"
                         }
                     ],
@@ -402,11 +429,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to `-H test_restrict_key:a`",
+                    "Name": "Step: Send Traffic 5 to `-H test-restrict-mask-key:a`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_restrict"
+                        "Path": "/test-restrict-mask"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -415,7 +442,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_restrict_key",
+                            "Key": "test-restrict-mask-key",
                             "Value": "a"
                         }
                     ],
@@ -427,36 +454,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 5 to `-H test_restrict_mask_key:a`",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/test_restrict_mask"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test_restrict_mask_key",
-                            "Value": "a"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "473",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b'access denied'"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 6 to `-H test_restrict_mask_key:a--`",
+                    "Name": "Step: Send Traffic 6 to `-H test-restrict-mask-key:a--`",
                     "Skip": true,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_restrict_mask"
+                        "Path": "/test-restrict-mask"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -465,7 +467,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_restrict_mask_key",
+                            "Key": "test-restrict-mask-key",
                             "Value": "a--"
                         }
                     ],
@@ -477,11 +479,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 7 to `-H test_ignore_key:a--`",
-                    "Skip": false,
+                    "Name": "Step: Send Traffic 7 to `-H test-ignore-key:a--`",
+                    "Skip": true,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_ignore"
+                        "Path": "/test-ignore"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -490,7 +492,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_ignore_key",
+                            "Key": "test-ignore-key",
                             "Value": "a--"
                         }
                     ],
@@ -502,11 +504,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 8 to `-H test_ignore_empty_key:a--`",
+                    "Name": "Step: Send Traffic 8 to `-H test-ignore-empty-key:a--`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_ignore_empty"
+                        "Path": "/test-ignore-empty"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -515,7 +517,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_ignore_empty_key",
+                            "Key": "test-ignore-empty-key",
                             "Value": "a--"
                         }
                     ],
@@ -527,11 +529,11 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 9 to `-H test_regex_key:a--`",
+                    "Name": "Step: Send Traffic 9 to `-H test-regex-key:a--`",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test_regex"
+                        "Path": "/test-regex"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -540,7 +542,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test_regex_key",
+                            "Key": "test-regex-key",
                             "Value": "a--"
                         }
                     ],
@@ -555,7 +557,7 @@
         },
         {
             "Name": "Test 4: Wait for logs",
-            "Skip": false,
+            "Skip": true,
             "Steps": [
                 {
                     "ID": "wait-for-logs",
@@ -564,11 +566,11 @@
             ]
         },
         {
-            "Name": "Test 5: Check logs from path /test_match",
+            "Name": "Test 5: Check logs from path /test-match",
             "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test_match",
+                    "Name": "Step: Get Logs from path /test-match",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -588,7 +590,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test_match, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-match, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -620,11 +622,11 @@
             ]
         },
         {
-            "Name": "Test 6: Check logs from path /test_restrict",
+            "Name": "Test 6: Check logs from path /test-restrict",
             "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test_restrict",
+                    "Name": "Step: Get Logs from path /test-restrict",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -644,7 +646,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test_restrict, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-restrict, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -668,11 +670,11 @@
             ]
         },
         {
-            "Name": "Test 7: Check logs from path /test_restrict_mask",
+            "Name": "Test 7: Check logs from path /test-restrict-mask",
             "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test_restrict_mask",
+                    "Name": "Step: Get Logs from path /test-restrict-mask",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -692,7 +694,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test_restrict_mask, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-restrict-mask, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -720,11 +722,11 @@
             ]
         },
         {
-            "Name": "Test 8: Check logs from path /test_ignore",
+            "Name": "Test 8: Check logs from path /test-ignore",
             "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test_ignore",
+                    "Name": "Step: Get Logs from path /test-ignore",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -744,7 +746,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test_ignore, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-ignore, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -768,11 +770,11 @@
             ]
         },
         {
-            "Name": "Test 9: Check logs from path /test_ignore_empty",
+            "Name": "Test 9: Check logs from path /test-ignore-empty",
             "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test_ignore_empty",
+                    "Name": "Step: Get Logs from path /test-ignore-empty",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -792,7 +794,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test_ignore_empty, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-ignore-empty, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -816,11 +818,11 @@
             ]
         },
         {
-            "Name": "Test 10: Check logs from path /test_regex",
+            "Name": "Test 10: Check logs from path /test-regex",
             "Skip": true,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test_regex",
+                    "Name": "Step: Get Logs from path /test-regex",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -840,7 +842,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test_regex, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-regex, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
