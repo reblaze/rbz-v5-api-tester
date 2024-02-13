@@ -3225,6 +3225,60 @@
             "Code": "200",
             "Type": "status-code"
           }
+        },
+        {
+          "Name": "Step: POST query",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/query"
+          },
+          "Method": "POST",
+          "Headers": [
+            {
+              "Key": "provider",
+              "Value": "mongodb"
+            }
+          ],
+          "Payload": {
+            "Params": [
+              {
+                "Key": "query",
+                "Value": "{\"collection\":\"configuration\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"key\":\"readonly\"}}}]}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Fetch API",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step: GET fetch list for global filter",
+          "Skip": false,
+          "GenerateID": false,
+          "Method": "GET",
+          "API": {
+            "Base": "api-fetch",
+            "Path": ""
+          },
+          "Arguments": [
+            {
+              "Key": "url",
+              "Value": "https://lists.blocklist.de/lists/strongips.txt"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
         }
       ]
     },
