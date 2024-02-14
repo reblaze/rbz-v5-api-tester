@@ -1,0 +1,1587 @@
+{
+  "Name": "Content filter profile - test Max length TA-1284",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Headers: Max length field validations",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Headers: Max length field empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_empty_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_empty_max_length\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": \"\",\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max length field zero",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_zero_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_zero_max_length\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 0,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max length field negative number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_negative_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_negative_max_length\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": -5,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max length field decimal number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_decimal_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_decimal_max_length\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 3.5,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers: Max length field text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"header_field_text_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"header_field_text_max_length\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": \"text\",\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Cookies: Max length field validations",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Cookies: Max length field empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_empty_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_empty_max_length\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": \"\",\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max length field zero",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_zero_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_zero_max_length\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 0,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max length field negative number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_negative_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_negative_max_length\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": -5,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max length field decimal number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_decimal_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_decimal_max_length\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 3.5,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies: Max length field text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookie_field_text_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookie_field_text_max_length\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": \"text\",\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Arguments: Max length field validations",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Arguments: Max length field empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_empty_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_empty_max_length\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": \"\",\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max length field zero",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_zero_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_zero_max_length\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 0,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max length field negative number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_negative_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_negative_max_length\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": -5,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max length field decimal number",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_decimal_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_decimal_max_length\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 3.5,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments: Max length field text",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"argument_field_text_max_length\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"argument_field_text_max_length\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": \"text\",\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 400,
+            "Type": "status-code"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Create new server group 'test.site' ",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Create new server group 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test-sp\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "test-site"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Max length Requests",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Headers: Max length 60. Enable toggle on.",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"headers_field_max_length_toggle_on\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"headers_field_max_length_toggle_on\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 41,\"enable_max_count\": true,\"max_length\": 60,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Headers: Max length 60. Enable toggle off.",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"headers_field_max_length_toggle_off\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"headers_field_max_length_toggle_off\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 41,\"enable_max_count\": true,\"max_length\": 60,\"enable_max_length\": false}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookies_field_max_length_toggle_on\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookies_field_max_length_toggle_on\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 41,\"enable_max_count\": true,\"max_length\": 4,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Cookies: Max length 4. Enable toggle off.",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"cookies_field_max_length_toggle_off\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"cookies_field_max_length_toggle_off\""
+              },
+              {
+                "Key": "cookies",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 4,\"enable_max_count\": true,\"max_length\": 4,\"enable_max_length\": false}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"arguments_field_max_length_toggle_on\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"arguments_field_max_length_toggle_on\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 41,\"enable_max_count\": true,\"max_length\": 4,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Arguments: Max length 4. Enable toggle off.",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"arguments_field_max_length_toggle_off\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"arguments_field_max_length_toggle_off\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 4,\"enable_max_count\": true,\"max_length\": 4,\"enable_max_length\": false}"
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"content-filter-test\"]"
+              },
+              {
+                "Key": "action",
+                "Value": "\"action-contentfilter-block\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step: User can create security policy `test-sp`",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "map",
+                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"15dd3e1631d9\",\n\"match\":\"/headers_field_max_length_toggle_on\",\n\"name\":\"headers_field_max_length_toggle_on\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"headers_field_max_length_toggle_on\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":true,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"6b5c721b2464\",\n\"match\":\"/headers_field_max_length_toggle_off\",\n\"name\":\"headers_field_max_length_toggle_off\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"headers_field_max_length_toggle_off\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":true,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"9613e22526fa\",\n\"match\":\"/cookies_field_max_length_toggle_on\",\n\"name\":\"cookies_field_max_length_toggle_on\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"cookies_field_max_length_toggle_on\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":true,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"fd87dbe8bd92\",\n\"match\":\"/cookies_field_max_length_toggle_off\",\n\"name\":\"cookies_field_max_length_toggle_off\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"cookies_field_max_length_toggle_off\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":true,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"f986a822004c\",\n\"match\":\"/arguments_field_max_length_toggle_on\",\n\"name\":\"arguments_field_max_length_toggle_on\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"arguments_field_max_length_toggle_on\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":true,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"1662dbca4311\",\n\"match\":\"/arguments_field_max_length_toggle_off\",\n\"name\":\"arguments_field_max_length_toggle_off\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"arguments_field_max_length_toggle_off\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":true,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update new server group 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test-sp\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "204",
+            "Type": "status-code"
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Headers length less than 60 characters",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/headers_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "test",
+              "Value": "qFTuLBoYDxvEplgJhXnKfZScmOaNPQrwHzRVtjAdCeIsyGUE4aBv"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Headers length exactly 60 characters",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/headers_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "test",
+              "Value": "testqFTuLBoYDxvEplgJhXnKfZScmOaNPQrwHzRVtjAdCeIsyGUE4aBvR"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Headers length greater than 60 characters",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/headers_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "test",
+              "Value": "testqFTuLBoYDxvEplgJhXnKfZScmOaNPQrwHzRVtjAdCeIsyGUE4aBvRcsdfs"
+            }
+          ],
+          "Expected": {
+            "Code": 473,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Headers - enable toggle off",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/headers_field_max_length_toggle_off"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "test",
+              "Value": "qFTuLBoYDxvEplgJhXnKfZScmOaNPQrwHzRVtjAdCeIsyGUE4aBvRKhdbshh"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/cookies_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "foo=bo"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/cookies_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "foo=book"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/cookies_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "foo=boook"
+            }
+          ],
+          "Expected": {
+            "Code": 473,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Cookies - enable toggle off",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/cookies_field_max_length_toggle_off"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            },
+            {
+              "Key": "Cookie",
+              "Value": "foo=boook"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/arguments_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "data",
+              "Value": "a=1"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/arguments_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "data",
+              "Value": "a=12"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        },
+        {
+          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/arguments_field_max_length_toggle_on"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "data",
+              "Value": "a=123"
+            }
+          ],
+          "Expected": {
+            "Code": 473,
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Arguments - enable toggle off",
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/arguments_field_max_length_toggle_off"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "data",
+              "Value": "a=123"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Proxy template - Max body limit bigger",
+      "Skip": true,
+      "Steps": [
+        {
+          "Name": "Create Content Filter Profile with Max length 3000000 bytes",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content_filter_profile_big_limit\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"Content Filter Profile Big Limit\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"max_count\": 89,\"enable_max_count\": true,\"max_length\": 3000000,\"enable_max_length\": true}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Proxy Template with Max body size 150MB",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy_template_big_limit/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"Proxy Template Big Limit\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"proxy_template_big_limit\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "150"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "proxy_template_big_limit"
+              }
+            ]
+          }
+        },{
+          "Name": "Add Proxy Template: 'proxy_template_big_limit' to 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              },
+              {
+                "Key": "proxy_template",
+                "Value": "\"proxy_template_small_limit\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "204",
+            "Type": "status-code"
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send requests with arguments of 2.1MB",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "POST",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Files": [
+            {
+              "Key": "file1",
+              "Value": "./test_files/2.1mb-file.txt"
+            }
+          ],
+          "Expected": {
+            "Code": 200,
+            "Type": "content",
+            "Single": true,
+            "Text": "b''"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Proxy template - Max body limit smaller",
+      "Skip": true,
+      "Steps": [
+        {
+          "Name": "Create Content Filter Profile with Max length 3000000 bytes",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content_filter_profile_small_limit\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"Content Filter Profile Small Limit\""
+              },
+              {
+                "Key": "headers",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 0,\"enable_max_count\": false,\"max_length\": 0,\"enable_max_length\": false}"
+              },
+              {
+                "Key": "args",
+                "Value": "{\"max_count\": 3000000,\"enable_max_count\": true,\"max_length\": 0,\"enable_max_length\": false}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": 200,
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Proxy Template with Max body size 2MB",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy_template_small_limit/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"Proxy Template Small Limit\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"proxy_template_small_limit\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "2"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "proxy_template_small_limit"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Add Proxy Template: 'proxy_template_small_limit' to 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site/"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              },
+              {
+                "Key": "proxy_template",
+                "Value": "\"proxy_template_small_limit\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "204",
+            "Type": "status-code"
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Send requests with arguments of 2.1MB",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "POST",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Files": [
+            {
+              "Key": "file1",
+              "Value": "./test_files/2.1mb-file.txt"
+            }
+          ],
+          "Expected": {
+            "Code": 413,
+            "Type": "status-code"
+          }
+        }
+      ]
+    }
+  ]
+}
