@@ -703,7 +703,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-restrict-mask, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-restrict-mask, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -718,16 +718,20 @@
                         ],
                         "SingleResult": [
                             {
-                                "Key": "data/results/1/tags/*",
+                                "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
                             },
                             {
-                                "Key": "data/results/1/tags/*",
+                                "Key": "data/results/0/tags/*",
                                 "Value": "action:content-filter-block"
                             },
                             {
-                                "Key": "data/results/1/tags/*",
+                                "Key": "data/results/0/tags/*",
                                 "Value": "contentfiltername:test-cfr-restrict-mask"
+                            },
+                            {
+                                "Key": "data/results/0/headers/test-restrict-mask-key",
+                                "Value": "MASKED{bcd2cd32}"
                             }
                         ]
                     }
