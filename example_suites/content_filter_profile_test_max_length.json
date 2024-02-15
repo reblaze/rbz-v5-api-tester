@@ -40,7 +40,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -78,7 +78,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -116,7 +116,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -154,7 +154,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -192,7 +192,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         }
@@ -236,7 +236,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -274,7 +274,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -312,7 +312,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -350,7 +350,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -388,7 +388,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         }
@@ -432,7 +432,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -470,7 +470,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -508,7 +508,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -546,7 +546,7 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         },
@@ -584,18 +584,55 @@
             ]
           },
           "Expected": {
-            "Code": 400,
+            "Code": "400",
             "Type": "status-code"
           }
         }
       ]
     },
     {
-      "Name": "Create new server group 'test.site' ",
+      "Name": "Setup security policy, proxy template and server group",
       "Skip": false,
       "Steps": [
         {
-          "Name": "Create new server group 'test.site' ",
+          "Name": "Create Proxy Template with Max body size 150MB",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy_template_big_limit/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"Proxy Template Big Limit\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"proxy_template_big_limit\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "150"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "proxy_template_big_limit"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Add Proxy Template: 'proxy_template_big_limit' to 'test.site' ",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -620,6 +657,10 @@
               {
                 "Key": "security_policy",
                 "Value": "\"test-sp\""
+              },
+              {
+                "Key": "proxy_template",
+                "Value": "\"proxy_template_small_limit\""
               }
             ]
           },
@@ -642,7 +683,7 @@
       "Skip": false,
       "Steps": [
         {
-          "Name": "Headers: Max length 60. Enable toggle on.",
+          "Name": "Create content filter with Headers: Max length 60. Enable toggle on.",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -675,7 +716,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -687,7 +728,7 @@
           }
         },
         {
-          "Name": "Headers: Max length 60. Enable toggle off.",
+          "Name": "Create content filter with Headers: Max length 60. Enable toggle off.",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -720,7 +761,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -732,7 +773,7 @@
           }
         },
         {
-          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "Name": "Create content filter with Cookies: Max length 4. Enable toggle on.",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -765,7 +806,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -777,7 +818,7 @@
           }
         },
         {
-          "Name": "Cookies: Max length 4. Enable toggle off.",
+          "Name": "Create content filter with Cookies: Max length 4. Enable toggle off.",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -810,7 +851,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -822,7 +863,7 @@
           }
         },
         {
-          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "Name": "Create content filter with Arguments: Max length 4. Enable toggle on.",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -855,7 +896,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -867,7 +908,7 @@
           }
         },
         {
-          "Name": "Arguments: Max length 4. Enable toggle off.",
+          "Name": "Create content filter with Arguments: Max length 4. Enable toggle off.",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -900,7 +941,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -991,7 +1032,7 @@
           "Skip": false
         },
         {
-          "Name": "Headers length less than 60 characters",
+          "Name": "Send request Headers length less than 60 characters",
           "API": {
             "Base": "send-traffic",
             "Path": "/headers_field_max_length_toggle_on"
@@ -1008,14 +1049,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Headers length exactly 60 characters",
+          "Name": "Send request Headers length exactly 60 characters",
           "API": {
             "Base": "send-traffic",
             "Path": "/headers_field_max_length_toggle_on"
@@ -1032,14 +1073,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Headers length greater than 60 characters",
+          "Name": "Send request Headers length greater than 60 characters",
           "API": {
             "Base": "send-traffic",
             "Path": "/headers_field_max_length_toggle_on"
@@ -1056,12 +1097,12 @@
             }
           ],
           "Expected": {
-            "Code": 473,
+            "Code": "473",
             "Type": "status-code"
           }
         },
         {
-          "Name": "Headers - enable toggle off",
+          "Name": "Send request Headers - enable toggle off",
           "API": {
             "Base": "send-traffic",
             "Path": "/headers_field_max_length_toggle_off"
@@ -1078,14 +1119,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "Name": "Send request Cookies: Max length 4. Enable toggle on.",
           "API": {
             "Base": "send-traffic",
             "Path": "/cookies_field_max_length_toggle_on"
@@ -1102,14 +1143,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "Name": "Send request Cookies: Max length 4. Enable toggle on.",
           "API": {
             "Base": "send-traffic",
             "Path": "/cookies_field_max_length_toggle_on"
@@ -1126,14 +1167,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Cookies: Max length 4. Enable toggle on.",
+          "Name": "Send request Cookies: Max length 4. Enable toggle on.",
           "API": {
             "Base": "send-traffic",
             "Path": "/cookies_field_max_length_toggle_on"
@@ -1150,12 +1191,12 @@
             }
           ],
           "Expected": {
-            "Code": 473,
+            "Code": "473",
             "Type": "status-code"
           }
         },
         {
-          "Name": "Cookies - enable toggle off",
+          "Name": "Send request Cookies - enable toggle off",
           "API": {
             "Base": "send-traffic",
             "Path": "/cookies_field_max_length_toggle_off"
@@ -1172,14 +1213,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "Name": "Send request Arguments: Max length 4. Enable toggle on.",
           "API": {
             "Base": "send-traffic",
             "Path": "/arguments_field_max_length_toggle_on"
@@ -1198,14 +1239,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "Name": "Send request Arguments: Max length 4. Enable toggle on.",
           "API": {
             "Base": "send-traffic",
             "Path": "/arguments_field_max_length_toggle_on"
@@ -1224,14 +1265,14 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
           }
         },
         {
-          "Name": "Arguments: Max length 4. Enable toggle on.",
+          "Name": "Send request Arguments: Max length 4. Enable toggle on.",
           "API": {
             "Base": "send-traffic",
             "Path": "/arguments_field_max_length_toggle_on"
@@ -1250,12 +1291,12 @@
             }
           ],
           "Expected": {
-            "Code": 473,
+            "Code": "473",
             "Type": "status-code"
           }
         },
         {
-          "Name": "Arguments - enable toggle off",
+          "Name": "Send request Arguments - enable toggle off",
           "API": {
             "Base": "send-traffic",
             "Path": "/arguments_field_max_length_toggle_off"
@@ -1274,7 +1315,7 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
@@ -1312,7 +1353,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -1321,76 +1362,6 @@
                 "Value": true
               }
             ]
-          }
-        },
-        {
-          "Name": "Create Proxy Template with Max body size 150MB",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "proxy-template",
-            "Path": "proxy_template_big_limit/"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"Proxy Template Big Limit\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"proxy_template_big_limit\""
-              },
-              {
-                "Key": "client_max_body_size",
-                "Value": "150"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "proxy_template_big_limit"
-              }
-            ]
-          }
-        },{
-          "Name": "Add Proxy Template: 'proxy_template_big_limit' to 'test.site' ",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "server-group",
-            "Path": "test-site/"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"test-site\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"test-site\""
-              },
-              {
-                "Key": "server_names",
-                "Value": "[\"test.site\"]"
-              },
-              {
-                "Key": "proxy_template",
-                "Value": "\"proxy_template_small_limit\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "204",
-            "Type": "status-code"
           }
         },
         {
@@ -1423,7 +1394,7 @@
             }
           ],
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "content",
             "Single": true,
             "Text": "b''"
@@ -1465,7 +1436,7 @@
             ]
           },
           "Expected": {
-            "Code": 200,
+            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
@@ -1577,7 +1548,7 @@
             }
           ],
           "Expected": {
-            "Code": 413,
+            "Code": "413",
             "Type": "status-code"
           }
         }
