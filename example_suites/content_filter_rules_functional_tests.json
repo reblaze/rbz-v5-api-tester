@@ -272,11 +272,11 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Send Traffic 1 to 'curl [url]a1?b1=<area1>'",
+                    "Name":"Step: Send Traffic 1 to 'curl [url]a?b=<area>'",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
-                        "Path":"/a1"
+                        "Path":"/a"
                     },
                     "Method":"GET",
                     "Headers": [
@@ -287,8 +287,8 @@
                     ],
                     "Arguments":[
                         {
-                            "Key":"b1",
-                            "Value":"<area1>"
+                            "Key":"b",
+                            "Value":"<area>"
                         }
                     ],
                     "Expected":{
@@ -299,11 +299,11 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to 'curl [url]<area2>'",
+                    "Name":"Step: Send Traffic 2 to 'curl [url]<area>'",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
-                        "Path":"/<area2>"
+                        "Path":"/<area>"
                     },
                     "Method":"GET",
                     "Headers": [
@@ -320,11 +320,11 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 3 to 'curl [url] -d <area3>=a3'",
+                    "Name":"Step: Send Traffic 3 to 'curl [url] -d <area>=a'",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
-                        "Path":"/test"
+                        "Path":"1-3"
                     },
                     "Method":"POST",
                     "Headers": [
@@ -335,8 +335,8 @@
                     ],
                     "Arguments":[
                         {
-                            "Key":"<area3>",
-                            "Value":"a3"
+                            "Key":"<area>",
+                            "Value":"a"
                         }
                     ],
                     "Expected":{
@@ -347,11 +347,11 @@
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 4 to 'curl [url] -d 'a4=<area4>''",
+                    "Name":"Step: Send Traffic 4 to 'curl [url] -d 'a=<area>''",
                     "Skip":false,
                     "API":{
                         "Base":"send-traffic",
-                        "Path":"/test"
+                        "Path":"1-4"
                     },
                     "Method":"POST",
                     "Headers": [
@@ -362,8 +362,8 @@
                     ],
                     "Arguments":[
                         {
-                            "Key":"a4",
-                            "Value":"<area4>"
+                            "Key":"a",
+                            "Value":"<area>"
                         }
                     ],
                     "Expected":{
@@ -571,7 +571,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Get logs from path /a1",
+                    "Name":"Step: Get logs from path /a",
                     "Skip":false,
                     "API":{
                        "Base":"logs",
@@ -587,7 +587,7 @@
                     "Arguments":[
                     {
                         "Key": "filters",
-                        "Value": "path = /a1, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        "Value": "path = /a, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                     }
                     ],
                     "Expected":{
@@ -607,13 +607,13 @@
                             },
                             {
                                "Key":"data/results/0/reason",
-                              "Value":"Block - content filter New Content Filter Rule[lvl5] - default contentfilte - [header host=test.site]"
+                              "Value":"Block - content filter 200039[lvl5] - default contentfilter - [URI argument b=<area>]"
                             }
                        ]
                    }
                 },
                 {
-                    "Name":"Step: Get logs from path /<area2>",
+                    "Name":"Step: Get logs from path /<area>",
                     "Skip":false,
                     "API":{
                        "Base":"logs",
@@ -629,7 +629,7 @@
                     "Arguments":[
                     {
                         "Key": "filters",
-                        "Value": "path = /<area2>, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        "Value": "path = /%3Carea%3E, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                     }
                     ],
                     "Expected":{
@@ -643,7 +643,98 @@
                             }
                        ],
                         "SingleResult":[
-
+                            {
+                               "Key":"data/results/0/tags/*",
+                               "Value":"status:473"
+                            },
+                            {
+                               "Key":"data/results/0/reason",
+                               "Value":"Block - content filter 200039[lvl5] - default contentfilter - [uri]"
+                            }
+                       ]
+                   }
+                },
+                {
+                    "Name":"Step: Get logs from path /1-3",
+                    "Skip":false,
+                    "API":{
+                       "Base":"logs",
+                       "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                    {
+                        "Key":"syntax",
+                        "Value":"string_query"
+                    }
+                    ],
+                    "Arguments":[
+                    {
+                        "Key": "filters",
+                        "Value": "path = /1-3, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                    }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                               "Key":"Server",
+                               "Value":"rhino-core-shield"
+                            }
+                       ],
+                        "SingleResult":[
+                            {
+                               "Key":"data/results/0/tags/*",
+                               "Value":"status:473"
+                            },
+                            {
+                               "Key":"data/results/0/reason",
+                              "Value":"Block - content filter 200039[lvl5] - default contentfilter - [URI argument <area>=a]"
+                            }
+                       ]
+                   }
+                },
+                {
+                    "Name":"Step: Get logs from path /1-4",
+                    "Skip":false,
+                    "API":{
+                       "Base":"logs",
+                       "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers":[
+                        {
+                            "Key":"syntax",
+                            "Value":"string_query"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key": "filters",
+                            "Value": "path = /1-4, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single":true,
+                        "Headers":[
+                            {
+                               "Key":"Server",
+                               "Value":"rhino-core-shield"
+                            }
+                       ],
+                        "SingleResult":[
+                            {
+                               "Key":"data/results/0/tags/*",
+                               "Value":"status:473"
+                            },
+                            {
+                               "Key":"data/results/0/reason",
+                              "Value":"Block - content filter 200039[lvl5] - default contentfilter - [URI argument a=<area>]"
+                            }
                        ]
                    }
                 },
