@@ -595,6 +595,43 @@
       "Skip": false,
       "Steps": [
         {
+          "Name": "Create Content Filter Profile with Max length 3000000 bytes",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content_filter_profile_big_limit\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"Content Filter Profile Big Limit\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"max_count\": 89,\"enable_max_count\": true,\"max_length\": 3000000,\"enable_max_length\": true}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
           "Name": "Create Proxy Template with Max body size 150MB",
           "Skip": false,
           "GenerateID": false,
@@ -1327,51 +1364,6 @@
       "Name": "Proxy template - Max body limit bigger",
       "Skip": true,
       "Steps": [
-        {
-          "Name": "Create Content Filter Profile with Max length 3000000 bytes",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "content-filter-profile",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"content_filter_profile_big_limit\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"Content Filter Profile Big Limit\""
-              },
-              {
-                "Key": "args",
-                "Value": "{\"max_count\": 89,\"enable_max_count\": true,\"max_length\": 3000000,\"enable_max_length\": true}"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
         {
           "Name": "Send requests with arguments of 2.1MB",
           "Skip": false,
