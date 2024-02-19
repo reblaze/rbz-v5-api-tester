@@ -63,6 +63,10 @@
                                 "Value": "\"test_cfr_restrict\""
                             },
                             {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-restrict-key\", \"reg\": \"</?(.+\\\\W)?(address|area)[\\\\W]\", \"restrict\": true, \"mask\": false,\"exclusions\": [],\"id\": \"cfr_restrict\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
@@ -98,6 +102,10 @@
                             {
                                 "Key": "name",
                                 "Value": "\"test_cfr_restrict_mask\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
                             },
                             {
                                 "Key": "args",
@@ -137,6 +145,10 @@
                                 "Value": "\"test_cfr_ignore\""
                             },
                             {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test-ignore-key\", \"reg\": \"</?(.+\\\\W)?(address|area)[\\\\W]\", \"restrict\": false, \"mask\": false,\"exclusions\": [], \"ignore\": [\"cf-rule-name:100024\"],\"id\": \"cfr_ignore\"}], \"regex\": [], \"max_count\": 42, \"enable_max_count\": true, \"max_length\": 1024, \"enable_max_length\": true}"
                             }
@@ -172,6 +184,10 @@
                             {
                                 "Key": "name",
                                 "Value": "\"test_cfr_ignore_empty\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
                             },
                             {
                                 "Key": "args",
@@ -210,7 +226,10 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_regex\""
                             },
-
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
                             {
                                 "Key": "args",
                                 "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"^t\",\"reg\":\"passthru(\\\\s+)?\\\\(\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"cfr_regex\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -335,7 +354,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-match"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -361,9 +380,9 @@
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/test-match"
+                        "Path": "/1-2"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -392,7 +411,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-restrict"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -420,7 +439,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-match"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -448,7 +467,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-restrict-mask"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -476,7 +495,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-restrict-mask"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -504,7 +523,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-ignore"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -532,7 +551,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-ignore-empty"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -560,7 +579,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-ignore"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -582,13 +601,13 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 10 to -d `test-regex-key=`passthru (",
+                    "Name": "Step: Send Traffic 10 to -d 'test-regex-key=`passthru ('",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
                         "Path": "/test-regex"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -626,7 +645,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test-match",
+                    "Name": "Step: Get Logs from path /1-2",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -646,7 +665,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-match, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /1-2, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -669,8 +688,8 @@
                                 "Value": "action:content-filter-block"
                             },
                             {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "contentfiltername:test-cfr-match"
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - default contentfilter - [URI argument foo=<area>]"
                             }
                         ]
                     }
