@@ -1,0 +1,1299 @@
+{
+    "Name": "TA 1369 Content filter profile - Add/Edit/Delete profile",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name":"Test 1: Create content filter profile",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfr_default`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_default\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Content filter profile name field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create content filter profile with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"cfp_textname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_textname\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_emptyname\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with the same name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"cfp_textname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_samename\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'409 Conflict: entry with name cfp_textname already exists in document [contentfilterprofiles]'"
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_longname\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_special_chars_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with only space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\" \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_space_char_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n' ' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with leading space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"   leading\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_leading_space_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify content filter profile`s name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfp_leading_space_name/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "leading"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "cfp_leading_space_name"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with trailing space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"trailing   \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"cfp_trailing_space_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify content filter profile`s name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "cfp_trailing_space_name/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "trailing"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "cfp_trailing_space_name"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 3: Edit custom/default content filter profiles",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfr_custom`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_custom\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_custom\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can edit custom content filter profile: `test_cfr_custom`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_custom/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_custom\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_custom_edited\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"max_count\": 512,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "path",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true,\"dual\": true,\"html\": false,\"unicode\": false}"
+                            },
+                            {
+                                "Key": "masking_seed",
+                                "Value": "\"CHANGEME\""
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            },
+                            {
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:200003\",\"cf-rule-name:200160\",\"cf-rule-name:200161\",\"cf-rule-name:200162\",\"cf-rule-name:300008\",\"cf-rule-name:300009\",\"cf-rule-name:300010\",\"cf-rule-name:500001\",\"cf-rule-name:500002\",\"cf-rule-name:500110\",\"cf-rule-name:500111\",\"cf-rule-name:500112\",\"cf-rule-name:700010\",\"cf-rule-name:700011\",\"cf-rule-name:700012\",\"cf-rule-name:800013\",\"cf-rule-name:900004\",\"cf-rule-name:910000\",\"cf-rule-name:910001\",\"cf-rule-name:920005\",\"cf-rule-name:920006\",\"cf-rule-name:920007\",\"cf-rule-name:920008\",\"cf-rule-name:920009\",\"cf-rule-name:920010\",\"cf-rule-name:920011\",\"cf-rule-name:920012\",\"cf-rule-name:920013\",\"cf-rule-name:920014\",\"cf-rule-name:920015\",\"cf-rule-name:920016\",\"cf-rule-name:920017\"]"
+                            },
+                            {
+                                "Key": "ignore",
+                                "Value": "[]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-contentfilter-block\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can edit default content filter profile: `__defaultcontentfilter__`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "__defaultcontentfilter__/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"__defaultcontentfilter__\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"default contentfilter edited\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"max_count\": 512,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "path",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true,\"dual\": true,\"html\": false,\"unicode\": false}"
+                            },
+                            {
+                                "Key": "masking_seed",
+                                "Value": "\"CHANGEME\""
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            },
+                            {
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:200003\",\"cf-rule-name:200160\",\"cf-rule-name:200161\",\"cf-rule-name:200162\",\"cf-rule-name:300008\",\"cf-rule-name:300009\",\"cf-rule-name:300010\",\"cf-rule-name:500001\",\"cf-rule-name:500002\",\"cf-rule-name:500110\",\"cf-rule-name:500111\",\"cf-rule-name:500112\",\"cf-rule-name:700010\",\"cf-rule-name:700011\",\"cf-rule-name:700012\",\"cf-rule-name:800013\",\"cf-rule-name:900004\",\"cf-rule-name:910000\",\"cf-rule-name:910001\",\"cf-rule-name:920005\",\"cf-rule-name:920006\",\"cf-rule-name:920007\",\"cf-rule-name:920008\",\"cf-rule-name:920009\",\"cf-rule-name:920010\",\"cf-rule-name:920011\",\"cf-rule-name:920012\",\"cf-rule-name:920013\",\"cf-rule-name:920014\",\"cf-rule-name:920015\",\"cf-rule-name:920016\",\"cf-rule-name:920017\"]"
+                            },
+                            {
+                                "Key": "ignore",
+                                "Value": "[]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-contentfilter-block\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Delete content filter profiles",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfr_for_delete`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_for_delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_for_delete\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can delete custom content filter profile: `test_cfr_for_delete`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_for_delete/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfr_attached_to_sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_attached_to_sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_attached_to_sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create security policy with attached cfp 'test_cfr_attached_to_sp'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-match\", \"name\": \"test-match\", \"match\": \"/test-match\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_attached_to_sp\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can delete custom content filter profile: `test_cfr_attached_to_sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_attached_to_sp/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can delete default content filter profile: `__defaultcontentfilter__`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "__defaultcontentfilter__/"
+                    },
+                    "Method" :"DELETE",
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Check all content filter profiles",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can get all content filter profiles",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "content-filter-profiles",
+                        "Path": ""
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": false,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "__defaultcontentfilter__"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "default contentfilter"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 6: Edit action",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfr_action`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_action\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_action\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can edit custom content filter profile: `test_cfr_custom`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_action/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_action\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_action\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"max_count\": 512,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "path",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"max_count\": 42,\"max_length\": 1024,\"enable_max_length\": false,\"enable_max_count\": false,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true,\"dual\": true,\"html\": false,\"unicode\": false}"
+                            },
+                            {
+                                "Key": "masking_seed",
+                                "Value": "\"CHANGEME\""
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            },
+                            {
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:200003\",\"cf-rule-name:200160\",\"cf-rule-name:200161\",\"cf-rule-name:200162\",\"cf-rule-name:300008\",\"cf-rule-name:300009\",\"cf-rule-name:300010\",\"cf-rule-name:500001\",\"cf-rule-name:500002\",\"cf-rule-name:500110\",\"cf-rule-name:500111\",\"cf-rule-name:500112\",\"cf-rule-name:700010\",\"cf-rule-name:700011\",\"cf-rule-name:700012\",\"cf-rule-name:800013\",\"cf-rule-name:900004\",\"cf-rule-name:910000\",\"cf-rule-name:910001\",\"cf-rule-name:920005\",\"cf-rule-name:920006\",\"cf-rule-name:920007\",\"cf-rule-name:920008\",\"cf-rule-name:920009\",\"cf-rule-name:920010\",\"cf-rule-name:920011\",\"cf-rule-name:920012\",\"cf-rule-name:920013\",\"cf-rule-name:920014\",\"cf-rule-name:920015\",\"cf-rule-name:920016\",\"cf-rule-name:920017\"]"
+                            },
+                            {
+                                "Key": "ignore",
+                                "Value": "[]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-reblaze-feed-block\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Tags field",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create content filter profile without tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add one tag to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"one_tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add several tags to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"one_tag\", \"two_tag\", \"three_tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add tag`s very long name to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add tag`s name with special chars to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add tag with one char to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"a\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add tag with two chars to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"aa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add tag with space char to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Add tag`s name with leading space chars to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"  leading\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_tags"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_tags"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['leading']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add tag`s name with trailing space chars to content filter profile 'test_cfr_tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_tags\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"trailing  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_tags/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_tags"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_tags"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['trailing']"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
