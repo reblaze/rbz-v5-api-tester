@@ -35,7 +35,7 @@
                             },
                             {
                                 "Key": "operand",
-                                "Value": "\"test\""
+                                "Value": "\"alphanumtestoperand\""
                             },
                             {
                                 "Key": "risk",
@@ -44,10 +44,6 @@
                             {
                                 "Key": "tags",
                                 "Value": "[\"content-filter-test\"]"
-                            },
-                            {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             }
                         ]
                     },
@@ -92,7 +88,7 @@
                             },
                             {
                                 "Key": "ignore_body",
-                                "Value": "true"
+                                "Value": "false"
                             },
                             {
                                 "Key": "tags",
@@ -149,7 +145,11 @@
                             },
                             {
                                 "Key": "ignore_body",
-                                "Value": "true"
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             }
                         ]
                     },
@@ -265,13 +265,13 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic 1 to path 'test-alphanumeric-false', request '?a=test'",
+                    "Name": "Step: Send Traffic 1 to path 'test-alphanumeric-false', request '?a=alphanumtestoperand'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
                         "Path": "/test-alphanumeric-false"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -281,7 +281,7 @@
                     "Arguments":[
                         {
                             "Key":"a",
-                            "Value":"test"
+                            "Value":"alphanumtestoperand"
                         }
                     ],
                     "Expected": {
@@ -292,13 +292,13 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to path 'test-alphanumeric-true', request '?a=test'",
+                    "Name": "Step: Send Traffic 2 to path 'test-alphanumeric-true', request '?a=alphanumtestoperand'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
                         "Path": "/test-alphanumeric-true"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -308,7 +308,7 @@
                     "Arguments":[
                         {
                             "Key":"a",
-                            "Value":"test"
+                            "Value":"alphanumtestoperand"
                         }
                     ],
                     "Expected": {
