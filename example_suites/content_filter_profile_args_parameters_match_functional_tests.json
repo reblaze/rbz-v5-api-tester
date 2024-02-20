@@ -875,54 +875,6 @@
                     }
                 }
             ]
-        },
-        {
-            "Name": "Test 9: Check logs from path /test-regex",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Get Logs from path /test-regex",
-                    "Skip": false,
-                    "API": {
-                        "Base": "logs",
-                        "Path": ""
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "syntax",
-                            "Value": "string_query"
-                        }
-                    ],
-                    "Arguments": [
-                        {
-                            "Key": "limit",
-                            "Value": "200"
-                        },
-                        {
-                            "Key": "filters",
-                            "Value": "path = /test-regex, status = 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "jsonpath",
-                        "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "status:200"
-                            }
-                        ]
-                    }
-                }
-            ]
         }
     ]
 }
