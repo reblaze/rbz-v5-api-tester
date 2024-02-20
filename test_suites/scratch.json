@@ -1,0 +1,98 @@
+{
+  "Name": "Test ",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Test: ",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step: python code ",
+          "Skip": false,
+          "Type": "python",
+          "Code": [
+            "import requests",
+            "import json",
+            "passed = True",
+            "HOST = 'https://@@planet@@.dev.app.reblaze.io'",
+            "APIKEY = 'AI5EkHV3lU8Z5HBl7FThAwLDvjbzq3RNeSwptoDSPkzVOy7QnIUGK_QnTZbOEpzV'",
+            "def make_request(method, endpoint, entity_id,  data=None):",
+            "    headers = {'Authorization': f'Basic {APIKEY}'}",
+            "    if method == 'GET':",
+            "        response = requests.get(f'{HOST}/api/v4/conf/prod/{endpoint}/{entity_id}', headers=headers)",
+            "    elif method == 'PUT':",
+            "        headers['Content-Type'] = 'application/json'",
+            "        response = requests.put(f'{HOST}/api/v4/conf/prod/{endpoint}/{entity_id}', headers=headers, data=json.dumps(data))",
+            "    elif method == 'DELETE':",
+            "        response = requests.delete(f'{HOST}/api/v4/conf/prod/{endpoint}/{entity_id}', headers=headers)",
+            "    elif method == 'POST':",
+            "        headers['Content-Type'] = 'application/json'",
+            "        response = requests.post(f'{HOST}/api/v4/conf/prod/{endpoint}/{entity_id}', headers=headers, data=json.dumps(data))",
+            "    else:",
+            "        print(f'Unsupported HTTP method: {method}')",
+            "        exit(1)",
+            "    return response",
+            "print(f'Create acl profiles')",
+            "for i in range(1,20):",
+            "    data={}",
+            "    data['id']=f'acl{i}'",
+            "    data['name']=f'acl{i}'",
+            "    data['description']=f'New ACL Profile Description and Remarks'",
+            "    data['action']=f'action-acl-block'",
+            "    data['tags']=[]",
+            "    data['allow']=['allow-tag']",
+            "    data['allow_bot']=['allow-bot-tag']",
+            "    data['deny_bot']=['deny-bot-tag']",
+            "    data['passthrough']=['passthrough-tag']",
+            "    data['force_deny']=['force-deny-tag']",
+            "    data['deny']=['deny-tag']",
+            "    response = make_request('POST', 'acl-profiles', data['id'], data)",
+            "    print(response.status_code)",
+            "    if response.status_code != 201:",
+            "        passed = False",
+            "    if not passed:",
+            "        exit(1)",
+            "print(f'Create security policy path mapping with 20 paths')",
+            "map=[{'id':'__default_entry__','match':'/','name':'default','acl_profile':'__acldefault__','content_filter_profile':'__defaultcontentfilter__','backend_id':'__default__','acl_active':True,'content_filter_active':True,'limit_ids':['rl-asn-path-ddos', 'rl-session-host-ddos', 'rl-session-path-ddos'],'cloud_functions':['redirectHTTPToHTTPS', 'rewriteURLSegment']}]",
+            "map.append({'id':'deny_bot','match':'/deny-bot','name':'deny_bot','acl_profile':'__acldenybot__','content_filter_profile':'__defaultcontentfilter__','backend_id':'__default__','acl_active':True,'content_filter_active':True,'limit_ids':['rl-asn-path-ddos', 'rl-session-host-ddos', 'rl-session-path-ddos'],'cloud_functions':['redirectHTTPToHTTPS', 'rewriteURLSegment']})",
+            "for i in range(1,19):",
+            "    data={}",
+            "    data['id']=f'test{i}'",
+            "    data['name']=f'test{i}'",
+            "    data['match']=f'/test{i}/[a-z]+/yyyyy'",
+            "    data['acl_profile']=f'acl{i}'",
+            "    data['content_filter_profile']=f'__defaultcontentfilter__'",
+            "    data['backend_id']='__default__'",
+            "    data['acl_active']=True",
+            "    data['content_filter_active']=True",
+            "    data['limit_ids']=['rl-asn-path-ddos', 'rl-session-host-ddos', 'rl-session-path-ddos']",
+            "    data['cloud_functions']=['redirectHTTPToHTTPS', 'rewriteURLSegment']",
+            "    json_data=json.dumps(data)",
+            "    map.append(json_data)",
+            "print(f'Create security policy')",
+            "data={}",
+            "data['id']=f'test_sp'",
+            "data['name']=f'test_sp'",
+            "data['match']=f'__default__'",
+            "data['tags']=[]",
+            "data['session']=[{'attrs':'ip'}]",
+            "data['map']=map",
+            "response = make_request('POST', 'security-policies', 'test-sp', data)",
+            "print(response.status_code)",
+            "if response.status_code != 201:",
+            "    passed = False",
+            "if not passed:",
+            "    exit(1)"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
