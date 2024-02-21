@@ -1,8 +1,15 @@
 import requests
 import json
+import argparse
 
-HOST = 'https://rbzqatester04.dev.app.reblaze.io'
-APIKEY = 'AI5EkHV3lU8Z5HBl7FThAwLDvjbzq3RNeSwptoDSPkzVOy7QnIUGK_QnTZbOEpzV'
+parser = argparse.ArgumentParser(description='Create config for load tests')
+parser.add_argument('-p', '--planet_name', type=str, help='Planet name', required=True)
+parser.add_argument('-k', '--api_key', type=str, help='API key', required=True)
+args = parser.parse_args()
+
+PLANET = args.planet_name
+HOST = f'https://{args.planet_name}.dev.app.reblaze.io'
+APIKEY = args.api_key
 
 
 def make_request(method, endpoint, entity_id, data=None):
@@ -24,6 +31,14 @@ def make_request(method, endpoint, entity_id, data=None):
         exit(1)
     return response
 
+def publish_config():
+    headers = {'Authorization': f'Basic {APIKEY}'}
+    headers['Content-Type'] = 'application/json'
+    data = []
+    publish_data = {'name': 'prod', 'url': f'gs://rbz-{PLANET}-config/prod/'}
+    data.append(publish_data)
+    response = requests.put(f'{HOST}/api/v4/tools/publish/prod', headers=headers, data=json.dumps(data))
+    return response
 
 # Create 20 acl profiles
 for i in range(1, 19):
@@ -69,7 +84,7 @@ for i in range(1, 101):
     sp_data = {'id': f'test_sp{i}', 'name': f'test_sp{i}', 'match': f'__default__', 'tags': [],
                'session': [{'attrs': 'ip'}],
                'map': sp_map}
-    response = make_request('POST', 'security-policies', 'test-sp', sp_data)
+    response = make_request('POST', 'security-policies', f'test_sp{i}', sp_data)
     if response.status_code != 201:
         exit(1)
     # Create server group
@@ -80,4 +95,7 @@ for i in range(1, 101):
     response = make_request('POST', 'server-groups', f'test{i}_site', sg_data)
     if response.status_code != 201:
         exit(1)
+response = publish_config()
+if response.status_code != 200:
+    exit(1)
 
