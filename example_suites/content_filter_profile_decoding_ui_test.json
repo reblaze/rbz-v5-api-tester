@@ -1,0 +1,123 @@
+{
+    "Name":"TA 1372 Content filter profile decoding ui tests",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: Create content filter profiles ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_decoding_uncheck_all`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_decoding_uncheck_all\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_decoding_uncheck_all\""
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": false, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_decoding_check_one`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_decoding_check_one\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_decoding_check_one\""
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_decoding_check_all`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_decoding_check_all\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_decoding_check_all\""
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": true, \"html\": true, \"unicode\": true}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
