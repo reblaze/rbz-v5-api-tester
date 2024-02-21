@@ -1,0 +1,406 @@
+{
+    "Name":"TA 1286 Content filter profile ignore alphanumeric tests",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: Create content filter rule and filter profiles ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create a filter rule with name 'cf_test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-rule",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cf_test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cf_test\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-category\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"test-subcategory\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"alphanumtestoperand\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "5"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"content-filter-test\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_ignore_alphanumeric_false`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_ignore_alphanumeric_false\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_ignore_alphanumeric_false\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:200003\",\"cf-rule-name:200160\",\"cf-rule-name:200161\",\"cf-rule-name:200162\",\"cf-rule-name:300008\",\"cf-rule-name:300009\",\"cf-rule-name:300010\",\"cf-rule-name:500001\",\"cf-rule-name:500002\",\"cf-rule-name:500110\",\"cf-rule-name:500111\",\"cf-rule-name:500112\",\"cf-rule-name:700010\",\"cf-rule-name:700011\",\"cf-rule-name:700012\",\"cf-rule-name:800013\",\"cf-rule-name:900004\",\"cf-rule-name:910000\",\"cf-rule-name:910001\",\"cf-rule-name:920005\",\"cf-rule-name:920006\",\"cf-rule-name:920007\",\"cf-rule-name:920008\",\"cf-rule-name:920009\",\"cf-rule-name:920010\",\"cf-rule-name:920011\",\"cf-rule-name:920012\",\"cf-rule-name:920013\",\"cf-rule-name:920014\",\"cf-rule-name:920015\",\"cf-rule-name:920016\",\"cf-rule-name:920017\"]"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"content-filter-profile\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_ignore_alphanumeric_true`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_ignore_alphanumeric_true\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_ignore_alphanumeric_true\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"content-filter-profile\"]"
+                            },
+                            {
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:200003\",\"cf-rule-name:200160\",\"cf-rule-name:200161\",\"cf-rule-name:200162\",\"cf-rule-name:300008\",\"cf-rule-name:300009\",\"cf-rule-name:300010\",\"cf-rule-name:500001\",\"cf-rule-name:500002\",\"cf-rule-name:500110\",\"cf-rule-name:500111\",\"cf-rule-name:500112\",\"cf-rule-name:700010\",\"cf-rule-name:700011\",\"cf-rule-name:700012\",\"cf-rule-name:800013\",\"cf-rule-name:900004\",\"cf-rule-name:910000\",\"cf-rule-name:910001\",\"cf-rule-name:920005\",\"cf-rule-name:920006\",\"cf-rule-name:920007\",\"cf-rule-name:920008\",\"cf-rule-name:920009\",\"cf-rule-name:920010\",\"cf-rule-name:920011\",\"cf-rule-name:920012\",\"cf-rule-name:920013\",\"cf-rule-name:920014\",\"cf-rule-name:920015\",\"cf-rule-name:920016\",\"cf-rule-name:920017\"]"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Create security policy ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy with attached content filter profiles",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-alphanumeric-false\", \"name\": \"test-alphanumeric-false\", \"match\": \"/test-alphanumeric-false\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_ignore_alphanumeric_false\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-alphanumeric-true\", \"name\": \"test-alphanumeric-true\", \"match\": \"/test-alphanumeric-true\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_ignore_alphanumeric_true\", \"content_filter_active\": true, \"limit_ids\": []}]"
+
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path 'test-alphanumeric-false', request '?a=alphanumtestoperand'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-alphanumeric-false"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"a",
+                            "Value":"alphanumtestoperand"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path 'test-alphanumeric-true', request '?a=alphanumtestoperand'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-alphanumeric-true"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"a",
+                            "Value":"alphanumtestoperand"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Check logs from path /test-alphanumeric-false",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-alphanumeric-false",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-alphanumeric-false, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "content-filter-test"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "cf-rule-category:test-category"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "cf-rule-subcategory:test-subcategory"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-cfp-ignore-alphanumeric-false"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
