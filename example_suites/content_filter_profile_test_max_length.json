@@ -919,7 +919,7 @@
           }
         },
         {
-          "Name": "Create Content Filter Profile with Max length 3000000 bytes",
+          "Name": "Create Content Filter Profile 'content-filter-profile-big-limit'",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -936,6 +936,47 @@
               {
                 "Key": "name",
                 "Value": "\"Content Filter Profile Big Limit\""
+              },
+              {
+                "Key": "args",
+                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 3000000,\"enable_max_length\": true}"
+              },
+              {
+                "Key": "ignore_body",
+                "Value": "false"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Content Filter Profile 'content_filter_profile_small_limit'",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "content-filter-profile",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"content_filter_profile_small_limit\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"Content Filter Profile Small Limit\""
               },
               {
                 "Key": "args",
@@ -1080,6 +1121,125 @@
               {
                 "Key": "id",
                 "Value": "test-site"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Create Proxy Template with Max body size 2MB",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "proxy-template",
+            "Path": "proxy-template-small-limit/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "name",
+                "Value": "\"Proxy Template Small Limit\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"proxy-template-small-limit\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "2"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "proxy-template-small-limit"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step: User can create security policy `test-sp-small-limit`",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "security-policy",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-sp-small-limit\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-sp-small-limit\""
+              },
+              {
+                "Key": "map",
+                "Value": "[{\"id\":\"__default_entry__\",\"match\":\"/\",\"name\":\"default\",\"acl_profile\":\"__acldefault__\",\"content_filter_profile\":\"__defaultcontentfilter__\",\"backend_id\":\"__default__\",\"acl_active\":false,\"content_filter_active\":false,\"limit_ids\":[],\"cloud_functions\":[]},{\"id\":\"test\",\"match\":\"/test\",\"name\":\"test\",\"acl_profile\":\"__acldefault__\",\"content_filter_profile\":\"content_filter_profile_small_limit\",\"backend_id\":\"__default__\",\"acl_active\":false,\"content_filter_active\":true,\"limit_ids\":[],\"cloud_functions\":[]}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "ok",
+                "Value": true
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Add Proxy Template: 'proxy-template-small-limit' to 'test-site-small-limit.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "server-group",
+            "Path": "test-site-small-limit/"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site-small-limit\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site-small-limit\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test-site-small-limit.site\"]"
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test-sp-small-limit\""
+              },
+              {
+                "Key": "proxy_template",
+                "Value": "\"proxy-template-small-limit\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "test-site-small-limit"
               }
             ]
           }
@@ -1395,7 +1555,7 @@
           }
         },
         {
-          "Name": "Send requests with arguments of 2.1MB",
+          "Name": "Send requests with arguments of 2.1MB to proxy template with big limit",
           "Skip": false,
           "GenerateID": false,
           "API": {
@@ -1420,6 +1580,32 @@
             "Type": "content",
             "Single": true,
             "Text": "b''"
+          }
+        },
+        {
+          "Name": "Send requests with arguments of 2.1MB to proxy template with small limit",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/test"
+          },
+          "Method": "POST",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test-site-small-limit.site"
+            }
+          ],
+          "Files": [
+            {
+              "Key": "file1",
+              "Value": "./test_files/2.1mb-file.txt"
+            }
+          ],
+          "Expected": {
+            "Code": "413",
+            "Type": "status-code"
           }
         }
       ]
@@ -1544,206 +1730,6 @@
                 "Value": "contentfiltername:arguments-field-max-length-toggle-on"
               }
             ]
-          }
-        }
-      ]
-    },
-    {
-      "Name": "Proxy template - Max body limit in proxy template smaller than in content filter profile",
-      "Skip": false,
-      "Steps": [
-        {
-          "Name": "Create Content Filter Profile with Max length 3000000 bytes",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "content-filter-profile",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"content_filter_profile_small_limit\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"Content Filter Profile Small Limit\""
-              },
-              {
-                "Key": "args",
-                "Value": "{\"names\": [],\"regex\": [],\"max_count\": 1024,\"enable_max_count\": true,\"max_length\": 3000000,\"enable_max_length\": true}"
-              },
-              {
-                "Key": "ignore_body",
-                "Value": "false"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Create Proxy Template with Max body size 2MB",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "proxy-template",
-            "Path": "proxy-template-small-limit/"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"Proxy Template Small Limit\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"proxy-template-small-limit\""
-              },
-              {
-                "Key": "client_max_body_size",
-                "Value": "2"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "proxy-template-small-limit"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step: User can create security policy `test-sp-small-limit`",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "security-policy",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"test-sp-small-limit\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"test-sp-small-limit\""
-              },
-              {
-                "Key": "map",
-                "Value": "[{\"id\":\"__default_entry__\",\"match\":\"/\",\"name\":\"default\",\"acl_profile\":\"__acldefault__\",\"content_filter_profile\":\"__defaultcontentfilter__\",\"backend_id\":\"__default__\",\"acl_active\":false,\"content_filter_active\":false,\"limit_ids\":[],\"cloud_functions\":[]},{\"id\":\"test\",\"match\":\"/test\",\"name\":\"test\",\"acl_profile\":\"__acldefault__\",\"content_filter_profile\":\"content_filter_profile_small_limit\",\"backend_id\":\"__default__\",\"acl_active\":false,\"content_filter_active\":true,\"limit_ids\":[],\"cloud_functions\":[]}]"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Add Proxy Template: 'proxy-template-small-limit' to 'test-site-small-limit.site' ",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "server-group",
-            "Path": "test-site-small-limit/"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"test-site-small-limit\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"test-site-small-limit\""
-              },
-              {
-                "Key": "server_names",
-                "Value": "[\"test-site-small-limit.site\"]"
-              },
-              {
-                "Key": "security_policy",
-                "Value": "\"test-sp-small-limit\""
-              },
-              {
-                "Key": "proxy_template",
-                "Value": "\"proxy-template-small-limit\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "test-site-small-limit"
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send requests with arguments of 2.1MB",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test"
-          },
-          "Method": "POST",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test-site-small-limit.site"
-            }
-          ],
-          "Files": [
-            {
-              "Key": "file1",
-              "Value": "./test_files/2.1mb-file.txt"
-            }
-          ],
-          "Expected": {
-            "Code": "413",
-            "Type": "status-code"
           }
         }
       ]
