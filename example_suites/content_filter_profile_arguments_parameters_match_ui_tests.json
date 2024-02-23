@@ -1,0 +1,1255 @@
+{
+    "Name":"TA 1390 Content filter profile arguments parameters ui tests",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: name/regex selection",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with arg`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_name\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_name\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with arg`s regex",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_regex\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_regex\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [],\"regex\":[{\"type\": \"regex\",\"key\": \"test\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_regex\"}],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Key field validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User cannot create content filter profile with empty arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_empty_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_empty_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_empty_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with same arg`s keys",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_same_arg_keys\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_same_arg_keys\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\",\"key\": \"same-text\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_key\"},{\"type\": \"names\",\"key\": \"same-text\",\"reg\": \"test2\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_key2\"}],\"regex\": [],\"max_count\": 512,\"enable_max_count\": false,\"max_length\": 1024,\"enable_max_length\": false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_long_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_long_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_long_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with special chars arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_spec_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_spec_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"!@#$%^&*()<>'_-.\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_spec_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with regex arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_regex_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_regex_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"('|\\\")[^-]*bc--\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_reg_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with wrong regex arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_wrong_regex_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_wrong_regex_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"[0-9]++\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_wrong_reg_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with leading space arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_leading_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_leading_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"  leading\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_leading_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify arg`s key with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_leading_arg_key/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_leading_arg_key"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_leading_arg_key"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{'names': [{'type': 'names', 'key': 'leading', 'reg': 'test', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_leading_key'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with trailing space arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_trailing_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_trailing_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"trailing  \", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_trailing_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify arg`s key with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_trailing_arg_key/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_trailing_arg_key"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_trailing_arg_key"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{'names': [{'type': 'names', 'key': 'trailing', 'reg': 'test', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_trailing_key'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with space arg`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_space_arg_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_space_arg_key\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \" \", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_space_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 3: Matching value validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User cannot create content filter profile with empty arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_empty_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_empty_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_empty_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                     "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with same arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_same_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_same_arg_matching\""
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"same-text\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_matching\"},{\"type\": \"names\",\"key\": \"test2\",\"reg\": \"same-text\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_matching2\"}],\"regex\": [],\"max_count\": 512,\"enable_max_count\": false,\"max_length\": 1024,\"enable_max_length\": false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_long_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_long_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_long_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with special chars arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_spec_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_spec_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"!@#$%^&*()<>'_-.\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_spec_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with regex arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_regex_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_regex_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"('|\\\")[^-]*bc--\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_reg_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with wrong regex arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_wrong_regex_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_wrong_regex_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"[0-9]++\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_wrong_reg_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with leading space arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_leading_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_leading_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"  leading\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_leading_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify arg`s matching with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_leading_arg_matching/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_leading_arg_matching"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_leading_arg_matching"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{'names': [{'type': 'names', 'key': 'test', 'reg': 'leading', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_leading_matching'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with trailing space arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_trailing_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_trailing_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"trailing  \", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_trailing_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                     "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify arg`s matching with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_trailing_arg_matching/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_trailing_arg_matching"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_trailing_arg_matching"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{'names': [{'type': 'names', 'key': 'test', 'reg': 'trailing', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_trailing_matching'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with space arg`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_space_arg_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_space_arg_matching\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \" \", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_space_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Restrict checkbox",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with checked restrict",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_checked_restrict\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_checked_restrict\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\":\"arg_restrict\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can uncheck content filter profile arg`s restrict",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_arg_checked_restrict/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_checked_restrict\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_checked_restrict\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_restrict\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 5: Mask checkbox",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with checked mask",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_checked_mask\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_checked_mask\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": true,\"exclusions\": [],\"id\":\"arg_mask\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can uncheck content filter profile arg`s mask",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_arg_checked_mask/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_checked_mask\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_checked_mask\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_mask\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 6: Ignore field",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with empty ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_empty_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_empty_ignore\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_ignore\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with one tag in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_one_tag_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_one_tag_ignore\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"one-tag\"],\"id\":\"arg_one_tag\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with several tags in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_several_tags_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_several_tags_ignore\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"tag1\", \"tag2\", \"tag3\"],\"id\":\"arg_several_tags\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long tag in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_long_tag_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_long_tag_ignore\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"id\":\"arg_long_tag\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with spec chars tag in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_arg_spec_tag_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_arg_spec_tag_ignore\""
+                            },
+
+                            {
+                                "Key": "args",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"!@#$%^&*()<>'_-.\"],\"id\":\"arg_spec_tag\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
+
