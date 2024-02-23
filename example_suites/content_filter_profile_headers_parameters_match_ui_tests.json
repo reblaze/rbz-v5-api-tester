@@ -3,8 +3,92 @@
     "Skip":false,
     "Tests":[
         {
-            "Name":"Test 1: Key field validations",
-            "Skip":true,
+            "Name":"Test 1: name/regex selection",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with header`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_header_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_header_name\""
+                            },
+
+                            {
+                                "Key": "headers",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"header_name\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with header`s regex",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_header_regex\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_header_regex\""
+                            },
+
+                            {
+                                "Key": "headers",
+                                "Value": "{\"names\": [],\"regex\":[{\"type\": \"regex\",\"key\": \"test\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"header_regex\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Key field validations",
+            "Skip":false,
             "Steps":[
                 {
                     "Name": "Step: User cannot create content filter profile with empty header`s key",
@@ -218,10 +302,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
-                        "Type": "content",
+                        "Code": "200",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b''"
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
                     }
                 },
                 {
@@ -363,7 +452,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create content filter profile with space header`s key",
+                    "Name": "Step: User cannot create content filter profile with space header`s key",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -399,8 +488,8 @@
             ]
         },
         {
-            "Name":"Test 2: Matching value validations",
-            "Skip":true,
+            "Name":"Test 3: Matching value validations",
+            "Skip":false,
             "Steps":[
                 {
                     "Name": "Step: User cannot create content filter profile with empty header`s matching",
@@ -614,10 +703,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
-                        "Type": "content",
+                        "Code": "200",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b''"
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
                     }
                 },
                 {
@@ -795,7 +889,7 @@
             ]
         },
         {
-            "Name":"Test 3: Restrict checkbox",
+            "Name":"Test 4: Restrict checkbox",
             "Skip":false,
             "Steps":[
                 {
@@ -839,7 +933,7 @@
                 },
                 {
                     "Name": "Step: User can uncheck content filter profile header`s restrict",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "content-filter-profile",
@@ -879,7 +973,7 @@
             ]
         },
         {
-            "Name":"Test 4: Mask checkbox",
+            "Name":"Test 5: Mask checkbox",
             "Skip":false,
             "Steps":[
                 {
@@ -922,7 +1016,7 @@
                 },
                 {
                     "Name": "Step: User can uncheck content filter profile header`s mask",
-                    "Skip": true,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "content-filter-profile",
@@ -961,7 +1055,7 @@
             ]
         },
         {
-            "Name":"Test 5: Ignore field",
+            "Name":"Test 6: Ignore field",
             "Skip":false,
             "Steps":[
                 {
