@@ -257,7 +257,7 @@
 
                             {
                                 "Key": "cookies",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"('|\\\")[^-]*bc--\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_reg_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                                "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"('|\\\")[^-]*bc--\",\"reg\":\"test\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"arg_reg_key\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
 
                         ]
@@ -296,7 +296,7 @@
 
                             {
                                 "Key": "cookies",
-                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"[0-9]++\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_wrong_reg_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                                "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"[0-9]++\",\"reg\":\"test\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"arg_reg_key\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
 
                         ]
@@ -518,7 +518,7 @@
 
                         ]
                     },
-                     "Expected": {
+                    "Expected": {
                         "Code": "400",
                         "Type": "content",
                         "Single": true,
@@ -526,7 +526,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create content filter profile with same cookie`s matching",
+                    "Name": "Step: User can create content filter profile with same cookie`s matching",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -552,10 +552,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
-                        "Type": "content",
+                        "Code": "200",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b''"
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
                     }
                 },
                 {
