@@ -763,8 +763,8 @@
             ]
         },
         {
-            "Name": "Test 9: Send traffics to path 'test-cfp-ignore' test:\"a--'",
-            "Skip": true,
+            "Name": "Test 8: Send traffics to path 'test-cfp-ignore' test:\"a--'",
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Send Traffic 1 -H 'test:\"a--'",
@@ -846,7 +846,7 @@
             ]
         },
         {
-            "Name": "Test 10: Send traffics to path 'test-cfp-ignore-empty' test:\"a--'",
+            "Name": "Test 9: Send traffics to path 'test-cfp-ignore-empty' test:\"a--'",
             "Skip": false,
             "Steps": [
                 {
@@ -929,7 +929,7 @@
             ]
         },
         {
-            "Name": "Test 11: Send traffics to path 'test-cfp-regex' test:\"a--'",
+            "Name": "Test 10: Send traffics to path 'test-cfp-regex' test:\"a--'",
             "Skip": false,
             "Steps": [
                 {
@@ -1012,8 +1012,8 @@
             ]
         },
         {
-            "Name": "Test 4: Wait for logs",
-            "Skip": true,
+            "Name": "Test 11: Wait for logs",
+            "Skip": false,
             "Steps": [
                 {
                     "ID": "wait-for-logs",
@@ -1022,11 +1022,11 @@
             ]
         },
         {
-            "Name": "Test 5: Check logs from path /test-alphanumeric-false",
-            "Skip": true,
+            "Name": "Test 12: Check logs from path /test-cfp-restrict",
+            "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path /test-alphanumeric-false",
+                    "Name": "Step: Get Logs from path /test-cfp-restrict",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -1046,7 +1046,155 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /test-alphanumeric-false, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /test-cfp-restrict, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted restricted[\"a/('|\")[^-]*--] - test_cfp_restrict - [URI argument test=\"a]"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
+                                "Value": "Block - restricted restricted[\"a/('|\")[^-]*--] - test_cfp_restrict - [cookie test=\"a]"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/2/reason",
+                                "Value": "Block - restricted restricted[\"a/('|\")[^-]*--] - test_cfp_restrict - [header test=\"a]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: Check logs from path /test-cfp-restrict-mask",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cfp-restrict-mask",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cfp-restrict-mask, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted restricted[\"a/('|\")[^-]*--] - test_cfp_restrict_mask - [URI argument test=\"a]"
+                            },
+                            {
+                                "Key": "data/results/0/arguments/test",
+                                "Value": "MASKED{bcd2cd32}"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
+                                "Value": "Block - restricted restricted[\"a/('|\")[^-]*--] - test_cfp_restrict_mask - [cookie test=\"a]"
+                            },
+                            {
+                                "Key": "data/results/1/cookies/test",
+                                "Value": "MASKED{bcd2cd32}"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/2/reason",
+                                "Value": "Block - restricted restricted[\"a/('|\")[^-]*--] - test_cfp_restrict_mask - [header test=\"a]"
+                            },
+                            {
+                                "Key": "data/results/2/headers/test",
+                                "Value": "MASKED{bcd2cd32}"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 14: Check logs from path /test-cfp-ignore-empty",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cfp-ignore-empty",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cfp-ignore-empty, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -1066,27 +1214,91 @@
                             },
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "action:content-filter-block"
+                                "Value": "securitypolicy-entry:test-cfp-ignore-empty"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "securitypolicy-entry:test-cfp-ignore-empty"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "securitypolicy-entry:test-cfp-ignore-empty"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 15: Check logs from path /test-cfp-regex",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cfp-regex",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cfp-regex, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
                             },
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "content-filter-test"
+                                "Value": "securitypolicy-entry:test-cfp-regex"
                             },
                             {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "action:content-filter-block"
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
                             },
                             {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "cf-rule-category:test-category"
+                                "Key": "data/results/1/tags/*",
+                                "Value": "securitypolicy-entry:test-cfp-regex"
                             },
                             {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "cf-rule-subcategory:test-subcategory"
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:473"
                             },
                             {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "contentfiltername:test-cfp-ignore-alphanumeric-false"
+                                "Key": "data/results/2/tags/*",
+                                "Value": "securitypolicy-entry:test-cfp-regex"
                             }
                         ]
                     }
