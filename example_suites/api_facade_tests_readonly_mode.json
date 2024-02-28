@@ -3,6 +3,41 @@
   "Skip": false,
   "Tests": [
     {
+      "Name": "Test: Set status read only:true",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:Set status read only:true",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-status",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "enable",
+                "Value": "true"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Readonly mode is set to True"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
       "Name": "Test: Server Group APIs",
       "Skip": false,
       "Steps": [
@@ -396,27 +431,6 @@
               {
                 "Key": "message",
                 "Value": "System is under maintenance. Create, update, and delete requests are not allowed until upgrade is done."
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET dynamic rule id:'dynamic-rule-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-dynamic-rules",
-            "Path": "/76b5d6623eab"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "76b5d6623eab"
               }
             ]
           }
@@ -2081,31 +2095,6 @@
           }
         },
         {
-          "Name": "Step:GET mobile sdk profile id:'mobile-sdk-test'",
-          "Skip": true,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-mobile-sdks",
-            "Path": "/mobile-sdk-test"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "mobile-sdk-test"
-              },
-              {
-                "Key": "name",
-                "Value": "mobile-sdk-test-name-change"
-              }
-            ]
-          }
-        },
-        {
           "Name": "Step:GET all mobile sdk profiles",
           "Skip": false,
           "GenerateID": false,
@@ -2735,148 +2724,6 @@
       ]
     },
     {
-      "Name": "Test: Datalayer APIs",
-      "Skip": false,
-      "Steps": [
-        {
-          "Name": "Step: GET stats",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-data",
-            "Path": "/stats"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "syntax",
-              "Value": "string_query"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "filters",
-              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        },
-        {
-          "Name": "Step: GET timeline",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-data",
-            "Path": "/timeline"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "syntax",
-              "Value": "string_query"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "filters",
-              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        },
-        {
-          "Name": "Step: GET topx",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-data",
-            "Path": "/topx"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "syntax",
-              "Value": "string_query"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "filters",
-              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        },
-        {
-          "Name": "Step: GET logs",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-data",
-            "Path": "/logs"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "syntax",
-              "Value": "string_query"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "limit",
-              "Value": "200"
-            },
-            {
-              "Key": "filters",
-              "Value": "timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        },
-        {
-          "Name": "Step: POST query",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-data",
-            "Path": "/query"
-          },
-          "Method": "POST",
-          "Headers": [
-            {
-              "Key": "provider",
-              "Value": "mongodb"
-            }
-          ],
-          "Payload": {
-            "Params": [
-              {
-                "Key": "query",
-                "Value": "{\"collection\":\"configuration\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"key\":\"readonly\"}}}]}"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        }
-      ]
-    },
-    {
       "Name": "Test: Fetch APIs",
       "Skip": false,
       "Steps": [
@@ -2930,6 +2777,41 @@
               {
                 "Key": "message",
                 "Value": "System is under maintenance. Create, update, and delete requests are not allowed until upgrade is done."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Set status read only:false",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step:Set status read only:false",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-status",
+            "Path": ""
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "enable",
+                "Value": "false"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Readonly mode is set to False"
               }
             ]
           }
