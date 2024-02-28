@@ -348,7 +348,7 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "$UEhObGJHVmpkRDRLCg=="
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
                         }
                     ],
                     "Expected": {
@@ -410,14 +410,14 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "$UEhObGJHVmpkRDRLCg=="
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
                         }
                     ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b'access denied'"
+                        "Text": "b''"
                     }
                 },
                 {
@@ -445,7 +445,7 @@
                         "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 }
             ]
@@ -472,7 +472,7 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "$UEhObGJHVmpkRDRLCg=="
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
                         }
                     ],
                     "Expected": {
@@ -494,13 +494,17 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
+                        },
+                        {
+                            "Key": "Content-Type",
+                            "Value": "text/html"
                         }
                     ],
                     "Arguments":
                     [
                         {
-                            "Key": "test-osci",
-                            "Value": "%3Cselect%3E"
+                            "Key": "",
+                            "Value": "&lt;select&gt;"
                         }
                     ],
                     "Expected": {
@@ -534,14 +538,14 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "$UEhObGJHVmpkRDRLCg=="
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
                         }
                     ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b'access denied'"
+                        "Text": "b''"
                     }
                 },
                 {
@@ -596,7 +600,7 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "$UEhObGJHVmpkRDRLCg=="
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
                         }
                     ],
                     "Expected": {
@@ -632,6 +636,204 @@
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to path /test-multiple 'data-raw '&lt;select&gt;''",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-multiple"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                         {
+                            "Key": "Content-Type",
+                            "Value": "text/html"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "",
+                            "Value": "&lt;select&gt;"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Check logs from path /test-base",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-base",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-base, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_base64 - [URI argument test-osci:decoded=( echo '<select>' | base64 )\n]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-url",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-url, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_url - [URI argument test-osci=<select>]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-multiple",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-multiple, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "Headers": [
+                            {
+                                "Key": "Server",
+                                "Value": "rhino-core-shield"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_multiple - [URI argument test-osci:decoded=( echo '<select>' | base64 )\n]"
+                            }
+                        ]
                     }
                 }
             ]
