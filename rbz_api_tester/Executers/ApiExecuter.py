@@ -96,6 +96,9 @@ class ApiExecuter:
         templates_contents = templates_contents.replace(
             "@@planet@@", CommonParameters.planet
         )
+        templates_contents = templates_contents.replace(
+            "@@api_key@@", CommonParameters.api_key
+        )
         templates_contents = templates_contents.replace("@@ip@@", get_my_external_ip())
 
         return json.loads(templates_contents)
@@ -115,9 +118,9 @@ class ApiExecuter:
 
     def _add_common_headers(self, headers):
         headers["Authorization"] = f"Basic {CommonParameters.api_key}"
-        headers[
-            "User-Agent"
-        ] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+        headers["User-Agent"] = (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+        )
         headers["planet-name"] = f"{CommonParameters.planet}"
         headers["planet-hostname"] = f"{CommonParameters.planet_url}"
         headers["Content-Type"] = "application/json"
