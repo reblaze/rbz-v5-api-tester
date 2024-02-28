@@ -1,0 +1,1261 @@
+{
+    "Name":"TA 1389 Content filter profile cookies parameters ui tests",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: name/regex selection",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with cookie`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_name\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_name\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with cookie`s regex",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_regex\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_regex\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [],\"regex\":[{\"type\": \"regex\",\"key\": \"test\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"cookie_regex\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Key field validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User cannot create content filter profile with empty cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_empty_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_empty_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_empty_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with same cookie`s keys",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_same_cookie_keys\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_same_cookie_keys\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\",\"key\": \"same-text\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"cookie_same_key\"},{\"type\": \"names\",\"key\": \"same-text\",\"reg\": \"test2\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"cookie_same_key2\"}],\"regex\": [],\"max_count\": 42,\"enable_max_count\": false,\"max_length\": 1024,\"enable_max_length\": false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_long_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_long_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_long_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with special chars cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_spec_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_spec_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"!@#$%^&*()<>'_-.\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_spec_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with regex cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_regex_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_regex_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"('|\\\")[^-]*bc--\",\"reg\":\"test\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"arg_reg_key\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with wrong regex cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_wrong_regex_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_wrong_regex_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"[0-9]++\",\"reg\":\"test\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"arg_reg_key\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with leading space cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_leading_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_leading_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"  leading\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_leading_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify cookie`s key with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_leading_cookie_key/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_leading_cookie_key"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_leading_cookie_key"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{'names': [{'type': 'names', 'key': 'leading', 'reg': 'test', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'cookie_leading_key'}], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with trailing space cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_trailing_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_trailing_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"trailing  \", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_trailing_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify cookie`s key with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_trailing_cookie_key/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_trailing_cookie_key"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_trailing_cookie_key"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{'names': [{'type': 'names', 'key': 'trailing', 'reg': 'test', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'cookie_trailing_key'}], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with space cookie`s key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_space_cookie_key\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_space_cookie_key\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \" \", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_space_key\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 3: Matching value validations",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User cannot create content filter profile with empty cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_empty_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_empty_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_empty_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with same cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_same_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_same_cookie_matching\""
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"same-text\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"cookie_matching_key\"},{\"type\": \"names\",\"key\": \"test2\",\"reg\": \"same-text\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"cookie_matching_key2\"}],\"regex\": [],\"max_count\": 42,\"enable_max_count\": false,\"max_length\": 1024,\"enable_max_length\": false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_long_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_long_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_long_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with special chars cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_spec_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_spec_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"!@#$%^&*()<>'_-.\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_spec_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with regex cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_regex_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_regex_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"('|\\\")[^-]*bc--\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_reg_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with wrong regex cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_wrong_regex_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_wrong_regex_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"[0-9]++\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_wrong_reg_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with leading space cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_leading_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_leading_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"  leading\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_leading_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify cookie`s matching with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_leading_cookie_matching/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_leading_cookie_matching"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_leading_cookie_matching"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{'names': [{'type': 'names', 'key': 'test', 'reg': 'leading', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'cookie_leading_matching'}], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with trailing space cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_trailing_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_trailing_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"trailing  \", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_trailing_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                     "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify cookie`s matching with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_trailing_cookie_matching/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "test_cfr_trailing_cookie_matching"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "test_cfr_trailing_cookie_matching"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{'names': [{'type': 'names', 'key': 'test', 'reg': 'trailing', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'cookie_trailing_matching'}], 'regex': [], 'max_count': 42, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
+
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create content filter profile with space cookie`s matching",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_space_cookie_matching\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_space_cookie_matching\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \" \", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_space_matching\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Restrict checkbox",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with checked restrict",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_checked_restrict\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_checked_restrict\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_restrict\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can uncheck content filter profile cookie`s restrict",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_cookie_checked_restrict/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_checked_restrict\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_checked_restrict\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_restrict\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 5: Mask checkbox",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with checked mask",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_checked_mask\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_checked_mask\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": true,\"exclusions\": [],\"id\":\"cookie_mask\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can uncheck content filter profile cookie`s mask",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": "test_cfr_cookie_checked_mask/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_checked_mask\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_checked_mask\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_mask\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 6: Ignore field",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name": "Step: User can create content filter profile with empty ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_empty_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_empty_ignore\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"cookie_ignore\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with one tag in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_one_tag_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_one_tag_ignore\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"one-tag\"],\"id\":\"cookie_one_tag\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with several tags in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_several_tags_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_several_tags_ignore\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"tag1\", \"tag2\", \"tag3\"],\"id\":\"cookie_several_tags\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with long tag in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_long_tag_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_long_tag_ignore\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"id\":\"cookie_long_tag\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create content filter profile with spec chars tag in ignore field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "content-filter-profile",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfr_cookie_spec_tag_ignore\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfr_cookie_spec_tag_ignore\""
+                            },
+
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"!@#$%^&*()<>'_-.\"],\"id\":\"cookie_spec_tag\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
+
+
