@@ -2353,27 +2353,27 @@
       ]
     },
     {
-      "Name": "Test: Proxy Template APIs",
-      "Skip": true,
+      "Name": "Test: trimming of leading/trailing space for Proxy Template",
+      "Skip": false,
       "Steps": [
         {
-          "Name": "Step:POST proxy template with id:'proxy-template-test'",
+          "Name": "Step:POST proxy-template with leading space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-proxy-templates",
-            "Path": "/proxy-template-test"
+            "Path": "/l_space_name"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"proxy-template-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"proxy-template-test\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -2390,23 +2390,106 @@
           }
         },
         {
-          "Name": "Step:PUT proxy template id:'proxy-template-test', set name:'proxy-template-test-name-change'",
+          "Name": "Step:Verify proxy-template with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-proxy-templates",
-            "Path": "/proxy-template-test"
+            "Path": "/l_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_name"
           },
           "Method": "PUT",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"proxy-template-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"proxy-template-test-name-change\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -2423,12 +2506,12 @@
           }
         },
         {
-          "Name": "Step:GET proxy template id:'proxy-template-test'",
+          "Name": "Step:Verify proxy-template with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-proxy-templates",
-            "Path": "/proxy-template-test"
+            "Path": "/l_space_name"
           },
           "Method": "GET",
           "Expected": {
@@ -2438,58 +2521,95 @@
             "SingleResult": [
               {
                 "Key": "id",
-                "Value": "proxy-template-test"
+                "Value": "l_space_name"
               },
               {
                 "Key": "name",
-                "Value": "proxy-template-test-name-change"
+                "Value": "l_space_name"
               }
             ]
           }
         },
         {
-          "Name": "Step:GET all proxy templates",
+          "Name": "Step:PUT proxy-template with trailing space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-proxy-templates",
-            "Path": ""
+            "Path": "/t_space_name"
           },
-          "Method": "GET",
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
+              }
+            ]
+          },
           "Expected": {
             "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
+            "Type": "json",
+            "Single": true,
             "SingleResult": [
               {
-                "Key": "items/1/id",
-                "Value": "proxy-template-test"
+                "Key": "message",
+                "Value": "Successfully updated entry"
               }
             ]
           }
         },
         {
-          "Name": "Step:POST server group with id:'server-group-pt' and proxy template id:'proxy-template-test'",
+          "Name": "Step:Verify proxy-template with trailing space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-server-groups",
-            "Path": "/server-group-pt"
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in client_header_buffer_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_buffer_size"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"server-group-pt\""
+                "Value": "\"l_space_client_header_buffer_size\""
               },
               {
                 "Key": "name",
-                "Value": "\"server-group-pt\""
+                "Value": "\"l_space_client_header_buffer_size\""
               },
               {
-                "Key": "proxy_template",
-                "Value": "\"proxy-template-test\""
+                "Key": "client_header_buffer_size",
+                "Value": "\" l_space_client_header_buffer_size\""
               }
             ]
           },
@@ -2506,56 +2626,125 @@
           }
         },
         {
-          "Name": "Step:GET proxy template id:'proxy-template-test' links",
-          "Skip": false,
+          "Name": "Step:Verify proxy-template with leading space in client_header_buffer_size was trimmed",
+          "Skip": true,
           "GenerateID": false,
           "API": {
             "Base": "api-proxy-templates",
-            "Path": "/proxy-template-test/links"
+            "Path": "/l_space_client_header_buffer_size"
           },
           "Method": "GET",
           "Expected": {
             "Code": "200",
-            "Type": "jsonpath",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "items/0/name",
-                "Value": "server-group-pt"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:DELETE server group id:'server-group-pt'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-server-groups",
-            "Path": "/server-group-pt"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "200",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "message",
-                "Value": "Successfully deleted entry"
+                "Key": "id",
+                "Value": "l_space_client_header_buffer_size"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_client_header_buffer_size"
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "l_space_client_header_buffer_size"
               }
             ]
           }
         },
         {
-          "Name": "Step:DELETE proxy template id:'proxy-template-test'",
+          "Name": "Step:POST proxy-template with trailing space in client_header_buffer_size",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-proxy-templates",
-            "Path": "/proxy-template-test"
+            "Path": "/t_space_client_header_buffer_size"
           },
-          "Method": "DELETE",
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_client_header_buffer_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_client_header_buffer_size\""
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "\"t_space_client_header_buffer_size \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in client_header_buffer_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_buffer_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_client_header_buffer_size"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_client_header_buffer_size"
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "t_space_client_header_buffer_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in client_header_buffer_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_buffer_size"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_client_header_buffer_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_client_header_buffer_size\""
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "\" l_space_client_header_buffer_size\""
+              }
+            ]
+          },
           "Expected": {
             "Code": "200",
             "Type": "json",
@@ -2563,7 +2752,4854 @@
             "SingleResult": [
               {
                 "Key": "message",
-                "Value": "Successfully deleted entry"
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in client_header_buffer_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_buffer_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_client_header_buffer_size"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_client_header_buffer_size"
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "l_space_client_header_buffer_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in client_header_buffer_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_buffer_size"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_client_header_buffer_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_client_header_buffer_size\""
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "\"t_space_client_header_buffer_size \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in client_header_buffer_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_buffer_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_client_header_buffer_size"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_client_header_buffer_size"
+              },
+              {
+                "Key": "client_header_buffer_size",
+                "Value": "t_space_client_header_buffer_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in client_header_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_client_header_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_client_header_timeout\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\" l_space_client_header_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in client_header_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_client_header_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_client_header_timeout"
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "l_space_client_header_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in client_header_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_client_header_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_client_header_timeout\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"t_space_client_header_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in client_header_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_client_header_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_client_header_timeout"
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "t_space_client_header_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in client_header_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_client_header_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_client_header_timeout\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\" l_space_client_header_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in client_header_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_header_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_client_header_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_client_header_timeout"
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "l_space_client_header_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in client_header_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_client_header_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_client_header_timeout\""
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "\"t_space_client_header_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in client_header_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_header_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_client_header_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_client_header_timeout"
+              },
+              {
+                "Key": "client_header_timeout",
+                "Value": "t_space_client_header_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in client_max_body_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_max_body_size"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_client_max_body_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_client_max_body_size\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\" l_space_client_max_body_size\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in client_max_body_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_max_body_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_client_max_body_size"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_client_max_body_size"
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "l_space_client_max_body_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in client_max_body_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_max_body_size"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_client_max_body_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_client_max_body_size\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"t_space_client_max_body_size \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in client_max_body_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_max_body_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_client_max_body_size"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_client_max_body_size"
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "t_space_client_max_body_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in client_max_body_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_max_body_size"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_client_max_body_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_client_max_body_size\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\" l_space_client_max_body_size\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in client_max_body_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_client_max_body_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_client_max_body_size"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_client_max_body_size"
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "l_space_client_max_body_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in client_max_body_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_max_body_size"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_client_max_body_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_client_max_body_size\""
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "\"t_space_client_max_body_size \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in client_max_body_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_client_max_body_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_client_max_body_size"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_client_max_body_size"
+              },
+              {
+                "Key": "client_max_body_size",
+                "Value": "t_space_client_max_body_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_conf_specific"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_conf_specific\""
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "\" l_space_conf_specific\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_conf_specific"
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "l_space_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_conf_specific"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_conf_specific\""
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "\"t_space_conf_specific \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_conf_specific"
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "t_space_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_conf_specific"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_conf_specific\""
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "\" l_space_conf_specific\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_conf_specific"
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "l_space_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_conf_specific"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_conf_specific\""
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "\"t_space_conf_specific \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_conf_specific"
+              },
+              {
+                "Key": "conf_specific",
+                "Value": "t_space_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in keepalive_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_keepalive_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_keepalive_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_keepalive_timeout\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\" l_space_keepalive_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in keepalive_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_keepalive_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_keepalive_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_keepalive_timeout"
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "l_space_keepalive_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in keepalive_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_keepalive_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_keepalive_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_keepalive_timeout\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"t_space_keepalive_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in keepalive_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_keepalive_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_keepalive_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_keepalive_timeout"
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "t_space_keepalive_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in keepalive_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_keepalive_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_keepalive_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_keepalive_timeout\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\" l_space_keepalive_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in keepalive_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_keepalive_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_keepalive_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_keepalive_timeout"
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "l_space_keepalive_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in keepalive_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_keepalive_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_keepalive_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_keepalive_timeout\""
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "\"t_space_keepalive_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in keepalive_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_keepalive_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_keepalive_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_keepalive_timeout"
+              },
+              {
+                "Key": "keepalive_timeout",
+                "Value": "t_space_keepalive_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in large_client_header_buffers_count",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_count"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "\" l_space_large_client_header_buffers_count\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in large_client_header_buffers_count was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_count"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "l_space_large_client_header_buffers_count"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in large_client_header_buffers_count",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_count"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "\"t_space_large_client_header_buffers_count \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in large_client_header_buffers_count was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_count"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "t_space_large_client_header_buffers_count"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in large_client_header_buffers_count",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_count"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "\" l_space_large_client_header_buffers_count\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in large_client_header_buffers_count was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_count"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "l_space_large_client_header_buffers_count"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in large_client_header_buffers_count",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_count"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_large_client_header_buffers_count\""
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "\"t_space_large_client_header_buffers_count \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in large_client_header_buffers_count was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_count"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_large_client_header_buffers_count"
+              },
+              {
+                "Key": "large_client_header_buffers_count",
+                "Value": "t_space_large_client_header_buffers_count"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in large_client_header_buffers_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_size"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "\" l_space_large_client_header_buffers_size\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in large_client_header_buffers_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "l_space_large_client_header_buffers_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in large_client_header_buffers_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_size"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "\"t_space_large_client_header_buffers_size \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in large_client_header_buffers_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "t_space_large_client_header_buffers_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in large_client_header_buffers_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_size"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "\" l_space_large_client_header_buffers_size\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in large_client_header_buffers_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_large_client_header_buffers_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "l_space_large_client_header_buffers_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in large_client_header_buffers_size",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_size"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_large_client_header_buffers_size\""
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "\"t_space_large_client_header_buffers_size \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in large_client_header_buffers_size was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_large_client_header_buffers_size"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_large_client_header_buffers_size"
+              },
+              {
+                "Key": "large_client_header_buffers_size",
+                "Value": "t_space_large_client_header_buffers_size"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in limit_req_burst",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_burst"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_limit_req_burst\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_limit_req_burst\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\" l_space_limit_req_burst\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in limit_req_burst was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_burst"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_limit_req_burst"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_limit_req_burst"
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "l_space_limit_req_burst"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in limit_req_burst",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_burst"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_limit_req_burst\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_limit_req_burst\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"t_space_limit_req_burst \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in limit_req_burst was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_burst"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_limit_req_burst"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_limit_req_burst"
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "t_space_limit_req_burst"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in limit_req_burst",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_burst"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_limit_req_burst\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_limit_req_burst\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\" l_space_limit_req_burst\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in limit_req_burst was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_burst"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_limit_req_burst"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_limit_req_burst"
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "l_space_limit_req_burst"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in limit_req_burst",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_burst"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_limit_req_burst\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_limit_req_burst\""
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "\"t_space_limit_req_burst \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in limit_req_burst was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_burst"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_limit_req_burst"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_limit_req_burst"
+              },
+              {
+                "Key": "limit_req_burst",
+                "Value": "t_space_limit_req_burst"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in limit_req_rate",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_rate"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_limit_req_rate\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_limit_req_rate\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\" l_space_limit_req_rate\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in limit_req_rate was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_rate"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_limit_req_rate"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_limit_req_rate"
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "l_space_limit_req_rate"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in limit_req_rate",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_rate"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_limit_req_rate\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_limit_req_rate\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"t_space_limit_req_rate \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in limit_req_rate was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_rate"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_limit_req_rate"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_limit_req_rate"
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "t_space_limit_req_rate"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in limit_req_rate",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_rate"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_limit_req_rate\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_limit_req_rate\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\" l_space_limit_req_rate\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in limit_req_rate was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_limit_req_rate"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_limit_req_rate"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_limit_req_rate"
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "l_space_limit_req_rate"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in limit_req_rate",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_rate"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_limit_req_rate\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_limit_req_rate\""
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "\"t_space_limit_req_rate \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in limit_req_rate was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_limit_req_rate"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_limit_req_rate"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_limit_req_rate"
+              },
+              {
+                "Key": "limit_req_rate",
+                "Value": "t_space_limit_req_rate"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in mask_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_mask_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_mask_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_mask_headers\""
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "\" l_space_mask_headers\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in mask_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_mask_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_mask_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_mask_headers"
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "l_space_mask_headers"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in mask_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_mask_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_mask_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_mask_headers\""
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "\"t_space_mask_headers \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in mask_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_mask_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_mask_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_mask_headers"
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "t_space_mask_headers"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in mask_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_mask_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_mask_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_mask_headers\""
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "\" l_space_mask_headers\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in mask_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_mask_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_mask_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_mask_headers"
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "l_space_mask_headers"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in mask_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_mask_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_mask_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_mask_headers\""
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "\"t_space_mask_headers \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in mask_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_mask_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_mask_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_mask_headers"
+              },
+              {
+                "Key": "mask_headers",
+                "Value": "t_space_mask_headers"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in proxy_connect_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_connect_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\" l_space_proxy_connect_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in proxy_connect_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_connect_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "l_space_proxy_connect_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in proxy_connect_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_connect_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"t_space_proxy_connect_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in proxy_connect_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_connect_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "t_space_proxy_connect_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in proxy_connect_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_connect_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\" l_space_proxy_connect_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in proxy_connect_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_connect_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "l_space_proxy_connect_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in proxy_connect_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_connect_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_proxy_connect_timeout\""
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "\"t_space_proxy_connect_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in proxy_connect_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_connect_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_proxy_connect_timeout"
+              },
+              {
+                "Key": "proxy_connect_timeout",
+                "Value": "t_space_proxy_connect_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in proxy_read_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_read_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\" l_space_proxy_read_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in proxy_read_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_read_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_proxy_read_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_proxy_read_timeout"
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "l_space_proxy_read_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in proxy_read_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_read_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"t_space_proxy_read_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in proxy_read_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_read_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_proxy_read_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_proxy_read_timeout"
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "t_space_proxy_read_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in proxy_read_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_read_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\" l_space_proxy_read_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in proxy_read_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_read_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_proxy_read_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_proxy_read_timeout"
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "l_space_proxy_read_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in proxy_read_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_read_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_proxy_read_timeout\""
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "\"t_space_proxy_read_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in proxy_read_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_read_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_proxy_read_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_proxy_read_timeout"
+              },
+              {
+                "Key": "proxy_read_timeout",
+                "Value": "t_space_proxy_read_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in proxy_send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_send_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\" l_space_proxy_send_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in proxy_send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_proxy_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_proxy_send_timeout"
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "l_space_proxy_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in proxy_send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_send_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"t_space_proxy_send_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in proxy_send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_proxy_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_proxy_send_timeout"
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "t_space_proxy_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in proxy_send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_send_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\" l_space_proxy_send_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in proxy_send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_proxy_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_proxy_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_proxy_send_timeout"
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "l_space_proxy_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in proxy_send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_send_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_proxy_send_timeout\""
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "\"t_space_proxy_send_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in proxy_send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_proxy_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_proxy_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_proxy_send_timeout"
+              },
+              {
+                "Key": "proxy_send_timeout",
+                "Value": "t_space_proxy_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_send_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_send_timeout\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\" l_space_send_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_send_timeout"
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "l_space_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_send_timeout"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_send_timeout\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"t_space_send_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_send_timeout"
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "t_space_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_send_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_send_timeout\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\" l_space_send_timeout\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_send_timeout"
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "l_space_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in send_timeout",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_send_timeout"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_send_timeout\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_send_timeout\""
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "\"t_space_send_timeout \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in send_timeout was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_send_timeout"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_send_timeout"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_send_timeout"
+              },
+              {
+                "Key": "send_timeout",
+                "Value": "t_space_send_timeout"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in ssl_conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_ssl_conf_specific"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "\" l_space_ssl_conf_specific\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in ssl_conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_ssl_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_ssl_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_ssl_conf_specific"
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "l_space_ssl_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in ssl_conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_ssl_conf_specific"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "\"t_space_ssl_conf_specific \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in ssl_conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_ssl_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_ssl_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_ssl_conf_specific"
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "t_space_ssl_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in ssl_conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_ssl_conf_specific"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "\" l_space_ssl_conf_specific\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in ssl_conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_ssl_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_ssl_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_ssl_conf_specific"
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "l_space_ssl_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in ssl_conf_specific",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_ssl_conf_specific"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_ssl_conf_specific\""
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "\"t_space_ssl_conf_specific \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in ssl_conf_specific was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_ssl_conf_specific"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_ssl_conf_specific"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_ssl_conf_specific"
+              },
+              {
+                "Key": "ssl_conf_specific",
+                "Value": "t_space_ssl_conf_specific"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in upstream_host",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_upstream_host"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_upstream_host\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_upstream_host\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\" l_space_upstream_host\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in upstream_host was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_upstream_host"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_upstream_host"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_upstream_host"
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "l_space_upstream_host"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in upstream_host",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_upstream_host"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_upstream_host\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_upstream_host\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\"t_space_upstream_host \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in upstream_host was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_upstream_host"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_upstream_host"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_upstream_host"
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "t_space_upstream_host"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in upstream_host",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_upstream_host"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_upstream_host\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_upstream_host\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\" l_space_upstream_host\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in upstream_host was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_upstream_host"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_upstream_host"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_upstream_host"
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "l_space_upstream_host"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in upstream_host",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_upstream_host"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_upstream_host\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_upstream_host\""
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "\"t_space_upstream_host \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in upstream_host was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_upstream_host"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_upstream_host"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_upstream_host"
+              },
+              {
+                "Key": "upstream_host",
+                "Value": "t_space_upstream_host"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in xff_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xff_header_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_xff_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_xff_header_name\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\" l_space_xff_header_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in xff_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xff_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_xff_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_xff_header_name"
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "l_space_xff_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in xff_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xff_header_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_xff_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_xff_header_name\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\"t_space_xff_header_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in xff_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xff_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_xff_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_xff_header_name"
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "t_space_xff_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in xff_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xff_header_name"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_xff_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_xff_header_name\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\" l_space_xff_header_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in xff_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xff_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_xff_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_xff_header_name"
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "l_space_xff_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in xff_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xff_header_name"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_xff_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_xff_header_name\""
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "\"t_space_xff_header_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in xff_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xff_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_xff_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_xff_header_name"
+              },
+              {
+                "Key": "xff_header_name",
+                "Value": "t_space_xff_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with leading space in xrealip_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xrealip_header_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_xrealip_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_xrealip_header_name\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\" l_space_xrealip_header_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in xrealip_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xrealip_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_xrealip_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_xrealip_header_name"
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "l_space_xrealip_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST proxy-template with trailing space in xrealip_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xrealip_header_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_xrealip_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_xrealip_header_name\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\"t_space_xrealip_header_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in xrealip_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xrealip_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_xrealip_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_xrealip_header_name"
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "t_space_xrealip_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with leading space in xrealip_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xrealip_header_name"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_xrealip_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_xrealip_header_name\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\" l_space_xrealip_header_name\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with leading space in xrealip_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/l_space_xrealip_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_xrealip_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_xrealip_header_name"
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "l_space_xrealip_header_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT proxy-template with trailing space in xrealip_header_name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xrealip_header_name"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_xrealip_header_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_xrealip_header_name\""
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "\"t_space_xrealip_header_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify proxy-template with trailing space in xrealip_header_name was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-proxy-templates",
+            "Path": "/t_space_xrealip_header_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_xrealip_header_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_xrealip_header_name"
+              },
+              {
+                "Key": "xrealip_header_name",
+                "Value": "t_space_xrealip_header_name"
               }
             ]
           }
