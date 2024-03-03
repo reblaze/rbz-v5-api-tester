@@ -10460,7 +10460,7 @@
     },
     {
       "Name": "Test: trimming of leading/trailing space for Action",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST action with leading space in Name",
@@ -12017,27 +12017,27 @@
       ]
     },
     {
-      "Name": "Test: Rate Limit APIs",
-      "Skip": true,
+      "Name": "Test: trimming of leading/trailing space for Rate Limit",
+      "Skip": false,
       "Steps": [
         {
-          "Name": "Step:POST rate-limit with id:'rate-limit-test'",
+          "Name": "Step:POST rate-limit with leading space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-rate-limits",
-            "Path": "/rate-limit-test"
+            "Path": "/l_space_name"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"rate-limit-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"rate-limit-test\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -12054,23 +12054,106 @@
           }
         },
         {
-          "Name": "Step:PUT rate-limit id:'rate-limit-test', set name:'rate-limit-test-name-change'",
+          "Name": "Step:Verify rate-limit with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-rate-limits",
-            "Path": "/rate-limit-test"
+            "Path": "/l_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_name"
           },
           "Method": "PUT",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"rate-limit-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"rate-limit-test-name-change\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -12087,12 +12170,12 @@
           }
         },
         {
-          "Name": "Step:GET rate-limit id:'rate-limit-test'",
+          "Name": "Step:Verify rate-limit with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-rate-limits",
-            "Path": "/rate-limit-test"
+            "Path": "/l_space_name"
           },
           "Method": "GET",
           "Expected": {
@@ -12102,45 +12185,36 @@
             "SingleResult": [
               {
                 "Key": "id",
-                "Value": "rate-limit-test"
+                "Value": "l_space_name"
               },
               {
                 "Key": "name",
-                "Value": "rate-limit-test-name-change"
+                "Value": "l_space_name"
               }
             ]
           }
         },
         {
-          "Name": "Step:GET all rate-limits",
+          "Name": "Step:PUT rate-limit with trailing space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-rate-limits",
-            "Path": ""
+            "Path": "/t_space_name"
           },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
-            "SingleResult": [
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
               {
-                "Key": "items/10/id",
-                "Value": "rate-limit-test"
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
               }
             ]
-          }
-        },
-        {
-          "Name": "Step:DELETE rate-limit id:'rate-limit-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-rate-limits",
-            "Path": "/rate-limit-test"
           },
-          "Method": "DELETE",
           "Expected": {
             "Code": "200",
             "Type": "json",
@@ -12148,7 +12222,3501 @@
             "SingleResult": [
               {
                 "Key": "message",
-                "Value": "Successfully deleted entry"
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_action"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\" l_space_action\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "l_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_action"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"t_space_action \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "t_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_action"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\" l_space_action\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "l_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_action"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"t_space_action \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "t_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_include"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\" l_space_include\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['l_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_include"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\"t_space_include \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['t_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_include"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\" l_space_include\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['l_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_include"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\"t_space_include \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['t_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\" l_space_exclude\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['l_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\"t_space_exclude \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['t_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\" l_space_exclude\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['l_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\"t_space_exclude \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['t_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in key_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\" l_space_key_attrs\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'l_space_key_attrs'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in key_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\"t_space_key_attrs \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'t_space_key_attrs'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in key_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\" l_space_key_attrs\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'l_space_key_attrs'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in key_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\"t_space_key_attrs \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'l_space_key_attrs'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in key-headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key-headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key-headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key-headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\" l_space_key-headers\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\" l_space_key_headers\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'l_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\"t_space_key_headers \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'t_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\" l_space_key_headers\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'l_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\"t_space_key_headers \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'l_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\" l_space_key_cookies\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'l_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\"t_space_key_cookies \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'t_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\" l_space_key_cookies\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'l_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\"t_space_key_cookies \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'l_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\" l_space_key_args\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'l_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\"t_space_key_args \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'t_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\" l_space_key_args\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'l_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\"t_space_key_args \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'l_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in pairwith_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_attrs"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_attrs\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"attrs\":\" l_space_pairwith_attrs\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_attrs"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'attrs':'l_space_pairwith_attrs'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in pairwith_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_attrs"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_attrs\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"attrs\":\"t_space_pairwith_attrs \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_attrs"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'attrs':'t_space_pairwith_attrs'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in pairwith_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_attrs"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_attrs\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"attrs\":\" l_space_pairwith_attrs\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_attrs"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'attrs':'l_space_pairwith_attrs'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in pairwith_attrs",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_attrs"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_attrs\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"attrs\":\"t_space_pairwith_attrs \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_attrs"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'attrs':'l_space_pairwith_attrs'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in pairwith_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_headers\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"headers\":\" l_space_pairwith_headers\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_headers"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'headers':'l_space_pairwith_headers'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in pairwith_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_headers\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"headers\":\"t_space_pairwith_headers \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_headers"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'headers':'t_space_pairwith_headers'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in pairwith_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_headers\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"headers\":\" l_space_pairwith_headers\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_headers"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'headers':'l_space_pairwith_headers'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in pairwith_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_headers\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"headers\":\"t_space_pairwith_headers \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_headers"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'headers':'l_space_pairwith_headers'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in pairwith_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_cookies"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_cookies\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"cookies\":\" l_space_pairwith_cookies\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_cookies"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'cookies':'l_space_pairwith_cookies'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in pairwith_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_cookies"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_cookies\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"cookies\":\"t_space_pairwith_cookies \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_cookies"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'cookies':'t_space_pairwith_cookies'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in pairwith_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_cookies"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_cookies\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"cookies\":\" l_space_pairwith_cookies\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_cookies"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'cookies':'l_space_pairwith_cookies'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in pairwith_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_cookies"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_cookies\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"cookies\":\"t_space_pairwith_cookies \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_cookies"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'cookies':'l_space_pairwith_cookies'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with leading space in pairwith_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_args"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_args\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"args\":\" l_space_pairwith_args\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_args"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_args"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'args':'l_space_pairwith_args'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST rate-limit with trailing space in pairwith_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_args"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_args\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"args\":\"t_space_pairwith_args \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_args"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_args"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'args':'t_space_pairwith_args'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with leading space in pairwith_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_args"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_pairwith_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_pairwith_args\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"args\":\" l_space_pairwith_args\"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with leading space in pairwith_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/l_space_pairwith_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_pairwith_args"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_pairwith_args"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'args':'l_space_pairwith_args'}"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT rate-limit with trailing space in pairwith_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_args"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_pairwith_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_pairwith_args\""
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{\"args\":\"t_space_pairwith_args \"}"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify rate-limit with trailing space in pairwith_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-rate-limits",
+            "Path": "/t_space_pairwith_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_pairwith_args"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_pairwith_args"
+              },
+              {
+                "Key": "pairwith",
+                "Value": "{'args':'l_space_pairwith_args'}"
               }
             ]
           }
@@ -12157,26 +15725,26 @@
     },
     {
       "Name": "Test: Security Policy APIs",
-      "Skip": true,
+      "Skip": false,
       "Steps": [
         {
-          "Name": "Step:POST security-policy with id:'security-policy-test'",
+          "Name": "Step:POST acl-profile with leading space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-security-policies",
-            "Path": "/security-policy-test"
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_name"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"security-policy-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"security-policy-test\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -12193,23 +15761,106 @@
           }
         },
         {
-          "Name": "Step:PUT security-policy id:'security-policy-test', set name:'security-policy-test-name-change'",
+          "Name": "Step:Verify acl-profile with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-security-policies",
-            "Path": "/security-policy-test"
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_name"
           },
           "Method": "PUT",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"security-policy-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"security-policy-test-name-change\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -12226,12 +15877,12 @@
           }
         },
         {
-          "Name": "Step:GET security-policy id:'security-policy-test'",
+          "Name": "Step:Verify acl-profile with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-security-policies",
-            "Path": "/security-policy-test"
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_name"
           },
           "Method": "GET",
           "Expected": {
@@ -12241,45 +15892,36 @@
             "SingleResult": [
               {
                 "Key": "id",
-                "Value": "security-policy-test"
+                "Value": "l_space_name"
               },
               {
                 "Key": "name",
-                "Value": "security-policy-test-name-change"
+                "Value": "l_space_name"
               }
             ]
           }
         },
         {
-          "Name": "Step:GET all security-policies",
+          "Name": "Step:PUT acl-profile with trailing space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "api-security-policies",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_name"
           },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
-            "SingleResult": [
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
               {
-                "Key": "items/1/id",
-                "Value": "security-policy-test"
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
               }
             ]
-          }
-        },
-        {
-          "Name": "Step:DELETE security-policy id:'security-policy-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-security-policies",
-            "Path": "/security-policy-test"
           },
-          "Method": "DELETE",
           "Expected": {
             "Code": "200",
             "Type": "json",
@@ -12287,7 +15929,2144 @@
             "SingleResult": [
               {
                 "Key": "message",
-                "Value": "Successfully deleted entry"
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in allow",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_allow\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_allow\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\" l_space_allow\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in allow was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_allow"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_allow"
+              },
+              {
+                "Key": "allow",
+                "Value": "['l_space_allow']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in allow",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_allow\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_allow\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"t_space_allow \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in allow was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_allow"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_allow"
+              },
+              {
+                "Key": "allow",
+                "Value": "['t_space_allow']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in allow",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_allow\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_allow\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\" l_space_allow\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in allow was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_allow"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_allow"
+              },
+              {
+                "Key": "allow",
+                "Value": "['l_space_allow']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in allow",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_allow\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_allow\""
+              },
+              {
+                "Key": "allow",
+                "Value": "[\"t_space_allow \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in allow was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_allow"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_allow"
+              },
+              {
+                "Key": "allow",
+                "Value": "['t_space_allow']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in allow_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow_bot"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_allow_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_allow_bot\""
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "[\" l_space_allow_bot\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in allow_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_allow_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_allow_bot"
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "['l_space_allow_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in allow_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow_bot"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_allow_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_allow_bot\""
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "[\"t_space_allow_bot \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in allow_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_allow_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_allow_bot"
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "['t_space_allow_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in allow_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow_bot"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_allow_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_allow_bot\""
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "[\" l_space_allow_bot\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in allow_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_allow_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_allow_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_allow_bot"
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "['l_space_allow_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in allow_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow_bot"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_allow_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_allow_bot\""
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "[\"t_space_allow_bot \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in allow_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_allow_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_allow_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_allow_bot"
+              },
+              {
+                "Key": "allow_bot",
+                "Value": "['t_space_allow_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_deny\""
+              },
+              {
+                "Key": "deny",
+                "Value": "[\" l_space_deny\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_deny"
+              },
+              {
+                "Key": "deny",
+                "Value": "['l_space_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_deny\""
+              },
+              {
+                "Key": "deny",
+                "Value": "[\"t_space_deny \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_deny"
+              },
+              {
+                "Key": "deny",
+                "Value": "['t_space_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_deny\""
+              },
+              {
+                "Key": "deny",
+                "Value": "[\" l_space_deny\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_deny"
+              },
+              {
+                "Key": "deny",
+                "Value": "['l_space_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_deny\""
+              },
+              {
+                "Key": "deny",
+                "Value": "[\"t_space_deny \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_deny"
+              },
+              {
+                "Key": "deny",
+                "Value": "['t_space_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in deny_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny_bot"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_deny_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_deny_bot\""
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "[\" l_space_deny_bot\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in deny_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_deny_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_deny_bot"
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "['l_space_deny_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in deny_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny_bot"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_deny_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_deny_bot\""
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "[\"t_space_deny_bot \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in deny_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_deny_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_deny_bot"
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "['t_space_deny_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in deny_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny_bot"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_deny_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_deny_bot\""
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "[\" l_space_deny_bot\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in deny_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_deny_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_deny_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_deny_bot"
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "['l_space_deny_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in deny_bot",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny_bot"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_deny_bot\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_deny_bot\""
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "[\"t_space_deny_bot \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in deny_bot was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_deny_bot"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_deny_bot"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_deny_bot"
+              },
+              {
+                "Key": "deny_bot",
+                "Value": "['t_space_deny_bot']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in force_deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_force_deny"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_force_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_force_deny\""
+              },
+              {
+                "Key": "force_deny",
+                "Value": "[\" l_space_force_deny\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in force_deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_force_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_force_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_force_deny"
+              },
+              {
+                "Key": "force_deny",
+                "Value": "['l_space_force_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in force_deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_force_deny"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_force_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_force_deny\""
+              },
+              {
+                "Key": "force_deny",
+                "Value": "[\"t_space_force_deny \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in force_deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_force_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_force_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_force_deny"
+              },
+              {
+                "Key": "force_deny",
+                "Value": "['t_space_force_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in force_deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_force_deny"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_force_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_force_deny\""
+              },
+              {
+                "Key": "force_deny",
+                "Value": "[\" l_space_force_deny\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in force_deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_force_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_force_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_force_deny"
+              },
+              {
+                "Key": "force_deny",
+                "Value": "['l_space_force_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in force_deny",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_force_deny"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_force_deny\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_force_deny\""
+              },
+              {
+                "Key": "force_deny",
+                "Value": "[\"t_space_force_deny \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in force_deny was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_force_deny"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_force_deny"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_force_deny"
+              },
+              {
+                "Key": "force_deny",
+                "Value": "['t_space_force_deny']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in passthrough",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_passthrough"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_passthrough\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_passthrough\""
+              },
+              {
+                "Key": "passthrough",
+                "Value": "[\" l_space_passthrough\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in passthrough was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_passthrough"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_passthrough"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_passthrough"
+              },
+              {
+                "Key": "passthrough",
+                "Value": "['l_space_passthrough']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in passthrough",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_passthrough"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_passthrough\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_passthrough\""
+              },
+              {
+                "Key": "passthrough",
+                "Value": "[\"t_space_passthrough \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in passthrough was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_passthrough"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_passthrough"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_passthrough"
+              },
+              {
+                "Key": "passthrough",
+                "Value": "['t_space_passthrough']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in passthrough",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_passthrough"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_passthrough\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_passthrough\""
+              },
+              {
+                "Key": "passthrough",
+                "Value": "[\" l_space_passthrough\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in passthrough was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_passthrough"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_passthrough"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_passthrough"
+              },
+              {
+                "Key": "passthrough",
+                "Value": "['l_space_passthrough']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in passthrough",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_passthrough"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_passthrough\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_passthrough\""
+              },
+              {
+                "Key": "passthrough",
+                "Value": "[\"t_space_passthrough \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in passthrough was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_passthrough"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_passthrough"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_passthrough"
+              },
+              {
+                "Key": "passthrough",
+                "Value": "['t_space_passthrough']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with leading space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_action"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\" l_space_action\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "l_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST acl-profile with trailing space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_action"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"t_space_action \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "t_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with leading space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_action"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\" l_space_action\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with leading space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/l_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "l_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT acl-profile with trailing space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_action"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"t_space_action \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify acl-profile with trailing space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-acl-profiles",
+            "Path": "/t_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "t_space_action"
               }
             ]
           }
@@ -13184,578 +18963,6 @@
           "API": {
             "Base": "api-edge-functions",
             "Path": "/edge-function-test"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully deleted entry"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "Name": "Test: Virtual tags APIs",
-      "Skip": true,
-      "Steps": [
-        {
-          "Name": "Step:POST virtual tag with id:'virtual-tag-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-virtual-tags",
-            "Path": "/virtual-tag-test"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"virtual-tag-test\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"virtual-tag-test\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully created entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:PUT virtual tag id:'virtual-tag-test', set name:'virtual-tag-test-name-change'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-virtual-tags",
-            "Path": "/virtual-tag-test"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"virtual-tag-test\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"virtual-tag-test-name-change\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET virtual tag id:'virtual-tag-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-virtual-tags",
-            "Path": "/virtual-tag-test"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "virtual-tag-test"
-              },
-              {
-                "Key": "name",
-                "Value": "virtual-tag-test-name-change"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET all virtual tags",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-virtual-tags",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
-            "SingleResult": [
-              {
-                "Key": "items/1/id",
-                "Value": "virtual-tag-test"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:DELETE virtual tag id:'virtual-tag-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-virtual-tags",
-            "Path": "/virtual-tag-test"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully deleted entry"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "Name": "Test: Mobile SDK APIs",
-      "Skip": true,
-      "Steps": [
-        {
-          "Name": "Step:POST mobile sdk profile with id:'mobile-sdk-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-mobile-sdks",
-            "Path": "/mobile-sdk-test"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"mobile-sdk-test\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"mobile-sdk-test\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully created entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:PUT mobile sdk profile id:'mobile-sdk-test', set name:'mobile-sdk-test-name-change'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-mobile-sdks",
-            "Path": "/mobile-sdk-test"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"mobile-sdk-test\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"mobile-sdk-test-name-change\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET mobile sdk profile id:'mobile-sdk-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-mobile-sdks",
-            "Path": "/mobile-sdk-test"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "mobile-sdk-test"
-              },
-              {
-                "Key": "name",
-                "Value": "mobile-sdk-test-name-change"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET all mobile sdk profiles",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-mobile-sdks",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
-            "SingleResult": [
-              {
-                "Key": "items/0/id",
-                "Value": "mobile-sdk-test"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:DELETE mobile sdk profile id:'mobile-sdk-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-mobile-sdks",
-            "Path": "/mobile-sdk-test"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully deleted entry"
-              }
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "Name": "Test: Blob APIs",
-      "Skip": true,
-      "Steps": [
-        {
-          "Name": "Step:PUT blob id:'customconf'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-blobs",
-            "Path": "/customconf"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "format",
-                "Value": "\"base64\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET blob id:'customconf'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-blobs",
-            "Path": "/customconf"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "format",
-                "Value": "base64"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET all blobs",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-blobs",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        }
-      ]
-    },
-    {
-      "Name": "Test: Certificate APIs",
-      "Skip": true,
-      "Steps": [
-        {
-          "Name": "Step:POST certificate with id:'certificate-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": "/certificate-test"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"certificate-test\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully created entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:PUT certificate id:'certificate-test', set le_auto_replace=true",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": "/certificate-test?le_auto_renew=false&le_auto_replace=true&replace_cert_id=certificate-test"
-          },
-          "Method": "PUT",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"certificate-test\""
-              },
-              {
-                "Key": "le_auto_replace",
-                "Value": "true"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully updated entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET certificate id:'certificate-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": "/certificate-test"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "certificate-test"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET all certificates",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "items/1/id",
-                "Value": "certificate-test"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:POST server group with id:'server-group-cert' and certificate id:'certificate-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-server-groups",
-            "Path": "/server-group-cert"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"server-group-cert\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"server-group-cert\""
-              },
-              {
-                "Key": "ssl_certificate",
-                "Value": "\"certificate-test\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully created entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET certificate id:'certificate-test' links",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": "/certificate-test/links"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "items/0/name",
-                "Value": "server-group-cert"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:DELETE server group id:'server-group-cert'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-server-groups",
-            "Path": "/server-group-cert"
-          },
-          "Method": "DELETE",
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "message",
-                "Value": "Successfully deleted entry"
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Step:GET certificate id:'certificate-test' pfx",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": "/certificate-test/pfx"
-          },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "status-code"
-          }
-        },
-        {
-          "Name": "Step:DELETE certificate id:'certificate-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-certificates",
-            "Path": "/certificate-test"
           },
           "Method": "DELETE",
           "Expected": {
