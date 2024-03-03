@@ -32781,7 +32781,7 @@
     },
     {
       "Name": "Test: trimming of leading/trailing space for Global Filter",
-      "Skip": false,
+      "Skip": true,
       "Steps": [
         {
           "Name": "Step:POST global-filters with leading space in Name",
@@ -39618,27 +39618,27 @@
       ]
     },
     {
-      "Name": "Test: Flow Control Policy APIs",
-      "Skip": true,
+      "Name": "Test: trimming of leading/trailing space for Flow Control Policy",
+      "Skip": false,
       "Steps": [
         {
-          "Name": "Step:POST flow-control-policy with id:'flow-control-policy-test'",
+          "Name": "Step:POST flow-control-policies with leading space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-flow-control-policies",
-            "Path": "/flow-control-policy-test"
+            "Path": "/l_space_name"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"flow-control-policy-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"flow-control-policy-test\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -39655,23 +39655,106 @@
           }
         },
         {
-          "Name": "Step:PUT flow-control-policy id:'flow-control-policy-test', set name:'flow-control-policy-test-name-change'",
+          "Name": "Step:Verify flow-control-policies with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-flow-control-policies",
-            "Path": "/flow-control-policy-test"
+            "Path": "/l_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_name"
           },
           "Method": "PUT",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"flow-control-policy-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"flow-control-policy-test-name-change\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -39688,12 +39771,12 @@
           }
         },
         {
-          "Name": "Step:GET flow-control-policy id:'flow-control-policy-test'",
+          "Name": "Step:Verify flow-control-policies with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-flow-control-policies",
-            "Path": "/flow-control-policy-test"
+            "Path": "/l_space_name"
           },
           "Method": "GET",
           "Expected": {
@@ -39703,45 +39786,36 @@
             "SingleResult": [
               {
                 "Key": "id",
-                "Value": "flow-control-policy-test"
+                "Value": "l_space_name"
               },
               {
                 "Key": "name",
-                "Value": "flow-control-policy-test-name-change"
+                "Value": "l_space_name"
               }
             ]
           }
         },
         {
-          "Name": "Step:GET all flow-control-policies",
+          "Name": "Step:PUT flow-control-policies with trailing space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-flow-control-policies",
-            "Path": ""
+            "Path": "/t_space_name"
           },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
-            "SingleResult": [
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
               {
-                "Key": "items/1/id",
-                "Value": "flow-control-policy-test"
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
               }
             ]
-          }
-        },
-        {
-          "Name": "Step:DELETE flow-control-policy id:'flow-control-policy-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-flow-control-policies",
-            "Path": "/flow-control-policy-test"
           },
-          "Method": "DELETE",
           "Expected": {
             "Code": "200",
             "Type": "json",
@@ -39749,7 +39823,4557 @@
             "SingleResult": [
               {
                 "Key": "message",
-                "Value": "Successfully deleted entry"
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_action"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\" l_space_action\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "l_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_action"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"t_space_action \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "t_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_action"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\" l_space_action\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "l_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in action",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_action"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_action\""
+              },
+              {
+                "Key": "action",
+                "Value": "\"t_space_action \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in action was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_action"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_action"
+              },
+              {
+                "Key": "action",
+                "Value": "t_space_action"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_include"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\" l_space_include\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['l_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_include"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\"t_space_include \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['t_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_include"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\" l_space_include\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['l_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in include",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_include"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_include\""
+              },
+              {
+                "Key": "include",
+                "Value": "[\"t_space_include \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in include was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_include"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_include"
+              },
+              {
+                "Key": "include",
+                "Value": "['t_space_include']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\" l_space_exclude\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['l_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\"t_space_exclude \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['t_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\" l_space_exclude\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['l_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in exclude",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_exclude\""
+              },
+              {
+                "Key": "exclude",
+                "Value": "[\"t_space_exclude \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in exclude was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_exclude"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_exclude"
+              },
+              {
+                "Key": "exclude",
+                "Value": "['t_space_exclude']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in key_attrs",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\" asn\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'asn'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in key_attrs",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\"asn \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'asn'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in key_attrs",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\" asn\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'asn'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in key_attrs",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_attrs\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"attrs\":\"asn \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_attrs was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_attrs"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_attrs"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'attrs':'asn'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in key-headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key-headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key-headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key-headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\" l_space_key-headers\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\" l_space_key_headers\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'l_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\"t_space_key_headers \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'t_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\" l_space_key_headers\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'l_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in key_headers",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_headers\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"headers\":\"t_space_key_headers \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_headers was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_headers"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_headers"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'headers':'l_space_key_headers'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\" l_space_key_cookies\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'l_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\"t_space_key_cookies \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'t_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\" l_space_key_cookies\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'l_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in key_cookies",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_cookies\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"cookies\":\"t_space_key_cookies \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_cookies was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_cookies"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_cookies"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'cookies':'l_space_key_cookies'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\" l_space_key_args\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'l_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\"t_space_key_args \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'t_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\" l_space_key_args\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'l_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in key_args",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_key_args\""
+              },
+              {
+                "Key": "key",
+                "Value": "[{\"args\":\"t_space_key_args \"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in key_args was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_key_args"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_key_args"
+              },
+              {
+                "Key": "key",
+                "Value": "[{'args':'l_space_key_args'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_args_key",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_key"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_args_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_args_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\" key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_args_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_args_key"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_args_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_args_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_key"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_args_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_args_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key \":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_args_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_args_key"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_args_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_args_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_key"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_args_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_args_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\" key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_args_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_args_key"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_args_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_args_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_key"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_args_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_args_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key \":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_args_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_args_key"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_args_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_args_value",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_value"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_args_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_args_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\" val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_args_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_args_value"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_args_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_args_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_value"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_args_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_args_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val \"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_args_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_args_value"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_args_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_args_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_value"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_args_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_args_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\" val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_args_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_args_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_args_value"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_args_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_args_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_value"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_args_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_args_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val \"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_args_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_args_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_args_value"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_args_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_headers_key",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_key"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_headers_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_headers_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\" key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_headers_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_headers_key"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_headers_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_headers_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_key"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_headers_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_headers_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\"key \":\"val\"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_headers_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_headers_key"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_headers_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_headers_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_key"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_headers_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_headers_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\" key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_headers_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_headers_key"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_headers_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_headers_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_key"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_headers_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_headers_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\"key \":\"val\"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_headers_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_headers_key"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_headers_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_headers_value",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_value"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_headers_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_headers_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\"key\":\" val\"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_headers_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_headers_value"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_headers_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_headers_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_value"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_headers_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_headers_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\"key\":\"val \"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_headers_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_headers_value"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_headers_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_headers_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_value"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_headers_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_headers_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\"key\":\" val\"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_headers_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_headers_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_headers_value"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_headers_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_headers_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_value"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_headers_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_headers_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"headers\":{\"key\":\"val \"},\"cookies\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_headers_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_headers_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_headers_value"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_headers_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'headers':{'key':'val'},'cookies':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_cookies_key",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_key"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\" key\":\"val\"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_cookies_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_cookies_key"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_cookies_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_cookies_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_key"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\"key \":\"val\"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_cookies_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_cookies_key"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_cookies_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_cookies_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_key"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\" key\":\"val\"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_cookies_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_cookies_key"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_cookies_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_cookies_key",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_key"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_cookies_key\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\"key \":\"val\"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_cookies_key was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_key"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_cookies_key"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_cookies_key"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_cookies_value",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_value"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\"key\":\" val\"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_cookies_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_cookies_value"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_cookies_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_cookies_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_value"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\"key\":\"val \"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_cookies_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_cookies_value"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_cookies_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_cookies_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_value"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\"key\":\" val\"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_cookies_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_cookies_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_cookies_value"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_cookies_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_cookies_value",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_value"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_cookies_value\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"cookies\":{\"key\":\"val \"},\"headers\":{\"key\":\"val\"},\"args\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_cookies_value was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_cookies_value"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_cookies_value"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_cookies_value"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'cookies':{'key':'val'},'headers':{'key':'val'},'args':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_method",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_method"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_method\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_method\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\" GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_method was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_method"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_method"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_method"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_method",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_method"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_method\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_method\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET \",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_method was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_method"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_method"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_method"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_method",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_method"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_method\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_method\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\" GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_method was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_method"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_method"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_method"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_method",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_method"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_method\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_method\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET \",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_method was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_method"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_method"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_method"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with leading space in sequence_uri",
+          "Skips": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_uri"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_uri\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_uri\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\" /login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_uri was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_uri"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_uri"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_uri"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST flow-control-policies with trailing space in sequence_uri",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_uri"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_uri\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_uri\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login \"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_uri was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_uri"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_uri"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_uri"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with leading space in sequence_uri",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_uri"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_sequence_uri\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_sequence_uri\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\" /login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with leading space in sequence_uri was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/l_space_sequence_uri"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_sequence_uri"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_sequence_uri"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT flow-control-policies with trailing space in sequence_uri",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_uri"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_sequence_uri\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_sequence_uri\""
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{\"args\":{\"key\":\"val\"},\"cookies\":{\"key\":\"val\"},\"headers\":{\"host\":\"www.example.com\",\"key\":\"val\"},\"method\":\"GET\",\"uri\":\"/login \"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify flow-control-policies with trailing space in sequence_uri was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-flow-control-policies",
+            "Path": "/t_space_sequence_uri"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_sequence_uri"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_sequence_uri"
+              },
+              {
+                "Key": "sequence",
+                "Value": "[{'args':{'key':'val'},'cookies':{'key':'val'},'headers':{'host':'www.example.com','key':'val'},'method':'GET','uri':'/login'},{'args':{},'cookies':{},'headers':{'host':'www.example.com'},'method':'POST','uri':'/login'}]"
               }
             ]
           }
