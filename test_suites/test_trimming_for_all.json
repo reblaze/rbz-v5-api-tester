@@ -15724,7 +15724,7 @@
       ]
     },
     {
-      "Name": "Test: Security Policy APIs",
+      "Name": "Test: trimming of leading/trailing space for ACL profiles",
       "Skip": false,
       "Steps": [
         {
@@ -18075,26 +18075,26 @@
     },
     {
       "Name": "Test: Content Filter Rule APIs",
-      "Skip": true,
+      "Skip": false,
       "Steps": [
         {
-          "Name": "Step:POST content-filter-rule with id:'content-filter-rule-test'",
+          "Name": "Step:POST content-filter-rule with leading space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-content-filter-rules",
-            "Path": "/content-filter-rule-test"
+            "Path": "/l_space_name"
           },
           "Method": "POST",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"content-filter-rule-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"content-filter-rule-test\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -18111,23 +18111,106 @@
           }
         },
         {
-          "Name": "Step:PUT content-filter-rule id:'content-filter-rule-test', set name:'content-filter-rule-test-name-change'",
+          "Name": "Step:Verify content-filter-rule with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-content-filter-rules",
-            "Path": "/content-filter-rule-test"
+            "Path": "/l_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_name"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in Name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_name"
           },
           "Method": "PUT",
           "Payload": {
             "Params": [
               {
                 "Key": "id",
-                "Value": "\"content-filter-rule-test\""
+                "Value": "\"l_space_name\""
               },
               {
                 "Key": "name",
-                "Value": "\"content-filter-rule-test-name-change\""
+                "Value": "\" l_space_name\""
               }
             ]
           },
@@ -18144,12 +18227,12 @@
           }
         },
         {
-          "Name": "Step:GET content-filter-rule id:'content-filter-rule-test'",
+          "Name": "Step:Verify content-filter-rule with leading space in Name was trimmed",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-content-filter-rules",
-            "Path": "/content-filter-rule-test"
+            "Path": "/l_space_name"
           },
           "Method": "GET",
           "Expected": {
@@ -18159,45 +18242,36 @@
             "SingleResult": [
               {
                 "Key": "id",
-                "Value": "content-filter-rule-test"
+                "Value": "l_space_name"
               },
               {
                 "Key": "name",
-                "Value": "content-filter-rule-test-name-change"
+                "Value": "l_space_name"
               }
             ]
           }
         },
         {
-          "Name": "Step:GET all content-filter-rules",
+          "Name": "Step:PUT content-filter-rule with trailing space in Name",
           "Skip": false,
           "GenerateID": false,
           "API": {
             "Base": "api-content-filter-rules",
-            "Path": ""
+            "Path": "/t_space_name"
           },
-          "Method": "GET",
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": false,
-            "SingleResult": [
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
               {
-                "Key": "items/196/id",
-                "Value": "content-filter-rule-test"
+                "Key": "id",
+                "Value": "\"t_space_name\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_name \""
               }
             ]
-          }
-        },
-        {
-          "Name": "Step:DELETE content-filter-rule id:'content-filter-rule-test'",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "api-content-filter-rules",
-            "Path": "/content-filter-rule-test"
           },
-          "Method": "DELETE",
           "Expected": {
             "Code": "200",
             "Type": "json",
@@ -18205,7 +18279,1616 @@
             "SingleResult": [
               {
                 "Key": "message",
-                "Value": "Successfully deleted entry"
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in Name was trimmed",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_name"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_name"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_name"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with leading space in category",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_category"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_category\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_category\""
+              },
+              {
+                "Key": "category",
+                "Value": "\" l_space_category\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in category was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_category"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_category"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_category"
+              },
+              {
+                "Key": "category",
+                "Value": "l_space_category"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in category",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_category"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_category\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_category\""
+              },
+              {
+                "Key": "category",
+                "Value": "\"t_space_category \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in category was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_category"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_category"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_category"
+              },
+              {
+                "Key": "category",
+                "Value": "t_space_category"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in category",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_category"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_category\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_category\""
+              },
+              {
+                "Key": "category",
+                "Value": "\" l_space_category\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in category was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_category"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_category"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_category"
+              },
+              {
+                "Key": "category",
+                "Value": "l_space_category"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with trailing space in category",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_category"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_category\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_category\""
+              },
+              {
+                "Key": "category",
+                "Value": "\"t_space_category \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in category was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_category"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_category"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_category"
+              },
+              {
+                "Key": "category",
+                "Value": "t_space_category"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_description"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\" l_space_description\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "l_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with trailing space in description",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_description"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_description\""
+              },
+              {
+                "Key": "description",
+                "Value": "\"t_space_description \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in description was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_description"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_description"
+              },
+              {
+                "Key": "description",
+                "Value": "t_space_description"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with leading space in msg",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_msg"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_msg\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_msg\""
+              },
+              {
+                "Key": "msg",
+                "Value": "\" l_space_msg\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in msg was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_msg"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_msg"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_msg"
+              },
+              {
+                "Key": "msg",
+                "Value": "l_space_msg"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in msg",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_msg"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_msg\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_msg\""
+              },
+              {
+                "Key": "msg",
+                "Value": "\"t_space_msg \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in msg was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_msg"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_msg"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_msg"
+              },
+              {
+                "Key": "msg",
+                "Value": "t_space_msg"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in msg",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_msg"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_msg\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_msg\""
+              },
+              {
+                "Key": "msg",
+                "Value": "\" l_space_msg\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in msg was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_msg"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_msg"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_msg"
+              },
+              {
+                "Key": "msg",
+                "Value": "l_space_msg"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with trailing space in msg",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_msg"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_msg\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_msg\""
+              },
+              {
+                "Key": "msg",
+                "Value": "\"t_space_msg \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in msg was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_msg"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_msg"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_msg"
+              },
+              {
+                "Key": "msg",
+                "Value": "t_space_msg"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with leading space in operand",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_operand"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_operand\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_operand\""
+              },
+              {
+                "Key": "operand",
+                "Value": "\" l_space_operand\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in operand was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_operand"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_operand"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_operand"
+              },
+              {
+                "Key": "operand",
+                "Value": "l_space_operand"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in operand",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_operand"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_operand\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_operand\""
+              },
+              {
+                "Key": "operand",
+                "Value": "\"t_space_operand \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in operand was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_operand"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_operand"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_operand"
+              },
+              {
+                "Key": "operand",
+                "Value": "t_space_operand"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in operand",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_operand"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_operand\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_operand\""
+              },
+              {
+                "Key": "operand",
+                "Value": "\" l_space_operand\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in operand was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_operand"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_operand"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_operand"
+              },
+              {
+                "Key": "operand",
+                "Value": "l_space_operand"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with trailing space in operand",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_operand"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_operand\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_operand\""
+              },
+              {
+                "Key": "operand",
+                "Value": "\"t_space_operand \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in operand was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_operand"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_operand"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_operand"
+              },
+              {
+                "Key": "operand",
+                "Value": "t_space_operand"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with leading space in subcategory",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_subcategory"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_subcategory\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_subcategory\""
+              },
+              {
+                "Key": "subcategory",
+                "Value": "\" l_space_subcategory\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in subcategory was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_subcategory"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_subcategory"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_subcategory"
+              },
+              {
+                "Key": "subcategory",
+                "Value": "l_space_subcategory"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in subcategory",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_subcategory"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_subcategory\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_subcategory\""
+              },
+              {
+                "Key": "subcategory",
+                "Value": "\"t_space_subcategory \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in subcategory was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_subcategory"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_subcategory"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_subcategory"
+              },
+              {
+                "Key": "subcategory",
+                "Value": "t_space_subcategory"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in subcategory",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_subcategory"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_subcategory\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_subcategory\""
+              },
+              {
+                "Key": "subcategory",
+                "Value": "\" l_space_subcategory\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in subcategory was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_subcategory"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_subcategory"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_subcategory"
+              },
+              {
+                "Key": "subcategory",
+                "Value": "l_space_subcategory"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with trailing space in subcategory",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_subcategory"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_subcategory\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_subcategory\""
+              },
+              {
+                "Key": "subcategory",
+                "Value": "\"t_space_subcategory \""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in subcategory was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_subcategory"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_subcategory"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_subcategory"
+              },
+              {
+                "Key": "subcategory",
+                "Value": "t_space_subcategory"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:POST content-filter-rule with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_tags"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with leading space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"l_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\" l_space_tags\"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with leading space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/l_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "l_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['l_space_tags']"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:PUT content-filter-rule with trailing space in tags",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_tags"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"t_space_tags\""
+              },
+              {
+                "Key": "tags",
+                "Value": "[\"t_space_tags \"]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step:Verify content-filter-rule with trailing space in tags was trimmed",
+          "Skip": true,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-rules",
+            "Path": "/t_space_tags"
+          },
+          "Method": "GET",
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "id",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "name",
+                "Value": "t_space_tags"
+              },
+              {
+                "Key": "tags",
+                "Value": "['t_space_tags']"
               }
             ]
           }
@@ -18352,7 +20035,7 @@
       ]
     },
     {
-      "Name": "Test: ACL Profile APIs",
+      "Name": "Test: Security policies APIs",
       "Skip": true,
       "Steps": [
         {
