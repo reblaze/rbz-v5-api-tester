@@ -1,3 +1,4 @@
+import json
 import requests
 from typing import List
 
@@ -126,7 +127,11 @@ class ApiResponse:
         if isinstance(value, types_with_no_quotes):
             return value == expected.value
         else:
-            return str(value) == expected.value
+            # NOTE: this comparison fails on unordered data
+            # return str(value) == expected.value
+            # Compare as python objects instead
+            return value == json.loads(expected.value)
+
 
     def _check_response_json_single(self) -> (bool, str):
         response_json = self.response.json()

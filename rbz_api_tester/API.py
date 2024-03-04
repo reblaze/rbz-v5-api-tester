@@ -104,7 +104,7 @@ class API:
                 return api["defaults"]
         raise Exception(f"mapping does not contain api: {api_str}")
 
-    def available_api(self, clean: bool) -> []:
+    def available_api(self, clean: bool) -> list[str]:
         res = []
         apis = read_json(CommonParameters.api_mapping)
         for api in apis["api-to-alias"]:
