@@ -472,6 +472,198 @@
                     }
                 }
             ]
+        },
+         {
+            "Name": "Test: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test: Check logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /'test-sig'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-sig, status = 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "cf-rule-name:200039"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "file-skipped:step4-txt"
+                            },
+                            {
+                                "Key": "data/results/0/logs/*",
+                                "Value": "Skipping inspection of file step4.txt from argument file1"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "cf-rule-name:200039"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "file-skipped:step4-txt"
+                            },
+                            {
+                                "Key": "data/results/1/logs/*",
+                                "Value": "Skipping inspection of file step4.txt from argument file1"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "file-skipped:step4-txt"
+                            },
+                            {
+                                "Key": "data/results/2/logs/0",
+                                "Value": "Skipping inspection of file step4.txt from argument file1"
+                            },
+                            {
+                                "Key": "data/results/2/logs/1",
+                                "Value": "Skipping inspection of file step2.txt from argument file2"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "file-skipped:1-png"
+                            },
+                            {
+                                "Key": "data/results/3/logs/0",
+                                "Value": "Skipping inspection of file 1.png from argument file1"
+                            },
+                            {
+                                "Key": "data/results/4/tags/*",
+                                "Value": "file-skipped:step4-txt"
+                            },
+                            {
+                                "Key": "data/results/4/logs/0",
+                                "Value": "Skipping inspection of file step4.txt from argument file1"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /'test-length'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-length, status = 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "file-skipped:step4-txt"
+                            },
+                            {
+                                "Key": "data/results/0/monitor_reasons/*",
+                                "Value": "Monitor - global filter - API Discovery - [request]"
+                            },
+                            {
+                                "Key": "data/results/0/logs/*",
+                                "Value": "Skipping inspection of file step4.txt from argument file1"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /'test-max-count'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-max-count, status = 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "file-skipped:step4-txt"
+                            },
+                            {
+                                "Key": "data/results/0/monitor_reasons/*",
+                                "Value": "Monitor - global filter - API Discovery - [request]"
+                            },
+                            {
+                                "Key": "data/results/0/logs/0",
+                                "Value": "Skipping inspection of file step4.txt from argument file1"
+                            },
+                            {
+                                "Key": "data/results/0/logs/1",
+                                "Value": "Skipping inspection of file step2.txt from argument file2"
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     ]
 }
