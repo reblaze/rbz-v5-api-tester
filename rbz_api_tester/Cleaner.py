@@ -5,6 +5,9 @@ from rbz_api_tester.API import API
 from rbz_api_tester.CommonParameters import CommonParameters
 
 
+DEFAULT_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36"
+
+
 class Cleaner:
     apis: List[str]
     ids: List[str]
@@ -13,18 +16,20 @@ class Cleaner:
         self.ids = ids
         self.apis = API("", "").available_api(True)
 
+    @property
+    def headers(self) -> dict:
+        return {
+            "Authorization": f"Basic {CommonParameters.api_key}",
+            "User-Agent": DEFAULT_UA,
+            "planet-name": f"{CommonParameters.planet}",
+            "planet-hostname": f"{CommonParameters.planet_url}",
+            "Content-Type": "application/json",
+        }
+
     def get_ids(self, api: str, items: str):
         try:
             results = []
-            headers = {
-                "Authorization": f"Basic {CommonParameters.api_key}",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
-                "planet-name": f"{CommonParameters.planet}",
-                "planet-hostname": f"{CommonParameters.planet_url}",
-                "Content-Type": "application/json",
-            }
-
-            response = requests.get(api, headers=headers)
+            response = requests.get(api, headers=self.headers)
             if response.status_code == 200:
                 elements = response.json()
                 if items != "":
@@ -37,19 +42,15 @@ class Cleaner:
         except requests.exceptions.RequestException as e:
             return False, []
 
-    def delete(self, api: str, id: str):
+    def delete(self, api: str, id: str) -> bool:
         try:
-            headers = {
-                "Authorization": f"Basic {CommonParameters.api_key}",
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36",
-                "planet-name": f"{CommonParameters.planet}",
-                "planet-hostname": f"{CommonParameters.planet_url}",
-                "Content-Type": "application/json",
-            }
-
-            final_url = f"{api}/e/{id}/"
-            response = requests.delete(final_url, headers=headers)
-            if response.status_code == 200 and response.json()["ok"]:
+            delete_url = f"{api}/{id}"
+            response = requests.delete(delete_url, headers=self.headers)
+            SUCCESS_RESPONSES = (
+                {"ok": True},
+                {"message": "Successfully deleted entry"},
+            )
+            if response.status_code == 200 and response.json() in SUCCESS_RESPONSES:
                 return True
             elif response.status_code == 204:
                 return True
