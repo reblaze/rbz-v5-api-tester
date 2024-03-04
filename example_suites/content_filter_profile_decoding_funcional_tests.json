@@ -30,6 +30,10 @@
                                 "Value": "false"
                             },
                             {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
                                 "Key": "decoding",
                                 "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
                             },
@@ -72,6 +76,10 @@
                             },
                             {
                                 "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
                                 "Value": "false"
                             },
                             {
@@ -120,6 +128,10 @@
                                 "Value": "false"
                             },
                             {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
                                 "Key": "decoding",
                                 "Value": "{\"base64\": false, \"dual\": false, \"html\": true, \"unicode\": false}"
                             },
@@ -165,6 +177,10 @@
                                 "Value": "false"
                             },
                             {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
                                 "Key": "decoding",
                                 "Value": "{\"base64\": false, \"dual\": false, \"html\": false, \"unicode\": true}"
                             },
@@ -207,6 +223,10 @@
                             },
                             {
                                 "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
                                 "Value": "false"
                             },
                             {
@@ -476,14 +496,14 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "473",
+                        "Code": "200",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b'access denied'"
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to path test-html -d 'test-osci=%3Cselect%3E'",
+                    "Name": "Step: Send Traffic 2 to path test-html -d 'test-osci=&lt;select&gt;'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -503,15 +523,15 @@
                     "Arguments":
                     [
                         {
-                            "Key": "",
+                            "Key": "test-osci",
                             "Value": "&lt;select&gt;"
                         }
                     ],
                     "Expected": {
-                        "Code": "200",
+                        "Code": "473",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b'access denied'"
                     }
                 }
             ]
@@ -566,7 +586,7 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "%3Cselect%3E"
+                            "Value": "\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e"
                         }
                     ],
                     "Expected": {
@@ -628,7 +648,7 @@
                     [
                         {
                             "Key": "test-osci",
-                            "Value": "%3Cselect%3E"
+                            "Value": "\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e"
                         }
                     ],
                     "Expected": {
@@ -645,7 +665,7 @@
                         "Base": "send-traffic",
                         "Path": "/test-multiple"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -659,7 +679,7 @@
                     "Arguments":
                     [
                         {
-                            "Key": "",
+                            "Key": "test-osci",
                             "Value": "&lt;select&gt;"
                         }
                     ],
@@ -714,12 +734,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -764,12 +778,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -814,12 +822,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -831,7 +833,107 @@
                             },
                             {
                                 "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_multiple - [URI argument test-osci=<select>]"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
                                 "Value": "Block - content filter 200039[lvl5] - test_cfp_multiple - [URI argument test-osci:decoded=( echo '<select>' | base64 )\n]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-html",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-html, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_html - [URI argument test-osci=<select>]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-unicode",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-unicode, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_unicode - [URI argument test-osci=<select>]"
                             }
                         ]
                     }
