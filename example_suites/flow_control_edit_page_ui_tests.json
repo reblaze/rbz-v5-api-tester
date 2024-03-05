@@ -426,38 +426,6 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a flow control with decimal with comma timeframe",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "flow-control",
-                        "Path": ""
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"fc-dec-comma\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"fc-dec-comma\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "6,8"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
                     "Name": "Step: User cannot create a flow control with decimal with dot timeframe",
                     "Skip": false,
                     "GenerateID": false,
@@ -560,7 +528,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a flow control 'fc-add-one-entry'",
+                    "Name": "Step: Create a flow control 'fc-add-another-entry'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -634,7 +602,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot delete once flow control",
+                    "Name": "Step: User cannot delete last entry",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -762,7 +730,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a flow control with empty attribute`s name",
+                    "Name": "Step: User cannot create a flow control with empty arguments name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -774,15 +742,15 @@
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"fc-attr-entry\""
+                                "Value": "\"fc-args-entry\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"fc-attr-entry\""
+                                "Value": "\"fc-args-entry\""
                             },
                             {
                                 "Key": "key",
-                                "Value": "[{\"attrs\": \"\"}]"
+                                "Value": "[{\"args\": \"\"}]"
                             }
                         ]
                     },
@@ -857,7 +825,7 @@
                             },
                             {
                                 "Key": "description",
-                                "Value": "\"fc-empty-description\""
+                                "Value": "\"\""
                             }
                         ]
                     },
@@ -880,7 +848,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a flow control with no tag",
+                    "Name": "Step: Create a flow control without tags",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -897,6 +865,10 @@
                             {
                                 "Key": "name",
                                 "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
                             }
                         ]
                     },
@@ -1679,7 +1651,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\":{\"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1716,7 +1688,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"POST\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\":{\"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"test\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1734,7 +1706,7 @@
                 },
                 {
                     "Name": "Step: User cannot create a flow control with same conditions",
-                    "Skip":false,
+                    "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "flow-control",
@@ -1753,7 +1725,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\", \"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\":{\"test\":\"test\", \"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"test\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1765,7 +1737,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a flow control with empty header`s name",
+                    "Name": "Step: User cannot create a sequence with empty header`s name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1785,7 +1757,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"POST\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1797,7 +1769,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a flow control with empty cookie`s name",
+                    "Name": "Step: User cannot create a sequence with empty cookie`s name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1817,7 +1789,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {\"\": \"www.example.com\"}, \"headers\": {}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"POST\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\":{\"\": \"www.example.com\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1829,7 +1801,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a flow control with empty arg`s name",
+                    "Name": "Step: User cannot create a sequence with empty arg`s name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1849,7 +1821,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {\"\": \"www.example.com\"}, \"cookies\": {}, \"headers\": {}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"POST\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\":{\"\": \"www.example.com\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1881,7 +1853,7 @@
                             },
                              {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\": {\"\": \"www.example.com\"}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -1918,7 +1890,7 @@
                             },
                              {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -2123,6 +2095,32 @@
                             }
                         ]
                     }
+                },
+                {
+                    "Name": "Step: Verify flow control`s 'fc-change-name' changed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-change-name/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "fc-change-name"
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "fc-change-name-changed"
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -2151,7 +2149,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host2\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -2188,7 +2186,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example-changed.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host2\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example-changed.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -2229,7 +2227,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example-changed.com'}, 'method': 'GET', 'uri': '/login'}, {'args': {}, 'cookies': {}, 'headers': {'host2': 'www.example2.com'}, 'method': 'GET', 'uri': '/login'}]"
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example-changed.com'}, 'method': 'GET', 'uri': '/login'}, {'args': {}, 'cookies': {}, 'headers': {'host': 'www.example2.com'}, 'method': 'GET', 'uri': '/login'}]"
                             }
                         ]
                     }
