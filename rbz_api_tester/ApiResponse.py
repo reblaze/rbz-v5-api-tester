@@ -128,11 +128,14 @@ class ApiResponse:
             return value == expected.value
         else:
             try:
-                # Compare as python objects instead
-                return value == json.loads(expected.value)
+                python_value = json.loads(expected.value)
+                # Compare complex nested data as python objects instead
+                if isinstance(python_value, (dict, list)):
+                    return value == python_value
             except json.JSONDecodeError:
-                # NOTE: this comparison fails on unordered data
-                return str(value) == expected.value
+                pass
+            # NOTE: this comparison fails on unordered data
+            return str(value) == expected.value
 
     def _check_response_json_single(self) -> Tuple[bool, str]:
         response_json = self.response.json()
