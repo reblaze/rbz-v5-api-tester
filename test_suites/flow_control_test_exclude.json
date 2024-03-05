@@ -115,7 +115,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "60"
+                                "Value": "15"
                             },
                             {
                                 "Key": "key",
@@ -177,7 +177,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "60"
+                                "Value": "15"
                             },
                             {
                                 "Key": "key",
@@ -243,7 +243,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "60"
+                                "Value": "15"
                             },
                             {
                                 "Key": "key",
@@ -574,13 +574,67 @@
             "Skip": false,
             "Steps": [
                 {
-                    "ID": "wait-for-logs",
+                    "ID": "wait-for-timeout-10sec",
                     "Skip": false
                 }
             ]
         },
         {
             "Name": "Test 4: Check logs ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /flowa",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /flowa, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "fc-name:fc-one-tag"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "my-test"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "fc-name:fc-one-tag"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "my-test"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Check logs ",
             "Skip": false,
             "Steps": [
                 {
@@ -604,7 +658,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "path = /flowb, status = 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = /flowb, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
