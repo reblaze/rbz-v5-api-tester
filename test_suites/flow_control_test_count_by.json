@@ -1,0 +1,241 @@
+{
+    "Name": "TA 1321 Flow control test count by",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create a flow control IP",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-ip'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-ip\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-ip\""
+                            },
+                          {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\": \"ip\"}]"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-test\"]"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"method\": \"GET\",\"uri\": \"/flowa\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowb\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Create server group and security policy",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy with attached content filter profiles",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
+
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to /flowa -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Wait 15 sec",
+                    "Skip": false,
+                    "Python": true,
+                    "Code":
+                    [
+                        "import time",
+                        "time.sleep(15)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        }
+    ]
+}
