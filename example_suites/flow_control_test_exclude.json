@@ -634,6 +634,66 @@
                             }
                         ]
                     }
+                },
+                {
+                    "Name": "Step: Get Logs from path tags != my-test-1320",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "tags != my-test-1320, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/path",
+                                "Value": "/flowf"
+                            },
+                            {
+                                "Key": "data/results/1/path",
+                                "Value": "/flowe"
+                            },
+                            {
+                                "Key": "data/results/2/path",
+                                "Value": "/flowd"
+                            },
+                            {
+                                "Key": "data/results/3/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/4/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/5/path",
+                                "Value": "/flowb"
+                            },
+                            {
+                                "Key": "data/results/6/path",
+                                "Value": "/flowa"
+                            }
+                        ]
+                    }
                 }
             ]
         }
