@@ -3,7 +3,7 @@ from rbz_api_tester.CommonParameters import CommonParameters
 class Reporter:
     def __init__(
         self,
-        *
+        *,
         tester,
         num_of_test_suites,
         results,

@@ -96,9 +96,8 @@ def run_test_suits(cleanup: bool = False):
         reporter.report_console()
         reporter.report_rich()
     except Exception as e:
-        logger.error(
-            f"Application terminated abnormally due to exception:\n{repr(e)}"
-        )
+        logger.error(f"Application terminated abnormally:")
+        console.print_exception()
         cleanup_only()
 
 
