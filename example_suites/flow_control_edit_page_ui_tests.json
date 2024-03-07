@@ -1,0 +1,2320 @@
+{
+    "Name": "TA 1319 Flow control edit page UI tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create a flow control from the list page",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Name field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a flow control with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_text_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"flow_control_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_empty_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with exist name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_exist_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"flow_control_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'409 Conflict: entry with name flow_control_text_name already exists in document [flowcontrol]'"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a flow control with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_long_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a flow control with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_spec_chars_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_space_char_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\" \""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a flow control with leading space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_leading_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"  flow_control_leading_space_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check flow control with leading space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "flow-control",
+                        "Path": "flow_control_leading_space_name/"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "flow_control_leading_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "flow_control_leading_space_name"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a flow control with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_trailing_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"flow_control_trailing_space_name  \""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check flow control with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "flow-control",
+                        "Path": "flow_control_trailing_space_name/"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "flow_control_trailing_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "flow_control_trailing_space_name"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Time frame",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-60'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-60\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-60\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "60"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with decimal with dot timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-dec-dot\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-dec-dot\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "6.8"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with negative timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-negative\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-negative\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "-60"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with text timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-text\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n'text' is not of type 'number'\\n\\nFailed validating 'type' in schema['properties']['timeframe']:\\n    {'description': 'The time in which to limit the requests according to '\\n                    'the threshold',\\n     'title': 'Time To Limit',\\n     'type': 'number'}\\n\\nOn instance['timeframe']:\\n    'text'\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Count by",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-add-another-entry'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\": \"ip\"}, {\"headers\": \"head\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete one of two entries",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-add-another-entry/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\": \"ip\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot delete last entry",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-add-another-entry/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with two same entries",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-same-entries\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-same-entries\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\": \"ip\"},{\"args\": \"ip\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty header`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-header-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-header-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"headers\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty cookie`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-cookie-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-cookie-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"cookies\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty arguments name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-args-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-args-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Description",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control with description",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-description\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-description\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"test description\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control with empty description",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-description\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-description\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Tags",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control without tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key":"tags",
+                                "Value":"[\"test-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add several tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key":"tags",
+                                "Value":"[\"my-test1\",\"my-test2\", \"my-test3\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control with a very long tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add a tag with one char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"a\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add a tag with two chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"aa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add a tag with space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Add a tag with leading space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"  leading\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "fc-tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['leading']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add a tag with trailing space char ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {   "Key": "tags",
+                                "Value": "[\"trailing  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-tag/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "fc-tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['trailing']"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Host",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User cannot create a flow control with empty host",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-host\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with space char host",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-space-char-host\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-space-char-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \" \"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with leading space char host",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-leading-host\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-leading-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"  www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify host with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-leading-host/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "fc-leading-host"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-leading-host"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with trailing space char host",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-trailing-host\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-trailing-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com  \"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify host with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-trailing-host/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "fc-trailing-host"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-trailing-host"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Path",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User cannot create a flow control with empty path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-path\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with space char path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-space-char-path\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-space-char-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with leading space char path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-leading-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-leading-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"  /login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify path with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-leading-path/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":[
+                            {
+                                "Key": "name",
+                                "Value": "fc-leading-path"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-leading-path"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with trailing space char path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                         "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-trailing-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-trailing-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify path with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-trailing-path/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "fc-trailing-path"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-trailing-path"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Sequence condition",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control with one sequence",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-one-sequence\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-one-sequence\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control with several sequence",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-several-sequence\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-several-sequence\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"test\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with same conditions",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-same-conditions\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-same-conditions\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"test\":\"test\", \"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"test\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a sequence with empty header`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-header\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-header\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a sequence with empty cookie`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-cookie\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-cookie\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"\": \"www.example.com\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a sequence with empty arg`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-arg\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-arg\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"\": \"www.example.com\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-for-delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-for-delete\""
+                            },
+                             {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {\"test\": \"www.example.com\"}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete one sequence condition from 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-for-delete/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-for-delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-for-delete\""
+                            },
+                             {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: similar sequences",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control with similar sequence sections",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-several-conditions\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-several-conditions\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b\"schema mismatched: \\n[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}, {'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}] has non-unique elements\\n\\nFailed validating 'uniqueItems' in schema['properties']['sequence']:\\n    {'description': 'Array of sections describing steps of restricted flow',\\n     'items': {'properties': {'args': {'$ref': '#/definitions/string-values-obj'},\\n                              'cookies': {'$ref': '#/definitions/string-values-obj'},\\n                              'headers': {'$ref': '#/definitions/string-values-obj'},\\n                              'method': {'enum': ['GET',\\n                                                  'HEAD',\\n                                                  'POST',\\n                                                  'PUT',\\n                                                  'DELETE',\\n                                                  'CONNECT',\\n                                                  'TRACE',\\n                                                  'OPTIONS',\\n                                                  'PATCH']},\\n                              'plugins': {'$ref': '#/definitions/string-values-obj'},\\n                              'uri': {'type': 'string'}},\\n               'required': ['method', 'uri'],\\n               'type': 'object'},\\n     'title': 'Sequence',\\n     'type': 'array',\\n     'uniqueItems': True}\\n\\nOn instance['sequence']:\\n    [{'args': {},\\n      'cookies': {},\\n      'headers': {'host': 'www.example.com'},\\n      'method': 'GET',\\n      'uri': '/login'},\\n     {'args': {},\\n      'cookies': {},\\n      'headers': {'host': 'www.example.com'},\\n      'method': 'GET',\\n      'uri': '/login'}]\""
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11:create/delete sequence section",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-delete-section\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-delete-section\""
+                            },
+                             {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"PUT\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete one  sequence from 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-delete-section/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-delete-section\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-delete-section\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12:Change name of flow control policy",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-change-name'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-change-name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-change-name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: change name of flow control 'fc-change-name'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-change-name/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-change-name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-change-name-changed\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify flow control`s 'fc-change-name' name are changed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-change-name/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "fc-change-name"
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "fc-change-name-changed"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13:Change host of sequence section",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-change-host'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-change-host\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-change-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: change first host of flow control 'fc-change-name'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-change-host/"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-change-host\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-change-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example-changed.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify host names of flow control 'fc-change-host'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-change-host/"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "name",
+                                "Value": "fc-change-host"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-change-host"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example-changed.com'}, 'method': 'GET', 'uri': '/login'}, {'args': {}, 'cookies': {}, 'headers': {'host': 'www.example2.com'}, 'method': 'GET', 'uri': '/login'}]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 14:Delete policy ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create flow control 'fc-policy'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-policy\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-policy\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete flow control 'fc-policy'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "fc-policy/"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 15: Delete default policy ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Delete default flow control ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": "__flow_sample__/"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        }
+    ]
+}
