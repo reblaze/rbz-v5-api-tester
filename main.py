@@ -57,7 +57,7 @@ def enumerate_files(dir: str):
     return files
 
 
-def run_test_suits():
+def run_test_suits(cleanup: bool = False):
     try:
         CommonParameters.logger.info(
             "-------------------------------- starting new run --------------------------------"
@@ -124,7 +124,7 @@ def translate():
     builder.translate()
 
 
-if __name__ == "__main__":
+def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--planet", required=False, help="Name of test planet")
     parser.add_argument("-b", "--branch", required=True, help="Name of branch")
@@ -155,7 +155,11 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+    return args
 
+
+
+def build_config(args):
     CommonParameters.har_file = args.input_file
     CommonParameters.planet = args.planet
     CommonParameters.planet_url = f"{CommonParameters.planet}.dev.app.reblaze.io"
@@ -163,7 +167,6 @@ if __name__ == "__main__":
     CommonParameters.api_key = args.api_token
     CommonParameters.email = args.email
     output = None
-    cleanup = args.cleanup
 
     if args.output_log_file is not None:
         output = args.output_log_file
@@ -180,6 +183,10 @@ if __name__ == "__main__":
 
     CommonParameters.logger = set_logger(output, args.planet)
 
+
+def main():
+    args = parse_arguments()
+    build_config(args)
     if args.cleanup_only:
         cleanup_only()
     elif CommonParameters.har_file is not None:
@@ -194,4 +201,12 @@ if __name__ == "__main__":
             method=None,
             payload=None,
         ).get_traffic_url()
-        run_test_suits()
+        run_test_suits(cleanup=args.cleanup)
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+    
