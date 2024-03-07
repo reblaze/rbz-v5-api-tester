@@ -1,13 +1,13 @@
 {
-    "Name": "TA 1323 Flow control test timeframe",
+    "Name": "TA 1324 Flow control test timeframe",
     "Skip": false,
     "Tests": [
         {
-            "Name": "Test 1: Create flow controls",
+            "Name": "Test 1: Create flow control",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a flow control 'fc-one-tag'",
+                    "Name": "Step: Create a flow control 'fc-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -19,15 +19,11 @@
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"fc-one-tag\""
+                                "Value": "\"fc-test\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"fc-one-tag\""
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"tag1\"]"
+                                "Value": "\"fc-test\""
                             },
                             {
                                 "Key": "active",
@@ -35,7 +31,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "10"
+                                "Value": "20"
                             },
                             {
                                 "Key": "key",
@@ -43,129 +39,11 @@
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"my-test-1320\"]"
+                                "Value": "[\"my-test-1324\"]"
                             },
                             {
                                 "Key": "sequence",
                                 "Value": "[{\"method\": \"GET\",\"uri\": \"/flowa\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowb\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Create a flow control 'fc-several-tags'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "flow-control",
-                        "Path": ""
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"fc-several-tags\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"fc-several-tags\""
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"tag0\", \"tag1\", \"tag2\"]"
-                            },
-                            {
-                                "Key": "active",
-                                "Value": "true"
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "10"
-                            },
-                            {
-                                "Key": "key",
-                                "Value": "[{\"attrs\": \"ip\"}]"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"my-test-1320\"]"
-                            },
-                            {
-                                "Key": "sequence",
-                                "Value": "[{\"method\": \"GET\",\"uri\": \"/flowc\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowd\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "ok",
-                                "Value": true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Create a flow control 'fc-include-tag2'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "flow-control",
-                        "Path": ""
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"fc-include-tag2\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"fc-include-tag2\""
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"tag1\"]"
-                            },
-                            {
-                                "Key": "include",
-                                "Value": "[\"tag2\"]"
-                            },
-                            {
-                                "Key": "active",
-                                "Value": "true"
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "10"
-                            },
-                            {
-                                "Key": "key",
-                                "Value": "[{\"attrs\": \"ip\"}]"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"my-test-1320\"]"
-                            },
-                            {
-                                "Key": "sequence",
-                                "Value": "[{\"method\": \"GET\",\"uri\": \"/flowe\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowf\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
                             }
                         ]
                     },
@@ -302,7 +180,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to flowb -H 'host:test.site' -H 'test:tag'",
+                    "Name": "Step: Send Traffic 2 to flowb -H 'host:test.site'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -313,10 +191,6 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "tag"
                         }
                     ],
                     "Expected": {
@@ -325,14 +199,6 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
-                {
-                    "Skip": false,
-                    "Type": "python",
-                    "Code": [
-                        "import time",
-                        "time.sleep(10)"
-                    ]
                 },
                 {
                     "Name": "Step: Send Traffic 3 to flowa -H 'host:test.site",
@@ -356,6 +222,14 @@
                     }
                 },
                 {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(20)"
+                    ]
+                },
+                {
                     "Name": "Step: Send Traffic 4 to flowb -H 'host:test.site",
                     "Skip": false,
                     "API": {
@@ -367,110 +241,6 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 5 to flowc -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowc"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 6 to flowd -H 'host:test.site' -H 'test:tag'",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowd"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "tag"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 7 to flowe -H 'host:test.site' -H 'test:tag' -H 'another-test:another-tag'",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowe"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "tag"
-                        },
-                        {
-                            "Key": "another-test",
-                            "Value": "another-tag"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 8 to flowf -H 'host:test.site' -H 'test:tag' -H 'another-test:another-tag'",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowf"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "tag"
-                        },
-                        {
-                            "Key": "another-test",
-                            "Value": "another-tag"
                         }
                     ],
                     "Expected": {
@@ -497,7 +267,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path tags = 'my-test-1320'",
+                    "Name": "Step: Get Logs from tags = 'my-test-1324'",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -517,7 +287,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags = my-test-1320, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "tags = my-test-1324, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -533,7 +303,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Get Logs from path tags != my-test-1320",
+                    "Name": "Step: Get Logs from tags != my-test-1324",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -553,7 +323,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags != my-test-1320, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "tags != my-test-1324, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -563,30 +333,14 @@
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/path",
-                                "Value": "/flowf"
-                            },
-                            {
-                                "Key": "data/results/1/path",
-                                "Value": "/flowe"
-                            },
-                            {
-                                "Key": "data/results/2/path",
-                                "Value": "/flowd"
-                            },
-                            {
-                                "Key": "data/results/3/path",
-                                "Value": "/flowc"
-                            },
-                            {
-                                "Key": "data/results/4/path",
-                                "Value": "/flowa"
-                            },
-                            {
-                                "Key": "data/results/5/path",
                                 "Value": "/flowb"
                             },
                             {
-                                "Key": "data/results/6/path",
+                                "Key": "data/results/1/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/2/path",
                                 "Value": "/flowa"
                             }
                         ]
