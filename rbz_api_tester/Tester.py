@@ -55,10 +55,3 @@ class Tester:
                             ):
                                 results.add(val)
         return results
-
-    def failure_report(self, results: List[TestSuiteResult]):
-        errors = "\n"
-        for result in results:
-            if result.result == Result.Failed:
-                errors += result.error_message + "\n\n"
-        CommonParameters.logger.error(errors)

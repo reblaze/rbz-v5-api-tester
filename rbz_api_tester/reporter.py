@@ -1,4 +1,6 @@
 from rbz_api_tester.CommonParameters import CommonParameters
+from rbz_api_tester.Result import Result
+from rbz_api_tester.TestSuiteResult import TestSuiteResult
 
 class Reporter:
     def __init__(
@@ -6,7 +8,7 @@ class Reporter:
         *,
         tester,
         num_of_test_suites,
-        results,
+        results: list[TestSuiteResult],
     ) -> None:
         self.tester = tester
         self.results = results
@@ -27,7 +29,7 @@ class Reporter:
         logger.info(
             f"--------------------------- details on failures ---------------------------"
         )
-        tester.failure_report(self.results)
+        self.failure_report()
         logger.info(
             f"---------------------------------------------------------------------------"
         )
@@ -35,6 +37,12 @@ class Reporter:
     def report_rich(self):
         pass
 
-
     def report_markdown(self):
         pass
+
+    def failure_report(self):
+        errors = "\n"
+        for result in self.results:
+            if result.result == Result.Failed:
+                errors += result.error_message + "\n\n"
+        CommonParameters.logger.error(errors)

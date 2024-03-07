@@ -83,9 +83,7 @@ def run_test_suits(cleanup: bool = False):
             result = tester.execute(str(test_suite_file))
             results.append(result)
             if result.result != Result.Skipped and cleanup:
-                logger.info(f"Performing Cleanup...")
-                cleaner = Cleaner(ids=ids)
-                cleaner.execute()
+                execute_cleanup(ids)
 
         reporter = Reporter(
             tester=tester,
@@ -101,6 +99,12 @@ def run_test_suits(cleanup: bool = False):
         cleanup_only()
 
 
+def execute_cleanup(ids: list[str]):
+    CommonParameters.logger.info(f"Performing Cleanup...")
+    cleaner = Cleaner(ids=ids)
+    cleaner.execute()
+
+
 def cleanup_only():
     tester = Tester()
     ids = set()
@@ -108,10 +112,7 @@ def cleanup_only():
     for test_suite_file in test_suite_files:
         suite_ids = tester.get_special_ids(str(test_suite_file))
         ids = ids.union(suite_ids)
-
-    CommonParameters.logger.info(f"Performing Cleanup...")
-    cleaner = Cleaner(ids=ids)
-    cleaner.execute()
+    execute_cleanup(ids)
 
 
 def translate():
