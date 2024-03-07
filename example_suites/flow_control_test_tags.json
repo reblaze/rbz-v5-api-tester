@@ -217,7 +217,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to flowa -H 'host:test.site' ",
+                    "Name": "Step: Send Traffic 2 to /flowa -H 'host:test.site' ",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -238,7 +238,49 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to flowd -H 'host:test.site",
+                    "Name": "Step: Send Traffic 3 to /flowa -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to /flowb -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 5 to /flowd -H 'host:test.site",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -259,11 +301,53 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 4 to flowc -H 'host:test.site",
+                    "Name": "Step: Send Traffic 6 to /flowc -H 'host:test.site' ",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
                         "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 7 to /flowc -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 8 to /flowd -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowd"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -296,7 +380,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path tags = 'my-test-1320'",
+                    "Name": "Step: Get Logs from tags = 'test-flow'",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -316,7 +400,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags = my-test-1320, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "tags = test-flow, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -332,7 +416,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Get Logs from path tags != my-test-1320",
+                    "Name": "Step: Get Logs from tags = test-flow0, tags = test-flow1, tags = test-flow2",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -352,7 +436,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags != my-test-1320, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "tags = test-flow0, tags = test-flow1, tags = test-flow2, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -362,11 +446,63 @@
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/path",
-                                "Value": "/flowf"
+                                "Value": "/flowd"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from tags != test-flow, tags != test-flow0",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "tags != test-flow, tags != test-flow0, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/path",
+                                "Value": "/flowc"
                             },
                             {
                                 "Key": "data/results/1/path",
-                                "Value": "/flowe"
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/2/path",
+                                "Value": "/flowd"
+                            },
+                            {
+                                "Key": "data/results/3/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/4/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/5/path",
+                                "Value": "/flowb"
                             }
                         ]
                     }
