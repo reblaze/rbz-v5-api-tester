@@ -1,5 +1,6 @@
+import json
 import requests
-from typing import List
+from typing import List, Tuple
 
 from rbz_api_tester.Expected import Expected
 from rbz_api_tester.Param import Param
@@ -45,7 +46,7 @@ class ApiResponse:
         elif self.expected.multiple_results is not None:
             self._prepare_multiple_results()
 
-    def _check_response_content(self) -> (bool, str):
+    def _check_response_content(self) -> Tuple[bool, str]:
         if (
             self.expected.text == str(self.response.content)
             or self.api.is_send_traffic()
@@ -79,7 +80,7 @@ class ApiResponse:
             CommonParameters.logger.error(f"json path check failed due to: {repr(e)}")
             return False
 
-    def _check_response_jsonpath(self) -> (bool, str):
+    def _check_response_jsonpath(self) -> Tuple[bool, str]:
         response_json = self.response.json()
         for expected_result in self.expected.single_result:
             if not self._compare_expected_to_response_jsonpath(
@@ -103,7 +104,7 @@ class ApiResponse:
                         return True
         return False
 
-    def _check_response_json_multiple(self) -> (bool, str):
+    def _check_response_json_multiple(self) -> Tuple[bool, str]:
         response_json = self.response.json()
         if self.expected.multiple_results is not None:
             for expected_result in self.expected.multiple_results:
@@ -126,9 +127,17 @@ class ApiResponse:
         if isinstance(value, types_with_no_quotes):
             return value == expected.value
         else:
+            try:
+                python_value = json.loads(expected.value)
+                # Compare complex nested data as python objects instead
+                if isinstance(python_value, (dict, list)):
+                    return value == python_value
+            except json.JSONDecodeError:
+                pass
+            # NOTE: this comparison fails on unordered data
             return str(value) == expected.value
 
-    def _check_response_json_single(self) -> (bool, str):
+    def _check_response_json_single(self) -> Tuple[bool, str]:
         response_json = self.response.json()
         if self.expected.single_result is not None:
             for expected_result in self.expected.single_result:
@@ -146,13 +155,13 @@ class ApiResponse:
                 f"Failed because no 'SingleResults' criteria defined\n",
             )
 
-    def _check_response_json(self) -> (bool, str):
+    def _check_response_json(self) -> Tuple[bool, str]:
         if self.expected.single:
             return self._check_response_json_single()
         else:
             return self._check_response_json_multiple()
 
-    def _check_response_headers(self) -> (bool, str):
+    def _check_response_headers(self) -> Tuple[bool, str]:
         expected = ""
         actual = ""
         if self.expected.headers is not None:
@@ -180,7 +189,7 @@ class ApiResponse:
             actual_headers = f"{actual_headers}\nKey: {header}, Value:{value}"
         return (expected_headers, actual_headers)
 
-    def _check_response_core(self) -> (bool, str):
+    def _check_response_core(self) -> Tuple[bool, str]:
         res, msg = self._check_response_headers()
         if not res:
             return (res, msg)
@@ -199,7 +208,7 @@ class ApiResponse:
                 f"Unknown Expected Type: {self.expected.type}\n",
             )
 
-    def _check_response(self) -> (bool, str):
+    def _check_response(self) -> Tuple[bool, str]:
         if self.expected.code == self.response.status_code:
             return self._check_response_core()
         else:
@@ -210,7 +219,7 @@ class ApiResponse:
 
     def validate(
         self, response: requests.Response, expected: Expected, id: str, api: API
-    ) -> (bool, str):
+    ) -> Tuple[bool, str]:
         self.response = response
         self.expected = expected
         self.id = id
