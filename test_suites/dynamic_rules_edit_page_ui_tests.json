@@ -11,8 +11,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rule",
-                        "Path": ""
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_text_name"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -28,13 +28,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -44,8 +44,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rule",
-                        "Path": ""
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_empty_name"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -61,10 +61,15 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
-                        "Type": "content",
+                        "Code": "500",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''"
+                            }
+                        ]
                     }
                 },
                 {
