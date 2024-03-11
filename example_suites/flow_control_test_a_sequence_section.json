@@ -31,7 +31,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "60"
+                                "Value": "10"
                             },
                             {
                                 "Key": "key",
@@ -96,7 +96,7 @@
                             },
                             {
                                 "Key": "sequence",
-                                "Value": "[{\"method\": \"POST\",\"uri\": \"/flowd\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"PUT\",\"uri\": \"/flowe\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"GET\",\"uri\": \"/flowf\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"DELETE\",\"uri\": \"/flowg\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
+                                "Value": "[{\"method\": \"POST\",\"uri\": \"/flowd\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"PUT\",\"uri\": \"/flowe\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"GET\",\"uri\": \"/flowf\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"DELETE\",\"uri\": \"/flowg\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"PATCH\",\"uri\": \"/flowh\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"OPTIONS\",\"uri\": \"/flowk\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"HEAD\",\"uri\": \"/flow\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
                             }
                         ]
                     },
@@ -115,7 +115,7 @@
             ]
         },
         {
-            "Name":"Test 2: Create server group and security policy",
+            "Name":"Test 2: Create server groups and security policy",
             "Skip":false,
             "Steps":[
                 {
@@ -198,6 +198,47 @@
                     }
                 },
                 {
+                    "Name":"Step: Create new server group 'new.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"new-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"new-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"new-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"new.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"new-site"
+                            }
+                        ]
+                    }
+                },
+                {
                     "ID":"publish-changes",
                     "Skip":false
                 },
@@ -275,6 +316,14 @@
                     }
                 },
                 {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
                     "Name": "Step: Send Traffic 4 to flowa -H 'host:test.site",
                     "Skip": false,
                     "API": {
@@ -315,6 +364,14 @@
                         "Single": true,
                         "Text": "b''"
                     }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
                 },
                 {
                     "Name": "Step: Send Traffic 6 to flowc -H 'host:test.site'",
@@ -422,7 +479,15 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 11 to /flowa -H 'host:te.site",
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 11 to /flowa -H 'host:new.site",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -432,18 +497,18 @@
                     "Headers": [
                         {
                             "Key": "Host",
-                            "Value": "te.site"
+                            "Value": "new.site"
                         }
                     ],
                     "Expected": {
-                        "Code": "403",
+                        "Code": "200",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 12 to flowb -H 'host:te.site'",
+                    "Name": "Step: Send Traffic 12 to flowb -H 'host:new.site'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -453,18 +518,18 @@
                     "Headers": [
                         {
                             "Key": "Host",
-                            "Value": "te.site"
+                            "Value": "new.site"
                         }
                     ],
                     "Expected": {
-                        "Code": "403",
+                        "Code": "200",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 13 to flowc -H 'host:te.site'",
+                    "Name": "Step: Send Traffic 13 to flowc -H 'host:new.site'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -474,15 +539,23 @@
                     "Headers": [
                         {
                             "Key": "Host",
-                            "Value": "te.site"
+                            "Value": "new.site"
                         }
                     ],
                     "Expected": {
-                        "Code": "403",
+                        "Code": "200",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
                 },
                 {
                     "Name": "Step: Send Traffic 14 to /flowa -H 'host:test.site' -d 'a=b'",
@@ -650,6 +723,77 @@
                     }
                 },
                 {
+                    "Name": "Step: Send Traffic 18 to flowh -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowh"
+                    },
+                    "Method": "PATCH",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 19 to flowk -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowk"
+                    },
+                    "Method": "OPTION",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 20 to flowl -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowl"
+                    },
+                    "Method": "HEAD",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
                     "Name": "Step: Send Traffic 21 to /flowabc -H 'host:test.site",
                     "Skip": false,
                     "API": {
@@ -729,7 +873,7 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from path tags = 'my-test-1326'",
+                    "Name": "Step: Get Logs from tags = 'my-test-1326'",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
@@ -789,7 +933,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Get Logs from path tags != my-test-1326",
+                    "Name": "Step: Get Logs from tags != my-test-1326",
                     "Skip": false,
                     "API": {
                         "Base": "logs",
