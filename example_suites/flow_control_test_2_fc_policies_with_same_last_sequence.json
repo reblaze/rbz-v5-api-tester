@@ -31,7 +31,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "60"
+                                "Value": "10"
                             },
                             {
                                 "Key": "key",
@@ -84,7 +84,7 @@
                             },
                             {
                                 "Key": "timeframe",
-                                "Value": "60"
+                                "Value": "10"
                             },
                             {
                                 "Key": "key",
@@ -273,6 +273,85 @@
                         "Single": true,
                         "Text": "b''"
                     }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to /flowa -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 5 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 6 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
                 }
             ]
         },
@@ -327,6 +406,42 @@
                     }
                 },
                 {
+                    "Name": "Step: Get Logs from tags = 'my-test-1327', tags != my-test-2-1327",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "tags = my-test-1327, tags != my-test-2-1327, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/path",
+                                "Value": "/flowb"
+                            }
+                        ]
+                    }
+                },
+                {
                     "Name": "Step: Get Logs from tags != my-test-1327, tags != my-test-2-1327",
                     "Skip": false,
                     "API": {
@@ -357,10 +472,18 @@
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/path",
-                                "Value": "/flowc"
+                                "Value": "/flowb"
                             },
                             {
                                 "Key": "data/results/1/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/2/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/3/path",
                                 "Value": "/flowa"
                             }
                         ]
