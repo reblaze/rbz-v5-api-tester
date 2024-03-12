@@ -1,0 +1,1046 @@
+{
+    "Name": "TA 1326 Flow control test a sequence sections",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create flow controls",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-test\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "10"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\": \"ip\"}]"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-test-1326\"]"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"method\": \"GET\",\"uri\": \"/flowa\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowb\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"GET\",\"uri\": \"/flowc\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control 'fc-each-method'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "flow-control",
+                        "Path": ""
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-each-method\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-each-method\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "10"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\": \"ip\"}]"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-test-1326\"]"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"method\": \"POST\",\"uri\": \"/flowd\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"PUT\",\"uri\": \"/flowe\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"GET\",\"uri\": \"/flowf\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"DELETE\",\"uri\": \"/flowg\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"PATCH\",\"uri\": \"/flowh\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}, {\"method\": \"OPTIONS\",\"uri\": \"/flowk\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"HEAD\",\"uri\": \"/flowl\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Create server groups and security policy",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy with attached content filter profiles",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
+
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"test-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'new.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"server-group",
+                        "Path":"new-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"new-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"new-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"new.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"id",
+                                "Value":"new-site"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to /flowa -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to flowc -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to flowa -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 5 to flowc -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 6 to flowc -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 7 to flowa -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 8 to flowc -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 9 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 10 to flowc -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 11 to /flowa -H 'host:new.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "new.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 12 to flowb -H 'host:new.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "new.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 13 to flowc -H 'host:new.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "new.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 14 to /flowa -H 'host:test.site' -d 'a=b'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowa"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "a",
+                            "Value": "b"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 15 to flowb -H 'host:test.site' -d 'a=b'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "a",
+                            "Value": "b"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 16 to flowc -H 'host:test.site' -d 'a=b'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "a",
+                            "Value": "b"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 17 to /flowd -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowd"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 18 to flowe -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowe"
+                    },
+                    "Method": "PUT",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 19 to flowf -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowf"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 20 to flowg -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowg"
+                    },
+                    "Method": "DELETE",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 21 to flowh -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowh"
+                    },
+                    "Method": "PATCH",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 22 to flowk -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowk"
+                    },
+                    "Method": "OPTIONS",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 23 to flowl -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowl"
+                    },
+                    "Method": "HEAD",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 24 to /flowabc -H 'host:test.site",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowabc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 25 to flowb -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 26 to flowc -H 'host:test.site'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowc"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Check logs ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from tags = 'my-test-1326'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "tags = my-test-1326, status = 200, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/path",
+                                "Value": "/flowl"
+                            },
+                            {
+                                "Key": "data/results/1/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/2/path",
+                                "Value": "/flowc"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from tags != my-test-1326",
+                    "Skip": false,
+                    "API": {
+                        "Base": "logs",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "tags != my-test-1326, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/1/path",
+                                "Value": "/flowb"
+                            },
+                            {
+                                "Key": "data/results/2/path",
+                                "Value": "/flowabc"
+                            },
+                            {
+                                "Key": "data/results/3/path",
+                                "Value": "/flowk"
+                            },
+                            {
+                                "Key": "data/results/4/path",
+                                "Value": "/flowh"
+                            },
+                            {
+                                "Key": "data/results/5/path",
+                                "Value": "/flowg"
+                            },
+                            {
+                                "Key": "data/results/6/path",
+                                "Value": "/flowf"
+                            },
+                            {
+                                "Key": "data/results/7/path",
+                                "Value": "/flowe"
+                            },
+                            {
+                                "Key": "data/results/8/path",
+                                "Value": "/flowd"
+                            },
+                            {
+                                "Key": "data/results/9/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/10/path",
+                                "Value": "/flowb"
+                            },
+                            {
+                                "Key": "data/results/11/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/12/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/13/path",
+                                "Value": "/flowb"
+                            },
+                            {
+                                "Key": "data/results/14/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/15/path",
+                                "Value": "/flowb"
+                            },
+                            {
+                                "Key": "data/results/16/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/17/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/18/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/19/path",
+                                "Value": "/flowc"
+                            },
+                            {
+                                "Key": "data/results/20/path",
+                                "Value": "/flowa"
+                            },
+                            {
+                                "Key": "data/results/21/path",
+                                "Value": "/flowb"
+                            },
+                            {
+                                "Key": "data/results/22/path",
+                                "Value": "/flowa"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
