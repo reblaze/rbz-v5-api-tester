@@ -4,7 +4,7 @@
     "Tests": [
         {
             "Name": "Test 1: Name field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name `dynamic_rule_text_name'",
@@ -61,13 +61,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "500",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -193,13 +193,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "500",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -330,7 +330,7 @@
         },
         {
             "Name": "Test 2: Active checkbox",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name `dynamic_rule_active'",
@@ -466,7 +466,7 @@
         },
         {
             "Name": "Test 3: Timeframe",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name 'dr-timeframe-number'",
@@ -506,7 +506,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-timeframe-number-decimal'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-number-decimal'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -543,7 +543,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-timeframe-zero'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-zero'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -568,19 +568,19 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-timeframe-negative'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-negative'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -605,19 +605,19 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "500",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "-60 is less than the minimum of 0\\n\\nFailed validating 'minimum' in schema['properties']['timeframe']:\\n    {'description': 'Counting violations events within this timeframe',\\n     'minimum': 0,\\n     'title': 'Timeframe',\\n     'type': 'integer'}\\n\\nOn instance['timeframe']:\\n    -60"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-timeframe-text'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-text'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -654,7 +654,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name `dr-timeframe-empty'",
+                    "Name": "Step: User cannot create a dynamic rule with name `dr-timeframe-empty'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -679,13 +679,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -694,7 +694,7 @@
         },
         {
             "Name": "Test 4: Threshold",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name 'dr-threshold-number'",
@@ -734,7 +734,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-threshold-number-decimal'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-number-decimal'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -771,7 +771,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-threshold-zero'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-zero'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -796,19 +796,19 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-threshold-negative'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-negative'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -833,19 +833,19 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "500",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "-60 is less than the minimum of 0\\n\\nFailed validating 'minimum' in schema['properties']['threshold']:\\n    {'description': 'The number of violations (events) counted during the '\\n                    'timeframe',\\n     'minimum': 0,\\n     'title': 'Threshold',\\n     'type': 'integer'}\\n\\nOn instance['threshold']:\\n    -60"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-threshold-text'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-text'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -922,7 +922,7 @@
         },
         {
             "Name": "Test 5: Quarantine time",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name 'dr-ttl-number'",
@@ -962,7 +962,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-ttl-number-decimal'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-number-decimal'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -999,7 +999,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-ttl-zero'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-zero'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1024,19 +1024,19 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-ttl-negative'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-negative'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1061,19 +1061,19 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "500",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "-60 is less than the minimum of 0\\n\\nFailed validating 'minimum' in schema['properties']['ttl']:\\n    {'description': 'The number if seconds this source will remain in '\\n                    'quarantine',\\n     'minimum': 0,\\n     'title': 'TTL',\\n     'type': 'integer'}\\n\\nOn instance['ttl']:\\n    -60"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-ttl-text'",
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-text'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1135,13 +1135,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -1150,7 +1150,7 @@
         },
         {
             "Name": "Test 6: Tags field validations",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a dynamic rule with no tags",
@@ -1363,13 +1363,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -1400,13 +1400,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -1437,13 +1437,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -1591,7 +1591,7 @@
         },
         {
             "Name": "Test 7: Action",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name 'dr_action'",
@@ -2028,7 +2028,7 @@
         },
         {
             "Name": "Test 8: Include",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a dynamic rule with include one tag",
@@ -2142,7 +2142,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with include tag is same as exclude",
+                    "Name": "Step: User cannot create a dynamic rule with include tag is same as exclude",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -2171,13 +2171,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "400",
+                        "Code": "422",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Request does not match schema"
                             }
                         ]
                     }
@@ -2186,7 +2186,7 @@
         },
         {
             "Name": "Test 9: Exclude",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: User can create a dynamic rule with exclude one tag",
@@ -2302,46 +2302,9 @@
             ]
         },
         {
-            "Name": "Test 10: Target header ",
+            "Name": "Test 10: Target headers",
             "Skip": false,
             "Steps": [
-                {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_empty'",
-                    "Skip": true,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_empty"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_target_headers_empty\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_target_headers_empty\""
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"headers_\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
-                    }
-                },
                 {
                     "Name": "Step: Create a dynamic rule with name 'dr_target_headers_spec_chars'",
                     "Skip": false,
@@ -2375,43 +2338,6 @@
                             {
                                 "Key": "message",
                                 "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_space_char'",
-                    "Skip": true,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_space_char"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_target_headers_space_char\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_target_headers_space_char\""
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"headers_ \""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
                             }
                         ]
                     }
@@ -2452,29 +2378,35 @@
                             }
                         ]
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Target cookies",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_leading_space'",
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_cookies_spec_chars'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_leading_space"
+                        "Path": "/dr_target_cookies_spec_chars"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_headers_leading_space\""
+                                "Value": "\"dr_target_cookies_spec_chars\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_headers_leading_space\""
+                                "Value": "\"dr_target_cookies_spec_chars\""
                             },
                             {
                                 "Key": "target",
-                                "Value": "\"headers_  text\""
+                                "Value": "\"cookies_!@#$%^&*()<>'_-.\""
                             }
                         ]
                     },
@@ -2491,55 +2423,70 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule target`s leading space header",
-                    "Skip": true,
-                    "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_leading_space"
-                    },
-                    "Method" :"GET",
-                    "Expected":
-                    {
-                        "Code": "200",
-                        "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
-                            {
-                                "Key": "id",
-                                "Value": "dr_target_headers_leading_space"
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "headers_text"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_trailing_space'",
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_cookies_text'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_trailing_space"
+                        "Path": "/dr_target_cookies_text"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_headers_trailing_space\""
+                                "Value": "\"dr_target_cookies_text\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_headers_trailing_space\""
+                                "Value": "\"dr_target_cookies_text\""
                             },
                             {
                                 "Key": "target",
-                                "Value": "\"headers_text  \""
+                                "Value": "\"cookies_text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12: Target arguments",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_arguments_spec_chars'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_arguments_spec_chars"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_arguments_spec_chars\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_arguments_spec_chars\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"arguments_!@#$%^&*()<>'_-.\""
                             }
                         ]
                     },
@@ -2556,51 +2503,66 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule target`s trailing space header",
-                    "Skip": true,
-                    "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_trailing_space"
-                    },
-                    "Method" :"GET",
-                    "Expected":
-                    {
-                        "Code": "200",
-                        "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
-                            {
-                                "Key": "id",
-                                "Value": "dr_target_headers_trailing_space"
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "headers_text"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers'",
+                    "Name": "Step: Create a dynamic rule with name 'dr_arguments_cookies_text'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers"
+                        "Path": "/dr_target_arguments_text"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_headers\""
+                                "Value": "\"dr_target_arguments_text\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_headers\""
+                                "Value": "\"dr_target_arguments_text\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"arguments_text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: Delete",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_delete"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_delete\""
                             }
                         ]
                     },
@@ -2617,30 +2579,91 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule`s active default value ",
+                    "Name": "Step: Delete a dynamic rule with name 'dr_delete'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers"
+                        "Path": "/dr_delete"
                     },
-                    "Method" :"GET",
-                    "Expected":
-                    {
+                    "Method" :"DELETE",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully deleted entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: Choose another rule dropdown",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_dropdown'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_dropdown"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "id",
-                                "Value": "dr_target_headers"
+                                "Value": "\"dr_dropdown\""
                             },
                             {
-                                "Key": "target",
-                                "Value": "headers_"
+                                "Key": "name",
+                                "Value": "\"dr_dropdown\""
                             }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Assert dynamic rules from dropdown",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                      "Base": "api-dynamic-rules",
+                      "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "MultipleResults":
+                        [
+                            [
+                                {
+                                  "Key": "id",
+                                  "Value": "dr_dropdown"
+                                },
+                                {
+                                  "Key": "name",
+                                  "Value": "dr_dropdown"
+                                }
+                            ]
                         ]
                     }
                 }
@@ -2648,3 +2671,4 @@
         }
     ]
 }
+
