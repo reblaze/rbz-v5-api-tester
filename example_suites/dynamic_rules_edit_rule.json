@@ -1,0 +1,760 @@
+{
+    "Name": "TA 1395 Dynamic rules edit rule",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create new dynamic rule",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name `dr-test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'timeframe'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"120\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "120"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'threshold'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "\"5000\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with threshold",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "5000"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'quarantine time'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "\"600\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with quarantine time",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "600"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test123'\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['test123']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'delete tags'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with delete tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'action'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-acl-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with action",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "action-acl-block"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'target'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with action",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "headers"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'include'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"include-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with include",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "['include-tag']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'exclude'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"exclude-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with exclude",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "['exclude-tag']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'inactive'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with inactive",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'active'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User check dynamic rule 'dr-test' with active",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": true
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
