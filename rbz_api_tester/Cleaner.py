@@ -12,16 +12,6 @@ class Cleaner:
     apis: List[str]
     ids: List[str]
 
-    @property
-    def headers(self) -> dict:
-        return {
-            "Authorization": f"Basic {CommonParameters.api_key}",
-            "User-Agent": DEFAULT_UA,
-            "planet-name": f"{CommonParameters.planet}",
-            "planet-hostname": f"{CommonParameters.planet_url}",
-            "Content-Type": "application/json",
-        }
-
     def __init__(self, ids: List[str]):
         self.ids = ids
         self.apis = API("", "").available_api(True)
