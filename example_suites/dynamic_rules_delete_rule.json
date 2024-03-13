@@ -4,42 +4,46 @@
     "Tests": [
         {
             "Name": "Test 1: Create new dynamic rule",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "ID": "add-my-ip-to-trusted-source",
                     "Skip": false
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name `dr-test'",
+                    "Name": "Step: Create a dynamic rule with name `dr_test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr-test"
+                        "Path": "/dr_test"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr-test\""
+                                "Value": "\"dr_test\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr-test\""
+                                "Value": "\"dr_test\""
                             },
                             {
-                                "Key": "action",
-                                "Value": "\"action-dynamic-rule-block\""
+                                "Key": "timeframe",
+                                "Value": "3"
                             },
                             {
                                 "Key": "threshold",
                                 "Value": "1"
                             },
                             {
-                                "Key": "timeframe",
-                                "Value": "3"
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
                             },
                             {
                                 "Key": "ttl",
@@ -48,6 +52,10 @@
                             {
                                 "Key": "tags",
                                 "Value": "[\"test-ip-1396\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"ip\""
                             }
                         ]
                     },
@@ -213,7 +221,7 @@
                     }
                 },
                 {
-                    "ID":"wait-3-minutes",
+                    "ID":"wait-1.5-minutes",
                     "Skip":false
                 },
                 {
@@ -248,13 +256,13 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Delete a dynamic rule with name 'dr-test'",
+                    "Name": "Step: Delete a dynamic rule with name 'dr_test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr-test"
+                        "Path": "/dr_test"
                     },
                     "Method" :"DELETE",
                     "Expected": {
@@ -278,13 +286,13 @@
                     "Skip":false
                 },
                 {
-                    "ID":"wait-3-minutes",
+                    "ID":"wait-1.5-minutes",
                     "Skip":false
                 }
             ]
         },
         {
-            "Name":"Test 5: Send traffics",
+            "Name":"Test 5: Send traffic",
             "Skip": false,
             "Steps":[
                 {
@@ -359,11 +367,11 @@
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
-                                "Value": "dynamic-rule:new-dynamic-rule"
+                                "Value": "dynamic-rule:dr-test"
                             },
                             {
                                 "Key": "data/results/0/reason",
-                                "Value": "Block - dynamic rule - New Dynamic Rule - [ip]"
+                                "Value": "Block - dynamic rule - dr_test - [ip]"
                             }
                         ]
                     }
