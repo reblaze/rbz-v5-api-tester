@@ -238,7 +238,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule with leading space char name",
+                    "Name": "Step: Check dynamic rule with leading space char in name",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -299,7 +299,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule with trailing space char name",
+                    "Name": "Step: Check dynamic rule with trailing space char in name",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -370,7 +370,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule active 'true'",
+                    "Name": "Step: Check dynamic rule active 'true'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -435,7 +435,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule active 'false'",
+                    "Name": "Step: Check dynamic rule active 'false",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1375,7 +1375,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule with leading space char tag",
+                    "Name": "Step: Check dynamic rule with leading space char tag",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1444,7 +1444,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule with trailing space char tag",
+                    "Name": "Step: Check dynamic rule with trailing space char tag",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -1479,437 +1479,76 @@
             ]
         },
         {
-            "Name": "Test 7: Action",
+            "Name": "Test 7: Actions",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_action'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "201",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User check dynamic rule`s active default value ",
+                    "Name": "Step: User can check action`s types",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
                     {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
+                        "Base": "actions",
+                        "Path": ""
                     },
                     "Method" :"GET",
                     "Expected":
                     {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
+						"Single": false,
+                        "MultipleResults":
                         [
-                            {
-                                "Key": "id",
-                                "Value": "dr_action"
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "action-monitor"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-challenge'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-challenge\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-monitor'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-monitor\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-skip'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-skip\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-global-filter-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-global-filter-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-rate-limit-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-rate-limit-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-acl-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-acl-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-contentfilter-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-contentfilter-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-dynamic-rule-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-dynamic-rule-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-reblaze-feed-block'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-reblaze-feed-block\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr_action' by 'action-https-redirect'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_action"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_action\""
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-https-redirect\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-challenge"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "challenge"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-monitor"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "monitor (tag only)"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-rate-limit-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Rate-limit block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-reblaze-feed-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Reblaze feed block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-https-redirect"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "https redirect"
+                                }
+                            ]
                         ]
                     }
                 }
