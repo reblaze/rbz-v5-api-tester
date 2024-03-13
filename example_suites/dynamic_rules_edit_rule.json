@@ -4,7 +4,7 @@
     "Tests": [
         {
             "Name": "Test 1: Create new dynamic rule",
-            "Skip": true,
+            "Skip": false,
             "Steps": [
                 {
                     "Name": "Step: Create a dynamic rule with name `dr-test'",
@@ -40,7 +40,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'timeframe'",
+                    "Name": "Step: Edit timeframe of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -57,77 +57,12 @@
                             {
                                 "Key": "name",
                                 "Value": "\"dr-test\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "\"120\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User check dynamic rule 'dr-test' with timeframe",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-test"
-                    },
-                    "Method" :"GET",
-                    "Expected":
-                    {
-                        "Code": "200",
-                        "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
-                            {
-                                "Key": "id",
-                                "Value": "dr-test"
                             },
                             {
                                 "Key": "timeframe",
                                 "Value": "120"
                             }
                         ]
-                    }
-                },
-                {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'threshold'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-test"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-test\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-test\""
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "\"5000\""
-                            }
-                        ]
                     },
                     "Expected": {
                         "Code": "200",
@@ -142,7 +77,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with threshold",
+                    "Name": "Step: Verify timeframe of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -161,16 +96,81 @@
                             {
                                 "Key": "id",
                                 "Value": "dr-test"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": 120
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Edit threshold of dynamic rule 'dr-test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-test\""
                             },
                             {
                                 "Key": "threshold",
                                 "Value": "5000"
                             }
                         ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'quarantine time'",
+                    "Name": "Step: Verify threshold of dynamic rule 'dr-test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API":
+                    {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-test"
+                    },
+                    "Method" :"GET",
+                    "Expected":
+                    {
+                        "Code": "200",
+                        "Type": "json",
+						"Single": true,
+                        "SingleResult":
+                        [
+                            {
+                                "Key": "id",
+                                "Value": "dr-test"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": 5000
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Edit quarantine time of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -190,7 +190,7 @@
                             },
                             {
                                 "Key": "ttl",
-                                "Value": "\"600\""
+                                "Value": "600"
                             }
                         ]
                     },
@@ -207,7 +207,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with quarantine time",
+                    "Name": "Step: Verify quarantine time of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -229,13 +229,13 @@
                             },
                             {
                                 "Key": "ttl",
-                                "Value": "600"
+                                "Value": 600
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'tags'",
+                    "Name": "Step: Edit tags of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -255,7 +255,7 @@
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"test123'\"]"
+                                "Value": "[\"test123\"]"
                             }
                         ]
                     },
@@ -272,7 +272,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with tags",
+                    "Name": "Step: Verify tags of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -300,7 +300,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'delete tags'",
+                    "Name": "Step: Edit empty tag of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -337,7 +337,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with delete tags",
+                    "Name": "Step: Verify empty tag of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -365,7 +365,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'action'",
+                    "Name": "Step: Edit action of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -385,7 +385,7 @@
                             },
                             {
                                 "Key": "action",
-                                "Value": "\"action-acl-block\""
+                                "Value": "\"action-dynamic-rule-block\""
                             }
                         ]
                     },
@@ -402,7 +402,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with action",
+                    "Name": "Step: Verify action of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -424,13 +424,13 @@
                             },
                             {
                                 "Key": "action",
-                                "Value": "action-acl-block"
+                                "Value": "action-dynamic-rule-block"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'target'",
+                    "Name": "Step: Edit target of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -450,7 +450,7 @@
                             },
                             {
                                 "Key": "target",
-                                "Value": "\"headers\""
+                                "Value": "\"headers_test\""
                             }
                         ]
                     },
@@ -467,7 +467,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with action",
+                    "Name": "Step: Verify target of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -489,13 +489,13 @@
                             },
                             {
                                 "Key": "target",
-                                "Value": "headers"
+                                "Value": "headers_test"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'include'",
+                    "Name": "Step: Edit include of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -532,7 +532,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with include",
+                    "Name": "Step: Verify include of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -560,7 +560,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'exclude'",
+                    "Name": "Step: Edit exclude of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -597,7 +597,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with exclude",
+                    "Name": "Step: Verify exclude of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -625,7 +625,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'inactive'",
+                    "Name": "Step: Edit active by false of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -662,7 +662,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with inactive",
+                    "Name": "Step: Verify active is false of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
@@ -690,7 +690,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Patch a dynamic rule 'dr-test' by 'active'",
+                    "Name": "Step: Edit action by true of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -727,7 +727,7 @@
                     }
                 },
                 {
-                    "Name": "Step: User check dynamic rule 'dr-test' with active",
+                    "Name": "Step: Verify active is true of dynamic rule 'dr-test'",
                     "Skip": false,
                     "GenerateID": false,
                     "API":
