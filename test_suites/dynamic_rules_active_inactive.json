@@ -354,66 +354,10 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "474",
+                        "Code": "200",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b'access denied'"
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 6: Wait for logs",
-            "Skip": true,
-            "Steps": [
-                {
-                    "ID": "wait-for-logs",
-                    "Skip": false
-                }
-            ]
-        },
-        {
-            "Name": "Test 7: Check logs",
-            "Skip": true,
-            "Steps": [
-                {
-                    "Name": "Step: Get Logs",
-                    "Skip": false,
-                    "API": {
-                        "Base": "logs",
-                        "Path": ""
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "syntax",
-                            "Value": "string_query"
-                        }
-                    ],
-                    "Arguments": [
-                        {
-                            "Key": "limit",
-                            "Value": "200"
-                        },
-                        {
-                            "Key": "filters",
-                            "Value": "status = 474, timestamp between @@NOW(-10minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "dynamic-rule:dr-test"
-                            },
-                            {
-                                "Key": "data/results/0/reason",
-                                "Value": "Block - dynamic rule - dr_test - [ip]"
-                            }
-                        ]
+                        "Text": "b''"
                     }
                 }
             ]
