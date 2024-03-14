@@ -252,7 +252,41 @@
             ]
         },
         {
-            "Name": "Test 4: Inactive rule",
+            "Name":"Test 4: Quarantined page query",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"config\":\"prod\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"status-code"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Inactive rule",
             "Skip": false,
             "Steps": [
                 {
@@ -332,7 +366,7 @@
             ]
         },
         {
-            "Name":"Test 5: Send traffic",
+            "Name":"Test 6: Send traffic",
             "Skip": false,
             "Steps":[
                 {
