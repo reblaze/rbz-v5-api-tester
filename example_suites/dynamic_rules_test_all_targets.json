@@ -964,7 +964,7 @@
             "Text": "b'access denied'"
           }
         },
-         {
+        {
           "Name": "Step: Send Traffic to target asn 3",
           "Skip": false,
           "API": {
@@ -982,7 +982,7 @@
               "Value": "123.123.123.124"
             }
           ],
-         "Expected": {
+          "Expected": {
             "Code": "474",
             "Type": "content",
             "Single": true,
@@ -1014,7 +1014,7 @@
             "Text": "b'access denied'"
           }
         },
-         {
+        {
           "Name": "Step: Send Traffic to target company 3",
           "Skip": false,
           "API": {
@@ -1039,7 +1039,7 @@
             "Text": "b'access denied'"
           }
         },
-         {
+        {
           "Name": "Step: Send Traffic to target headers_test 3",
           "Skip": false,
           "API": {
@@ -1068,7 +1068,7 @@
             "Text": "b'access denied'"
           }
         },
-         {
+        {
           "Name": "Step: Send Traffic to target cookies_test 3",
           "Skip": false,
           "API": {
@@ -1090,14 +1090,14 @@
               "Value": "test=456"
             }
           ],
-         "Expected": {
+          "Expected": {
             "Code": "474",
             "Type": "content",
             "Single": true,
             "Text": "b'access denied'"
           }
         },
-         {
+        {
           "Name": "Step: Send Traffic to target arguments_test 3",
           "Skip": false,
           "API": {
@@ -1121,11 +1121,81 @@
               "Value": "789"
             }
           ],
-         "Expected": {
+          "Expected": {
             "Code": "474",
             "Type": "content",
             "Single": true,
             "Text": "b'access denied'"
+          }
+        }
+      ]
+    },
+    {
+      "Name": "Test: Assert logs",
+      "Skip": false,
+      "Steps": [
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Step: Get Logs for status 474",
+          "Skip": false,
+          "API": {
+            "Base": "logs",
+            "Path": ""
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "limit",
+              "Value": "200"
+            },
+            {
+              "Key": "filters",
+              "Value": "status = 474, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "dynamic-rule:target-arguments-test"
+              },
+              {
+                "Key": "data/results/1/tags/*",
+                "Value": "dynamic-rule:target-cookies-test"
+              },
+              {
+                "Key": "data/results/2/tags/*",
+                "Value": "dynamic-rule:target-headers-test"
+              },
+              {
+                "Key": "data/results/3/tags/*",
+                "Value": "dynamic-rule:target-company"
+              },
+              {
+                "Key": "data/results/4/tags/*",
+                "Value": "dynamic-rule:target-country"
+              },
+              {
+                "Key": "data/results/5/tags/*",
+                "Value": "dynamic-rule:target-asn"
+              },
+              {
+                "Key": "data/results/6/tags/*",
+                "Value": "dynamic-rule:target-ip"
+              }
+            ]
           }
         }
       ]
@@ -1173,7 +1243,7 @@
             ]
           }
         },
-         {
+        {
           "Name": "Step: POST query for target_asn",
           "Skip": false,
           "GenerateID": false,
@@ -1212,7 +1282,7 @@
             ]
           }
         },
-         {
+        {
           "Name": "Step: POST query for target_country",
           "Skip": false,
           "GenerateID": false,
@@ -1251,7 +1321,7 @@
             ]
           }
         },
-         {
+        {
           "Name": "Step: POST query for target_company",
           "Skip": false,
           "GenerateID": false,
@@ -1290,7 +1360,7 @@
             ]
           }
         },
-         {
+        {
           "Name": "Step: POST query for target_headers_test",
           "Skip": false,
           "GenerateID": false,
@@ -1329,7 +1399,7 @@
             ]
           }
         },
-         {
+        {
           "Name": "Step: POST query for target_cookies_test",
           "Skip": false,
           "GenerateID": false,
@@ -1368,7 +1438,7 @@
             ]
           }
         },
-         {
+        {
           "Name": "Step: POST query for target_arguments_test",
           "Skip": false,
           "GenerateID": false,
@@ -1409,6 +1479,5 @@
         }
       ]
     }
-
   ]
 }
