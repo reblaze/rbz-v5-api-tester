@@ -1,0 +1,294 @@
+{
+    "Name":"TA 1316 Edge function remove/edit function",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: Delete edge function that doesn't attached to security policy",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Create an edge function 'ef_not_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_not_attached"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_not_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_not_attached\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Delete an edge function 'ef_not_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_not_attached"
+                    },
+                    "Method":"DELETE",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_not_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_not_attached\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully deleted entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Edit/delete edge function that attached to security policy",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Create an edge function 'ef_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_attached"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_attached\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: User can create security policy with attached edge function",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"security-policy",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": [\"ef_attached\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key":"ok",
+                                "Value":true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Edit phase an edge function 'ef_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_attached"
+                    },
+                    "Method":"PUT",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"phase",
+                                "Value":"\"response\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Edit name an edge function 'ef_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_attached"
+                    },
+                    "Method":"PUT",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_attached_edited\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Edit code an edge function 'ef_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_attached"
+                    },
+                    "Method":"PUT",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"code",
+                                "Value":"\"-- begin custom code\\n        --action header\\n        ngx.header['test'] = 'bar'\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Delete edge function 'ef_attached'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_attached"
+                    },
+                    "Method":"DELETE",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_attached\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_attached\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"400",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
