@@ -373,8 +373,41 @@
                         "Single": true,
                         "Text": "b''"
                     }
+                },
+                {
+                    "Name":"Test: Quarantined page query",
+                    "Skip":true,
+                    "Steps":[
+                        {
+                            "Name":"Step: POST query",
+                            "Skip":false,
+                            "GenerateID":false,
+                            "API":{
+                                "Base":"api-data",
+                                "Path":"/query"
+                            },
+                            "Method":"POST",
+                            "Headers":[
+                                {
+                                    "Key":"provider",
+                                    "Value":"mongodb"
+                                }
+                            ],
+                            "Payload":{
+                                "Params":[
+                                    {
+                                        "Key":"query",
+                                        "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"config\":\"prod\"}}}]}"
+                                    }
+                                ]
+                            },
+                            "Expected":{
+                                "Code":"200",
+                                "Type":"status-code"
+                            }
+                        }
+                    ]
                 }
-
             ]
         },
         {
