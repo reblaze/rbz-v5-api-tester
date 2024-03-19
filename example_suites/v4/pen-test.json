@@ -1,0 +1,590 @@
+{
+    "Name": "Pen Testing Suite",
+    "Skip": true,
+    "Tests": [
+        {
+            "Name": "Path Traversal Attack",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Send url containing query \"/../\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "Query",
+                            "Value": "\"/../attacked.txt\""
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing query \"\\..\\\"",
+                    "Skip": false,
+                    "Debug": {
+                        "Level": "warning",
+                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
+                    },
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "Query",
+                            "Value": "\"\\..\\attacked.txt\""
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"\\..\\\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "..\\attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"../\" double encoding (%252E%252E%2F)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "%252E%252E%2Fattacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"..\\\" double encoding (%252E%252E%5C)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "%252E%252E%5Cattacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"%00\" null character",
+                    "Skip": true,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "%00attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"%2F\" (encoded slashes)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "%2Fattacked%2Fhere"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"%2F\" (encoded slashes)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "\\attacked\\here"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"..%u2215\" (unicode /)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "..%u2215attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"Li4v\" (../ base64 encoded)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "Li4vYXR0YWNrZWQ="
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"shadow\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "shadow/attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"passwd\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "passwd/attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"password\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "password/attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"/etc/\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "etc/attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Data leak sensetive information",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Send url containing \"_log\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "error_log/attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \".log\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "attacked.log"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send url containing \"/var/log/\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "var/log/attacked"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "HTTP Expect Header Injection attack",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Send expect header containing \"=expect://\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "Expect",
+                            "Value": "=expect://you-are-attacked"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send expect header containing \"%3Dexpect%3A%2F%2F\" (=expect:// encoded)",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "Expect",
+                            "Value": "%3Dexpect%3A%2F%2Fyou-are-attacked"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Send expect header containing \"%20100-continue\" (leading space 100-continue)",
+                    "Skip": false,
+                    "Debug": {
+                        "Level": "warning",
+                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
+                    },
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "Expect",
+                            "Value": "%20100-continue"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send expect header containing \"%0D%0A\" (\r\n url encoded)",
+                    "Skip": false,
+                    "Debug": {
+                        "Level": "warning",
+                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
+                    },
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "Expect",
+                            "Value": "100-continue%0D%0Aattacked"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send expect header containing Backtick Character `",
+                    "Skip": false,
+                    "Debug": {
+                        "Level": "warning",
+                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
+                    },
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "Expect",
+                            "Value": "`hello from attacker`"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send expect header containing Non-Printable Characters (%0B, %0C, %1F, etc.)",
+                    "Skip": false,
+                    "Debug": {
+                        "Level": "warning",
+                        "Message": "for now pass but this should be blocked with 473, 'access denied'"
+                    },
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        },
+                        {
+                            "Key": "Expect",
+                            "Value": "hello from attacker%0B%0C%1F"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Proc-Self-Exclusion attack",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Send url containing \"/proc/self/\"",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/proc/self"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "default.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,941 @@
+{
+    "Name": "TA 1306 Rate limit count by argument",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create rate limits",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create rate limit with name `rl_args_test`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_args_test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_args_test\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_args_test\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\":\"os\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create rate limit with name `rl_different_value`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_different_value"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_different_value\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_different_value\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\":\"os\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create rate limit with name `rl_empty`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_empty"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_empty\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_empty\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\":\"os\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create rate limit with name `rl_zero`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_zero"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_zero\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_zero\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\":\"os\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Create security policy with attached all rate limits",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create security policy with attached rate limits",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"args_sp\", \"name\": \"args_sp\", \"match\": \"/args_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_args_test\"]},{\"id\": \"dv_sp\", \"name\": \"dv_sp\", \"match\": \"/dv_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_different_value\"]},{\"id\": \"empty_sp\", \"name\": \"empty_sp\", \"match\": \"/empty_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_empty\"]},{\"id\": \"zero_sp\", \"name\": \"zero_sp\", \"match\": \"/zero_sp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_zero\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics to rate limit 'rl_args_test'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to rate limit `rl_args_test`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to rate limit `rl_args_test`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to rate limit `rl_args_test`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to rate limit `rl_args_test`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/args_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "471",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Send traffics to rate limit 'rl_different_value'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to rate limit `rl_different_value`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/dv_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to rate limit `rl_different_value`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/dv_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to rate limit `rl_different_value`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/dv_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "linux"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to rate limit `rl_different_value`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/dv_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "linux"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Send traffics to rate limit 'rl_empty'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to rate limit `rl_empty`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/empty_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": ""
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to rate limit `rl_empty`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/empty_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": ""
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to rate limit `rl_empty`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/empty_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": ""
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to rate limit `rl_empty`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/empty_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": ""
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Send traffics to rate limit 'rl_zero'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to rate limit `rl_zero`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/zero_sp"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "os",
+                            "Value": "something"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "471",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Check logs from rate limit `rl_args_test`",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from rate limit `rl_args_test`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /args_sp, status != 403, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:471"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:rate-limit-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "limit-name:rl-args-test"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - rate limit threshold=3 - rl_args_test - [request]"
+                            },
+                            {
+                                "Key": "data/results/0/rl_triggers/0/trigger_name",
+                                "Value": "rl_args_test"
+                            },
+                            {
+                                "Key": "data/results/0/rl_triggers/0/action",
+                                "Value": "block"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "status:200"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Check logs from rate limit `rl_different_value`",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from rate limit `rl_different_value`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /dv_sp, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "status:200"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: Check logs from rate limit `rl_empty`",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from rate limit `rl_empty`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /empty_sp, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "status:200"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Check logs from rate limit `rl_zero`",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Get Logs from rate limit `rl_zero`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /zero_sp, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:471"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "limit-name:rl-zero"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - rate limit threshold=0 - rl_zero - [request]"
+                            },
+                            {
+                                "Key": "data/results/0/rl_triggers/0/action",
+                                "Value": "block"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

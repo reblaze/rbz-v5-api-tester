@@ -1,0 +1,2990 @@
+{
+    "Name": "TA 1302 Rate limit edit page UI tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create a rate limit from the list page",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a rate limit with default values",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/default_tester"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"default_tester\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Name field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"testname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a rate limit with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_a"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_a\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a rate limit with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_b"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_b\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a rate limit with trimmed name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_c"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"  trimmedname  \""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_c\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check trimmedname",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "trimmedname"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "api_tester_c"
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_d"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_d\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit with the same name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_e"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"testname\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_e\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Count by validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create rate limit with one 'Count by' key",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"securitypolicyname\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot delete Count by keys when we have only one",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add more than one Count by keys",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"securitypolicyentryname\"},{\"attrs\":\"session\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check that count by `header` cannot be empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"headers\":\"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check that count by `cookie` cannot be empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"cookies\":\"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check that count by `argument` cannot be empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\":\"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add same key twice to rate limit `count_a`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/count_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"count_a\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"securitypolicyentryname\"}, {\"attrs\":\"securitypolicyentryname\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Timeframe validations:",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit`s timeframe with positive number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_f"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"api_tester_f\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_f\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "15"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit`s timeframe with '0' number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_g"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"api_tester_g\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_g\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit`s timeframe with text value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_t"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"api_tester_t\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_t\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit `api_tester_i` with negative timeframe number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_i"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"api_tester_i\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_i\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "-10"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit`s timeframe with decimal number",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_j"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"api_tester_j\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_j\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a rate limit`s timeframe with empty value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_tester_k"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"api_tester_k\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_tester_k\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Action",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can check all action`s types",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-actions",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-challenge"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "challenge"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-monitor"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "monitor (tag only)"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-rate-limit-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Rate-limit block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-reblaze-feed-block"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "Reblaze feed block"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "action-https-redirect"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "https redirect"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Ban action timeframe",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User cannot create a ban with '0' value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_zero"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_zero\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_zero\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a ban with '1' value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_one"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_one\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_one\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a ban with '1440' value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_forty"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_forty\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_forty\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1440"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a ban with '1441' value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_forty_one"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_forty_one\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_forty_one\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1441"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a ban with empty value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_empty"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_empty\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_empty\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a ban with negative value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_negative"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_negative\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_negative\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "-1"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a ban with decimal value",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/ban_dec"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"ban_dec\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"ban_dec\""
+                            },
+                            {
+                                "Key": "is_action_ban",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1.22"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Include/Exclude",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit with one tag in include field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/include"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"tag-include\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a rate limit with one tag in exclude field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/exclude"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"tag-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add several tags to include field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/include"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"add-tag-include\", \"add-tag-include2\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add several tags to exclude field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/exclude"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"add-tag-exclude\", \"add-tag-exclude2\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add same tag to include field twice",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/include"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"add-tag-include\", \"add-tag-include\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add same tag to exclude field twice",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/exclude"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"add-tag-exclude\", \"add-tag-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add same tag to exclude and include fields",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/exclude"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"include-exclude\"]"
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"include-exclude\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add tag with length less then 3 chars to include field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/include"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"include\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"in\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add tag with length less then 3 chars to exclude field",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/exclude"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"exclude\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"ex\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Number of events validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit `timeevzero` with number of events: `0`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_ev-zero"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"timeevzero\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev-zero\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a rate limit `time_ev_fifteen` with number of events: `15`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/time_ev_fifteen"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"time_ev_fifteen\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"time_ev_fifteen\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "15"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create rate limit `time_ev_text` with number of events: `text`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/time_ev_text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"time_ev_text\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"time_ev_text\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create rate limit `time_ev_negative` with number of events: `-1`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/time_ev_negative"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"time_ev_negative\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"time_ev_negative\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "-1"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create rate limit `time_ev_dec` with number of events: `1.25`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/api_ev_dec"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"time_ev_dec\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"api_ev_dec\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Global checkbox",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create rate limit with global checkbox ON",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/check_cb_on"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"check_cb_on\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"check_cb_on\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify global checkbox ON",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "check_cb_on"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "check_cb_on"
+                                },
+                                {
+                                    "Key": "global",
+                                    "Value": true
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can switch OFF global checkbox",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/check_cb_on"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"check_cb_on\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"check_cb_on\""
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify global checkbox OFF",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "check_cb_on"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "check_cb_on"
+                                },
+                                {
+                                    "Key": "global",
+                                    "Value": false
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: Active checkbox",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create rate limit `active_check_cb_on` with active checkbox ON",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/active_check_cb_on"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"active_check_cb_on\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"active_check_cb_on\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify active checkbox ON",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "active_check_cb_on"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "active_check_cb_on"
+                                },
+                                {
+                                    "Key": "active",
+                                    "Value": true
+                                }
+                            ]
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can switch OFF active checkbox",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/active_check_cb_on"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"active_check_cb_on\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"active_check_cb_on\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify active checkbox OFF",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "active_check_cb_on"
+                                },
+                                {
+                                    "Key": "active",
+                                    "Value": false
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Tags field",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit `tags_a` without tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to rate limit `tags_a` one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"facebook\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to rate limit `tags_a` several tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"api\", \"allowedlist\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to rate limit `tags_a` a very long tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to rate limit `tags_a` a tag with special chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add to rate limit `tags_a` a tag with one char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"a\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add to rate limit `tags_a` a tag with two chars",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"aa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot add to rate limit `tags_a` a tag with space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to rate limit `tags_a` a tag with leading space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"  leading\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "tags_a"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "tags_a"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['leading']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add to rate limit `tags_a` a tag with trailing space char ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"trailing  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify tag with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "tags_a"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "tags_a"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['trailing']"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12: Save",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit 'save_rl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/save_rl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"save_rl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"save_rl\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check new rate limit `save_rl`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "save_rl"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "save_rl"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: choose Security policy",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit 'security_policy_id'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/security_policy_id"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"security_policy_id\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"security_policy_id\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add security policy 'default' to new rate limit 'security_policy_id'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"security_policy_id\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 14: remove Security policy",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit 'security_policy_b'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/security_policy_b"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"security_policy_b\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"security_policy_b\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add security policy 'default' to new rate limit 'security_policy_b'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"security_policy_b\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can delete security policy from new rate limit `security_policy_b`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 15: Edit a rule",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit 'test_edit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/test_edit"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_edit\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_edit\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can switch OFF active checkbox",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/test_edit"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_edit\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_edit\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 16: linked Security policy we cannot Delete",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit 'security_policy_a'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/security_policy_a"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"security_policy_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"security_policy_a\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add security policy 'default' to new rate limit 'security_policy_a'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\", \"name\": \"__root__\", \"match\": \"^/(\\\\W.*)?$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{ \"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"security_policy_a\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot delete the rate limit with attached security policy",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/security_policy_a"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "Text": "b''",
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 17: 'Delete' button",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a rate limit 'test_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/test_delete"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test_delete\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"test_delete\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can delete the rate limit 'test_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/test_delete"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully deleted entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 18: Switch to another existing rule",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can get all rate limits",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": false,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-asn-path-ddos"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit asn per host+path 10k/60"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-session-host-ddos"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit session per host 300/180"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-session-host-ddos-static"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit session per host 400/180"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-session-path-ddos"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit session per path 60/60"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-session-cross-ip"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit session per ip 5/3600"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-session-cross-asn"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit session per asn 2/3600"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-session-cross-country"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit session per country 2/3600"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-rbzid-cross-ip"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit rbzid per ip 5/3600"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-rbzid-cross-asn"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit rbzid per asn 2/3600"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "rl-rbzid-cross-country"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "global rate limit rbzid per country 2/3600"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

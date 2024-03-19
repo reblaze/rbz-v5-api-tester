@@ -1,0 +1,932 @@
+{
+    "Name": "TA 1373 Content filter profile decoding functional tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create filter profiles",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_base64`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_base64"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_base64\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_base64\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_url`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_url"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_url\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_url\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": false, \"dual\": true, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_html`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_html"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_html\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_html\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": false, \"dual\": false, \"html\": true, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_unicode`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_unicode"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_unicode\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_unicode\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": false, \"dual\": false, \"html\": false, \"unicode\": true}"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_multiple`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_multiple"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_multiple\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_multiple\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": true}"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Create security policy ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create security policy with attached content filter profiles",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-base\", \"name\": \"test-base\", \"match\": \"/test-base\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_base64\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-url\", \"name\": \"test-url\", \"match\": \"/test-url\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_url\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-html\", \"name\": \"test-html\", \"match\": \"/test-html\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_html\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-unicode\", \"name\": \"test-unicode\", \"match\": \"/test-unicode\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_unicode\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-multiple\", \"name\": \"test-multiple\", \"match\": \"/test-multiple\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_multiple\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path test-base -d 'test-osci=KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo='",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-base"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path test-base -d 'test-osci=%3Cselect%3E'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-base"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "%3Cselect%3E"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Send traffics",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path test-url -d 'test-osci=KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo='",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-url"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path test-url -d 'test-osci=%3Cselect%3E'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-url"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "%3Cselect%3E"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path test-html -d 'test-osci=KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo='",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-html"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path test-html -d 'test-osci=&lt;select&gt;'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-html"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Content-Type",
+                            "Value": "text/html"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "&lt;select&gt;"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path test-unicode -d 'test-osci=KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo=",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-unicode"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path test-unicode -d 'test-osci=\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-unicode"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path /test-multiple -d 'test-osci=KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo='",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-multiple"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path /test-multiple -d 'test-osci=\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-multiple"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to path /test-multiple 'data-raw '&lt;select&gt;''",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-multiple"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "Content-Type",
+                            "Value": "text/html"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-osci",
+                            "Value": "&lt;select&gt;"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Check logs from path /test-base",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-base",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-base, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_base64 - [URI argument test-osci:decoded=( echo '<select>' | base64 )\n]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-url",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-url, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_url - [URI argument test-osci=<select>]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-multiple",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-multiple, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_multiple - [URI argument test-osci=<select>]"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_multiple - [URI argument test-osci:decoded=( echo '<select>' | base64 )\n]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-html",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-html, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_html - [URI argument test-osci=<select>]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path /test-unicode",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-unicode, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - test_cfp_unicode - [URI argument test-osci=<select>]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

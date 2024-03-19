@@ -1,0 +1,471 @@
+{
+    "Name": "TA 1427 Content filter profile ignore body tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1:Check/uncheck ignore body",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create content filter profile with check ignore body",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_check_cfp_body"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_check_cfp_body\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_check_cfp_body\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile with uncheck body",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_check_cfp_body"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_check_cfp_body\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_check_cfp_body\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Create content filter rule and filter profiles",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a filter rule with name 'cfr_test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-rules",
+                        "Path": "/cfr_test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"cfr_test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"cfr_test\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-category\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"test-subcategory\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "5"
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"ignorebodytestoperand\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile with name `test_cfp_ignore_body_false`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_ignore_body_false"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_ignore_body_false\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_ignore_body_false\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"content-filter-profile\"]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_ignore_body_true`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_ignore_body_true"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_ignore_body_true\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_ignore_body_true\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"content-filter-profile\"]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Create security policy ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create security policy with attached content filter profiles",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-ignore-body-false\", \"name\": \"test-ignore-body-false\", \"match\": \"/test-ignore-body-false\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_ignore_body_false\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-ignore-body-true\", \"name\": \"test-ignore-body-true\", \"match\": \"/test-ignore-body-true\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_ignore_body_true\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path 'test-ignore-body-false', request '-d a=ignorebodytestoperand'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-ignore-body-false"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "a",
+                            "Value": "ignorebodytestoperand"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path 'test-ignore-body-true', request '-d a=ignorebodytestoperand'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-ignore-body-true"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "a",
+                            "Value": "ignorebodytestoperand"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Check logs from path /test-ignore-body-false",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-ignore-body-false",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-ignore-body-false, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "test"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "cf-rule-category:test-category"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "cf-rule-subcategory:test-subcategory"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-cfp-ignore-body-false"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,42 +1,36 @@
 {
     "Name": "API Test Suite for security entities with duplicate names (also with case insensitivity)",
     "Skip": true,
-    "Tests": 
-    [
+    "Tests": [
         {
             "Name": "Test Rate Limit Rules with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Rate Limit Rule with Name: 'My Rate Limit'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "ratelimit.template",
                         "Defaults": "ratelimit.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Rate Limit\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":  
-                        [
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -47,24 +41,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "ratelimit.template",
                         "Defaults": "ratelimit.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Rate Limit\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Rate Limit already exists in document [ratelimits]'"
                     }
                 },
@@ -74,24 +65,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "ratelimit.template",
                         "Defaults": "ratelimit.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Rate Limit\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Rate Limit already exists in document [ratelimits]'"
                     }
                 },
@@ -101,13 +89,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/ratelimits/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "ratelimit.template",
                         "Defaults": "ratelimit.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Rate Limit\""
@@ -118,16 +104,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -138,13 +122,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/ratelimits/e/cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "ratelimit.template",
                         "Defaults": "ratelimit.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Rate Limit\""
@@ -155,50 +137,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Rate Limit' already exists in document [ratelimits]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Global Filters with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Global Filter with Name: 'My Global Filter'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "globalfilter.template",
                         "Defaults": "globalfilter.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Global Filter\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -209,24 +185,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "globalfilter.template",
                         "Defaults": "globalfilter.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Global Filter\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Global Filter already exists in document [globalfilters]'"
                     }
                 },
@@ -236,24 +209,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "globalfilter.template",
                         "Defaults": "globalfilter.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Global Filter\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Global Filter already exists in document [globalfilters]'"
                     }
                 },
@@ -263,13 +233,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/globalfilters/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "globalfilter.template",
                         "Defaults": "globalfilter.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Global Filter\""
@@ -280,16 +248,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -300,13 +266,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/globalfilters/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "globalfilter.template",
                         "Defaults": "globalfilter.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Global Filter\""
@@ -317,50 +281,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Global Filter' already exists in document [globalfilters]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Flow Controls with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Flow Control with Name: 'My Flow Control'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "flowcontrol.template",
                         "Defaults": "flowcontrol.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Flow Control\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -371,24 +329,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "flowcontrol.template",
                         "Defaults": "flowcontrol.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Flow Control\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Flow Control already exists in document [flowcontrol]'"
                     }
                 },
@@ -398,24 +353,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "flowcontrol.template",
                         "Defaults": "flowcontrol.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Flow Control\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Flow Control already exists in document [flowcontrol]'"
                     }
                 },
@@ -425,13 +377,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "flowcontrol.template",
                         "Defaults": "flowcontrol.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Flow Control\""
@@ -442,16 +392,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -462,13 +410,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/flowcontrol/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "flowcontrol.template",
                         "Defaults": "flowcontrol.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Flow Control\""
@@ -479,50 +425,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Flow Control' already exists in document [flowcontrol]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Security Policies with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Security Policy with Name: 'My Security Policy'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Security Policy\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -533,24 +473,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Security Policy\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Security Policy already exists in document [securitypolicies]'"
                     }
                 },
@@ -560,24 +497,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Security Policy\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Security Policy already exists in document [securitypolicies]'"
                     }
                 },
@@ -587,13 +521,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Security Policy\""
@@ -604,16 +536,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -624,13 +554,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Security Policy\""
@@ -641,50 +569,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Security Policy' already exists in document [securitypolicies]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test ACL Profiles with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create ACL Profile with Name: 'My ACL Profile'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -695,24 +617,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My ACL Profile already exists in document [aclprofiles]'"
                     }
                 },
@@ -722,24 +641,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my ACL Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my ACL Profile already exists in document [aclprofiles]'"
                     }
                 },
@@ -749,13 +665,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other ACL Profile\""
@@ -766,16 +680,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -786,13 +698,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -803,50 +713,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My ACL Profile' already exists in document [aclprofiles]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Actions with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Action with Name: 'My Action'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/actions/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "action.template",
                         "Defaults": "action.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Action\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -857,24 +761,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/actions/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "action.template",
                         "Defaults": "action.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Action\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Action already exists in document [actions]'"
                     }
                 },
@@ -884,24 +785,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/actions/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "action.template",
                         "Defaults": "action.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Action\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Action already exists in document [actions]'"
                     }
                 },
@@ -911,13 +809,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/actions/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "action.template",
                         "Defaults": "action.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Action\""
@@ -928,16 +824,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -948,13 +842,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/actions/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "action.template",
                         "Defaults": "action.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Action\""
@@ -965,50 +857,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Action' already exists in document [actions]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Dynamic Rules with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Dynamic Rule with Name: 'My Dynamic Rule'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "dynamicrule.template",
                         "Defaults": "dynamicrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Dynamic Rule\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "@@id@@"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1019,26 +905,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "dynamicrule.template",
                         "Defaults": "dynamicrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Dynamic Rule\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1056,26 +938,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "dynamicrule.template",
                         "Defaults": "dynamicrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Dynamic Rule\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1093,13 +971,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/api_tester_cccbbbaaa",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "dynamicrule.template",
                         "Defaults": "dynamicrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Dynamic Rule\""
@@ -1110,16 +986,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1130,13 +1004,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/dynamic-rules/e/api_tester_cccbbbaaa",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "dynamicrule.template",
                         "Defaults": "dynamicrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Dynamic Rule\""
@@ -1147,13 +1019,11 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1163,44 +1033,39 @@
                                 "Value": "ValueError: dynamic_rules already contains an object with name 'My Dynamic Rule'"
                             }
                         ]
-                    }                
+                    }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Content Filter Profiles with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Content Filter Profile with Name: 'My Content Filter Profile'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterprofile.template",
                         "Defaults": "contentfilterprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Content Filter Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1211,24 +1076,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterprofile.template",
                         "Defaults": "contentfilterprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Content Filter Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Content Filter Profile already exists in document [contentfilterprofiles]'"
                     }
                 },
@@ -1238,24 +1100,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterprofile.template",
                         "Defaults": "contentfilterprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Content Filter Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Content Filter Profile already exists in document [contentfilterprofiles]'"
                     }
                 },
@@ -1265,13 +1124,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterprofile.template",
                         "Defaults": "contentfilterprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Content Filter Profile\""
@@ -1282,16 +1139,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1302,13 +1157,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterprofiles/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "contentfilterprofile.template",
                         "Defaults": "contentfilterprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Content Filter Profile\""
@@ -1319,50 +1172,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Content Filter Profile' already exists in document [contentfilterprofiles]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Content Filter Rules with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Content Filter Rule with Name: 'My Content Filter Rule'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterrule.template",
                         "Defaults": "contentfilterrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Content Filter Rule\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1373,24 +1220,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterrule.template",
                         "Defaults": "contentfilterrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Content Filter Rule\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My Content Filter Rule already exists in document [contentfilterrules]'"
                     }
                 },
@@ -1400,24 +1244,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterrule.template",
                         "Defaults": "contentfilterrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Content Filter Rule\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my Content Filter Rule already exists in document [contentfilterrules]'"
                     }
                 },
@@ -1427,13 +1268,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "contentfilterrule.template",
                         "Defaults": "contentfilterrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Content Filter Rule\""
@@ -1444,16 +1283,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1464,13 +1301,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/contentfilterrules/e/api_tester_cccbbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "contentfilterrule.template",
                         "Defaults": "contentfilterrule.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Content Filter Rule\""
@@ -1481,50 +1316,44 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My Content Filter Rule' already exists in document [contentfilterrules]\""
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Server Groups with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Server Group with Name: 'My Server Group'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "servergroup.template",
                         "Defaults": "servergroup.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Server Group\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "@@id@@"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1535,26 +1364,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "servergroup.template",
                         "Defaults": "servergroup.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Server Group\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1572,26 +1397,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "servergroup.template",
                         "Defaults": "servergroup.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Server Group\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1609,13 +1430,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/api_tester_cccbbbaaa",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "servergroup.template",
                         "Defaults": "servergroup.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Server Group\""
@@ -1623,19 +1442,17 @@
                             {
                                 "Key": "id",
                                 "Value": "\"api_tester_cccbbbaaa\""
-                            }                            
+                            }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1646,13 +1463,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/sites/e/api_tester_cccbbbaaa",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "servergroup.template",
                         "Defaults": "servergroup.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Server Group\""
@@ -1663,13 +1478,11 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1680,43 +1493,38 @@
                             }
                         ]
                     }
-                }                
-            ]    
+                }
+            ]
         },
         {
             "Name": "Test Proxy Template with Duplicate Name",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Proxy Template with Name: 'My Other Proxy Template'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "proxytemplate.template",
                         "Defaults": "proxytemplate.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Proxy Template\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "@@id@@"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1727,26 +1535,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "proxytemplate.template",
                         "Defaults": "proxytemplate.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Proxy Template\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1764,26 +1568,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "proxytemplate.template",
                         "Defaults": "proxytemplate.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Proxy Template\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1801,13 +1601,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/api_tester_cccbbbaaa",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "proxytemplate.template",
                         "Defaults": "proxytemplate.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Proxy Template\""
@@ -1815,19 +1613,17 @@
                             {
                                 "Key": "id",
                                 "Value": "\"api_tester_cccbbbaaa\""
-                            }                            
+                            }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1838,13 +1634,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/proxy-templates/e/api_tester_cccbbbaaa",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "proxytemplate.template",
                         "Defaults": "proxytemplate.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Proxy Template\""
@@ -1855,13 +1649,11 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1873,42 +1665,37 @@
                         ]
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Backends with Duplicate Name",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Backend with Name: 'My Backend'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "backend.template",
                         "Defaults": "backend.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Backend\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "@@id@@"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1919,26 +1706,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "backend.template",
                         "Defaults": "backend.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Backend\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1956,26 +1739,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "backend.template",
                         "Defaults": "backend.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Backend\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -1993,13 +1772,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/api_tester_cccbbbaaa",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "backend.template",
                         "Defaults": "backend.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Backend\""
@@ -2010,16 +1787,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -2030,13 +1805,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/backends/e/api_tester_cccbbbaaa",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "backend.template",
                         "Defaults": "backend.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Backend\""
@@ -2047,13 +1820,11 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2065,42 +1836,37 @@
                         ]
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Routing Profiles with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Routing Profile with Name: 'My Routing Profile'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "routingprofile.template",
                         "Defaults": "routingprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Routing Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "@@id@@"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -2111,26 +1877,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "routingprofile.template",
                         "Defaults": "routingprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Routing Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2148,26 +1910,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "routingprofile.template",
                         "Defaults": "routingprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Routing Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2185,13 +1943,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/api_tester_cccbbbaaa",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "routingprofile.template",
                         "Defaults": "routingprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Routing Profile\""
@@ -2202,16 +1958,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -2222,13 +1976,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/routing-profiles/e/api_tester_cccbbbaaa",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "routingprofile.template",
                         "Defaults": "routingprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Routing Profile\""
@@ -2239,13 +1991,11 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2257,42 +2007,37 @@
                         ]
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test Cloud Functions with Duplicate Name",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Step": 1,
                     "Name": "Create Cloud Function with Name: 'My Cloud Function'",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "cloudfunction.template",
                         "Defaults": "cloudfunction.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Cloud Function\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "@@id@@"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -2303,26 +2048,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "cloudfunction.template",
                         "Defaults": "cloudfunction.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Cloud Function\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2331,7 +2072,7 @@
                                 "Key": "message",
                                 "Value": "ValueError: cloud_functions already contains an object with name 'My Cloud Function'"
                             }
-                        ]                        
+                        ]
                     }
                 },
                 {
@@ -2340,26 +2081,22 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/@@id@@",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "cloudfunction.template",
                         "Defaults": "cloudfunction.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my Cloud Function\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2368,7 +2105,7 @@
                                 "Key": "message",
                                 "Value": "ValueError: cloud_functions already contains an object with name 'my Cloud Function'"
                             }
-                        ]                        
+                        ]
                     }
                 },
                 {
@@ -2377,13 +2114,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/api_tester_cccbbbaaa",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "cloudfunction.template",
                         "Defaults": "cloudfunction.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other Cloud Function\""
@@ -2391,19 +2126,17 @@
                             {
                                 "Key": "id",
                                 "Value": "\"api_tester_cccbbbaaa\""
-                            }                            
+                            }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -2414,13 +2147,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/configs/prod/d/cloud-functions/e/api_tester_cccbbbaaa",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "cloudfunction.template",
                         "Defaults": "cloudfunction.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Cloud Function\""
@@ -2431,13 +2162,11 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "code",
                                 "Value": 400
@@ -2446,10 +2175,10 @@
                                 "Key": "message",
                                 "Value": "ValueError: cloud_functions already contains an object with name 'My Cloud Function'"
                             }
-                        ]                        
+                        ]
                     }
                 }
-            ]    
+            ]
         }
     ]
 }

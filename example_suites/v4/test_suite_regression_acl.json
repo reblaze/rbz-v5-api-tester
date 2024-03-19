@@ -1,25 +1,21 @@
 {
     "Name": "API Test Suite for v5 Regression - ACL",
     "Skip": false,
-    "Tests": 
-    [
+    "Tests": [
         {
             "Name": "Test ACL Profiles with Duplicate Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Create ACL Profile with Name: 'My ACL Profile'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -30,16 +26,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -49,14 +43,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_cccbbbaaa/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -69,24 +61,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name My ACL Profile already exists in document [aclprofiles]'"
                     }
                 },
@@ -95,24 +84,21 @@
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"my ACL Profile\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b'409 Conflict: entry with name my ACL Profile already exists in document [aclprofiles]'"
                     }
                 },
@@ -121,13 +107,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Other ACL Profile\""
@@ -138,16 +122,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -157,13 +139,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_aaabbbccc/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -174,11 +154,10 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "409",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"409 Conflict: entry with name 'My ACL Profile' already exists in document [aclprofiles]\""
                     }
                 }
@@ -187,31 +166,27 @@
         {
             "Name": "Test ACL Profiles with Abnormal Names",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Create ACL Profile with empty name",
                     "Skip": false,
                     "GenerateID": true,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
                     }
                 },
@@ -220,13 +195,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_aaabbbccc/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"\""
@@ -237,11 +210,10 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "400",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
                     }
                 },
@@ -250,13 +222,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Another ACL Profile\""
@@ -267,16 +237,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -290,13 +258,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_dddbbbccc/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Tag<>&^%$#@!*().,|/+-~`;:[]\""
@@ -307,16 +273,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -326,21 +290,17 @@
         {
             "Name": "Test ACL Profile Name modification",
             "Skip": false,
-            "Steps":
-            [
-
+            "Steps": [
                 {
                     "Name": "Update ACL Profile Name from: 'My Other ACL Profile' to: 'Changed Name ACL Profile'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_aaabbbccc/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Changed Name ACL Profile\""
@@ -351,16 +311,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -370,14 +328,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_aaabbbccc/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "Changed Name ACL Profile"
@@ -390,21 +346,17 @@
         {
             "Name": "Test change to __default__ ACL Profile",
             "Skip": false,
-            "Steps":
-            [
-
+            "Steps": [
                 {
                     "Name": "Update default ACL Profile Name to: 'Non-default ACL profile' and Tags to: 'tag1', 'tag2'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/__acldefault__/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Non-default ACL profile\""
@@ -419,16 +371,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -438,14 +388,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/__acldefault__/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "Non-default ACL profile"
@@ -462,41 +410,35 @@
         {
             "Name": "Test ACL Profiles deletion",
             "Skip": false,
-            "Steps":
-            [
-
+            "Steps": [
                 {
                     "Name": "Delete ACL Profile with Name: 'My ACL profile' (Not attached to security policy)",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_cccbbbaaa/",
-                    "Method" :"DELETE",
-                    "Expected": 
-                    {
+                    "Method": "DELETE",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully deleted entry"
                             }
                         ]
-                    }               
+                    }
                 },
                 {
                     "Name": "Create Security Policy with Name: 'My Test Security Policy'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Test Security Policy\""
@@ -507,16 +449,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -526,13 +466,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Test ACL Profile\""
@@ -543,16 +481,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -562,13 +498,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/api_tester_abcdabcd/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Test Security Policy\""
@@ -583,16 +517,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -602,41 +534,35 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_asasasas/",
-                    "Method" :"DELETE",
-                    "Expected": 
-                    {
+                    "Method": "DELETE",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully deleted entry"
                             }
                         ]
-                    }               
+                    }
                 }
             ]
         },
         {
             "Name": "Test ACL Profiles Actions",
             "Skip": false,
-            "Steps":
-            [
-
+            "Steps": [
                 {
                     "Name": "Create ACL Profile with Name: 'My Test ACL Profile'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Test ACL Profile\""
@@ -647,16 +573,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -666,13 +590,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -687,32 +609,28 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
-                    }                
+                    }
                 },
                 {
                     "Name": "Update ACL Profile Action to: 'https redirect'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -727,32 +645,28 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
-                    }                
+                    }
                 },
                 {
                     "Name": "Update ACL Profile Action to: 'ACL block'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -767,39 +681,34 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
-                    }                
+                    }
                 }
             ]
         },
         {
             "Name": "Test ACL Profiles Tags",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile Tags from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -814,16 +723,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -833,14 +740,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -861,13 +766,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -882,16 +785,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -901,13 +802,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -922,16 +821,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -941,14 +838,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -969,13 +864,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -990,16 +883,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1009,13 +900,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1030,16 +919,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1049,14 +936,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1077,13 +962,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1098,16 +981,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1117,13 +998,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1138,16 +1017,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1161,13 +1038,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1182,16 +1057,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1205,13 +1078,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1226,16 +1097,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1245,13 +1114,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1266,16 +1133,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1285,14 +1150,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1309,13 +1172,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1330,16 +1191,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1349,14 +1208,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1373,20 +1230,17 @@
         {
             "Name": "Test ACL Profiles enforce deny",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile enforce deny from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1401,16 +1255,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1420,14 +1272,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1448,13 +1298,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1469,16 +1317,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1488,13 +1334,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1509,16 +1353,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1528,14 +1370,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1556,13 +1396,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1577,16 +1415,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1596,13 +1432,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1617,16 +1451,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1636,14 +1468,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1664,13 +1494,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1685,16 +1513,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1704,13 +1530,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1725,16 +1549,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1748,13 +1570,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1769,16 +1589,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1792,13 +1610,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1813,16 +1629,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1832,13 +1646,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1853,16 +1665,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1872,14 +1682,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1896,13 +1704,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1917,16 +1723,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1936,14 +1740,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -1964,13 +1766,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -1989,16 +1789,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2008,20 +1806,17 @@
         {
             "Name": "Test ACL Profiles bypass",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile bypass from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2036,16 +1831,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2055,14 +1848,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2083,13 +1874,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2104,16 +1893,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2123,13 +1910,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2144,16 +1929,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2163,14 +1946,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2191,13 +1972,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2212,16 +1991,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2231,13 +2008,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2252,16 +2027,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2271,14 +2044,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2299,13 +2070,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2320,16 +2089,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2339,13 +2106,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2360,16 +2125,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2383,13 +2146,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2404,16 +2165,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2427,13 +2186,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2448,16 +2205,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2467,13 +2222,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2488,16 +2241,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2507,14 +2258,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2531,13 +2280,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2552,16 +2299,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2571,14 +2316,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2599,13 +2342,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2624,16 +2365,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2643,20 +2382,17 @@
         {
             "Name": "Test ACL Profiles deny bot",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile deny bot from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2671,16 +2407,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2690,14 +2424,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2718,13 +2450,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2739,16 +2469,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2758,13 +2486,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2779,16 +2505,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2798,14 +2522,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2826,13 +2548,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2847,16 +2567,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2866,13 +2584,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2887,16 +2603,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2906,14 +2620,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -2934,13 +2646,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2955,16 +2665,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -2974,13 +2682,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -2995,16 +2701,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3018,13 +2722,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3039,16 +2741,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3062,13 +2762,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3083,16 +2781,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3102,13 +2798,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3123,16 +2817,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3142,14 +2834,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3166,13 +2856,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3187,16 +2875,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3206,14 +2892,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3234,13 +2918,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3259,16 +2941,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3278,20 +2958,17 @@
         {
             "Name": "Test ACL Profiles allow bot",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile allow bot from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3306,16 +2983,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3325,14 +3000,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3353,13 +3026,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3374,16 +3045,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3393,13 +3062,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3414,16 +3081,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3433,14 +3098,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3461,13 +3124,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3482,16 +3143,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3501,13 +3160,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3522,16 +3179,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3541,14 +3196,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3569,13 +3222,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3590,16 +3241,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3609,13 +3258,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3630,16 +3277,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3653,13 +3298,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3674,16 +3317,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3697,13 +3338,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3718,16 +3357,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3737,13 +3374,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3758,16 +3393,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3777,14 +3410,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3801,13 +3432,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3822,16 +3451,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3841,14 +3468,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3869,13 +3494,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3894,16 +3517,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3913,20 +3534,17 @@
         {
             "Name": "Test ACL Profiles deny",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile deny from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -3941,16 +3559,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -3960,14 +3576,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -3988,13 +3602,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4009,16 +3621,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4028,13 +3638,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4049,16 +3657,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4068,14 +3674,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4096,13 +3700,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4117,16 +3719,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4136,13 +3736,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4157,16 +3755,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4176,14 +3772,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4204,13 +3798,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4225,16 +3817,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4244,13 +3834,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4265,16 +3853,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4288,13 +3874,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4309,16 +3893,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4332,13 +3914,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4353,16 +3933,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4372,13 +3950,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4393,16 +3969,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4412,14 +3986,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4436,13 +4008,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4457,16 +4027,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4476,14 +4044,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4504,13 +4070,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4529,16 +4093,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4548,20 +4110,17 @@
         {
             "Name": "Test ACL Profiles allow",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Update ACL Profile allow from: '' to: 'aaa', 'bbb'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4576,16 +4135,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4595,14 +4152,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4623,13 +4178,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4644,16 +4197,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4663,13 +4214,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4684,16 +4233,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4703,14 +4250,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4731,13 +4276,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4752,16 +4295,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4771,13 +4312,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4792,16 +4331,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4811,14 +4348,12 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -4839,13 +4374,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4860,16 +4393,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4879,13 +4410,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4900,16 +4429,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4923,13 +4450,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4944,16 +4469,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -4967,13 +4490,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -4988,16 +4509,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -5007,13 +4526,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -5028,16 +4545,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -5047,14 +4562,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -5071,13 +4584,11 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -5092,16 +4603,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -5111,14 +4620,12 @@
                     "Skip": true,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My ACL Profile"
@@ -5139,13 +4646,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_lkjhlkjh/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My ACL Profile\""
@@ -5164,16 +4669,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -5183,20 +4686,17 @@
         {
             "Name": "Test ACL Profiles cross columns tags",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Create ACL Profile with Name: 'Dup Tag in Columns ACL Profile'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Dup Tag in Columns ACL Profile\""
@@ -5207,16 +4707,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -5230,13 +4728,11 @@
                     },
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/api_tester_eeebbbaaa/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Dup Tag in Columns ACL Profile\""
@@ -5271,39 +4767,34 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
                 }
-            ]    
+            ]
         },
         {
             "Name": "Test ACL Profile deny all",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Create ACL Profile with Name: 'Deny All ACL Profile'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/aclprofiles/e/",
-                    "Method" :"POST",
-                    "Payload":
-                    {
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"Deny All ACL Profile\""
@@ -5318,16 +4809,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -5337,13 +4826,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/conf/api/v3/configs/prod/d/securitypolicies/e/__default__/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "securitypolicy.template",
                         "Defaults": "securitypolicy.defaults",
-                        "Params":
-                        [
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"default security policy\""
@@ -5366,16 +4853,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":  
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -5385,18 +4870,16 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "/reblaze/api/v3/reblaze/tools/publish/prod/",
-                    "Method" :"PUT",
-                    "Payload":
-                    {
+                    "Method": "PUT",
+                    "Payload": {
                         "Template": "publish.template",
                         "Defaults": "publish.defaults",
                         "Params": []
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "204",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "b''"
                     }
                 },
@@ -5405,12 +4888,11 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": "",
-                    "Method" :"",
+                    "Method": "",
                     "Payload": {},
                     "Expected": {},
                     "Python": true,
-                    "Code": 
-                    [
+                    "Code": [
                         "import time",
                         "time.sleep(1)"
                     ]
@@ -5421,9 +4903,8 @@
                     "GenerateID": false,
                     "Traffic": true,
                     "API": "",
-                    "Method" :"GET",
-                    "Headers":
-                    [
+                    "Method": "GET",
+                    "Headers": [
                         {
                             "Key": "Host",
                             "Value": "default.site"
@@ -5433,16 +4914,14 @@
                             "Value": "366"
                         }
                     ],
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "472",
                         "Type": "content",
-						"Single": true,
+                        "Single": true,
                         "Text": "access denied\\n"
                     }
                 }
-            ]    
+            ]
         }
     ]
 }
-

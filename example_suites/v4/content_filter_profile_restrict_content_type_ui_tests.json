@@ -1,0 +1,123 @@
+{
+    "Name": "TA 1370 Content filter profile restrict content type ui tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create content filter profiles ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_restrict_uncheck_all`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_restrict_uncheck_all"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_restrict_uncheck_all\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_restrict_uncheck_all\""
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_restrict_check_one`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_restrict_check_one"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_restrict_check_one\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_restrict_check_one\""
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[\"url_encoded\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp_restrict_check_all`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_restrict_check_all"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp_restrict_check_all\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp_restrict_check_all\""
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[\"json\", \"multipart_form\", \"url_encoded\", \"xml\", \"graphql\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

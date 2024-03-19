@@ -1,0 +1,2204 @@
+{
+    "Name": "TA 1393 Dynamic rules edit page ui tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Name field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name `dynamic_rule_text_name'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_text_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_text_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with empty name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_empty_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_empty_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with exist name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_exist_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_exist_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_long_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_long_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_spec_chars_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_spec_chars_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_space_char_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_space_char_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\" \""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with leading space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_leading_space_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_leading_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"  dynamic_rule_leading_space_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule with leading space char in name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_leading_space_name"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "dynamic_rule_leading_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_leading_space_name"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_trailing_space_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_trailing_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_trailing_space_name  \""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule with trailing space char in name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_trailing_space_name"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "dynamic_rule_trailing_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_trailing_space_name"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Active checkbox",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name `dynamic_rule_active'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_active"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_active\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_active\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule active 'true'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_active"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_active"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": true
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Update a dynamic rule 'dynamic_rule_active_true' by active 'false'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_active"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_active\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_active\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule active 'false",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_active"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_active"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": false
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Timeframe",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr-timeframe-number'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-timeframe-number"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-timeframe-number\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-timeframe-number\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "70"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-number-decimal'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-timeframe-number-decimal"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-timeframe-number-decimal\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-timeframe-number-decimal\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-zero'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-timeframe-zero"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-timeframe-zero\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-timeframe-zero\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-negative'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-timeframe-negative"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-timeframe-negative\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-timeframe-negative\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "-60"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-text'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-timeframe-text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-timeframe-text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-timeframe-text\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Threshold",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr-threshold-number'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-threshold-number"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-threshold-number\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-threshold-number\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "70"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-number-decimal'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-threshold-number-decimal"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-threshold-number-decimal\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-threshold-number-decimal\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-zero'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-threshold-zero"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-threshold-zero\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-threshold-zero\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-negative'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-threshold-negative"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-threshold-negative\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-threshold-negative\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "-60"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-text'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-threshold-text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-threshold-text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-threshold-text\""
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Quarantine time",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr-ttl-number'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-ttl-number"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-ttl-number\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-ttl-number\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "70"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-number-decimal'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-ttl-number-decimal"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-ttl-number-decimal\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-ttl-number-decimal\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "1.25"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-zero'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-ttl-zero"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-ttl-zero\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-ttl-zero\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "0"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-negative'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-ttl-negative"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-ttl-negative\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-ttl-negative\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "-60"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-text'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr-ttl-text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr-ttl-text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr-ttl-text\""
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Tags field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a dynamic rule with no tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_no_tags"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_no_tags\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_no_tags\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_one_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_one_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_one_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with several tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_several_tags"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_several_tags\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_several_tags\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-tag1\",\"my-tag2\", \"my-tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with long tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_long_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_long_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_long_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with special chars tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_special_chars_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_special_chars_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_special_chars_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with length 1 char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_one_char_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_one_char_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_one_char_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"m\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with length 2 chars tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_two_chars_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_two_chars_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_two_chars_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"mm\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_space_char_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_space_char_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_space_char_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\" \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule doesn't have space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_space_char_tag"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "dynamic_rule_space_char_tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_space_char_tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with leading space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_leading_space_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_leading_space_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_leading_space_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"  leading_tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule with leading space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_leading_space_tag"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "dynamic_rule_leading_space_tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_leading_space_tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['leading_tag']"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with trailing space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_trailing_space_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_trailing_space_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_trailing_space_tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"trailing_tag  \"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check dynamic rule with trailing space char tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_trailing_space_tag"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "dynamic_rule_trailing_space_tag"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "dynamic_rule_trailing_space_tag"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "['trailing_tag']"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Actions",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Check dynamic rule`s default value for action",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-actions",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "items/0/id",
+                                "Value": "action-challenge"
+                            },
+                            {
+                                "Key": "items/0/name",
+                                "Value": "challenge"
+                            },
+                            {
+                                "Key": "items/1/id",
+                                "Value": "action-monitor"
+                            },
+                            {
+                                "Key": "items/1/name",
+                                "Value": "monitor (tag only)"
+                            },
+                            {
+                                "Key": "items/2/id",
+                                "Value": "action-skip"
+                            },
+                            {
+                                "Key": "items/2/name",
+                                "Value": "skip security"
+                            },
+                            {
+                                "Key": "items/7/id",
+                                "Value": "action-dynamic-rule-block"
+                            },
+                            {
+                                "Key": "items/7/name",
+                                "Value": "Dynamic-rule block"
+                            },
+                            {
+                                "Key": "items/8/id",
+                                "Value": "action-reblaze-feed-block"
+                            },
+                            {
+                                "Key": "items/8/name",
+                                "Value": "Reblaze feed block"
+                            },
+                            {
+                                "Key": "items/9/id",
+                                "Value": "action-https-redirect"
+                            },
+                            {
+                                "Key": "items/9/name",
+                                "Value": "https redirect"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Include",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a dynamic rule with include one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_include_one_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_include_one_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_include_one_tag\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"one-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with include several tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_include_several_tags"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_include_several_tags\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_include_several_tags\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"tag1\", \"tag2\",\"tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with include empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_include_empty"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_include_empty\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_include_empty\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a dynamic rule with include tag is same as exclude",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_include_exclude"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_include_exclude\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_include_exclude\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"test-tag\"]"
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"test-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "422",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Exclude",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a dynamic rule with exclude one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_exclude_one_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_exclude_one_tag\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_exclude_one_tag\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"one-tag\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with exclude several tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_exclude_several_tags"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_exclude_several_tags\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_exclude_several_tags\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"tag1\", \"tag2\",\"tag3\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a dynamic rule with exclude empty",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dynamic_rule_exclude_empty"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dynamic_rule_exclude_empty\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dynamic_rule_exclude_empty\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: Target headers",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_spec_chars'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_headers_spec_chars"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_headers_spec_chars\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_headers_spec_chars\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_text'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_headers_text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_headers_text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_headers_text\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Target cookies",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_cookies_spec_chars'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_cookies_spec_chars"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_cookies_spec_chars\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_cookies_spec_chars\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"cookies_!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_cookies_text'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_cookies_text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_cookies_text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_cookies_text\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"cookies_text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12: Target arguments",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_target_arguments_spec_chars'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_arguments_spec_chars"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_arguments_spec_chars\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_arguments_spec_chars\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"arguments_!@#$%^&*()<>'_-.\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_arguments_cookies_text'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_target_arguments_text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_target_arguments_text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_target_arguments_text\""
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"arguments_text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: Delete",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_delete"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_delete\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete a dynamic rule with name 'dr_delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_delete"
+                    },
+                    "Method": "DELETE",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully deleted entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 14: Choose another rule dropdown",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a dynamic rule with name 'dr_dropdown'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_dropdown"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_dropdown\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_dropdown\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Assert dynamic rules from dropdown",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "dr_dropdown"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "dr_dropdown"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}

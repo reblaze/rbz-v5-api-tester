@@ -1,0 +1,511 @@
+{
+    "Name": "TA 1294 Global filters entries relation",
+    "Skip": true,
+    "Tests": [
+        {
+            "Name": "Test 1: Create global filters",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create global filter with name `gf1-or-between-entries`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf1-or-between-entries"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf1-or-between-entries\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf1-or-between-entries\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-tag-or\"]"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\":[{\"relation\": \"OR\", \"entries\": [[\"args\", [\"test-or\", \"123\"], \"\"], [\"headers\", [\"test-or\", \"123\"], \"\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create global filter with name `gf2-and-between-entries`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf2-and-between-entries"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf2-and-between-entries\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf2-and-between-entries\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"my-tag-and\"]"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"AND\", \"entries\":[{\"relation\": \"AND\", \"entries\": [[\"args\", [\"test-and\", \"123\"], \"\"], [\"headers\", [\"test-and\", \"123\"], \"\"]]}]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Create server group and publish changes",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics to global filter 'gf1-or-between-entries'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to rate limit `gf1-or-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf1-or-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-or",
+                            "Value": "123"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-or",
+                            "Value": "123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to rate limit `gf1-or-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf1-or-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-or",
+                            "Value": "123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to rate limit `gf1-or-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf1-or-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-or",
+                            "Value": "123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to rate limit `gf1-or-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf1-or-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Send traffics to rate limit 'gf2-and-between-entries'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to rate limit `gf2-and-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf2-and-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-and",
+                            "Value": "123"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-and",
+                            "Value": "123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to rate limit `gf2-and-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf2-and-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test-and",
+                            "Value": "123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to rate limit `gf2-and-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf2-and-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "test-and",
+                            "Value": "123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to rate limit `gf2-and-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/gf2-and-between-entries"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Check logs from rate limit `gf1-or-between-entries`",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from rate limit `gf1-or-between-entries`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /gf1-or-between-entries, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:470"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "my-tag-or"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:470"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "my-tag-or"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "status:470"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "my-tag-or"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Check logs from global filter `gf2-and-between-entries`",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from global filter 'gf2-and-between-entries'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /gf2-and-between-entries, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:200"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "status:470"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "my-tag-and"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
