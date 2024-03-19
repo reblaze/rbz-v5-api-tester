@@ -1,41 +1,53 @@
 {
-    "Name": "TA 1320 Flow control test tags",
+    "Name": "Rate limit - with Global filter- with ACL- with Flow control TA-1313",
     "Skip": false,
     "Tests": [
         {
-            "Name": "Test 1: Flow controls",
+            "Name": "Rate limit - with Global filter- with ACL- with Flow control",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a flow control 'fc-tag'",
+                    "Name": "Create Rate limit 'rl1'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-flow-controls-policies",
-                        "Path": "/fc-one-tag"
+                        "Base": "api-rate-limits",
+                        "Path": "/rl1"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"fc-one-tag\""
+                                "Key": "name",
+                                "Value": "\"rl1\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"fc-one-tag\""
+                                "Key": "id",
+                                "Value": "\"rl1\""
                             },
                             {
                                 "Key": "active",
                                 "Value": "true"
                             },
                             {
-                                "Key": "tags",
-                                "Value": "[\"test-flow\"]"
+                                "Key": "global",
+                                "Value": "false"
                             },
                             {
-                                "Key": "sequence",
-                                "Value": "[{\"method\": \"GET\",\"uri\": \"/flowa\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowb\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
+                                "Key": "timeframe",
+                                "Value": "20"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "2"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
                             }
                         ]
                     },
@@ -52,35 +64,47 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a flow control 'fc-several-tags'",
+                    "Name": "Create Rate limit 'rl2'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-flow-controls-policies",
-                        "Path": "/fc-several-tags"
+                        "Base": "api-rate-limits",
+                        "Path": "/rl2"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"fc-several-tags\""
+                                "Key": "name",
+                                "Value": "\"rl2\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"fc-several-tags\""
+                                "Key": "id",
+                                "Value": "\"rl2\""
                             },
                             {
                                 "Key": "active",
                                 "Value": "true"
                             },
                             {
-                                "Key": "tags",
-                                "Value": "[\"test-flow0\", \"test-flow1\", \"test-flow2\"]"
+                                "Key": "global",
+                                "Value": "false"
                             },
                             {
-                                "Key": "sequence",
-                                "Value": "[{\"method\": \"GET\",\"uri\": \"/flowc\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}},{\"method\": \"GET\",\"uri\": \"/flowd\",\"cookies\": {},\"headers\": {\"host\": \"test.site\"},\"args\": {}}]"
+                                "Key": "timeframe",
+                                "Value": "20"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "2"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
                             }
                         ]
                     },
@@ -95,15 +119,114 @@
                             }
                         ]
                     }
-                }
-            ]
-        },
-        {
-            "Name": "Test 2: Create server group and security policy",
-            "Skip": false,
-            "Steps": [
+                },
                 {
-                    "Name": "Step: User can create security policy with attached content filter profiles",
+                    "Name": "Edit Rate limit 'rl3'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl3"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl3\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl3\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "global",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "20"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"my-test\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create Global Filter with Name: 'gl1'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gl1"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gl1\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gl1\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test-gf\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create security policy ",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -112,6 +235,8 @@
                     },
                     "Method": "POST",
                     "Payload": {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
                         "Params": [
                             {
                                 "Key": "id",
@@ -123,7 +248,7 @@
                             },
                             {
                                 "Key": "map",
-                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
+                                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"bbed6cf8165f\",\n\"match\":\"/test-gf\",\n\"name\":\"r1Path\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl1\"\n],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"2bc56a35a473\",\n\"match\":\"/test-acl\",\n\"name\":\"rl2Path\",\n\"acl_profile\":\"__acldenyall__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[\n\"rl2\"\n],\n\"cloud_functions\":[]\n}\n]"
                             }
                         ]
                     },
@@ -140,7 +265,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Create new server group 'test.site' ",
+                    "Name": "Create server group 'test.site' ",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -149,6 +274,8 @@
                     },
                     "Method": "POST",
                     "Payload": {
+                        "Template": "servergroup.template",
+                        "Defaults": "servergroup.defaults",
                         "Params": [
                             {
                                 "Key": "id",
@@ -159,12 +286,63 @@
                                 "Value": "\"test-site\""
                             },
                             {
-                                "Key": "server_names",
-                                "Value": "[\"test.site\"]"
-                            },
-                            {
                                 "Key": "security_policy",
                                 "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create Flow Control with Name:'test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Template": "flowcontrol.template",
+                        "Defaults": "flowcontrol.defaults",
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"test\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_test\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[\n{\n\"attrs\": \"ip\"\n}\n]"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": " [\n\"my-test\"\n]"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[\n{\n\"method\":\"GET\",\n\"uri\":\"/flowa\",\n\"cookies\":{},\n\"headers\":{\n\"host\":\"test.site\"\n},\n\"args\":{}\n},\n{\n\"method\":\"GET\",\n\"uri\":\"/flowb\",\n\"cookies\":{},\n\"headers\":{\n\"host\":\"test.site\"\n},\n\"args\":{}\n}\n]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
                             }
                         ]
                     },
@@ -187,19 +365,13 @@
                 {
                     "ID": "wait-for-publish",
                     "Skip": false
-                }
-            ]
-        },
-        {
-            "Name": "Test 3: Send traffics",
-            "Skip": false,
-            "Steps": [
+                },
                 {
-                    "Name": "Step: Send Traffic 1 to /flowb -H 'host:test.site",
+                    "Name": "Send Traffic using GET method to path /test-gf 1",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/flowb"
+                        "Path": "/test-gf"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -209,14 +381,119 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "200",
+                        "Code": "470",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to /flowa -H 'host:test.site' ",
+                    "Name": "Send Traffic using GET method to path /test-gf 2",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-gf"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic using GET method to path /test-gf 3",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-gf"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic using GET method to path /test-acl 4",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-acl"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "472",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic using GET method to path /test-acl 5",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-acl"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "472",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic using GET method to path /test-acl 6",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-acl"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "471",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send Traffic using GET method to path /flowa 7",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -237,28 +514,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to /flowa -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowa"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 4 to /flowb -H 'host:test.site",
+                    "Name": "Send Traffic using GET method to path /flowb 8",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -272,114 +528,18 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "200",
+                        "Code": "471",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
                     }
                 },
-                {
-                    "Name": "Step: Send Traffic 5 to /flowd -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowd"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 6 to /flowc -H 'host:test.site' ",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowc"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 7 to /flowc -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowc"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 8 to /flowd -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowd"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 3: Wait for logs",
-            "Skip": false,
-            "Steps": [
                 {
                     "ID": "wait-for-logs",
                     "Skip": false
-                }
-            ]
-        },
-        {
-            "Name": "Test 4: Check logs ",
-            "Skip": false,
-            "Steps": [
+                },
                 {
-                    "Name": "Step: Get Logs from tags = 'test-flow'",
+                    "Name": "Assert logs for tag 'fc-name:test'",
                     "Skip": false,
                     "API": {
                         "Base": "api-data",
@@ -399,7 +559,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags = test-flow, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = \"/flowb\", tags=\"status:471\", timestamp between @@NOW(-3minutes)@@ and @@NOW(+3minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -408,14 +568,18 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "data/results/0/path",
-                                "Value": "/flowb"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "limit-name:rl3"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "fc-name:test"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Get Logs from tags = test-flow0, tags = test-flow1, tags = test-flow2",
+                    "Name": "Assert logs for tag 'limit-name:rl1'",
                     "Skip": false,
                     "API": {
                         "Base": "api-data",
@@ -435,7 +599,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags = test-flow0, tags = test-flow1, tags = test-flow2, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = \"/test-gf\", tags=\"status:470\", timestamp between @@NOW(-3minutes)@@ and @@NOW(+3minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -444,14 +608,22 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "data/results/0/path",
-                                "Value": "/flowd"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:global-filter-block"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "action:global-filter-block"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "action:global-filter-block"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Get Logs from tags != test-flow, tags != test-flow0",
+                    "Name": "Assert logs for tag 'aclname:acl-deny-all'",
                     "Skip": false,
                     "API": {
                         "Base": "api-data",
@@ -471,7 +643,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags != test-flow, tags != test-flow0, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "path = \"/test-acl\", tags=\"status:472\", timestamp between @@NOW(-3minutes)@@ and @@NOW(+3minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -480,28 +652,12 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "data/results/0/path",
-                                "Value": "/flowc"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "aclname:acl-deny-all"
                             },
                             {
-                                "Key": "data/results/1/path",
-                                "Value": "/flowc"
-                            },
-                            {
-                                "Key": "data/results/2/path",
-                                "Value": "/flowd"
-                            },
-                            {
-                                "Key": "data/results/3/path",
-                                "Value": "/flowa"
-                            },
-                            {
-                                "Key": "data/results/4/path",
-                                "Value": "/flowa"
-                            },
-                            {
-                                "Key": "data/results/5/path",
-                                "Value": "/flowb"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "aclname:acl-deny-all"
                             }
                         ]
                     }
