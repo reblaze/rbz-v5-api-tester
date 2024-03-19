@@ -1,37 +1,94 @@
 {
-    "Name": "TA 1320 Flow control test tags",
+    "Name": "TA 1322 Flow control test include",
     "Skip": false,
     "Tests": [
         {
-            "Name": "Test 1: Flow controls",
+            "Name": "Test 1: Create a global filter and flow controls",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a flow control 'fc-tag'",
+                    "Name": "Step: Create global filter 'gf-tag1'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "flow-control",
-                        "Path": ""
+                        "Base": "api-global-filters",
+                        "Path": "/gf-tag1"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"fc-one-tag\""
+                                "Key": "name",
+                                "Value": "\"gf-tag1\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"fc-one-tag\""
+                                "Key": "id",
+                                "Value": "\"gf-tag1\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"tag1\"]"
                             },
                             {
                                 "Key": "active",
                                 "Value": "true"
                             },
                             {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"headers\", [\"test\", \"tag\"], \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control 'fc-include'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-include"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-include\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-include\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"tag1\"]"
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "10"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\": \"ip\"}]"
+                            },
+                            {
                                 "Key": "tags",
-                                "Value": "[\"test-flow\"]"
+                                "Value": "[\"my-test-1322\"]"
                             },
                             {
                                 "Key": "sequence",
@@ -40,13 +97,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -56,8 +113,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "flow-control",
-                        "Path": ""
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-several-tags"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -71,12 +128,24 @@
                                 "Value": "\"fc-several-tags\""
                             },
                             {
+                                "Key": "include",
+                                "Value": "[\"tag0\", \"tag1\", \"tag2\"]"
+                            },
+                            {
                                 "Key": "active",
                                 "Value": "true"
                             },
                             {
+                                "Key": "timeframe",
+                                "Value": "10"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\": \"ip\"}]"
+                            },
+                            {
                                 "Key": "tags",
-                                "Value": "[\"test-flow0\", \"test-flow1\", \"test-flow2\"]"
+                                "Value": "[\"my-test-1322\"]"
                             },
                             {
                                 "Key": "sequence",
@@ -85,13 +154,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -99,95 +168,94 @@
             ]
         },
         {
-            "Name":"Test 2: Create server group and security policy",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 2: Create server group and security policy",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy with attached content filter profiles",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy with attached content filter profiles",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
-
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"id",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"name",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
-                            },
-                            {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -196,17 +264,21 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Send Traffic 1 to /flowb -H 'host:test.site",
+                    "Name": "Step: Send Traffic 1 to /flowa -H 'host:test.site' -H 'test:tag'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/flowb"
+                        "Path": "/flowa"
                     },
                     "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
+                        },
+                        {
+                            "Key": "test",
+                            "Value": "tag"
                         }
                     ],
                     "Expected": {
@@ -217,7 +289,40 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 2 to /flowa -H 'host:test.site' ",
+                    "Name": "Step: Send Traffic 2 to flowb -H 'host:test.site' -H 'test:tag'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test",
+                            "Value": "tag"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to flowa -H 'host:test.site'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -238,28 +343,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 3 to /flowa -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowa"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 4 to /flowb -H 'host:test.site",
+                    "Name": "Step: Send Traffic 4 to flowb -H 'host:test.site'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -280,11 +364,19 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 5 to /flowd -H 'host:test.site",
+                    "Skip": false,
+                    "Type": "python",
+                    "Code": [
+                        "import time",
+                        "time.sleep(10)"
+                    ]
+                },
+                {
+                    "Name": "Step: Send Traffic 5 to flowa -H 'host:test.site",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
-                        "Path": "/flowd"
+                        "Path": "/flowa"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -301,7 +393,32 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 6 to /flowc -H 'host:test.site' ",
+                    "Name": "Step: Send Traffic 6 to flowb -H 'host:test.site' -H 'test:tag'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/flowb"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test",
+                            "Value": "tag"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 7 to flowc -H 'host:test.site' -H 'test:tag'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -312,27 +429,10 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name": "Step: Send Traffic 7 to /flowc -H 'host:test.site",
-                    "Skip": false,
-                    "API": {
-                        "Base": "send-traffic",
-                        "Path": "/flowc"
-                    },
-                    "Method": "GET",
-                    "Headers": [
+                        },
                         {
-                            "Key": "Host",
-                            "Value": "test.site"
+                            "Key": "test",
+                            "Value": "tag"
                         }
                     ],
                     "Expected": {
@@ -343,7 +443,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Send Traffic 8 to /flowd -H 'host:test.site",
+                    "Name": "Step: Send Traffic 8 to flowd -H 'host:test.site' -H 'test:tag'",
                     "Skip": false,
                     "API": {
                         "Base": "send-traffic",
@@ -354,6 +454,10 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
+                        },
+                        {
+                            "Key": "test",
+                            "Value": "tag"
                         }
                     ],
                     "Expected": {
@@ -380,11 +484,11 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Get Logs from tags = 'test-flow'",
+                    "Name": "Step: Get Logs from path tags = 'my-test-1322'",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -400,43 +504,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags = test-flow, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/path",
-                                "Value": "/flowb"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: Get Logs from tags = test-flow0, tags = test-flow1, tags = test-flow2",
-                    "Skip": false,
-                    "API": {
-                        "Base": "logs",
-                        "Path": ""
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "syntax",
-                            "Value": "string_query"
-                        }
-                    ],
-                    "Arguments": [
-                        {
-                            "Key": "limit",
-                            "Value": "200"
-                        },
-                        {
-                            "Key": "filters",
-                            "Value": "tags = test-flow0, tags = test-flow1, tags = test-flow2, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "tags = my-test-1322, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -447,16 +515,20 @@
                             {
                                 "Key": "data/results/0/path",
                                 "Value": "/flowd"
+                            },
+                            {
+                                "Key": "data/results/1/path",
+                                "Value": "/flowb"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Get Logs from tags != test-flow, tags != test-flow0",
+                    "Name": "Step: Get Logs from path tags != my-test-1322",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -472,7 +544,7 @@
                         },
                         {
                             "Key": "filters",
-                            "Value": "tags != test-flow, tags != test-flow0, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                            "Value": "tags != my-test-1322, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
                         }
                     ],
                     "Expected": {
@@ -486,15 +558,15 @@
                             },
                             {
                                 "Key": "data/results/1/path",
-                                "Value": "/flowc"
+                                "Value": "/flowb"
                             },
                             {
                                 "Key": "data/results/2/path",
-                                "Value": "/flowd"
+                                "Value": "/flowa"
                             },
                             {
                                 "Key": "data/results/3/path",
-                                "Value": "/flowa"
+                                "Value": "/flowb"
                             },
                             {
                                 "Key": "data/results/4/path",
@@ -502,7 +574,7 @@
                             },
                             {
                                 "Key": "data/results/5/path",
-                                "Value": "/flowb"
+                                "Value": "/flowa"
                             }
                         ]
                     }
