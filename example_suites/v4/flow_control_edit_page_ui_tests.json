@@ -1,29 +1,68 @@
 {
-    "Name": "TA 1393 Dynamic rules edit page ui tests",
-    "Skip": false,
+    "Name": "TA 1319 Flow control edit page UI tests",
+    "Skip": true,
     "Tests": [
         {
-            "Name": "Test 1: Name field validations",
+            "Name": "Test 1: Create a flow control from the list page",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name `dynamic_rule_text_name'",
+                    "Name": "Step: Create a flow control 'fc'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_text_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_text_name\""
+                                "Value": "\"fc\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_text_name\""
+                                "Value": "\"fc\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Name field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can create a flow control with text name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_text_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_text_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"flow_control_text_name\""
                             }
                         ]
                     },
@@ -40,56 +79,23 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a dynamic rule with empty name",
+                    "Name": "Step: User cannot create a flow control with empty name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_empty_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_empty_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_empty_name\""
+                                "Value": "\"flow_control_empty_name\""
                             },
                             {
                                 "Key": "name",
                                 "Value": "\"\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with exist name",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_exist_name"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_exist_name\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_text_name\""
                             }
                         ]
                     },
@@ -99,19 +105,45 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with long name",
+                    "Name": "Step: User cannot create a flow control with exist name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_long_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_exist_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_long_name\""
+                                "Value": "\"flow_control_exist_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"flow_control_text_name\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "409",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a flow control with long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_long_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"flow_control_long_name\""
                             },
                             {
                                 "Key": "name",
@@ -132,19 +164,19 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with special chars name",
+                    "Name": "Step: User can create a flow control with special chars name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_spec_chars_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_spec_chars_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_spec_chars_name\""
+                                "Value": "\"flow_control_spec_chars_name\""
                             },
                             {
                                 "Key": "name",
@@ -165,19 +197,19 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a dynamic rule with space char name",
+                    "Name": "Step: User cannot create a flow control with space char name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_space_char_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_space_char_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_space_char_name\""
+                                "Value": "\"flow_control_space_char_name\""
                             },
                             {
                                 "Key": "name",
@@ -186,35 +218,28 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
+                        "Code": "400",
+                        "Type": "status-code"
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with leading space char name",
+                    "Name": "Step: User can create a flow control with leading space char name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_leading_space_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_leading_space_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_leading_space_name\""
+                                "Value": "\"flow_control_leading_space_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"  dynamic_rule_leading_space_name\""
+                                "Value": "\"  flow_control_leading_space_name\""
                             }
                         ]
                     },
@@ -231,12 +256,12 @@
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule with leading space char in name",
+                    "Name": "Step: User check flow control with leading space char name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_leading_space_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_leading_space_name"
                     },
                     "Method": "GET",
                     "Expected": {
@@ -246,33 +271,33 @@
                         "SingleResult": [
                             {
                                 "Key": "name",
-                                "Value": "dynamic_rule_leading_space_name"
+                                "Value": "flow_control_leading_space_name"
                             },
                             {
                                 "Key": "id",
-                                "Value": "dynamic_rule_leading_space_name"
+                                "Value": "flow_control_leading_space_name"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with trailing space char name",
+                    "Name": "Step: User can create a flow control with trailing space char name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_trailing_space_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_trailing_space_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_trailing_space_name\""
+                                "Value": "\"flow_control_trailing_space_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_trailing_space_name  \""
+                                "Value": "\"flow_control_trailing_space_name  \""
                             }
                         ]
                     },
@@ -289,12 +314,12 @@
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule with trailing space char in name",
+                    "Name": "Step: User check flow control with trailing space char name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_trailing_space_name"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/flow_control_trailing_space_name"
                     },
                     "Method": "GET",
                     "Expected": {
@@ -304,11 +329,11 @@
                         "SingleResult": [
                             {
                                 "Key": "name",
-                                "Value": "dynamic_rule_trailing_space_name"
+                                "Value": "flow_control_trailing_space_name"
                             },
                             {
                                 "Key": "id",
-                                "Value": "dynamic_rule_trailing_space_name"
+                                "Value": "flow_control_trailing_space_name"
                             }
                         ]
                     }
@@ -316,31 +341,31 @@
             ]
         },
         {
-            "Name": "Test 2: Active checkbox",
+            "Name": "Test 3: Time frame",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name `dynamic_rule_active'",
+                    "Name": "Step: Create a flow control 'fc-60'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_active"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-60"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_active\""
+                                "Value": "\"fc-60\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_active\""
+                                "Value": "\"fc-60\""
                             },
                             {
-                                "Key": "active",
-                                "Value": "true"
+                                "Key": "timeframe",
+                                "Value": "60"
                             }
                         ]
                     },
@@ -357,52 +382,190 @@
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule active 'true'",
+                    "Name": "Step: User cannot create a flow control with empty timeframe",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_active"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty"
                     },
-                    "Method": "GET",
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "0"
+                            }
+                        ]
+                    },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with decimal with dot timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-dec-dot"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-dec-dot\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-dec-dot\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "6.8"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with negative timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-negative"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-negative\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-negative\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "-60"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with text timeframe",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-text"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-text\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-text\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "\"text\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Count by",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-add-another-entry'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-add-another-entry"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\": \"ip\"}, {\"headers\": \"head\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "dynamic_rule_active"
-                            },
-                            {
-                                "Key": "active",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Update a dynamic rule 'dynamic_rule_active_true' by active 'false'",
+                    "Name": "Step: Delete one of two entries",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_active"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-add-another-entry"
                     },
                     "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_active\""
+                                "Value": "\"fc-add-another-entry\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_active\""
+                                "Value": "\"fc-add-another-entry\""
                             },
                             {
-                                "Key": "active",
-                                "Value": "false"
+                                "Key": "key",
+                                "Value": "[{\"args\": \"ip\"}]"
                             }
                         ]
                     },
@@ -419,58 +582,183 @@
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule active 'false",
+                    "Name": "Step: User cannot delete last entry",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_active"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-add-another-entry"
                     },
-                    "Method": "GET",
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "id",
-                                "Value": "dynamic_rule_active"
+                                "Value": "\"fc-add-another-entry\""
                             },
                             {
-                                "Key": "active",
-                                "Value": false
+                                "Key": "name",
+                                "Value": "\"fc-add-another-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[]"
                             }
                         ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
                     }
-                }
-            ]
-        },
-        {
-            "Name": "Test 3: Timeframe",
-            "Skip": false,
-            "Steps": [
+                },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-timeframe-number'",
+                    "Name": "Step: User cannot create a flow control with two same entries",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-timeframe-number"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-same-entries"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr-timeframe-number\""
+                                "Value": "\"fc-same-entries\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr-timeframe-number\""
+                                "Value": "\"fc-same-entries\""
                             },
                             {
-                                "Key": "timeframe",
-                                "Value": "70"
+                                "Key": "key",
+                                "Value": "[{\"args\": \"ip\"},{\"args\": \"ip\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty header`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-header-entry"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-header-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-header-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"headers\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty cookie`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-cookie-entry"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-cookie-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-cookie-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"cookies\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with empty arguments name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-args-entry"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-args-entry\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-args-entry\""
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"args\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Description",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control with description",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-description"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-description\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-description\""
+                            },
+                            {
+                                "Key": "description",
+                                "Value": "\"test description\""
                             }
                         ]
                     },
@@ -487,181 +775,27 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-number-decimal'",
+                    "Name": "Step: Create a flow control with empty description",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-timeframe-number-decimal"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty-description"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr-timeframe-number-decimal\""
+                                "Value": "\"fc-empty-description\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr-timeframe-number-decimal\""
+                                "Value": "\"fc-empty-description\""
                             },
                             {
-                                "Key": "timeframe",
-                                "Value": "1.25"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-zero'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-timeframe-zero"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-timeframe-zero\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-timeframe-zero\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "0"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-negative'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-timeframe-negative"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-timeframe-negative\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-timeframe-negative\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "-60"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-timeframe-text'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-timeframe-text"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-timeframe-text\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-timeframe-text\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "\"text\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 4: Threshold",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Create a dynamic rule with name 'dr-threshold-number'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-threshold-number"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-threshold-number\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-threshold-number\""
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "70"
+                                "Key": "description",
+                                "Value": "\"\""
                             }
                         ]
                     },
@@ -676,370 +810,31 @@
                             }
                         ]
                     }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-number-decimal'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-threshold-number-decimal"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-threshold-number-decimal\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-threshold-number-decimal\""
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "1.25"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-zero'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-threshold-zero"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-threshold-zero\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-threshold-zero\""
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "0"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-negative'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-threshold-negative"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-threshold-negative\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-threshold-negative\""
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "-60"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-threshold-text'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-threshold-text"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-threshold-text\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-threshold-text\""
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "\"text\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
                 }
             ]
         },
         {
-            "Name": "Test 5: Quarantine time",
+            "Name": "Test 6: Tags",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr-ttl-number'",
+                    "Name": "Step: Create a flow control without tags",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-ttl-number"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr-ttl-number\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr-ttl-number\""
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "70"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "201",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-number-decimal'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-ttl-number-decimal"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-ttl-number-decimal\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-ttl-number-decimal\""
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "1.25"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-zero'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-ttl-zero"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-ttl-zero\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-ttl-zero\""
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "0"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-negative'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-ttl-negative"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-ttl-negative\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-ttl-negative\""
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "-60"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with name 'dr-ttl-text'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr-ttl-text"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr-ttl-text\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr-ttl-text\""
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "\"text\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 6: Tags field validations",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: User can create a dynamic rule with no tags",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_no_tags"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_no_tags\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_no_tags\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
@@ -1060,97 +855,97 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with one tag",
+                    "Name": "Step: Add one tag",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_one_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_one_tag\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_one_tag\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"tag\"]"
+                                "Value": "[\"test-tag\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with several tags",
+                    "Name": "Step: Add several tags",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_several_tags"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_several_tags\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_several_tags\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"my-tag1\",\"my-tag2\", \"my-tag3\"]"
+                                "Value": "[\"my-test1\",\"my-test2\", \"my-test3\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with long tag",
+                    "Name": "Step: Create a flow control with a very long tag",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_long_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_long_tag\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_long_tag\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
@@ -1159,146 +954,97 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with special chars tag",
+                    "Name": "Step: User cannot add a tag with one char",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_special_chars_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_special_chars_tag\""
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_special_chars_tag\""
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"!@#$%^&*()<>'_-.\"]"
+                                "Value": "[\"a\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
+                        "Code": "400",
+                        "Type": "status-code",
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a dynamic rule with length 1 char tag",
+                    "Name": "Step: User cannot add a tag with two chars",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_one_char_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_one_char_tag\""
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_one_char_tag\""
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"m\"]"
+                                "Value": "[\"aa\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
+                        "Code": "400",
+                        "Type": "status-code",
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a dynamic rule with length 2 chars tag",
+                    "Name": "Step: User cannot add a tag with space char",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_two_chars_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_two_chars_tag\""
-                            },
-                            {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_two_chars_tag\""
+                                "Value": "\"fc-tag\""
                             },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"mm\"]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with space char tag",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_space_char_tag"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_space_char_tag\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_space_char_tag\""
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
@@ -1307,24 +1053,55 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "400",
+                        "Type": "status-code",
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Add a tag with leading space char",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"  leading\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule doesn't have space char tag",
+                    "Name": "Step: Verify tag with leading space was trimmed",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_space_char_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
                     "Method": "GET",
                     "Expected": {
@@ -1334,63 +1111,63 @@
                         "SingleResult": [
                             {
                                 "Key": "name",
-                                "Value": "dynamic_rule_space_char_tag"
+                                "Value": "fc-tag"
                             },
                             {
                                 "Key": "id",
-                                "Value": "dynamic_rule_space_char_tag"
+                                "Value": "fc-tag"
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[]"
+                                "Value": "['leading']"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with leading space char tag",
+                    "Name": "Step: User can add a tag with trailing space char ",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_leading_space_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_leading_space_tag\""
+                                "Key": "name",
+                                "Value": "\"fc-tag\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_leading_space_tag\""
+                                "Key": "id",
+                                "Value": "\"fc-tag\""
                             },
                             {
                                 "Key": "tags",
-                                "Value": "[\"  leading_tag\"]"
+                                "Value": "[\"trailing  \"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule with leading space char tag",
+                    "Name": "Step: Verify tag with trailing space was trimmed",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_leading_space_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-tag"
                     },
                     "Method": "GET",
                     "Expected": {
@@ -1400,41 +1177,107 @@
                         "SingleResult": [
                             {
                                 "Key": "name",
-                                "Value": "dynamic_rule_leading_space_tag"
+                                "Value": "fc-tag"
                             },
                             {
                                 "Key": "id",
-                                "Value": "dynamic_rule_leading_space_tag"
+                                "Value": "fc-tag"
                             },
                             {
                                 "Key": "tags",
-                                "Value": "['leading_tag']"
+                                "Value": "['trailing']"
                             }
                         ]
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Host",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name": "Step: User can create a dynamic rule with trailing space char tag",
+                    "Name": "Step: User cannot create a flow control with empty host",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_trailing_space_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty-host"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_trailing_space_tag\""
+                                "Value": "\"fc-empty-host\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_trailing_space_tag\""
+                                "Value": "\"fc-empty-host\""
                             },
                             {
-                                "Key": "tags",
-                                "Value": "[\"trailing_tag  \"]"
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with space char host",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-space-char-host"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-space-char-host\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-space-char-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \" \"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with leading space char host",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-leading-host"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-leading-host\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-leading-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"  www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -1451,12 +1294,12 @@
                     }
                 },
                 {
-                    "Name": "Step: Check dynamic rule with trailing space char tag",
+                    "Name": "Step: Verify host with leading space was trimmed",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_trailing_space_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-leading-host"
                     },
                     "Method": "GET",
                     "Expected": {
@@ -1466,86 +1309,81 @@
                         "SingleResult": [
                             {
                                 "Key": "name",
-                                "Value": "dynamic_rule_trailing_space_tag"
+                                "Value": "fc-leading-host"
                             },
                             {
                                 "Key": "id",
-                                "Value": "dynamic_rule_trailing_space_tag"
+                                "Value": "fc-leading-host"
                             },
                             {
-                                "Key": "tags",
-                                "Value": "['trailing_tag']"
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
                             }
                         ]
                     }
-                }
-            ]
-        },
-        {
-            "Name": "Test 7: Actions",
-            "Skip": false,
-            "Steps": [
+                },
                 {
-                    "Name": "Step: Check dynamic rule`s default value for action",
+                    "Name": "Step: Create flow control with trailing space char host",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-actions",
-                        "Path": ""
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-trailing-host"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-trailing-host\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-trailing-host\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com  \"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify host with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-trailing-host"
                     },
                     "Method": "GET",
                     "Expected": {
                         "Code": "200",
-                        "Type": "jsonpath",
+                        "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "items/0/id",
-                                "Value": "action-challenge"
+                                "Key": "name",
+                                "Value": "fc-trailing-host"
                             },
                             {
-                                "Key": "items/0/name",
-                                "Value": "challenge"
+                                "Key": "id",
+                                "Value": "fc-trailing-host"
                             },
                             {
-                                "Key": "items/1/id",
-                                "Value": "action-monitor"
-                            },
-                            {
-                                "Key": "items/1/name",
-                                "Value": "monitor (tag only)"
-                            },
-                            {
-                                "Key": "items/2/id",
-                                "Value": "action-skip"
-                            },
-                            {
-                                "Key": "items/2/name",
-                                "Value": "skip security"
-                            },
-                            {
-                                "Key": "items/7/id",
-                                "Value": "action-dynamic-rule-block"
-                            },
-                            {
-                                "Key": "items/7/name",
-                                "Value": "Dynamic-rule block"
-                            },
-                            {
-                                "Key": "items/8/id",
-                                "Value": "action-reblaze-feed-block"
-                            },
-                            {
-                                "Key": "items/8/name",
-                                "Value": "Reblaze feed block"
-                            },
-                            {
-                                "Key": "items/9/id",
-                                "Value": "action-https-redirect"
-                            },
-                            {
-                                "Key": "items/9/name",
-                                "Value": "https redirect"
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
                             }
                         ]
                     }
@@ -1553,31 +1391,91 @@
             ]
         },
         {
-            "Name": "Test 8: Include",
+            "Name": "Test 8: Path",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: User can create a dynamic rule with include one tag",
+                    "Name": "Step: User cannot create a flow control with empty path",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_include_one_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty-path"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_include_one_tag\""
+                                "Value": "\"fc-empty-path\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_include_one_tag\""
+                                "Value": "\"fc-empty-path\""
                             },
                             {
-                                "Key": "include",
-                                "Value": "[\"one-tag\"]"
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a flow control with space char path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-space-char-path"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-space-char-path\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-space-char-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with leading space char path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-leading-path"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-leading-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-leading-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"  /login\"}]"
                             }
                         ]
                     },
@@ -1594,27 +1492,56 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with include several tags",
+                    "Name": "Step: Verify path with leading space was trimmed",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_include_several_tags"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-leading-path"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "fc-leading-path"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-leading-path"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create flow control with trailing space char path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-trailing-path"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_include_several_tags\""
-                            },
-                            {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_include_several_tags\""
+                                "Value": "\"fc-trailing-path\""
                             },
                             {
-                                "Key": "include",
-                                "Value": "[\"tag1\", \"tag2\",\"tag3\"]"
+                                "Key": "id",
+                                "Value": "\"fc-trailing-path\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login  \"}]"
                             }
                         ]
                     },
@@ -1631,79 +1558,30 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with include empty",
+                    "Name": "Step: Verify path with trailing space was trimmed",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_include_empty"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-trailing-path"
                     },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dynamic_rule_include_empty\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_include_empty\""
-                            },
-                            {
-                                "Key": "include",
-                                "Value": "[]"
-                            }
-                        ]
-                    },
+                    "Method": "GET",
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a dynamic rule with include tag is same as exclude",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_include_exclude"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
+                                "Key": "name",
+                                "Value": "fc-trailing-path"
+                            },
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_include_exclude\""
+                                "Value": "fc-trailing-path"
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"dynamic_rule_include_exclude\""
-                            },
-                            {
-                                "Key": "include",
-                                "Value": "[\"test-tag\"]"
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"test-tag\"]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "422",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Request does not match schema"
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example.com'}, 'method': 'GET', 'uri': '/login'}]"
                             }
                         ]
                     }
@@ -1711,31 +1589,31 @@
             ]
         },
         {
-            "Name": "Test 9: Exclude",
+            "Name": "Test 9: Sequence condition",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: User can create a dynamic rule with exclude one tag",
+                    "Name": "Step: Create a flow control with one sequence",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_exclude_one_tag"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-one-sequence"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_exclude_one_tag\""
+                                "Value": "\"fc-one-sequence\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_exclude_one_tag\""
+                                "Value": "\"fc-one-sequence\""
                             },
                             {
-                                "Key": "exclude",
-                                "Value": "[\"one-tag\"]"
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1752,27 +1630,27 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with exclude several tags",
+                    "Name": "Step: Create a flow control with several sequence",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_exclude_several_tags"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-several-sequence"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_exclude_several_tags\""
+                                "Value": "\"fc-several-sequence\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_exclude_several_tags\""
+                                "Value": "\"fc-several-sequence\""
                             },
                             {
-                                "Key": "exclude",
-                                "Value": "[\"tag1\", \"tag2\",\"tag3\"]"
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"test\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
                             }
                         ]
                     },
@@ -1789,27 +1667,147 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a dynamic rule with exclude empty",
+                    "Name": "Step: User cannot create a flow control with same conditions",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dynamic_rule_exclude_empty"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-same-conditions"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dynamic_rule_exclude_empty\""
+                                "Value": "\"fc-same-conditions\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dynamic_rule_exclude_empty\""
+                                "Value": "\"fc-same-conditions\""
                             },
                             {
-                                "Key": "exclude",
-                                "Value": "[]"
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"test\":\"test\", \"test\":\"test\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"test\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a sequence with empty header`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty-header"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-header\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-header\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a sequence with empty cookie`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty-cookie"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-cookie\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-cookie\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"\": \"www.example.com\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a sequence with empty arg`s name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-empty-arg"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-empty-arg\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-empty-arg\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\":{\"\": \"www.example.com\"},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\",\"\":\"test\"},\"method\":\"GET\",\"uri\":\"/login\"},{\"args\":{},\"cookies\":{},\"headers\":{\"host\":\"www.example.com\"},\"method\":\"POST\",\"uri\":\"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: Create a flow control 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-for-delete"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-for-delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-for-delete\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {\"test\": \"www.example.com\"}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -1821,6 +1819,43 @@
                             {
                                 "Key": "message",
                                 "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete one sequence condition from 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-for-delete"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-for-delete\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-for-delete\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1828,31 +1863,67 @@
             ]
         },
         {
-            "Name": "Test 10: Target headers",
+            "Name": "Test 10: similar sequences",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_spec_chars'",
+                    "Name": "Step: Create a flow control with similar sequence sections",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_spec_chars"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-several-conditions"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_headers_spec_chars\""
+                                "Value": "\"fc-several-conditions\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_headers_spec_chars\""
+                                "Value": "\"fc-several-conditions\""
                             },
                             {
-                                "Key": "target",
-                                "Value": "\"headers_!@#$%^&*()<>'_-.\""
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11:create/delete sequence section",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a flow control 'fc-for-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-delete-section"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"fc-delete-section\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"fc-delete-section\""
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"PUT\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -1869,38 +1940,38 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_headers_text'",
+                    "Name": "Step: Delete one  sequence from 'fc-for-delete'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_headers_text"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-delete-section"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_headers_text\""
+                                "Value": "\"fc-delete-section\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_headers_text\""
+                                "Value": "\"fc-delete-section\""
                             },
                             {
-                                "Key": "target",
-                                "Value": "\"headers_text\""
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1908,31 +1979,27 @@
             ]
         },
         {
-            "Name": "Test 11: Target cookies",
+            "Name": "Test 12:Change name of flow control policy",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_cookies_spec_chars'",
+                    "Name": "Step: Create a flow control 'fc-change-name'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_cookies_spec_chars"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-change-name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_cookies_spec_chars\""
+                                "Value": "\"fc-change-name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_cookies_spec_chars\""
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"cookies_!@#$%^&*()<>'_-.\""
+                                "Value": "\"fc-change-name\""
                             }
                         ]
                     },
@@ -1949,38 +2016,59 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_cookies_text'",
+                    "Name": "Step: change name of flow control 'fc-change-name'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_cookies_text"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-change-name"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_cookies_text\""
+                                "Value": "\"fc-change-name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_cookies_text\""
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"cookies_text\""
+                                "Value": "\"fc-change-name-changed\""
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify flow control`s 'fc-change-name' name are changed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-change-name"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "id",
+                                "Value": "fc-change-name"
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "fc-change-name-changed"
                             }
                         ]
                     }
@@ -1988,31 +2076,31 @@
             ]
         },
         {
-            "Name": "Test 12: Target arguments",
+            "Name": "Test 13:Change host of sequence section",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_target_arguments_spec_chars'",
+                    "Name": "Step: Create a flow control 'fc-change-host'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_arguments_spec_chars"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-change-host"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_arguments_spec_chars\""
+                                "Value": "\"fc-change-host\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_arguments_spec_chars\""
+                                "Value": "\"fc-change-host\""
                             },
                             {
-                                "Key": "target",
-                                "Value": "\"arguments_!@#$%^&*()<>'_-.\""
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
@@ -2029,38 +2117,67 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_arguments_cookies_text'",
+                    "Name": "Step: change first host of flow control 'fc-change-name'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_target_arguments_text"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-change-host"
                     },
-                    "Method": "POST",
+                    "Method": "PUT",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_target_arguments_text\""
+                                "Value": "\"fc-change-host\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_target_arguments_text\""
+                                "Value": "\"fc-change-host\""
                             },
                             {
-                                "Key": "target",
-                                "Value": "\"arguments_text\""
+                                "Key": "sequence",
+                                "Value": "[{\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example-changed.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}, {\"args\": {}, \"cookies\": {}, \"headers\": {\"host\": \"www.example2.com\"}, \"method\": \"GET\", \"uri\": \"/login\"}]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "200",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify host names of flow control 'fc-change-host'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-change-host"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "fc-change-host"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "fc-change-host"
+                            },
+                            {
+                                "Key": "sequence",
+                                "Value": "[{'args': {}, 'cookies': {}, 'headers': {'host': 'www.example-changed.com'}, 'method': 'GET', 'uri': '/login'}, {'args': {}, 'cookies': {}, 'headers': {'host': 'www.example2.com'}, 'method': 'GET', 'uri': '/login'}]"
                             }
                         ]
                     }
@@ -2068,27 +2185,27 @@
             ]
         },
         {
-            "Name": "Test 13: Delete",
+            "Name": "Test 14:Delete policy ",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_delete'",
+                    "Name": "Step: Create flow control 'fc-policy'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_delete"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-policy"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_delete\""
+                                "Value": "\"fc-policy\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_delete\""
+                                "Value": "\"fc-policy\""
                             }
                         ]
                     },
@@ -2105,12 +2222,12 @@
                     }
                 },
                 {
-                    "Name": "Step: Delete a dynamic rule with name 'dr_delete'",
+                    "Name": "Step: Delete flow control 'fc-policy'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_delete"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/fc-policy"
                     },
                     "Method": "DELETE",
                     "Expected": {
@@ -2128,67 +2245,21 @@
             ]
         },
         {
-            "Name": "Test 14: Choose another rule dropdown",
+            "Name": "Test 15: Delete default policy ",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a dynamic rule with name 'dr_dropdown'",
+                    "Name": "Step: Delete default flow control ",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_dropdown"
+                        "Base": "api-flow-control-policies",
+                        "Path": "/__flow_sample__"
                     },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_dropdown\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_dropdown\""
-                            }
-                        ]
-                    },
+                    "Method": "DELETE",
                     "Expected": {
-                        "Code": "201",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Assert dynamic rules from dropdown",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": ""
-                    },
-                    "Method": "GET",
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "MultipleResults": [
-                            [
-                                {
-                                    "Key": "id",
-                                    "Value": "dr_dropdown"
-                                },
-                                {
-                                    "Key": "name",
-                                    "Value": "dr_dropdown"
-                                }
-                            ]
-                        ]
+                        "Code": "400",
+                        "Type": "status-code"
                     }
                 }
             ]
