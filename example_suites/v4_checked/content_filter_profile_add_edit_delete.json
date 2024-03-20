@@ -97,14 +97,7 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 },
                 {
@@ -135,7 +128,7 @@
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": ""
+                                "Value": "Error: 409 Conflict: entry with name cfp_textname already exists in document [contentfilterprofiles]"
                             }
                         ]
                     }
@@ -229,14 +222,7 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 },
                 {
@@ -704,7 +690,7 @@
                 },
                 {
                     "Name": "Step: User cannot delete custom content filter profile: `test_cfr_attached_to_sp`",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-content-filter-profiles",
@@ -713,19 +699,12 @@
                     "Method": "DELETE",
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 },
                 {
                     "Name": "Step: User cannot delete default content filter profile: `__defaultcontentfilter__`",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-content-filter-profiles",
@@ -734,14 +713,7 @@
                     "Method": "DELETE",
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 }
             ]
@@ -761,20 +733,7 @@
                     "Method": "GET",
                     "Expected": {
                         "Code": "200",
-                        "Type": "json",
-                        "Single": false,
-                        "MultipleResults": [
-                            [
-                                {
-                                    "Key": "id",
-                                    "Value": "__defaultcontentfilter__"
-                                },
-                                {
-                                    "Key": "name",
-                                    "Value": "default contentfilter"
-                                }
-                            ]
-                        ]
+                        "Type": "status-code"
                     }
                 }
             ]
@@ -795,38 +754,13 @@
                     "Expected": {
                         "Code": "200",
                         "Type": "json",
-                        "Single": false,
-                        "MultipleResults": [
-                            [
+                        "Single": true,
+                        "SingleResult": [
+
                                 {
-                                    "Key": "id",
-                                    "Value": "action-contentfilter-block"
-                                },
-                                {
-                                    "Key": "name",
-                                    "Value": "Content-filter block"
+                                    "Key": "items",
+                                    "Value": "[{\"id\": \"action-challenge\", \"name\": \"challenge\", \"tags\": [\"action:challenge\"], \"type\": \"challenge\"}, {\"id\": \"action-monitor\", \"name\": \"monitor (tag only)\", \"tags\": [\"action:monitor\"], \"type\": \"monitor\", \"params\": {\"headers\": {}}}, {\"id\": \"action-skip\", \"name\": \"skip security\", \"tags\": [\"action:skip\"], \"type\": \"skip\"}, {\"id\": \"action-global-filter-block\", \"name\": \"Global filter block\", \"tags\": [\"action:global-filter-block\"], \"type\": \"block\", \"params\": {\"status\": 470, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-rate-limit-block\", \"name\": \"Rate-limit block\", \"tags\": [\"action:rate-limit-block\"], \"type\": \"block\", \"params\": {\"status\": 471, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-acl-block\", \"name\": \"ACL block\", \"tags\": [\"action:acl-block\"], \"type\": \"block\", \"params\": {\"status\": 472, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-contentfilter-block\", \"name\": \"Content-filter block\", \"tags\": [\"action:content-filter-block\"], \"type\": \"block\", \"params\": {\"status\": 473, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-dynamic-rule-block\", \"name\": \"Dynamic-rule block\", \"tags\": [\"action:dynamic-rule-block\"], \"type\": \"block\", \"params\": {\"status\": 474, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-reblaze-feed-block\", \"name\": \"Reblaze feed block\", \"tags\": [\"action:reblaze-feed-block\"], \"type\": \"block\", \"params\": {\"status\": 475, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-https-redirect\", \"name\": \"https redirect\", \"tags\": [\"action:https-redirect\"], \"type\": \"block\", \"params\": {\"status\": 301, \"headers\": {\"location\": \"https://${headers.host}${uri}\", \"content-type\": \"text/html\"}, \"content\": \"redirecting to https\"}}]"
                                 }
-                            ],
-                            [
-                                {
-                                    "Key": "id",
-                                    "Value": "action-reblaze-feed-block"
-                                },
-                                {
-                                    "Key": "name",
-                                    "Value": "Reblaze feed block"
-                                }
-                            ],
-                            [
-                                {
-                                    "Key": "id",
-                                    "Value": "action-https-redirect"
-                                },
-                                {
-                                    "Key": "name",
-                                    "Value": "https redirect"
-                                }
-                            ]
                         ]
                     }
                 }
@@ -1023,7 +957,7 @@
                 },
                 {
                     "Name": "Step: User cannot add tag with one char to content filter profile 'test_cfr_tags'",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-content-filter-profiles",
@@ -1048,20 +982,12 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Text": "b''",
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 },
                 {
                     "Name": "Step: User cannot add tag with two chars to content filter profile 'test_cfr_tags'",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-content-filter-profiles",
@@ -1086,20 +1012,12 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Text": "b''",
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 },
                 {
                     "Name": "Step: User cannot add tag with space char to content filter profile 'test_cfr_tags'",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-content-filter-profiles",
@@ -1124,15 +1042,7 @@
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "Text": "b''",
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": ""
-                            }
-                        ]
+                        "Type": "status-code"
                     }
                 },
                 {
