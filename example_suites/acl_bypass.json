@@ -1,291 +1,309 @@
 {
-  "Name": "ACL - Bypass",
-  "Skip": false,
-  "Tests": [
-    {
-      "Name": "ACL - Bypass",
-      "Skip": false,
-      "Steps": [
+    "Name": "ACL - Bypass",
+    "Skip": false,
+    "Tests": [
         {
-          "Name": "Create Global Filter",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "global-filter",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Template": "globalfilter.template",
-            "Defaults": "globalfilter.defaults",
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"gf_with_tag\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"gf_with_tag\""
-              },
-              {
-                "Key": "active",
-                "Value": "true"
-              },
-              {
-                "Key": "tags",
-                "Value": "[\"gf-tag\"]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"monitor\""
-              },
-              {
-                "Key": "rule",
-                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test123\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
-              }
+            "Name": "ACL - Bypass",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create Global Filter",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_with_tag"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Template": "globalfilter.template",
+                        "Defaults": "globalfilter.defaults",
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_with_tag\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_with_tag\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"gf-tag\"]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"monitor\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\n\"entries\":[\n[\n\"path\",\n\"/test123\",\n\"y\"\n]\n],\n\"relation\":\"OR\"\n}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "Single result": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create ACL Policy with Block and Bypass",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-acl-profiles",
+                        "Path": "/acl_bypass_tag_policy"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"acl_bypass_tag_policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"acl_bypass_tag_policy\""
+                            },
+                            {
+                                "Key": "deny",
+                                "Value": "[\"all\"]"
+                            },
+                            {
+                                "Key": "passthrough",
+                                "Value": "[\"gf-tag\"]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-acl-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single result": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create Security Policy with ACL Profile",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/security_policy_with_acl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"security_policy_with_acl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"security_policy_with_acl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"047ef091bf36\",\n\"match\":\"/test\",\n\"name\":\"test\",\n\"acl_profile\":\"acl_bypass_tag_policy\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single result": [
+                            {
+                                "Key": "ok",
+                                "Value": true
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create Server Group with Security Policy",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"security_policy_with_acl\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single result": [
+                            {
+                                "Key": "id",
+                                "Value": "test-site"
+                            }
+                        ],
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                },
+                {
+                    "Name": "Send request to /test123 path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test123"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Send request to /test123 path, bypass WAF",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test123"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "a",
+                            "Value": "b'--'"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                },
+                {
+                    "Name": "Check Logs with path /test123",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test123, timestamp between @@NOW(-5minutes)@@ and @@NOW(+5minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/monitor_reasons",
+                                "Value": "['Monitor - acl Bypass [\"gf-tag\"] - acl_bypass_tag_policy - [uri]']"
+                            },
+                            {
+                                "Key": "data/results/1/monitor_reasons",
+                                "Value": "['Monitor - acl Bypass [\"gf-tag\"] - acl_bypass_tag_policy - [uri]']"
+                            }
+                        ]
+                    }
+                }
             ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "Single result": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Create ACL Policy with Block and Bypass",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "acl-profile",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Template": "aclprofile.template",
-            "Defaults": "aclprofile.defaults",
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"acl_bypass_tag_policy\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"acl_bypass_tag_policy\""
-              },
-              {
-                "Key": "deny",
-                "Value": "[\"all\"]"
-              },
-              {
-                "Key": "passthrough",
-                "Value": "[\"gf-tag\"]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-acl-block\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single result": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Create Security Policy with ACL Profile",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "security-policy",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Template": "securitypolicy.template",
-            "Defaults": "securitypolicy.defaults",
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"security_policy_with_acl\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"security_policy_with_acl\""
-              },
-              {
-                "Key": "map",
-                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"047ef091bf36\",\n\"match\":\"/test\",\n\"name\":\"test\",\n\"acl_profile\":\"acl_bypass_tag_policy\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single result": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Create Server Group with Security Policy",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "server-group",
-            "Path": "test-site/"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "id",
-                "Value": "\"test-site\""
-              },
-              {
-                "Key": "name",
-                "Value": "\"test-site\""
-              },
-              {
-                "Key": "server_names",
-                "Value": "[\"test.site\"]"
-              },
-              {
-                "Key": "security_policy",
-                "Value": "\"security_policy_with_acl\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single result": [
-              {
-                "Key": "id",
-                "Value": "test-site"
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send request to /test123 path",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test123"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Send request to /test123 path, bypass WAF",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/test123"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "a",
-              "Value": "b'--'"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "ID": "wait-for-logs",
-          "Skip": false
-        },
-        {
-          "Name": "Check Logs with path /test123",
-          "Skip": false,
-          "API": {
-            "Base": "logs",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "syntax",
-              "Value": "string_query"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "filters",
-              "Value": "path = /test123, timestamp between @@NOW(-5minutes)@@ and @@NOW(+5minutes)@@, branch=@@branch@@"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": true,
-            "Headers": [
-              {
-                "Key": "Server",
-                "Value": "rhino-core-shield"
-              }
-            ],
-            "SingleResult": [
-              {
-                "Key": "data/results/0/monitor_reasons",
-                "Value": "['Monitor - acl Bypass [\"gf-tag\"] - acl_bypass_tag_policy - [uri]']"
-              },
-              {
-                "Key": "data/results/1/monitor_reasons",
-                "Value": "['Monitor - acl Bypass [\"gf-tag\"] - acl_bypass_tag_policy - [uri]']"
-              }
-            ]
-          }
         }
-      ]
-    }
-  ]
+    ]
 }

@@ -1,18 +1,18 @@
 {
-    "Name":"TA 1390 Content filter profile arguments parameters ui tests",
-    "Skip":false,
-    "Tests":[
+    "Name": "TA 1390 Content filter profile arguments parameters ui tests",
+    "Skip": false,
+    "Tests": [
         {
-            "Name":"Test 1: name/regex selection",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 1: name/regex selection",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: User can create content filter profile with arg`s name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_name"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -25,22 +25,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_name\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_name\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -50,8 +48,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_regex"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -64,22 +62,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_regex\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [],\"regex\":[{\"type\": \"regex\",\"key\": \"test\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_regex\"}],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -87,16 +83,16 @@
             ]
         },
         {
-            "Name":"Test 2: Key field validations",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 2: Key field validations",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: User cannot create content filter profile with empty arg`s key",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_empty_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -109,28 +105,24 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_empty_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_empty_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
+                        "Type": "status-code"
                     }
                 },
                 {
                     "Name": "Step: User cannot create content filter profile with same arg`s keys",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_same_arg_keys"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -147,14 +139,11 @@
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\",\"key\": \"same-text\",\"reg\": \"test\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_key\"},{\"type\": \"names\",\"key\": \"same-text\",\"reg\": \"test2\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_key2\"}],\"regex\": [],\"max_count\": 512,\"enable_max_count\": false,\"max_length\": 1024,\"enable_max_length\": false}"
                             }
-
                         ]
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
+                        "Type": "status-code"
                     }
                 },
                 {
@@ -162,8 +151,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_long_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -176,22 +165,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_long_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_long_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -201,8 +188,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_spec_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -215,22 +202,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_spec_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"!@#$%^&*()<>'_-.\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_spec_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -240,8 +225,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_regex_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -254,22 +239,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_regex_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"('|\\\")[^-]*bc--\",\"reg\":\"test\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"arg_reg_key\"}],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -279,8 +262,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_wrong_regex_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -293,22 +276,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_wrong_regex_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"[0-9]++\",\"reg\":\"test\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"arg_wrong_reg_key\"}],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -318,8 +299,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_leading_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -332,22 +313,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_leading_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"  leading\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_leading_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -357,15 +336,15 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": "test_cfr_leading_arg_key/"
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_leading_arg_key"
                     },
                     "Method": "GET",
                     "Expected": {
                         "Code": "200",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":[
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "test_cfr_leading_arg_key"
@@ -377,7 +356,6 @@
                             {
                                 "Key": "args",
                                 "Value": "{'names': [{'type': 'names', 'key': 'leading', 'reg': 'test', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_leading_key'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
-
                             }
                         ]
                     }
@@ -387,8 +365,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_trailing_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -401,22 +379,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_trailing_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"trailing  \", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_trailing_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -426,15 +402,15 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": "test_cfr_trailing_arg_key/"
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_trailing_arg_key"
                     },
                     "Method": "GET",
                     "Expected": {
                         "Code": "200",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":[
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "test_cfr_trailing_arg_key"
@@ -446,18 +422,17 @@
                             {
                                 "Key": "args",
                                 "Value": "{'names': [{'type': 'names', 'key': 'trailing', 'reg': 'test', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_trailing_key'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
-
                             }
                         ]
                     }
                 },
                 {
                     "Name": "Step: User cannot create content filter profile with space arg`s key",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_space_arg_key"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -470,34 +445,30 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_space_arg_key\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \" \", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_space_key\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
+                        "Type": "status-code"
                     }
                 }
             ]
         },
         {
-            "Name":"Test 3: Matching value validations",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 3: Matching value validations",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: User cannot create content filter profile with empty arg`s matching",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_empty_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -510,19 +481,15 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_empty_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_empty_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
-                     "Expected": {
+                    "Expected": {
                         "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
+                        "Type": "status-code"
                     }
                 },
                 {
@@ -530,8 +497,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_same_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -548,17 +515,16 @@
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"same-text\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_matching\"},{\"type\": \"names\",\"key\": \"test2\",\"reg\": \"same-text\",\"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\": \"arg_same_matching2\"}],\"regex\": [],\"max_count\": 512,\"enable_max_count\": false,\"max_length\": 1024,\"enable_max_length\": false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -568,8 +534,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_long_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -582,22 +548,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_long_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_long_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -607,8 +571,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_spec_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -621,22 +585,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_spec_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"!@#$%^&*()<>'_-.\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_spec_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -646,8 +608,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_regex_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -660,22 +622,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_regex_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"('|\\\")[^-]*bc--\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_reg_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -685,8 +645,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_wrong_regex_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -699,22 +659,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_wrong_regex_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"[0-9]++\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_wrong_reg_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -724,8 +682,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_leading_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -738,22 +696,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_leading_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"  leading\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_leading_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -763,15 +719,15 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": "test_cfr_leading_arg_matching/"
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_leading_arg_matching"
                     },
                     "Method": "GET",
                     "Expected": {
                         "Code": "200",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":[
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "test_cfr_leading_arg_matching"
@@ -783,7 +739,6 @@
                             {
                                 "Key": "args",
                                 "Value": "{'names': [{'type': 'names', 'key': 'test', 'reg': 'leading', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_leading_matching'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
-
                             }
                         ]
                     }
@@ -793,8 +748,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_trailing_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -807,22 +762,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_trailing_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"trailing  \", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_trailing_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
-                     "Expected": {
-                        "Code": "200",
+                    "Expected": {
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -832,15 +785,15 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": "test_cfr_trailing_arg_matching/"
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_trailing_arg_matching"
                     },
                     "Method": "GET",
                     "Expected": {
                         "Code": "200",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":[
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "test_cfr_trailing_arg_matching"
@@ -852,18 +805,17 @@
                             {
                                 "Key": "args",
                                 "Value": "{'names': [{'type': 'names', 'key': 'test', 'reg': 'trailing', 'restrict': False, 'mask': False, 'exclusions': [], 'id': 'arg_trailing_matching'}], 'regex': [], 'max_count': 512, 'enable_max_count': False, 'max_length': 1024, 'enable_max_length': False}"
-
                             }
                         ]
                     }
                 },
                 {
                     "Name": "Step: User cannot create content filter profile with space arg`s matching",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_space_arg_matching"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -876,34 +828,30 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_space_arg_matching\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \" \", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_space_matching\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
                         "Code": "400",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
+                        "Type": "status-code"
                     }
                 }
             ]
         },
         {
-            "Name":"Test 4: Restrict checkbox",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 4: Restrict checkbox",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: User can create content filter profile with checked restrict",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_checked_restrict"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -916,22 +864,20 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_checked_restrict\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\":\"arg_restrict\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -941,8 +887,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": "test_cfr_arg_checked_restrict/"
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_checked_restrict"
                     },
                     "Method": "PUT",
                     "Payload": {
@@ -955,12 +901,10 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_checked_restrict\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_restrict\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
                             }
-
                         ]
                     },
                     "Expected": {
@@ -969,8 +913,8 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -978,16 +922,16 @@
             ]
         },
         {
-            "Name":"Test 5: Mask checkbox",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 5: Mask checkbox",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: User can create content filter profile with checked mask",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_checked_mask"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -1000,7 +944,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_checked_mask\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": true,\"exclusions\": [],\"id\":\"arg_mask\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1008,13 +951,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1024,8 +967,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": "test_cfr_arg_checked_mask/"
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_checked_mask"
                     },
                     "Method": "PUT",
                     "Payload": {
@@ -1038,7 +981,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_checked_mask\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_mask\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1051,8 +993,8 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -1060,16 +1002,16 @@
             ]
         },
         {
-            "Name":"Test 6: Ignore field",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 6: Ignore field",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: User can create content filter profile with empty ignore field",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_empty_ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -1082,7 +1024,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_empty_ignore\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [],\"id\":\"arg_ignore\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1090,13 +1031,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1106,8 +1047,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_one_tag_ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -1120,7 +1061,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_one_tag_ignore\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"one-tag\"],\"id\":\"arg_one_tag\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1128,13 +1068,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1144,8 +1084,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_several_tags_ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -1158,7 +1098,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_several_tags_ignore\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"tag1\", \"tag2\", \"tag3\"],\"id\":\"arg_several_tags\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1166,13 +1105,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1182,8 +1121,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_long_tag_ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -1196,7 +1135,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_long_tag_ignore\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"id\":\"arg_long_tag\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1204,13 +1142,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1220,8 +1158,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_arg_spec_tag_ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -1234,7 +1172,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_arg_spec_tag_ignore\""
                             },
-
                             {
                                 "Key": "args",
                                 "Value": "{\"names\": [{\"type\": \"names\", \"key\": \"test\", \"reg\": \"test\", \"restrict\": false,\"mask\": false,\"exclusions\": [\"!@#$%^&*()<>'_-.\"],\"id\":\"arg_spec_tag\"}],\"regex\":[],\"max_count\":512,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -1242,13 +1179,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -1257,4 +1194,3 @@
         }
     ]
 }
-
