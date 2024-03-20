@@ -1,214 +1,209 @@
 {
-  "Name": "TA 1276 ACL - Enforce deny",
-  "Skip": false,
-  "Tests": [
-    {
-      "Name": "Enforce Deny - Add tag 'all'",
-      "Skip": false,
-      "Steps": [
+    "Name": "TA 1276 ACL - Enforce deny",
+    "Skip": false,
+    "Tests": [
         {
-          "Name": "Create ACL policy with Enforce Deny",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "acl-profile",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Template": "aclprofile.template",
-            "Defaults": "aclprofile.defaults",
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"acl_enforce_deny_policy\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"acl_enforce_deny_policy\""
-              },
-              {
-                "Key": "force_deny",
-                "Value": "[\"all\"]"
-              },
-              {
-                "Key": "action",
-                "Value": "\"action-acl-block\""
-              }
+            "Name": "Enforce Deny - Add tag 'all'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create ACL policy with Enforce Deny",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-acl-profiles",
+                        "Path": "/acl_enforce_deny_policy"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Template": "aclprofile.template",
+                        "Defaults": "aclprofile.defaults",
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"acl_enforce_deny_policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"acl_enforce_deny_policy\""
+                            },
+                            {
+                                "Key": "force_deny",
+                                "Value": "[\"all\"]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-acl-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create Security Policy with ACL Profile",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/security_policy_with_acl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Template": "securitypolicy.template",
+                        "Defaults": "securitypolicy.defaults",
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"security_policy_with_acl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"security_policy_with_acl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"047ef091bf36\",\n\"match\":\"/enforce_deny\",\n\"name\":\"enforce_deny\",\n\"acl_profile\":\"acl_enforce_deny_policy\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create Server Group with Security Policy",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/server_group_with_security_policy"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"server_group_with_security_policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"server_group_with_security_policy\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"security_policy_with_acl\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                },
+                {
+                    "Name": "Send request to /enforce_deny path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/enforce_deny"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "472",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                },
+                {
+                    "Name": "Assert logs for path '/enforce_deny'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = \"/enforce_deny\", tags=\"status:472\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "all"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - acl EnforceDeny [\"all\"] - acl_enforce_deny_policy - [request]"
+                            }
+                        ]
+                    }
+                }
             ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Create Security Policy with ACL Profile",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "security-policy",
-            "Path": ""
-          },
-          "Method": "POST",
-          "Payload": {
-            "Template": "securitypolicy.template",
-            "Defaults": "securitypolicy.defaults",
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"security_policy_with_acl\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"security_policy_with_acl\""
-              },
-              {
-                "Key": "map",
-                "Value": "[\n{\n\"id\":\"__default_entry__\",\n\"match\":\"/\",\n\"name\":\"default\",\n\"acl_profile\":\"__acldefault__\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":false,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n},\n{\n\"id\":\"047ef091bf36\",\n\"match\":\"/enforce_deny\",\n\"name\":\"enforce_deny\",\n\"acl_profile\":\"acl_enforce_deny_policy\",\n\"content_filter_profile\":\"__defaultcontentfilter__\",\n\"backend_id\":\"__default__\",\n\"acl_active\":true,\n\"content_filter_active\":false,\n\"limit_ids\":[],\n\"cloud_functions\":[]\n}\n]"
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "200",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "ok",
-                "Value": true
-              }
-            ]
-          }
-        },
-        {
-          "Name": "Create Server Group with Security Policy",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "server-group",
-            "Path": "test-site/"
-          },
-          "Method": "POST",
-          "Payload": {
-            "Params": [
-              {
-                "Key": "name",
-                "Value": "\"server_group_with_security_policy\""
-              },
-              {
-                "Key": "id",
-                "Value": "\"server_group_with_security_policy\""
-              },
-              {
-                "Key": "server_names",
-                "Value": "[\"test.site\"]"
-              },
-              {
-                "Key": "security_policy",
-                "Value": "\"security_policy_with_acl\""
-              }
-            ]
-          },
-          "Expected": {
-            "Code": "201",
-            "Type": "json",
-            "Single": true,
-            "SingleResult": [
-              {
-                "Key": "id",
-                "Value": "test-site"
-              }
-            ]
-          }
-        },
-        {
-          "ID": "publish-changes",
-          "Skip": false
-        },
-        {
-          "ID": "wait-for-publish",
-          "Skip": false
-        },
-        {
-          "Name": "Send request to /enforce_deny path",
-          "Skip": false,
-          "GenerateID": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/enforce_deny"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            }
-          ],
-          "Expected": {
-            "Code": "472",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "ID": "wait-for-logs",
-          "Skip": false
-        },
-        {
-          "Name": "Assert logs for path '/enforce_deny'",
-          "Skip": false,
-          "API": {
-            "Base": "logs",
-            "Path": ""
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "syntax",
-              "Value": "string_query"
-            }
-          ],
-          "Arguments": [
-            {
-              "Key": "limit",
-              "Value": "200"
-            },
-            {
-              "Key": "filters",
-              "Value": "path = \"/enforce_deny\", tags=\"status:472\", timestamp between @@NOW(-10minutes)@@ and @@NOW(+10minutes)@@, branch=@@branch@@"
-            }
-          ],
-          "Expected": {
-            "Code": "200",
-            "Type": "jsonpath",
-            "Single": true,
-            "Headers": [
-              {
-                "Key": "Server",
-                "Value": "rhino-core-shield"
-              }
-            ],
-            "SingleResult": [
-              {
-                "Key": "data/results/0/tags/*",
-                "Value": "all"
-              },{
-                "Key": "data/results/0/reason",
-                "Value": "Block - acl EnforceDeny [\"all\"] - acl_enforce_deny_policy - [request]"
-              }
-            ]
-          }
         }
-      ]
-    }
-  ]
+    ]
 }

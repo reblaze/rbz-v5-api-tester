@@ -11,8 +11,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "global-filter",
-                        "Path": ""
+                        "Base": "api-global-filters",
+                        "Path": "/gf_valid_source"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -36,13 +36,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -52,23 +52,28 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "gf-fetch",
-                        "Path": "fetch?url=https://lists.blocklist.de/lists/strongips.txt"
+                        "Base": "api-fetch",
+                        "Path": ""
                     },
                     "Method": "GET",
-                    "Expected":
-                    {
+                    "Arguments": [
+                        {
+                            "Key": "url",
+                            "Value": "https://lists.blocklist.de/lists/strongips.txt"
+                        }
+                    ],
+                    "Expected": {
                         "Code": "200",
                         "Type": "status-code"
-                        }
+                    }
                 },
                 {
                     "Name": "Step: update IP`s of global filter 'gf_valid_source'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "global-filter",
-                        "Path": "gf_valid_source/"
+                        "Base": "api-global-filters",
+                        "Path": "/gf_valid_source"
                     },
                     "Method": "PUT",
                     "Payload": {
@@ -101,8 +106,8 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -111,19 +116,16 @@
                     "Name": "Step: User can check rule 'gf_valid_source'",
                     "Skip": false,
                     "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "global-filter",
-                        "Path": "gf_valid_source/"
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_valid_source"
                     },
                     "Method": "GET",
-                    "Expected":
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "gf_valid_source"
@@ -150,8 +152,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "global-filter",
-                        "Path": ""
+                        "Base": "api-global-filters",
+                        "Path": "/gf_invalid_source"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -175,13 +177,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -191,20 +193,25 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "gf-fetch",
-                        "Path": " https://lists.blocklist.de/lists/"
+                        "Base": "api-fetch",
+                        "Path": ""
                     },
+                    "Arguments": [
+                        {
+                            "Key": "url",
+                            "Value": "https://lists.blocklist.de/lists"
+                        }
+                    ],
                     "Method": "GET",
-                    "Expected":
-                    {
-                        "Code": "404",
+
+                    "Expected": {
+                        "Code": "400",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key": "detail",
-                                "Value": "Not Found"
+                                "Key": "message",
+                                "Value": "Error: cannot retrieve [https://lists.blocklist.de/lists]: (400, 'forbidden url')"
                             }
                         ]
                     }
@@ -214,8 +221,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "global-filter",
-                        "Path": "gf_invalid_source/"
+                        "Base": "api-global-filters",
+                        "Path": "/gf_invalid_source"
                     },
                     "Method": "PUT",
                     "Payload": {
@@ -248,8 +255,8 @@
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
                             }
                         ]
                     }
@@ -258,19 +265,16 @@
                     "Name": "Step: User can check rule 'gf_invalid_source'",
                     "Skip": false,
                     "GenerateID": false,
-                    "API":
-                    {
-                        "Base": "global-filter",
-                        "Path": "gf_invalid_source/"
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_invalid_source"
                     },
                     "Method": "GET",
-                    "Expected":
-                    {
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
-						"Single": true,
-                        "SingleResult":
-                        [
+                        "Single": true,
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "gf_invalid_source"

@@ -1,56 +1,56 @@
 {
-    "Name":"TA 1375 Content filter profile ignore active report functional tests",
-    "Skip":false,
-    "Tests":[
+    "Name": "TA 1375 Content filter profile ignore active report functional tests",
+    "Skip": false,
+    "Tests": [
         {
-            "Name":"Test 1: Create content filter rules and filter profiles ",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 1: Create content filter rules and filter profiles ",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create global filter with name `gf-test`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"global-filter",
-                        "Path":""
+                    "Name": "Step: User can create global filter with name `gf-test`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf-test"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"name",
-                                "Value":"\"gf-test\""
+                                "Key": "name",
+                                "Value": "\"gf-test\""
                             },
                             {
-                                "Key":"id",
-                                "Value":"\"gf-test\""
+                                "Key": "id",
+                                "Value": "\"gf-test\""
                             },
                             {
-                                "Key":"active",
-                                "Value":"true"
+                                "Key": "active",
+                                "Value": "true"
                             },
                             {
-                                "Key":"action",
-                                "Value":"\"action-monitor\""
+                                "Key": "action",
+                                "Value": "\"action-monitor\""
                             },
                             {
-                                "Key":"tags",
-                                "Value":"[\"test-ignore\"]"
+                                "Key": "tags",
+                                "Value": "[\"test-ignore\"]"
                             },
                             {
-                                "Key":"rule",
-                                "Value":"{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test\", \"\"]]}"
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"path\", \"/test\", \"\"]]}"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -60,8 +60,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-rule",
-                        "Path": ""
+                        "Base": "api-content-filter-rules",
+                        "Path": "/MyRule"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -91,19 +91,19 @@
                                 "Value": "5"
                             },
                             {
-                                "Key":"tags",
-                                "Value":"[\"my-qatest\"]"
+                                "Key": "tags",
+                                "Value": "[\"my-qatest\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -113,8 +113,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -138,13 +138,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -154,8 +154,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -177,19 +177,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"ignore",
-                                "Value":"[\"test-ignore\"]"
+                                "Key": "ignore",
+                                "Value": "[\"test-ignore\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -199,8 +199,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-myrule"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -222,19 +222,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:myrule\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:myrule\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -244,8 +244,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-report"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -267,23 +267,23 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             },
                             {
-                                "Key":"report",
-                                "Value":"[\"cf-rule-name:myrule\"]"
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:myrule\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -293,8 +293,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-remove-report"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -316,19 +316,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -338,8 +338,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-ignore-2"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -361,23 +361,23 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"ignore",
-                                "Value":"[\"test-ignore\"]"
+                                "Key": "ignore",
+                                "Value": "[\"test-ignore\"]"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -387,8 +387,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-active-myrule"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -410,19 +410,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:myrule\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:myrule\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -432,8 +432,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-report-myrule"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -455,23 +455,23 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             },
                             {
-                                "Key":"report",
-                                "Value":"[\"cf-rule-name:myrule\"]"
+                                "Key": "report",
+                                "Value": "[\"cf-rule-name:myrule\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -481,8 +481,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-remove-report-myrule"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -504,19 +504,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -526,8 +526,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-report-risk5"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -549,23 +549,23 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\"]"
                             },
                             {
-                                "Key":"report",
-                                "Value":"[\"cf-rule-risk:5\"]"
+                                "Key": "report",
+                                "Value": "[\"cf-rule-risk:5\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -575,8 +575,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-libinjection-enable"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -598,19 +598,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"cf-rule-subcategory:libinjection-xss\"]"
+                                "Key": "active",
+                                "Value": "[\"cf-rule-subcategory:libinjection-xss\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -620,8 +620,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-libinjection-disable"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -643,19 +643,19 @@
                                 "Value": "false"
                             },
                             {
-                                "Key":"active",
-                                "Value":"[\"\"]"
+                                "Key": "active",
+                                "Value": "[\"\"]"
                             }
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -663,43 +663,42 @@
             ]
         },
         {
-            "Name":"Test 3: Create security policy",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 3: Create security policy",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy `test-sp`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy `test-sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-profile\",\"match\": \"/test-profile\",\"name\": \"test-profile\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-ignore\",\"match\": \"/test-ignore\",\"name\": \"test-ignore\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-ignore\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-myrule\",\"match\": \"/test-myrule\",\"name\": \"test-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-report\",\"match\": \"/test-report\",\"name\": \"test-report\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-report\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-remove-report\",\"match\": \"/test-remove-report\",\"name\": \"test-remove-report\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-remove-report\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-ignore-2\",\"match\": \"/test-ignore-2\",\"name\": \"test-ignore-2\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-ignore-2\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-active-myrule\",\"match\": \"/test-active-myrule\",\"name\": \"test-active-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-active-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-report-myrule\",\"match\": \"/test-report-myrule\",\"name\": \"test-report-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-report-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-remove-report-myrule\",\"match\": \"/test-remove-report-myrule\",\"name\": \"test-remove-report-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-remove-report-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-report-risk5\",\"match\": \"/test-report-risk5\",\"name\": \"test-report-risk5\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-report-risk5\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-libinjection-enable\",\"match\": \"/test-libinjection-enable\",\"name\": \"test-libinjection-enable\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-libinjection-enable\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-libinjection-disable\",\"match\": \"/test-libinjection-disable\",\"name\": \"test-libinjection-disable\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-libinjection-disable\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
-
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-profile\",\"match\": \"/test-profile\",\"name\": \"test-profile\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-ignore\",\"match\": \"/test-ignore\",\"name\": \"test-ignore\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-ignore\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-myrule\",\"match\": \"/test-myrule\",\"name\": \"test-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-report\",\"match\": \"/test-report\",\"name\": \"test-report\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-report\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-remove-report\",\"match\": \"/test-remove-report\",\"name\": \"test-remove-report\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-remove-report\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-ignore-2\",\"match\": \"/test-ignore-2\",\"name\": \"test-ignore-2\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-ignore-2\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-active-myrule\",\"match\": \"/test-active-myrule\",\"name\": \"test-active-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-active-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-report-myrule\",\"match\": \"/test-report-myrule\",\"name\": \"test-report-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-report-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-remove-report-myrule\",\"match\": \"/test-remove-report-myrule\",\"name\": \"test-remove-report-myrule\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-remove-report-myrule\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-report-risk5\",\"match\": \"/test-report-risk5\",\"name\": \"test-report-risk5\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-report-risk5\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-libinjection-enable\",\"match\": \"/test-libinjection-enable\",\"name\": \"test-libinjection-enable\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-libinjection-enable\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"test-libinjection-disable\",\"match\": \"/test-libinjection-disable\",\"name\": \"test-libinjection-disable\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"test-profile-libinjection-disable\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -707,57 +706,57 @@
             ]
         },
         {
-            "Name":"Test 4: Create server group and publish",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 4: Create server group and publish",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-site\""
+                                "Key": "id",
+                                "Value": "\"test-site\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-site\""
+                                "Key": "name",
+                                "Value": "\"test-site\""
                             },
                             {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
                             },
                             {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -766,341 +765,341 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Send Traffic 1 to path 'test-profile'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-profile"
+                    "Name": "Step: Send Traffic 1 to path 'test-profile'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-profile"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to path 'test-ignore'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-ignore"
+                    "Name": "Step: Send Traffic 2 to path 'test-ignore'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-ignore"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 3 to path 'test-myrule'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-myrule"
+                    "Name": "Step: Send Traffic 3 to path 'test-myrule'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-myrule"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 4 to path 'test-report'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-report"
+                    "Name": "Step: Send Traffic 4 to path 'test-report'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-report"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 5 to path 'test-remove-report'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-remove-report"
+                    "Name": "Step: Send Traffic 5 to path 'test-remove-report'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-remove-report"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 6 to path 'test-ignore-2'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-ignore-2"
+                    "Name": "Step: Send Traffic 6 to path 'test-ignore-2'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-ignore-2"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         },
                         {
-                            "Key":"a",
-                            "Value":"<select>"
+                            "Key": "a",
+                            "Value": "<select>"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 7 to path 'test-active-myrule'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-active-myrule"
+                    "Name": "Step: Send Traffic 7 to path 'test-active-myrule'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-active-myrule"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 8 to path 'test-report-myrule'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-report-myrule"
+                    "Name": "Step: Send Traffic 8 to path 'test-report-myrule'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-report-myrule"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 9 to path 'test-remove-report-myrule'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-remove-report-myrule"
+                    "Name": "Step: Send Traffic 9 to path 'test-remove-report-myrule'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-remove-report-myrule"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         },
                         {
-                            "Key":"a",
-                            "Value":"<select>"
+                            "Key": "a",
+                            "Value": "<select>"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 10 to path 'test-report-risk5'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-report-risk5"
+                    "Name": "Step: Send Traffic 10 to path 'test-report-risk5'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-report-risk5"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"qatest"
+                            "Key": "b",
+                            "Value": "qatest"
                         },
                         {
-                            "Key":"a",
-                            "Value":"<select>"
+                            "Key": "a",
+                            "Value": "<select>"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 11 to path 'test-libinjection-enable'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-libinjection-enable"
+                    "Name": "Step: Send Traffic 11 to path 'test-libinjection-enable'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-libinjection-enable"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"a",
-                            "Value":"1"
+                            "Key": "a",
+                            "Value": "1"
                         },
                         {
-                            "Key":"b",
-                            "Value":"%3Cscript%3Edocument.body.innerHTML="
+                            "Key": "b",
+                            "Value": "%3Cscript%3Edocument.body.innerHTML="
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 12 to path 'test-libinjection-disable'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test-libinjection-disable"
+                    "Name": "Step: Send Traffic 12 to path 'test-libinjection-disable'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-libinjection-disable"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"a",
-                            "Value":"1"
+                            "Key": "a",
+                            "Value": "1"
                         },
                         {
-                            "Key":"b",
-                            "Value":"%3Cscript%3Edocument.body.innerHTML="
+                            "Key": "b",
+                            "Value": "%3Cscript%3Edocument.body.innerHTML="
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 }
             ]
@@ -1123,8 +1122,8 @@
                     "Name": "Step: Get Logs from path /test-myrule",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -1175,8 +1174,8 @@
                     "Name": "Step: Get Logs from path /test-remove-report",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -1227,8 +1226,8 @@
                     "Name": "Step: Get Logs from path /test-active-myrule",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -1252,7 +1251,7 @@
                         "Type": "jsonpath",
                         "Single": true,
                         "SingleResult": [
-                             {
+                            {
                                 "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
                             },
@@ -1279,8 +1278,8 @@
                     "Name": "Step: Get Logs from path /test-remove-report-myrule",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -1304,7 +1303,7 @@
                         "Type": "jsonpath",
                         "Single": true,
                         "SingleResult": [
-                             {
+                            {
                                 "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
                             },
@@ -1327,8 +1326,8 @@
                     "Name": "Step: Get Logs from path /test-libinjection-enable",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -1352,7 +1351,7 @@
                         "Type": "jsonpath",
                         "Single": true,
                         "SingleResult": [
-                             {
+                            {
                                 "Key": "data/results/0/tags/*",
                                 "Value": "status:473"
                             },

@@ -1,0 +1,69 @@
+{
+    "Name": "gf with http source",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test: gf with http source",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: gf with http source",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/tags_a"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"tags_a\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Update source of the global filter 'gf_source1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-fetch",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Arguments": [
+                        {
+                            "Key": "url",
+                            "Value": "https://lists.blocklist.de/lists/strongips.txt"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "status-code"
+                    }
+                }
+            ]
+        }
+    ]
+}

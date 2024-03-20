@@ -11,8 +11,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/cfr_profile_test"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -36,13 +36,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -58,8 +58,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-rule",
-                        "Path": ""
+                        "Base": "api-content-filter-rules",
+                        "Path": "/cf_test_one_tag"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -99,13 +99,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -115,8 +115,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-rule",
-                        "Path": ""
+                        "Base": "api-content-filter-rules",
+                        "Path": "/cf_test_two_tags"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -156,13 +156,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -170,42 +170,42 @@
             ]
         },
         {
-            "Name":"Test 3: Create security policy",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 3: Create security policy",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy `test-sp`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy `test-sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\": \"test\",\"match\": \"/test\",\"name\": \"test\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"cfr_profile_test\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\": \"test\",\"match\": \"/test\",\"name\": \"test\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"cfr_profile_test\",\"backend_id\": \"__default__\",\"acl_active\": true, \"content_filter_active\": true,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -213,57 +213,57 @@
             ]
         },
         {
-            "Name":"Test 4: Create server group and publish",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 4: Create server group and publish",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-site\""
+                                "Key": "id",
+                                "Value": "\"test-site\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-site\""
+                                "Key": "name",
+                                "Value": "\"test-site\""
                             },
                             {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
                             },
                             {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -272,115 +272,115 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Send Traffic 1 to 'curl [url]a?b=<area>'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/a"
+                    "Name": "Step: Send Traffic 1 to 'curl [url]a?b=<area>'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/a"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"b",
-                            "Value":"<area>"
+                            "Key": "b",
+                            "Value": "<area>"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 2 to 'curl [url]<area>'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/<area>"
+                    "Name": "Step: Send Traffic 2 to 'curl [url]<area>'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/<area>"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 3 to 'curl [url] -d <area>=a'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"1-3"
+                    "Name": "Step: Send Traffic 3 to 'curl [url] -d <area>=a'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "1-3"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"<area>",
-                            "Value":"a"
+                            "Key": "<area>",
+                            "Value": "a"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 4 to 'curl [url] -d 'a=<area>''",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"1-4"
+                    "Name": "Step: Send Traffic 4 to 'curl [url] -d 'a=<area>''",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "1-4"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"a",
-                            "Value":"<area>"
+                            "Key": "a",
+                            "Value": "<area>"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
-                 {
-                    "Name":"Step: Send Traffic 5 to 'curl [url] -H 'xp_makecab=a'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                {
+                    "Name": "Step: Send Traffic 5 to 'curl [url] -H 'xp_makecab=a'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -391,21 +391,21 @@
                             "Value": "a"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 6 to 'curl [url] -H 'a=xp_makecab'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                    "Name": "Step: Send Traffic 6 to 'curl [url] -H 'a=xp_makecab'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -416,21 +416,21 @@
                             "Value": "xp_makecab"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 7 to 'curl [url] -b 'a=xp_makecab'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                    "Name": "Step: Send Traffic 7 to 'curl [url] -b 'a=xp_makecab'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -441,21 +441,21 @@
                             "Value": "a=xp_makecab"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 8 to 'curl [url]-b xp_makecab=a'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                    "Name": "Step: Send Traffic 8 to 'curl [url]-b xp_makecab=a'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"POST",
+                    "Method": "POST",
                     "Headers": [
                         {
                             "Key": "Host",
@@ -466,92 +466,92 @@
                             "Value": "xp_makecab=a"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 9 to 'curl [url]?a=test_one_tag'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                    "Name": "Step: Send Traffic 9 to 'curl [url]?a=test_one_tag'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"a",
-                            "Value":"test_one_tag"
+                            "Key": "a",
+                            "Value": "test_one_tag"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 10 to 'curl [url]?a=foo'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                    "Name": "Step: Send Traffic 10 to 'curl [url]?a=foo'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"a",
-                            "Value":"foo"
+                            "Key": "a",
+                            "Value": "foo"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 },
                 {
-                    "Name":"Step: Send Traffic 11 to 'curl [url]?a=test_two_tags'",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test"
+                    "Name": "Step: Send Traffic 11 to 'curl [url]?a=test_two_tags'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
                     },
-                    "Method":"GET",
+                    "Method": "GET",
                     "Headers": [
                         {
                             "Key": "Host",
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"a",
-                            "Value":"test_two_tags"
+                            "Key": "a",
+                            "Value": "test_two_tags"
                         }
                     ],
-                    "Expected":{
-                        "Code":"473",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b'access denied'"
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
                     }
                 }
             ]
@@ -561,264 +561,234 @@
             "Skip": false,
             "Steps": [
                 {
-                   "ID": "wait-for-logs",
-                   "Skip": false
+                    "ID": "wait-for-logs",
+                    "Skip": false
                 }
-           ]
+            ]
         },
         {
             "Name": "Test 7: Check logs",
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Get logs from path /a",
-                    "Skip":false,
-                    "API":{
-                       "Base":"logs",
-                       "Path":""
+                    "Name": "Step: Get logs from path /a",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
-                    "Method":"GET",
-                    "Headers":[
-                    {
-                        "Key":"syntax",
-                        "Value":"string_query"
-                    }
-                    ],
-                    "Arguments":[
-                    {
-                        "Key": "filters",
-                        "Value": "path = /a, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                    }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                               "Key":"Server",
-                               "Value":"rhino-core-shield"
-                            }
-                       ],
-                        "SingleResult":[
-                            {
-                               "Key":"data/results/0/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/0/reason",
-                              "Value":"Block - content filter 200039[lvl5] - default contentfilter - [URI argument b=<area>]"
-                            }
-                       ]
-                   }
-                },
-                {
-                    "Name":"Step: Get logs from path /<area>",
-                    "Skip":false,
-                    "API":{
-                       "Base":"logs",
-                       "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                    {
-                        "Key":"syntax",
-                        "Value":"string_query"
-                    }
-                    ],
-                    "Arguments":[
-                    {
-                        "Key": "filters",
-                        "Value": "path = /%3Carea%3E, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                    }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                               "Key":"Server",
-                               "Value":"rhino-core-shield"
-                            }
-                       ],
-                        "SingleResult":[
-                            {
-                               "Key":"data/results/0/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/0/reason",
-                               "Value":"Block - content filter 200039[lvl5] - default contentfilter - [uri]"
-                            }
-                       ]
-                   }
-                },
-                {
-                    "Name":"Step: Get logs from path /1-3",
-                    "Skip":false,
-                    "API":{
-                       "Base":"logs",
-                       "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
-                    {
-                        "Key":"syntax",
-                        "Value":"string_query"
-                    }
-                    ],
-                    "Arguments":[
-                    {
-                        "Key": "filters",
-                        "Value": "path = /1-3, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                    }
-                    ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
-                            {
-                               "Key":"Server",
-                               "Value":"rhino-core-shield"
-                            }
-                       ],
-                        "SingleResult":[
-                            {
-                               "Key":"data/results/0/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/0/reason",
-                              "Value":"Block - content filter 200039[lvl5] - default contentfilter - [URI argument <area>=a]"
-                            }
-                       ]
-                   }
-                },
-                {
-                    "Name":"Step: Get logs from path /1-4",
-                    "Skip":false,
-                    "API":{
-                       "Base":"logs",
-                       "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers":[
+                    "Method": "GET",
+                    "Headers": [
                         {
-                            "Key":"syntax",
-                            "Value":"string_query"
+                            "Key": "syntax",
+                            "Value": "string_query"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /a, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - default contentfilter - [URI argument b=<area>]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get logs from path /<area>",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /%3Carea%3E, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - default contentfilter - [uri]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get logs from path /1-3",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /1-3, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - default contentfilter - [URI argument <area>=a]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get logs from path /1-4",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
                         {
                             "Key": "filters",
                             "Value": "path = /1-4, status != 403, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                               "Key":"Server",
-                               "Value":"rhino-core-shield"
-                            }
-                       ],
-                        "SingleResult":[
-                            {
-                               "Key":"data/results/0/tags/*",
-                               "Value":"status:473"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
                             },
                             {
-                               "Key":"data/results/0/reason",
-                              "Value":"Block - content filter 200039[lvl5] - default contentfilter - [URI argument a=<area>]"
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter 200039[lvl5] - default contentfilter - [URI argument a=<area>]"
                             }
-                       ]
-                   }
+                        ]
+                    }
                 },
                 {
-                    "Name":"Step: Get logs from path /test",
-                    "Skip":false,
-                    "API":{
-                       "Base":"logs",
-                       "Path":""
+                    "Name": "Step: Get logs from path /test",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
-                    "Method":"GET",
-                    "Headers":[
-                    {
-                        "Key":"syntax",
-                        "Value":"string_query"
-                    }
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
                     ],
-                    "Arguments":[
-                    {
-                        "Key": "filters",
-                        "Value": "path = /test, status = 473, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
-                    }
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test, status = 473, timestamp between @@NOW(-4minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                        }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "Headers":[
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                               "Key":"Server",
-                               "Value":"rhino-core-shield"
+                                "Key": "data/results/5/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/5/reason",
+                                "Value": "Block - content filter 100016[lvl5] - cfr_profile_test - [header xp_makecab=a]"
+                            },
+                            {
+                                "Key": "data/results/4/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/4/reason",
+                                "Value": "Block - content filter 100016[lvl5] - cfr_profile_test - [header a=xp_makecab]"
+                            },
+                            {
+                                "Key": "data/results/3/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/3/reason",
+                                "Value": "Block - content filter 100016[lvl5] - cfr_profile_test - [cookie a=xp_makecab]"
+                            },
+                            {
+                                "Key": "data/results/2/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/2/reason",
+                                "Value": "Block - content filter 100016[lvl5] - cfr_profile_test - [cookie xp_makecab=a]"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
+                                "Value": "Block - content filter cf_test_one_tag[lvl5] - cfr_profile_test - [URI argument a=test_one_tag]"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter cf_test_two_tags[lvl5] - cfr_profile_test - [URI argument a=test_two_tags]"
                             }
-                       ],
-                        "SingleResult":[
-                            {
-                               "Key":"data/results/5/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/5/reason",
-                              "Value":"Block - content filter 100016[lvl5] - cfr_profile_test - [header xp_makecab=a]"
-                            },
-                            {
-                               "Key":"data/results/4/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/4/reason",
-                              "Value":"Block - content filter 100016[lvl5] - cfr_profile_test - [header a=xp_makecab]"
-                            },
-                            {
-                               "Key":"data/results/3/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/3/reason",
-                              "Value":"Block - content filter 100016[lvl5] - cfr_profile_test - [cookie a=xp_makecab]"
-                            },
-                            {
-                               "Key":"data/results/2/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/2/reason",
-                              "Value":"Block - content filter 100016[lvl5] - cfr_profile_test - [cookie xp_makecab=a]"
-                            },
-                            {
-                               "Key":"data/results/1/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/1/reason",
-                              "Value":"Block - content filter cf_test_one_tag[lvl5] - cfr_profile_test - [URI argument a=test_one_tag]"
-                            },
-                            {
-                               "Key":"data/results/0/tags/*",
-                               "Value":"status:473"
-                            },
-                            {
-                               "Key":"data/results/0/reason",
-                              "Value":"Block - content filter cf_test_two_tags[lvl5] - cfr_profile_test - [URI argument a=test_two_tags]"
-                            }
-                       ]
-                   }
+                        ]
+                    }
                 }
             ]
         }

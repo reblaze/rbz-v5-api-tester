@@ -1,93 +1,93 @@
 {
-    "Name":"TA 1281 ACL deny bot",
-    "Skip":false,
+    "Name": "TA 1281 ACL deny bot",
+    "Skip": false,
     "Tests": [
         {
-            "Name":"Test 1: Create ACL Profiles",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 1: Create ACL Profiles",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create ACL Profile with name `acl-test-deny-bot`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"acl-profile",
-                        "Path":""
+                    "Name": "Step: User can create ACL Profile with name `acl-test-deny-bot`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-acl-profiles",
+                        "Path": "/acl-test-deny-bot"
                     },
-                    "Method":"POST",
-                    "Payload":{
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":[
+                        "Params": [
                             {
-                                "Key":"name",
-                                "Value":"\"acl-test-deny-bot\""
+                                "Key": "name",
+                                "Value": "\"acl-test-deny-bot\""
                             },
                             {
-                                "Key":"id",
-                                "Value":"\"acl-test-deny-bot\""
+                                "Key": "id",
+                                "Value": "\"acl-test-deny-bot\""
                             },
                             {
-                                "Key":"action",
-                                "Value":"\"action-acl-block\""
+                                "Key": "action",
+                                "Value": "\"action-acl-block\""
                             },
                             {
-                                "Key":"deny_bot",
-                                "Value":"[\"all\"]"
+                                "Key": "deny_bot",
+                                "Value": "[\"all\"]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name":"Step: User can create ACL Profile with name `acl-tag123",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"acl-profile",
-                        "Path":""
+                    "Name": "Step: User can create ACL Profile with name `acl-tag123",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-acl-profiles",
+                        "Path": "/acl-tag123"
                     },
-                    "Method":"POST",
-                    "Payload":{
+                    "Method": "POST",
+                    "Payload": {
                         "Template": "aclprofile.template",
                         "Defaults": "aclprofile.defaults",
-                        "Params":[
+                        "Params": [
                             {
-                                "Key":"name",
-                                "Value":"\"acl-tag123\""
+                                "Key": "name",
+                                "Value": "\"acl-tag123\""
                             },
                             {
-                                "Key":"id",
-                                "Value":"\"acl-tag123\""
+                                "Key": "id",
+                                "Value": "\"acl-tag123\""
                             },
                             {
-                                "Key":"action",
-                                "Value":"\"action-monitor\""
+                                "Key": "action",
+                                "Value": "\"action-monitor\""
                             },
                             {
-                                "Key":"deny_bot",
-                                "Value":"[\"123\"]"
+                                "Key": "deny_bot",
+                                "Value": "[\"123\"]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -95,42 +95,42 @@
             ]
         },
         {
-            "Name":"Test 2: Create security policy",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 2: Create security policy",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy `test-sp`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy `test-sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-deny-bot\",\"match\": \"/test-deny-bot\",\"name\": \"test-deny-bot\",\"acl_profile\": \"acl-test-deny-bot\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"inactive-deny-bot\",\"match\": \"/inactive-deny-bot\",\"name\": \"inactive-deny-bot\",\"acl_profile\": \"acl-test-deny-bot\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-tag123\",\"match\": \"/test-tag123\",\"name\": \"test-tag123\",\"acl_profile\": \"acl-tag123\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false, \"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-deny-bot\",\"match\": \"/test-deny-bot\",\"name\": \"test-deny-bot\",\"acl_profile\": \"acl-test-deny-bot\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"inactive-deny-bot\",\"match\": \"/inactive-deny-bot\",\"name\": \"inactive-deny-bot\",\"acl_profile\": \"acl-test-deny-bot\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []},{\"id\": \"test-tag123\",\"match\": \"/test-tag123\",\"name\": \"test-tag123\",\"acl_profile\": \"acl-tag123\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": true,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -138,57 +138,57 @@
             ]
         },
         {
-            "Name":"Test 3: Create server group and publish",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 3: Create server group and publish",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-site\""
+                                "Key": "id",
+                                "Value": "\"test-site\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-site\""
+                                "Key": "name",
+                                "Value": "\"test-site\""
                             },
                             {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
                             },
                             {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -252,7 +252,6 @@
                             "Value": "test.site"
                         }
                     ],
-
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
@@ -280,8 +279,8 @@
                     "Name": "Step: Get Logs from path '/test-deny-bot'",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -304,12 +303,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -332,8 +325,8 @@
                     "Name": "Step: Get Logs from path '/inactive-deny-bot'",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -356,12 +349,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",

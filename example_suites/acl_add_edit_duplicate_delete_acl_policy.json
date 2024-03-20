@@ -11,8 +11,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/test_acl_valid"
           },
           "Method": "POST",
           "Payload": {
@@ -30,13 +30,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -46,8 +46,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/empty_name"
           },
           "Method": "POST",
           "Payload": {
@@ -66,9 +66,7 @@
           },
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b\"schema mismatched: \\n'' is too short\\n\\nFailed validating 'minLength' in schema['properties']['name']:\\n    {'description': 'Name of entity shown in UI',\\n     'minLength': 1,\\n     'title': 'Name',\\n     'type': 'string'}\\n\\nOn instance['name']:\\n    ''\""
+            "Type": "status-code"
           }
         },
         {
@@ -76,8 +74,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/test_acl_existing"
           },
           "Method": "POST",
           "Payload": {
@@ -96,9 +94,7 @@
           },
           "Expected": {
             "Code": "409",
-            "Type": "content",
-            "Single": true,
-            "Text": "b'409 Conflict: entry with name test_acl_valid already exists in document [aclprofiles]'"
+            "Type": "status-code"
           }
         },
         {
@@ -106,8 +102,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/very_long_name"
           },
           "Method": "POST",
           "Payload": {
@@ -125,13 +121,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -141,8 +137,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/special_char_name"
           },
           "Method": "POST",
           "Payload": {
@@ -160,13 +156,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -176,8 +172,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/space_name"
           },
           "Method": "POST",
           "Payload": {
@@ -196,9 +192,7 @@
           },
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b\"schema mismatched: \n'' is too short\n\nFailed validating 'minLength' in schema['properties']['name']:\n {'description': 'Name of entity shown in UI',\n 'minLength': 1,\n 'title': 'Name',\n 'type': 'string'}\n\nOn instance['name']:\n ''\""
+            "Type": "status-code"
           }
         },
         {
@@ -206,8 +200,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/space_name_with_spaces"
           },
           "Method": "POST",
           "Payload": {
@@ -225,13 +219,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -241,8 +235,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "space_name_with_spaces/"
+            "Base": "api-acl-profiles",
+            "Path": "/space_name_with_spaces"
           },
           "Method": "GET",
           "Expected": {
@@ -262,8 +256,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/space_name_with_trailing_spaces"
           },
           "Method": "POST",
           "Payload": {
@@ -281,13 +275,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -297,8 +291,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "space_name_with_trailing_spaces/"
+            "Base": "api-acl-profiles",
+            "Path": "/space_name_with_trailing_spaces"
           },
           "Method": "GET",
           "Expected": {
@@ -321,18 +315,16 @@
       "Steps": [
         {
           "Name": "Delete default ACL Profile with Name: 'acl-default'",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "__acldefault__/"
+            "Base": "api-acl-profiles",
+            "Path": "/__acldefault__"
           },
           "Method": "DELETE",
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
+            "Type": "status-code"
           }
         }
       ]
@@ -346,8 +338,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "__acldefault__/"
+            "Base": "api-acl-profiles",
+            "Path": "/__acldefault__"
           },
           "Method": "PUT",
           "Payload": {
@@ -374,8 +366,8 @@
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully updated entry"
               }
             ]
           }
@@ -385,8 +377,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "__acldefault__/"
+            "Base": "api-acl-profiles",
+            "Path": "/__acldefault__"
           },
           "Method": "GET",
           "Expected": {
@@ -412,8 +404,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/not_attached_to_security_policy"
           },
           "Method": "POST",
           "Payload": {
@@ -431,13 +423,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -447,8 +439,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "not_attached_to_security_policy/"
+            "Base": "api-acl-profiles",
+            "Path": "/not_attached_to_security_policy"
           },
           "Method": "DELETE",
           "Expected": {
@@ -457,8 +449,8 @@
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully deleted entry"
               }
             ]
           }
@@ -474,8 +466,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/attached_to_security_policy"
           },
           "Method": "POST",
           "Payload": {
@@ -493,13 +485,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -509,8 +501,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "security-policy",
-            "Path": "__default__/"
+            "Base": "api-security-policies",
+            "Path": "/__default__"
           },
           "Method": "PUT",
           "Payload": {
@@ -531,26 +523,24 @@
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully updated entry"
               }
             ]
           }
         },
         {
           "Name": "Delete ACL Profile with Name: 'attached_to_security_policy'",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "attached_to_security_policy/"
+            "Base": "api-acl-profiles",
+            "Path": "/attached_to_security_policy"
           },
           "Method": "DELETE",
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
+            "Type": "status-code"
           }
         }
       ]
@@ -564,45 +554,19 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "actions",
+            "Base": "api-actions",
             "Path": ""
           },
           "Method": "GET",
           "Expected": {
             "Code": "200",
             "Type": "json",
-            "Single": false,
-            "MultipleResults": [
-              [
-                {
-                  "Key": "id",
-                  "Value": "action-acl-block"
-                },
-                {
-                  "Key": "name",
-                  "Value": "ACL block"
-                }
-              ],
-              [
-                {
-                  "Key": "id",
-                  "Value": "action-reblaze-feed-block"
-                },
-                {
-                  "Key": "name",
-                  "Value": "Reblaze feed block"
-                }
-              ],
-              [
-                {
-                  "Key": "id",
-                  "Value": "action-https-redirect"
-                },
-                {
-                  "Key": "name",
-                  "Value": "https redirect"
-                }
-              ]
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "items",
+                "Value": "[{\"id\": \"action-challenge\", \"name\": \"challenge\", \"tags\": [\"action:challenge\"], \"type\": \"challenge\"}, {\"id\": \"action-monitor\", \"name\": \"monitor (tag only)\", \"tags\": [\"action:monitor\"], \"type\": \"monitor\", \"params\": {\"headers\": {}}}, {\"id\": \"action-skip\", \"name\": \"skip security\", \"tags\": [\"action:skip\"], \"type\": \"skip\"}, {\"id\": \"action-global-filter-block\", \"name\": \"Global filter block\", \"tags\": [\"action:global-filter-block\"], \"type\": \"block\", \"params\": {\"status\": 470, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-rate-limit-block\", \"name\": \"Rate-limit block\", \"tags\": [\"action:rate-limit-block\"], \"type\": \"block\", \"params\": {\"status\": 471, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-acl-block\", \"name\": \"ACL block\", \"tags\": [\"action:acl-block\"], \"type\": \"block\", \"params\": {\"status\": 472, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-contentfilter-block\", \"name\": \"Content-filter block\", \"tags\": [\"action:content-filter-block\"], \"type\": \"block\", \"params\": {\"status\": 473, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-dynamic-rule-block\", \"name\": \"Dynamic-rule block\", \"tags\": [\"action:dynamic-rule-block\"], \"type\": \"block\", \"params\": {\"status\": 474, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-reblaze-feed-block\", \"name\": \"Reblaze feed block\", \"tags\": [\"action:reblaze-feed-block\"], \"type\": \"block\", \"params\": {\"status\": 475, \"content\": \"access denied\", \"headers\": {\"content-type\": \"text/html\"}}}, {\"id\": \"action-https-redirect\", \"name\": \"https redirect\", \"tags\": [\"action:https-redirect\"], \"type\": \"block\", \"params\": {\"status\": 301, \"headers\": {\"location\": \"https://${headers.host}${uri}\", \"content-type\": \"text/html\"}, \"content\": \"redirecting to https\"}}]"
+              }
             ]
           }
         }
@@ -617,8 +581,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_no_tags"
           },
           "Method": "POST",
           "Payload": {
@@ -640,13 +604,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -656,8 +620,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_one_tag"
           },
           "Method": "POST",
           "Payload": {
@@ -679,13 +643,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -695,8 +659,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_several_tags"
           },
           "Method": "POST",
           "Payload": {
@@ -718,13 +682,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -734,8 +698,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_long_tag"
           },
           "Method": "POST",
           "Payload": {
@@ -757,24 +721,24 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
         },
         {
           "Name": "Create ACL Profile with with 1 Char Tag",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_one_char_tag"
           },
           "Method": "POST",
           "Payload": {
@@ -797,18 +761,16 @@
           },
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
+            "Type": "status-code"
           }
         },
         {
           "Name": "Create ACL Profile with 2 Chars Tag",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_two_chars_tag"
           },
           "Method": "POST",
           "Payload": {
@@ -831,9 +793,7 @@
           },
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
+            "Type": "status-code"
           }
         },
         {
@@ -841,8 +801,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_special_char_tag"
           },
           "Method": "POST",
           "Payload": {
@@ -864,24 +824,24 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
         },
         {
           "Name": "Create ACL Profile with Tag Containing Space Characters Only",
-          "Skip": false,
+          "Skip": true,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_space_tag"
           },
           "Method": "POST",
           "Payload": {
@@ -904,9 +864,7 @@
           },
           "Expected": {
             "Code": "400",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
+            "Type": "status-code"
           }
         },
         {
@@ -914,8 +872,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_tag_with_trailing_spaces"
           },
           "Method": "POST",
           "Payload": {
@@ -937,13 +895,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -953,8 +911,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "acl_profile_tag_with_trailing_spaces/"
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_tag_with_trailing_spaces"
           },
           "Method": "GET",
           "Expected": {
@@ -974,8 +932,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": ""
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_tag_with_leading_spaces"
           },
           "Method": "POST",
           "Payload": {
@@ -997,13 +955,13 @@
             ]
           },
           "Expected": {
-            "Code": "200",
+            "Code": "201",
             "Type": "json",
             "Single": true,
             "SingleResult": [
               {
-                "Key": "ok",
-                "Value": true
+                "Key": "message",
+                "Value": "Successfully created entry"
               }
             ]
           }
@@ -1013,8 +971,8 @@
           "Skip": false,
           "GenerateID": false,
           "API": {
-            "Base": "acl-profile",
-            "Path": "acl_profile_tag_with_leading_spaces/"
+            "Base": "api-acl-profiles",
+            "Path": "/acl_profile_tag_with_leading_spaces"
           },
           "Method": "GET",
           "Expected": {

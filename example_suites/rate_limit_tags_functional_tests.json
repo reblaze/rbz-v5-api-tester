@@ -1,121 +1,121 @@
 {
-    "Name":"TA 1428 Rate limit tags functional tests",
-    "Skip":false,
-    "Tests":[
+    "Name": "TA 1428 Rate limit tags functional tests",
+    "Skip": false,
+    "Tests": [
         {
-            "Name":"Test 1: Create rate limits",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 1: Create rate limits",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create rate limit with name `rl_one_tag`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"rate-limit",
-                        "Path":""
+                    "Name": "Step: User can create rate limit with name `rl_one_tag`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_one_tag"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"name",
-                                "Value":"\"rl_one_tag\""
+                                "Key": "name",
+                                "Value": "\"rl_one_tag\""
                             },
                             {
-                                "Key":"id",
-                                "Value":"\"rl_one_tag\""
+                                "Key": "id",
+                                "Value": "\"rl_one_tag\""
                             },
                             {
-                                "Key":"active",
-                                "Value":"true"
+                                "Key": "active",
+                                "Value": "true"
                             },
                             {
-                                "Key":"threshold",
-                                "Value":"0"
+                                "Key": "threshold",
+                                "Value": "0"
                             },
                             {
-                                "Key":"timeframe",
-                                "Value":"10"
+                                "Key": "timeframe",
+                                "Value": "10"
                             },
                             {
-                                "Key":"action",
-                                "Value":"\"action-rate-limit-block\""
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
                             },
                             {
-                                "Key":"key",
-                                "Value":"[{\"attrs\":\"ip\"}]"
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"ip\"}]"
                             },
                             {
-                                "Key":"tags",
-                                "Value":"[\"my-test\"]"
+                                "Key": "tags",
+                                "Value": "[\"my-test\"]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "Name":"Step: User can create rate limit with name `rl_several_tags`",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"rate-limit",
-                        "Path":""
+                    "Name": "Step: User can create rate limit with name `rl_several_tags`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_several_tags"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"name",
-                                "Value":"\"rl_several_tags\""
+                                "Key": "name",
+                                "Value": "\"rl_several_tags\""
                             },
                             {
-                                "Key":"id",
-                                "Value":"\"rl_several_tags\""
+                                "Key": "id",
+                                "Value": "\"rl_several_tags\""
                             },
                             {
-                                "Key":"active",
-                                "Value":"true"
+                                "Key": "active",
+                                "Value": "true"
                             },
                             {
-                                "Key":"threshold",
-                                "Value":"0"
+                                "Key": "threshold",
+                                "Value": "0"
                             },
                             {
-                                "Key":"timeframe",
-                                "Value":"10"
+                                "Key": "timeframe",
+                                "Value": "10"
                             },
                             {
-                                "Key":"action",
-                                "Value":"\"action-rate-limit-block\""
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
                             },
                             {
-                                "Key":"key",
-                                "Value":"[{\"attrs\":\"ip\"}]"
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"ip\"}]"
                             },
                             {
-                                "Key":"tags",
-                                "Value":"[\"my-test1\",\"my-test2\", \"my-test3\"]"
+                                "Key": "tags",
+                                "Value": "[\"my-test1\",\"my-test2\", \"my-test3\"]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -123,94 +123,94 @@
             ]
         },
         {
-            "Name":"Test 2: Create security policy with attached all rate limits",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 2: Create security policy with attached all rate limits",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy with attached rate limits",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy with attached rate limits",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test1\", \"name\": \"test1\", \"match\": \"/test1\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_one_tag\"]},{\"id\": \"test2\", \"name\": \"test2\", \"match\": \"/test2\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_several_tags\"]}]"
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test1\", \"name\": \"test1\", \"match\": \"/test1\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_one_tag\"]},{\"id\": \"test2\", \"name\": \"test2\", \"match\": \"/test2\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_several_tags\"]}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"id",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"name",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
-                            },
-                            {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -232,7 +232,6 @@
                             "Value": "test.site"
                         }
                     ],
-
                     "Expected": {
                         "Code": "471",
                         "Type": "content",
@@ -243,28 +242,28 @@
             ]
         },
         {
-            "Name":"Test 4: Send traffic to rate limit `rl_several_tags`",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 4: Send traffic to rate limit `rl_several_tags`",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: Send Traffic 1 to rate limit `rl_several_tags`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":"/test2"
+                    "Name": "Step: Send Traffic 1 to rate limit `rl_several_tags`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test2"
                     },
-                    "Method":"GET",
-                    "Headers":[
+                    "Method": "GET",
+                    "Headers": [
                         {
-                            "Key":"Host",
-                            "Value":"test.site"
+                            "Key": "Host",
+                            "Value": "test.site"
                         }
                     ],
-                    "Expected":{
-                        "Code":"471",
-                        "Type":"content",
-                        "Single":true,
-                        "Text":"b''"
+                    "Expected": {
+                        "Code": "471",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
                     }
                 }
             ]
@@ -287,8 +286,8 @@
                     "Name": "Step: Get logs from rate limit `rl_one_tag`",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -307,7 +306,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -331,33 +329,33 @@
             "Skip": false,
             "Steps": [
                 {
-                    "Name":"Step: Get Logs from rate limit `rl_several_tags`",
-                    "Skip":false,
-                    "API":{
-                        "Base":"logs",
-                        "Path":""
+                    "Name": "Step: Get Logs from rate limit `rl_several_tags`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
-                    "Method":"GET",
-                    "Headers":[
+                    "Method": "GET",
+                    "Headers": [
                         {
-                            "Key":"syntax",
-                            "Value":"string_query"
+                            "Key": "syntax",
+                            "Value": "string_query"
                         }
                     ],
-                    "Arguments":[
+                    "Arguments": [
                         {
-                            "Key":"filters",
-                            "Value":"path = /test2, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+                            "Key": "filters",
+                            "Value": "path = /test2, status != 403, timestamp between @@NOW(-2minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
                         }
                     ],
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"data/results/0/tags/*",
-                                "Value":"status:471"
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:471"
                             },
                             {
                                 "Key": "data/results/0/tags/*",
@@ -375,7 +373,6 @@
                                 "Key": "data/results/0/tags/*",
                                 "Value": "limit-name:rl-several-tags"
                             }
-
                         ]
                     }
                 }

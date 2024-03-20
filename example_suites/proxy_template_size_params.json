@@ -1,30 +1,25 @@
 {
     "Name": "Test Size Parameters Validation - Proxy Templates",
     "Skip": false,
-    "Tests": 
-    [
+    "Tests": [
         {
             "Name": "Verify existing template has necessary parameters",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Check default template parameters",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
+                    "API": {
+                        "Base": "api-proxy-templates",
                         "Path": "__default__"
                     },
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":  
-                        [
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "Default Proxy Template"
@@ -49,22 +44,18 @@
         {
             "Name": "Test new template has necessary parameters",
             "Skip": false,
-            "Steps":
-            [
+            "Steps": [
                 {
                     "Name": "Create a new template 'My Template'",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"POST",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -75,16 +66,14 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "201",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":  
-                        [
+                        "SingleResult": [
                             {
-                                "Key": "id",
-                                "Value": "api_tester_cccbbbaaa"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -93,19 +82,16 @@
                     "Name": "Verify new template has expected parameters",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
+                    "API": {
+                        "Base": "api-proxy-templates",
                         "Path": "api_tester_cccbbbaaa"
                     },
-                    "Method" :"GET",
-                    "Expected": 
-                    {
+                    "Method": "GET",
+                    "Expected": {
                         "Code": "200",
                         "Type": "json",
                         "Single": true,
-                        "SingleResult":  
-                        [
+                        "SingleResult": [
                             {
                                 "Key": "name",
                                 "Value": "My Template"
@@ -129,16 +115,13 @@
                     "Name": "Update template with valid parameters",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -149,40 +132,41 @@
                             },
                             {
                                 "Key": "client_header_buffer_size",
-                                "Value": "16"
+                                "Value": "\"16\""
                             },
                             {
                                 "Key": "large_client_header_buffers_count",
-                                "Value": "4"
+                                "Value": "\"4\""
                             },
                             {
                                 "Key": "large_client_header_buffers_size",
-                                "Value": "16"
+                                "Value": "\"16\""
                             }
                         ]
                     },
-                    "Expected": 
-                    {
-                        "Code": "204",
-                        "Type": "content",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b''"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid valid parameters - decimal client_header_buffer_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -205,28 +189,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> client_header_buffer_size\\n  the client header buffer size value: 3.5 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - non numeric client_header_buffer_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -249,28 +234,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> client_header_buffer_size\\n  the client header buffer size value: aaa should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - negative client_header_buffer_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -293,28 +279,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> client_header_buffer_size\\n  the client header buffer size value: -1 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - above 64 client_header_buffer_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -337,28 +324,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> client_header_buffer_size\\n  the client header buffer size value: 65 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid valid parameters - decimal large_client_header_buffers_count",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -381,28 +369,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_count\\n  the large client header buffers count value: 3.5 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - non numeric large_client_header_buffers_count",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -425,28 +414,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_count\\n  the large client header buffers count value: aaa should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - negative large_client_header_buffers_count",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -469,28 +459,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_count\\n  the large client header buffers count value: -1 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - above 64 large_client_header_buffers_count",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -513,28 +504,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_count\\n  the large client header buffers count value: 65 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid valid parameters - decimal large_client_header_buffers_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -557,28 +549,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_size\\n  the large client header buffers size value: 16.5 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - non numeric large_client_header_buffers_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -601,28 +594,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_size\\n  the large client header buffers size value: aaa should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - negative large_client_header_buffers_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -645,28 +639,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_size\\n  the large client header buffers size value: -1 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - above 64 large_client_header_buffers_size",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -689,28 +684,29 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_size\\n  the large client header buffers size value: 65 should be a positive number between 1 to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 },
                 {
                     "Name": "Update template with invalid parameters - multiple of large_client_header_buffers_count and large_client_header_buffers_size above 65",
                     "Skip": false,
                     "GenerateID": false,
-                    "API": 
-                    {
-                        "Base": "proxy-template",
-                        "Path": "api_tester_cccbbbaaa/"
+                    "API": {
+                        "Base": "api-proxy-templates",
+                        "Path": "/api_tester_cccbbbaaa"
                     },
-                    "Method" :"PUT",
-                    "Payload":
-                    {
-                        "Params":
-                        [
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
                             {
                                 "Key": "name",
                                 "Value": "\"My Template\""
@@ -733,12 +729,16 @@
                             }
                         ]
                     },
-                    "Expected": 
-                    {
+                    "Expected": {
                         "Code": "422",
-                        "Type": "content",
+                        "Type": "json",
                         "Single": true,
-                        "Text": "b'1 validation error for Request\\nbody -> large_client_header_buffers_size\\n  the large client header buffers size value: 32 multiplied by the large client header buffers count value: 3 should be less or equal to 64 (type=value_error)'"
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Request does not match schema"
+                            }
+                        ]
                     }
                 }
             ]

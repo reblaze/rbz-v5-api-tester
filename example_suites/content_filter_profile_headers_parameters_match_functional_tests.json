@@ -1,18 +1,18 @@
 {
-    "Name":"TA 1287 Content filter profile headers parameters match functional tests",
-    "Skip":false,
-    "Tests":[
+    "Name": "TA 1287 Content filter profile headers parameters match functional tests",
+    "Skip": false,
+    "Tests": [
         {
-            "Name":"Test 1: Create filter profiles",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 1: Create filter profiles",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Create new content filter profile with name `test_cfr_match`",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_match"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -32,13 +32,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -48,8 +48,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_restrict"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -69,13 +69,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -85,8 +85,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_restrict_mask"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -106,13 +106,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -122,8 +122,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_ignore"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -143,13 +143,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -159,8 +159,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_ignore_empty"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -180,13 +180,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -196,8 +196,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfr_regex"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -210,7 +210,6 @@
                                 "Key": "name",
                                 "Value": "\"test_cfr_regex\""
                             },
-
                             {
                                 "Key": "headers",
                                 "Value": "{\"names\":[],\"regex\":[{\"type\":\"regex\",\"key\":\"(ooo|test-regex)\",\"reg\":\"('|\\\")[^-]*bc--\",\"restrict\":false,\"mask\":false,\"exclusions\":[],\"id\":\"cfr_regex\"}],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
@@ -218,13 +217,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -232,95 +231,94 @@
             ]
         },
         {
-            "Name":"Test 2: Create security policy ",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 2: Create security policy ",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy with attached content filter profiles",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy with attached content filter profiles",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-match\", \"name\": \"test-match\", \"match\": \"/test-match\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_match\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-restrict\", \"name\": \"test-restrict\", \"match\": \"/test-restrict\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-restrict-mask\", \"name\": \"test-restrict-mask\", \"match\": \"/test-restrict-mask\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict_mask\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-ignore\", \"name\": \"test-ignore\", \"match\": \"/test-ignore\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_ignore\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-ignore-empty\", \"name\": \"test-ignore-empty\", \"match\": \"/test-ignore-empty\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_ignore_empty\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-regex\", \"name\": \"test-regex\", \"match\": \"/test-regex\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_regex\", \"content_filter_active\": true, \"limit_ids\": []}]"
-
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-match\", \"name\": \"test-match\", \"match\": \"/test-match\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_match\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-restrict\", \"name\": \"test-restrict\", \"match\": \"/test-restrict\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-restrict-mask\", \"name\": \"test-restrict-mask\", \"match\": \"/test-restrict-mask\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_restrict_mask\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-ignore\", \"name\": \"test-ignore\", \"match\": \"/test-ignore\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_ignore\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-ignore-empty\", \"name\": \"test-ignore-empty\", \"match\": \"/test-ignore-empty\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_ignore_empty\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-regex\", \"name\": \"test-regex\", \"match\": \"/test-regex\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfr_regex\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"id",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"name",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
-                            },
-                            {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -378,7 +376,6 @@
                         "Text": "b'access denied'"
                     }
                 },
-
                 {
                     "Name": "Step: Send Traffic 3 to `-H test-restrict-key:\"a`",
                     "Skip": false,
@@ -574,8 +571,8 @@
                     "Name": "Step: Get Logs from path /test-match",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -598,12 +595,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -630,8 +621,8 @@
                     "Name": "Step: Get Logs from path /test-restrict",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -654,12 +645,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -686,8 +671,8 @@
                     "Name": "Step: Get Logs from path /test-restrict-mask",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -710,12 +695,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -746,8 +725,8 @@
                     "Name": "Step: Get Logs from path /test-ignore-empty",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -770,12 +749,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",
@@ -802,8 +775,8 @@
                     "Name": "Step: Get Logs from path /test-regex",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -826,12 +799,6 @@
                         "Code": "200",
                         "Type": "jsonpath",
                         "Single": true,
-                        "Headers": [
-                            {
-                                "Key": "Server",
-                                "Value": "rhino-core-shield"
-                            }
-                        ],
                         "SingleResult": [
                             {
                                 "Key": "data/results/0/tags/*",

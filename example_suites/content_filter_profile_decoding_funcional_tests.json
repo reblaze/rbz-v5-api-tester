@@ -1,18 +1,18 @@
 {
-    "Name":"TA 1373 Content filter profile decoding functional tests",
-    "Skip":false,
-    "Tests":[
+    "Name": "TA 1373 Content filter profile decoding functional tests",
+    "Skip": false,
+    "Tests": [
         {
-            "Name":"Test 1: Create filter profiles",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 1: Create filter profiles",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Create new content filter profile with name `test_cfp_base64`",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_base64"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -44,13 +44,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -60,8 +60,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_url"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -93,13 +93,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -109,8 +109,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_html"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -142,13 +142,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -158,8 +158,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_unicode"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -191,13 +191,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -207,8 +207,8 @@
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
-                        "Base": "content-filter-profile",
-                        "Path": ""
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp_multiple"
                     },
                     "Method": "POST",
                     "Payload": {
@@ -240,13 +240,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "200",
+                        "Code": "201",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
-                                "Key": "ok",
-                                "Value": true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -254,95 +254,94 @@
             ]
         },
         {
-            "Name":"Test 2: Create security policy ",
-            "Skip":false,
-            "Steps":[
+            "Name": "Test 2: Create security policy ",
+            "Skip": false,
+            "Steps": [
                 {
-                    "Name":"Step: User can create security policy with attached content filter profiles",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                    "Name": "Step: User can create security policy with attached content filter profiles",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
                     },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
                             {
-                                "Key":"id",
-                                "Value":"\"test-sp\""
+                                "Key": "id",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"name",
-                                "Value":"\"test-sp\""
+                                "Key": "name",
+                                "Value": "\"test-sp\""
                             },
                             {
-                                "Key":"map",
-                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-base\", \"name\": \"test-base\", \"match\": \"/test-base\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_base64\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-url\", \"name\": \"test-url\", \"match\": \"/test-url\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_url\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-html\", \"name\": \"test-html\", \"match\": \"/test-html\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_html\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-unicode\", \"name\": \"test-unicode\", \"match\": \"/test-unicode\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_unicode\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-multiple\", \"name\": \"test-multiple\", \"match\": \"/test-multiple\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_multiple\", \"content_filter_active\": true, \"limit_ids\": []}]"
-
+                                "Key": "map",
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-base\", \"name\": \"test-base\", \"match\": \"/test-base\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_base64\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-url\", \"name\": \"test-url\", \"match\": \"/test-url\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_url\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-html\", \"name\": \"test-html\", \"match\": \"/test-html\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_html\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-unicode\", \"name\": \"test-unicode\", \"match\": \"/test-unicode\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_unicode\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-multiple\", \"name\": \"test-multiple\", \"match\": \"/test-multiple\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp_multiple\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name":"Step: Create new server group 'test.site' ",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
-                    },
-                    "Method":"POST",
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"id",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"name",
-                                "Value":"\"test-site\""
-                            },
-                            {
-                                "Key":"server_names",
-                                "Value":"[\"test.site\"]"
-                            },
-                            {
-                                "Key":"security_policy",
-                                "Value":"\"test-sp\""
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
-                            {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
                 },
                 {
-                    "ID":"publish-changes",
-                    "Skip":false
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
                 },
                 {
-                    "ID":"wait-for-publish",
-                    "Skip":false
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
                 }
             ]
         },
@@ -364,8 +363,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
@@ -392,8 +390,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "%3Cselect%3E"
@@ -426,8 +423,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
@@ -454,8 +450,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "%3Cselect%3E"
@@ -488,8 +483,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
@@ -520,8 +514,7 @@
                             "Value": "text/html"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "&lt;select&gt;"
@@ -554,8 +547,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
@@ -582,8 +574,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e"
@@ -616,8 +607,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "KCBlY2hvICc8c2VsZWN0PicgfCBiYXNlNjQgKQo="
@@ -644,8 +634,7 @@
                             "Value": "test.site"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "\\u003c\\u0073\\u0065\\u006c\\u0065\\u0063\\u0074\\u003e"
@@ -671,13 +660,12 @@
                             "Key": "Host",
                             "Value": "test.site"
                         },
-                         {
+                        {
                             "Key": "Content-Type",
                             "Value": "text/html"
                         }
                     ],
-                    "Arguments":
-                    [
+                    "Arguments": [
                         {
                             "Key": "test-osci",
                             "Value": "&lt;select&gt;"
@@ -710,8 +698,8 @@
                     "Name": "Step: Get Logs from path /test-base",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -754,8 +742,8 @@
                     "Name": "Step: Get Logs from path /test-url",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -798,8 +786,8 @@
                     "Name": "Step: Get Logs from path /test-multiple",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -854,8 +842,8 @@
                     "Name": "Step: Get Logs from path /test-html",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
@@ -898,8 +886,8 @@
                     "Name": "Step: Get Logs from path /test-unicode",
                     "Skip": false,
                     "API": {
-                        "Base": "logs",
-                        "Path": ""
+                        "Base": "api-data",
+                        "Path": "/logs"
                     },
                     "Method": "GET",
                     "Headers": [
