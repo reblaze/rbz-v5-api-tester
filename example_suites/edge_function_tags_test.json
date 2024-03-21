@@ -1,0 +1,271 @@
+{
+  "Name": "CS-858 Indicate which edge function processed a request",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "Test addition of tags to requests processed by edge functions",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Step: Create security policy with attached default edge functions",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-security-policies",
+            "Path": "/test-sp"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-sp\""
+              },
+              {
+                "Key": "map",
+                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"77168d65b01e\",\"name\":\"request\",\"match\":\"/request\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[\"redirectHTTPToHTTPS\"],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"69bc084d4b1a\",\"name\":\"response\",\"match\":\"/response\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[\"setCacheFor1Hour\"],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"172691fb6a9b\",\"name\":\"both\",\"match\":\"/both\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[\"setCacheFor1Hour\",\"redirectHTTPToHTTPS\"],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step: Create new server group 'test.site' ",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-server-groups",
+            "Path": "/test-site"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test-site\""
+              },
+              {
+                "Key": "server_names",
+                "Value": "[\"test.site\"]"
+              },
+              {
+                "Key": "security_policy",
+                "Value": "\"test-sp\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
+        {
+          "ID": "publish-changes",
+          "Skip": false
+        },
+        {
+          "ID": "wait-for-publish",
+          "Skip": false
+        },
+        {
+          "Name": "Step: Send request to path /request",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/request"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step: Send request to path /response",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/response"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "Name": "Step: Send request to path /both",
+          "Skip": false,
+          "API": {
+            "Base": "send-traffic",
+            "Path": "/both"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "Host",
+              "Value": "test.site"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "status-code"
+          }
+        },
+        {
+          "ID": "wait-for-logs",
+          "Skip": false
+        },
+        {
+          "Name": "Step: Get Logs for path /request",
+          "Skip": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/logs"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "filters",
+              "Value": "path = /request, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function-name:redirect-http-to-https"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step: Get Logs for path /response",
+          "Skip": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/logs"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "filters",
+              "Value": "path = /response, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function-name:set-cache-for-1-hour"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Step: Get Logs for path /both",
+          "Skip": false,
+          "API": {
+            "Base": "api-data",
+            "Path": "/logs"
+          },
+          "Method": "GET",
+          "Headers": [
+            {
+              "Key": "syntax",
+              "Value": "string_query"
+            }
+          ],
+          "Arguments": [
+            {
+              "Key": "filters",
+              "Value": "path = /both, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+2minutes)@@, branch=@@branch@@"
+            }
+          ],
+          "Expected": {
+            "Code": "200",
+            "Type": "jsonpath",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function-name:set-cache-for-1-hour"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function-name:redirect-http-to-https"
+              },
+              {
+                "Key": "data/results/0/tags/*",
+                "Value": "edge-function"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
