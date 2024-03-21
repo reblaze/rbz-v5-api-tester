@@ -78,7 +78,7 @@
                             },
                             {
                                 "Key":"code",
-                                "Value":"\"ngx.header['foo-response'] = 'bar'\""
+                                "Value":"\"ngx.header['foo-response'] = 'bar-response'\""
                             }
                         ]
                     },
@@ -97,7 +97,7 @@
             ]
         },
         {
-            "Name":"Test 3: 2 cf on same path",
+            "Name":"Test 3: Create security policy and server group",
             "Skip": false,
             "Steps":[
                 {
@@ -121,7 +121,7 @@
                             },
                             {
                                 "Key":"map",
-                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": [\"ef_request\", \"ef_response\"]}, {\"id\": \"test\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [\"ef_request\", \"ef_response\"], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                                "Value":"[{\"id\": \"__default_entry__\",\"match\": \"/\",\"name\": \"default\",\"acl_profile\": \"__acldefault__\",\"content_filter_profile\": \"__defaultcontentfilter__\",\"backend_id\": \"__default__\",\"acl_active\": false,\"content_filter_active\": false,\"limit_ids\": [],\"cloud_functions\": []}, {\"id\": \"request\", \"name\": \"request\", \"match\": \"/request\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [\"ef_request\"], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"response\", \"name\": \"response\", \"match\": \"/response\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [\"ef_response\"], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -204,17 +204,19 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
-                        },
-                        {
-                            "Key": "foo-request",
-                            "Value": "bar-request"
                         }
                     ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b''",
+                        "Headers": [
+                            {
+                                "Key": "foo-request",
+                                "Value": "bar-request"
+                            }
+                        ]
                     }
                 },
                 {
@@ -229,17 +231,19 @@
                         {
                             "Key": "Host",
                             "Value": "test.site"
-                        },
-                        {
-                            "Key": "foo-response",
-                            "Value": "bar-response"
                         }
                     ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
                         "Single": true,
-                        "Text": "b''"
+                        "Text": "b''",
+                        "Headers": [
+                        {
+                            "Key": "foo-response",
+                            "Value": "bar-response"
+                        }
+                    ]
                     }
                 }
             ]
