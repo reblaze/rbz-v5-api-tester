@@ -82,8 +82,8 @@
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
-                        "Base":"security-policy",
-                        "Path":""
+                        "Base":"api-security-policies",
+                        "Path":"/test-sp"
                     },
                     "Method":"POST",
                     "Payload":{
@@ -103,14 +103,14 @@
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"ok",
-                                "Value":true
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -120,8 +120,8 @@
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
-                        "Base":"server-group",
-                        "Path":"test-site/"
+                        "Base":"api-server-groups",
+                        "Path":"/test-site"
                     },
                     "Method":"POST",
                     "Payload":{
@@ -144,14 +144,14 @@
                             }
                         ]
                     },
-                    "Expected":{
-                        "Code":"201",
-                        "Type":"json",
-                        "Single":true,
-                        "SingleResult":[
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
                             {
-                                "Key":"id",
-                                "Value":"test-site"
+                                "Key": "message",
+                                "Value": "Successfully created entry"
                             }
                         ]
                     }
@@ -221,7 +221,7 @@
                     }
                 },
                 {
-                    "ID":"wait-1.5-minutes",
+                    "ID":"wait-2-minutes",
                     "Skip":false
                 },
                 {
@@ -274,13 +274,24 @@
                         "Params":[
                             {
                                 "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"config\":\"prod\"}}}]}"
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
                             }
                         ]
                     },
                     "Expected":{
                         "Code":"200",
-                        "Type":"status-code"
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "124"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_test"
+                            }
+                        ]
                     }
                 }
             ]
@@ -360,7 +371,7 @@
                     "Skip":false
                 },
                 {
-                    "ID":"wait-1.5-minutes",
+                    "ID":"wait-2-minutes",
                     "Skip":false
                 }
             ]
@@ -392,6 +403,47 @@
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 7: Verify the entry was removed from Quarantined",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                        {
+                            "Key":"query",
+                            "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
+                        }
+                    ]
+                },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results",
+                                "Value": "[]"
+                            }
+                        ]
                     }
                 }
             ]
