@@ -1,0 +1,1617 @@
+{
+    "Name":"TA 1492 Content filter profile evaluation order tests",
+    "Skip":false,
+    "Tests":[
+        {
+            "Name":"Test 1: Create content filter rules and filter profiles ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create global filter with name `gf-test`",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-global-filters",
+                        "Path":"/gf-test"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"name",
+                                "Value":"\"gf-test\""
+                            },
+                            {
+                                "Key":"id",
+                                "Value":"\"gf-test\""
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"true"
+                            },
+                            {
+                                "Key":"action",
+                                "Value":"\"action-monitor\""
+                            },
+                            {
+                                "Key":"tags",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"rule",
+                                "Value":"{\"relation\": \"OR\",\"entries\": [[\"headers\",[\"gf\", \"ignore-tag\"],\"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create filter rule with name 'test-active'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-rules",
+                        "Path": "/test-active"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-active\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-active\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-category\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"test-subcategory\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"test-active\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "1"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create filter rule with name 'test-report'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-rules",
+                        "Path": "/test-report"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-report\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-report\""
+                            },
+                            {
+                                "Key": "category",
+                                "Value": "\"test-category\""
+                            },
+                            {
+                                "Key": "subcategory",
+                                "Value": "\"test-subcategory\""
+                            },
+                            {
+                                "Key": "operand",
+                                "Value": "\"test-report\""
+                            },
+                            {
+                                "Key": "risk",
+                                "Value": "1"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new content filter profile with name `test-profile`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[\"json\"]"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 1, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad322\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-json-uncheck'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-json-uncheck"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-json-uncheck\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-json-uncheck\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 1, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad3229\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-args-max-count-uncheck'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-args-max-count-uncheck"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-args-max-count-uncheck\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-args-max-count-uncheck\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 1, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad3229\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-delete-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-delete-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-delete-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-delete-args\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-ignore-report'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-ignore-report"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-ignore-report\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-ignore-report\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-report-parameter'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-report-parameter"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-report-parameter\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-report-parameter\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 512, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad3339\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-report-parameter-max-count'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-report-parameter-max-count"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-report-parameter-max-count\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-report-parameter-max-count\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[\"json\"]"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 1, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad3129\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-restrict-content-type'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-restrict-content-type"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-restrict-content-type\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-restrict-content-type\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 1, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad3229\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create content filter profile: 'test-profile-restrict-ignore-body'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test-profile-restrict-ignore-body"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-profile-restrict-ignore-body\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-profile-restrict-ignore-body\""
+                            },
+                            {
+                                "Key": "ignore_alphanum",
+                                "Value": "false"
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "content_type",
+                                "Value": "[\"json\"]"
+                            },
+                            {
+                                "Key":"ignore",
+                                "Value":"[\"ignore-tag\"]"
+                            },
+                            {
+                                "Key":"report",
+                                "Value":"[\"cf-rule-name:test-report\"]"
+                            },
+                            {
+                                "Key":"active",
+                                "Value":"[\"cf-rule-risk:5\",\"cf-rule-risk:4\",\"cf-rule-risk:3\",\"cf-rule-subcategory:libinjection-xss\", \"cf-rule-name:test-active\", \"cf-rule-name:test-active\"]"
+                            },
+                            {
+                                "Key": "decoding",
+                                "Value": "{\"base64\": true, \"dual\": false, \"html\": false, \"unicode\": false}"
+                            },
+                            {
+                                "Key": "headers",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "cookies",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "allsections",
+                                "Value": "{\"enable_max_count\": false, \"enable_max_length\": false, \"max_count\": 42, \"max_length\": 1024,\"names\": [],\"regex\": []}"
+                            },
+                            {
+                                "Key": "args",
+                                "Value": "{\"enable_max_count\": true, \"enable_max_length\": false, \"max_count\": 1, \"max_length\": 1024,\"names\": [{\"type\": \"names\",\"key\": \"test\",\"reg\": \"<abc>\",\"restrict\": true,\"mask\": false,\"exclusions\": [],\"id\": \"aaf6c4ad3229\"}],\"regex\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Create security policy ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy with attached content filter profiles",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-security-policies",
+                        "Path":"/test-sp"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}, {\"id\": \"test-cf\", \"name\": \"test-cf\", \"match\": \"/test-cf\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-cf-json-uncheck\", \"name\": \"test-cf-json-uncheck\", \"match\": \"/test-cf-json-uncheck\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-json-uncheck\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-cf-args-max-count\", \"name\": \"test-cf-args-max-count\", \"match\": \"/test-cf-args-max-count\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-args-max-count-uncheck\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-cf-delete-args\", \"name\": \"test-cf-delete-args\", \"match\": \"/test-cf-delete-args\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-delete-args\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-cf-ignore-report\", \"name\": \"test-cf-ignore-report\", \"match\": \"/test-cf-ignore-report\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-ignore-report\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-cf-report-parameter\", \"name\": \"test-cf-report-parameter\", \"match\": \"/test-cf-report-parameter\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-report-parameter\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-cf-max-count\", \"name\": \"test-cf-max-count\", \"match\": \"/test-cf-max-count\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-report-parameter-max-count\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test-cf-content-type\", \"name\": \"test-cf-content-type\", \"match\": \"/test-cf-content-type\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-restrict-content-type\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"test-restrict\", \"name\": \"test-restrict\", \"match\": \"/test-restrict\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test-profile-restrict-ignore-body\", \"content_filter_active\": true, \"limit_ids\": []}]"
+
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-server-groups",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path '/test-cf', request '-d 'test=<apple>'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path '/test-cf', request 'd 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to path '/test-cf-json-uncheck', request 'd 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-json-uncheck"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to path '/test-cf-args-max-count', request 'd 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-args-max-count"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 5 to path '/test-cf-delete-args', request 'd 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-delete-args"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 6 to path '/test-cf-ignore-report', request -d 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'  -H 'gf:ignore-tag' -d 'report=test-report'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-ignore-report"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "gf",
+                            "Value": "ignore-tag"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        },
+                        {
+                            "Key":"report",
+                            "Value":"test-report"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 7 to path '/test-cf-report-parameter', request -d 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'  -H 'gf:ignore-tag' -d 'report=test-report'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-report-parameter"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "gf",
+                            "Value": "ignore-tag"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        },
+                        {
+                            "Key":"report",
+                            "Value":"test-report"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 8 to path '/test-cf-max-count', request -d 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'  -H 'gf:ignore-tag' -d 'report=test-report'",
+                    "Skip": true,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-max-count"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "gf",
+                            "Value": "ignore-tag"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        },
+                        {
+                            "Key":"report",
+                            "Value":"test-report"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 9 to path '/test-cf-content-type', request -d 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K'  -H 'gf:ignore-tag' -d 'report=test-report'",
+                    "Skip": true,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-cf-content-type"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "gf",
+                            "Value": "ignore-tag"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        },
+                        {
+                            "Key":"report",
+                            "Value":"test-report"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "473",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 10 to path '/test-restrict', request -d 'test=<apple>' -d 'active=test-active' -d 'dec=PHNlbGVjdD4K' -d 'report=test-report'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test-restrict"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Arguments":[
+                        {
+                            "Key":"test",
+                            "Value":"<apple>"
+                        },
+                        {
+                            "Key":"active",
+                            "Value":"test-active"
+                        },
+                        {
+                            "Key":"dec",
+                            "Value":"PHNlbGVjdD4K"
+                        },
+                        {
+                            "Key":"report",
+                            "Value":"test-report"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Check logs from path /test-cf",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cf",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cf, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-profile"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted malformed body[content type is application/x-www-form-urlencoded/[Json]] - test-profile - [body]"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/1/tags/*",
+                                "Value": "contentfiltername:test-profile"
+                            },
+                            {
+                                "Key": "data/results/1/reason",
+                                "Value": "Block - restricted malformed body[content type is application/x-www-form-urlencoded/[Json]] - test-profile - [body]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Check logs from path /test-cf-json-uncheck",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cf-json-uncheck",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cf-json-uncheck, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-profile-json-uncheck"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted too many[4/1] - test-profile-json-uncheck - [uri]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Check logs from path /test-cf-args-max-count",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cf-args-max-count",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cf-args-max-count, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-profile-args-max-count-uncheck"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted restricted[<apple>/<abc>] - test-profile-args-max-count-uncheck - [URI argument test=<apple>]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Check logs from path /test-cf-delete-args",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cf-delete-args",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cf-delete-args, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-profile-delete-args"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - content filter test-active[lvl1] - test-profile-delete-args - [URI argument active=test-active]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Check logs from path /test-cf-max-count",
+            "Skip": true,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path /test-cf-max-count",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test-cf-max-count, status = 473, timestamp between @@NOW(-5minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "status:473"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "action:content-filter-block"
+                            },
+                            {
+                                "Key": "data/results/0/tags/*",
+                                "Value": "contentfiltername:test-profile-report-parameter-max-count"
+                            },
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - restricted malformed body[content type is application/x-www-form-urlencoded/[Json]] - test-profile-report-parameter-max-count - [body]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
