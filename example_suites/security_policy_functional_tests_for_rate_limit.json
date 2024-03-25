@@ -1,0 +1,491 @@
+{
+    "Name": "TA 1404 Security policy functional tests for rate limit",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create rate limits",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a rate limit with name `rl_1`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_1"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_1\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_1\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "10"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"ip\"}]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-rate-limit-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create a rate limit with name `rl_2`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_2"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_2\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_2\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "0"
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "10"
+                            },
+                            {
+                                "Key": "key",
+                                "Value": "[{\"attrs\":\"ip\"}]"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-global-filter-block\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Add rate limits to Security policies and crate server groups",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: User can add rate limits to security policy `test-sp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test\", \"name\": \"test\", \"match\": \"/test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_1\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can add rate limits to security policy `test-sp-2`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp-2"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp-2\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp-2\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"test2\", \"name\": \"test2\", \"match\": \"/test2\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_1\"]},{\"id\": \"other2\", \"name\": \"other2\", \"match\": \"/other2\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl_2\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test2.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test2-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test2-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test2-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test2.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp-2\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path '/test'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "471",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path '/other'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/other"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to path '/test2'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test2"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test2.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "471",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 4 to path '/other2'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/other2"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test2.site"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "470",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Check logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path `/test`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test, status = 471, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - rate limit threshold=0 - rl_1 - [request]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path `/test2`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /test2, status = 471, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - rate limit threshold=0 - rl_1 - [request]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path `/other2`",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "filters",
+                            "Value": "path = /other2, status = 470, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+
+                            {
+                                "Key": "data/results/0/reason",
+                                "Value": "Block - rate limit threshold=0 - rl_2 - [request]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
