@@ -1,0 +1,2430 @@
+{
+    "Name": "TA 1401 Security policy ui validation",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Default security policy",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Check default security policy ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "default security policy"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "__default__"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Cannot change security policy's matching name and path mapping",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"default security policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__changed__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__changed__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Cannot delete default security policy",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/__default__"
+                    },
+                    "Method": "DELETE",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"default security policy\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"__default__\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Active mode",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create security policy 'sp-active'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-active"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-active\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-active\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Change security policy's active off",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-active"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-active\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-active\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Check security policy's active off",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-active"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "sp-active"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-active"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Change security policy's active on",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-active"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-active\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-active\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Check security policy's active on",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-active"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "sp-active"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-active"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Delete path",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create security policy with new path 'test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-delete-path"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-delete-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-delete-path\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Delete path 'test' from security policy",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-delete-path"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-delete-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-delete-path\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Rate limit section",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a rate limit with name 'rl_test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-rate-limits",
+                        "Path": "/rl_test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"rl_test\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"rl_test\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create security policy with attached rate limit 'rl_test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-rl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-rl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-rl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": [\"rl_test\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Edge function",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name":"Create an edge function 'ef_test'",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-edge-functions",
+                        "Path":"/ef_test"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"ef_test\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"ef_test\""
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create security policy with attached edge function 'ef_test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-edge"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-edge\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-edge\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [\"ef_test\"],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Backend",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create security policy 'sp-backend'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-backend"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-backend\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-backend\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Update security policy`s backend 'sp-backend'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-backend"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-backend\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-backend\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"id_changed\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"id_changed\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"id_changed\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: ACL",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create security policy 'sp-acl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-acl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Update security policy`s acl 'sp-acl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-acl"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldenybot__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldenybot__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldenybot__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: CF",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new content filter profile with name 'test_cfp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Create security policy 'sp-cfp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-cfp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Update security policy`s content filter profile 'sp-cfp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-cfp"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"test_cfp\",\"content_filter_active\": false,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": false,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"test_cfp\",\"content_filter_active\": false,\"limit_ids\": []}, {\"id\": \"test\",\"name\": \"test\",\"match\": \"/test\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"test_cfp\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 9: Check dropdown",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-dropdown'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-dropdown"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_dropdown\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_dropdown\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Assert security policies from dropdown",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "MultipleResults": [
+                            [
+                                {
+                                    "Key": "id",
+                                    "Value": "dr_dropdown"
+                                },
+                                {
+                                    "Key": "name",
+                                    "Value": "dr_dropdown"
+                                }
+                            ],
+                            [
+                                {
+                                    "Key": "name",
+                                    "Value": "default security policy"
+                                },
+                                {
+                                    "Key": "id",
+                                    "Value": "__default__"
+                                }
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 10: Main Session ID header",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-text-headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-text-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-text-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-text-headers\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"headers\": \"text\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-empty-headers'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-empty-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-empty-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-empty-headers\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"headers\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-space-headers'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-space-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-space-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-space-headers\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"headers\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-leading-space-headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-leading-space-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-leading-space-headers\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"headers\": \" leading\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy headers name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-headers"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session",
+                                "Value": "[{'headers': 'leading'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-leading-space-headers"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-trailing-space-headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-trailing-space-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-trailing-space-headers\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"headers\": \"trailing  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy headers name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-headers"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session",
+                                "Value": "[{'headers': 'trailing'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-trailing-space-headers"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 11: Main Session ID cookies",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-text-cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-text-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-text-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-text-cookies\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"cookies\": \"text\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-empty-cookies'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-empty-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-empty-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-empty-cookies\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"cookies\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-space-cookies'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-space-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-space-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-space-cookies\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"cookies\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-leading-space-cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-leading-space-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-leading-space-cookies\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"cookies\": \" leading\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy cookies name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-cookies"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session",
+                                "Value": "[{'cookies': 'leading'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-leading-space-cookies"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-trailing-space-cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-trailing-space-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-trailing-space-cookies\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"cookies\": \"trailing  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy cookies name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-cookies"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session",
+                                "Value": "[{'cookies': 'trailing'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-trailing-space-cookies"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 12: Main Session ID args",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-text-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-text-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-text-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-text-args\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"args\": \"text\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-empty-args'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-empty-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-empty-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-empty-args\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"args\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-space-args'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-space-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-space-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-space-args\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"args\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-leading-space-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-leading-space-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-leading-space-args\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"args\": \" leading\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy args name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-args"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session",
+                                "Value": "[{'args': 'leading'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-leading-space-args"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-trailing-space-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-trailing-space-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-trailing-space-args\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"args\": \"trailing  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy args name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-args"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session",
+                                "Value": "[{'args': 'trailing'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-trailing-space-args"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 13: Other Session IDs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-other-ids'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-other-ids"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-other-ids\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-other-ids\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \"test\"}, {\"attrs\": \"ip\"}, {\"cookies\": \"test\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete one other ids entry  from security policy.",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-other-ids"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-other-ids\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-other-ids\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \"test\"}, {\"attrs\": \"ip\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete all other ids entries from security policy.",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-other-ids"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-other-ids\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-other-ids\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 14: Other Session IDs header",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-text-other-headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-text-other-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-text-other-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-text-other-headers\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"headers\": \"text\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-empty-other-headers'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-empty-other-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-empty-other-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-empty-other-headers\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"headers\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-space-other-headers'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-space-other-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-space-other-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-space-other-headers\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"headers\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-leading-space-other-headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-other-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-leading-space-other-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-leading-space-other-headers\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"headers\": \" leading\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy other headers name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-other-headers"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{'headers': 'leading'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-leading-space-other-headers"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-trailing-space-other-headers'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-other-headers"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-trailing-space-other-headers\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-trailing-space-other-headers\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"headers\": \"trailing  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy other headers name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-other-headers"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{'headers': 'trailing'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-trailing-space-other-headers"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 15: Other Session ID cookies",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-text-other-cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-text-other-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-text-other-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-text-other-cookies\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"cookies\": \"text\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-empty-other-cookies'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-empty-other-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-empty-other-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-empty-other-cookies\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"cookies\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-space-other-cookies'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-space-other-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-space-other-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-space-other-cookies\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"cookies\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-leading-space-other-cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-other-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-leading-space-other-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-leading-space-other-cookies\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"cookies\": \" leading\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy other cookies name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-other-cookies"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{'cookies': 'leading'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-leading-space-other-cookies"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-trailing-space-other-cookies'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-other-cookies"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-trailing-space-other-cookies\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-trailing-space-other-cookies\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"cookies\": \"trailing  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy other cookies name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-other-cookies"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{'cookies': 'trailing'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-trailing-space-other-cookies"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 16: Other Session ID args",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create security policy 'sp-text-other-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-text-other-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-text-other-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-text-other-args\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \"text\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-empty-other-args'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-empty-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-empty-other-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-empty-other-args\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \"\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-space-other-args'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-space-other-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-space-other-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-space-other-args\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \" \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-leading-space-other-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-other-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-leading-space-other-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-leading-space-other-args\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \" leading\"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy args name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-leading-space-other-args"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{'args': 'leading'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-leading-space-other-args"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'sp-trailing-space-other-args'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-other-args"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-trailing-space-other-args\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-trailing-space-other-args\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"args\": \"trailing  \"}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy args name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-trailing-space-other-args"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{'args': 'trailing'}]"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-trailing-space-other-args"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
