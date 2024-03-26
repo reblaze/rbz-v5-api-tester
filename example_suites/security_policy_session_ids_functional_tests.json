@@ -1,0 +1,629 @@
+{
+    "Name": "TA 1437 Security policy session ids functional tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create security policies and create server groups",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "add-my-ip-to-trusted-source",
+                    "Skip": false
+                },
+                {
+                    "Name": "Step: Create security policy 'test-attrs-ip'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-attrs-ip"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-attrs-ip\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-attrs-ip\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"attrs\": \"ip\"}]"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"attrs-ip\", \"name\": \"attrs-ip\", \"match\": \"/attrs-ip\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'test-attrs-country'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-attrs-country"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-attrs-country\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-attrs-country\""
+                            },
+                            {
+                                "Key": "session",
+                                "Value": "[{\"attrs\": \"country\"}]"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"attrs-country\", \"name\": \"attrs-country\", \"match\": \"/attrs-country\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'test-other-ips'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-other-ips"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-other-ips\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-other-ips\""
+                            },
+                            {
+                                "Key": "session_ids",
+                                "Value": "[{\"attrs\": \"country\"}, {\"attrs\": \"asn\"}]"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"other-ips\", \"name\": \"other-ips\", \"match\": \"/other-ips\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test-ip.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-ip-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-ip-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-ip-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test-ip.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-attrs-ip\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test-country.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-country-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-country-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-country-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test-country.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-attrs-country\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test-other-ips.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-other-ips"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-other-ips\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-other-ips\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test-other-ips.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-other-ips\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Send traffics to path '/attrs-ip'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path '/attrs-ip'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/attrs-ip"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test-ip.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 2 to path '/attrs-ip'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/attrs-ip"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test-ip.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name": "Step: Send Traffic 3 to path '/attrs-ip'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/attrs-ip"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test-ip.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.124"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Send traffics to path '/attrs-country'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path '/attrs-country'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/attrs-country"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test-country.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.124"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Send traffics to path '/other-ips'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path '/other-ips'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/other-ips"
+                    },
+                    "Method": "POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test-other-ips.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.124"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Wait for logs",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "wait-for-logs",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Check logs from path '/attrs-ip'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path '/attrs-ip'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /attrs-ip, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/session",
+                                "Value": "069ba7a97d148dc30b4dd1e654eab6daa82435c93fd17a4759d97a8c"
+                            },
+                            {
+                                "Key": "data/results/1/session",
+                                "Value": "2f59e5042d3d5f45ec602fb5ddc094428a8cb1b24ff5d0eb6b6631de"
+                            },
+                            {
+                                "Key": "data/results/2/session",
+                                "Value": "2f59e5042d3d5f45ec602fb5ddc094428a8cb1b24ff5d0eb6b6631de"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Check logs from path '/attrs-country'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path '/attrs-country'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /attrs-country, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/session",
+                                "Value": "c18dc54141cf80833d224f49c002640cea4118e0fe856058b1c637be"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Check logs from path '/other-ips'",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Get Logs from path '/other-ips' for session",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                            "Key": "filters",
+                            "Value": "path = /other-ips, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/session",
+                                "Value": "069ba7a97d148dc30b4dd1e654eab6daa82435c93fd17a4759d97a8c"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path '/other-ips' for session_ids[asn]",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "syntax",
+                            "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                            "Key": "limit",
+                            "Value": "200"
+                        },
+                        {
+                           "Key": "filters",
+                           "Value": "session_ids[\"asn\"]=\"bc0e0835891afee16baf720f43678868af70877735bafaf79ffc82c8\", path = /other-ips, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/ip",
+                                "Value": "123.123.123.124"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Get Logs from path '/other-ips' for session_ids[country]",
+                    "Skip": false,
+                    "API": {
+                        "Base": "api-data",
+                        "Path": "/logs"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                           "Key": "syntax",
+                           "Value": "string_query"
+                        }
+                    ],
+                    "Arguments": [
+                        {
+                           "Key": "limit",
+                           "Value": "200"
+                        },
+                        {
+                           "Key": "filters",
+                           "Value": "session_ids[\"country\"]=\"c18dc54141cf80833d224f49c002640cea4118e0fe856058b1c637be\", path = /other-ips, status = 200, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
+                        }
+                   ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                               "Key": "data/results/0/ip",
+                               "Value": "123.123.123.124"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
