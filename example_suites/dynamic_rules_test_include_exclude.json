@@ -60,23 +60,23 @@
                     }
                 },
                 {
-                    "Name": "Step: Create a dynamic rule with name `dr_test'",
+                    "Name": "Step: Create a dynamic rule with name `dr_test_1'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-dynamic-rules",
-                        "Path": "/dr_test"
+                        "Path": "/dr_test_1"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"dr_test\""
+                                "Value": "\"dr_test_1\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"dr_test\""
+                                "Value": "\"dr_test_1\""
                             },
                             {
                                 "Key": "timeframe",
@@ -104,10 +104,274 @@
                             },
                             {
                                 "Key": "target",
-                                "Value": "\"headers_test\""
+                                "Value": "\"headers_test_1\""
                             },
                             {
                                 "Key": "include",
+                                "Value": "[\"tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create dynamic rule 'dr_test_2' with include two tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_2"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_2\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_2\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "3600"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1398\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_test_2\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"tag1\", \"tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create dynamic rule 'dr_test_3' with exclude one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_3"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_3\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_3\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "3600"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1398\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_test_3\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"tag1\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create dynamic rule 'dr_test_4' with exclude two tags.",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_4"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_4\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_4\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "3600"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1398\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_test_4\""
+                            },
+                            {
+                                "Key": "exclude",
+                                "Value": "[\"tag1\", \"tag2\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create dynamic rule 'dr_test_5' with include/exclude tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_5"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_5\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_5\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "3600"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1398\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_test_5\""
+                            },
+                            {
+                                "Key": "include",
+                                "Value": "[\"all\"]"
+                            },
+                            {
+                                "Key": "exclude",
                                 "Value": "[\"tag1\"]"
                             }
                         ]
@@ -131,7 +395,7 @@
             "Skip":false,
             "Steps":[
                 {
-                    "Name":"Step: User can create security policy with attached content filter profiles",
+                    "Name":"Step: User can create security policy.",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -237,7 +501,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_1",
                             "Value": "step11"
                         }
                     ],
@@ -269,8 +533,264 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_1",
                             "Value": "step11"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2-1",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_2",
+                            "Value": "step21"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2-2",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_2",
+                            "Value": "step21"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3-1",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_3",
+                            "Value": "step31"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3-2",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_3",
+                            "Value": "step31"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 4-1",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_4",
+                            "Value": "step41"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 4-2",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_4",
+                            "Value": "step41"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 5-1",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_5",
+                            "Value": "step51"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 5-2",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_5",
+                            "Value": "step51"
                         }
                     ],
                     "Arguments":
@@ -305,7 +825,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_1",
                             "Value": "step11"
                         }
                     ],
@@ -324,6 +844,138 @@
                     }
                 },
                 {
+                    "Name":"Step: Send Traffic 2-3",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_2",
+                            "Value": "step21"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "474",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3-3",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_3",
+                            "Value": "step31"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 4-3",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_4",
+                            "Value": "step41"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 5-3",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_5",
+                            "Value": "step51"
+                        }
+                    ],
+                    "Arguments":
+                    [
+                        {
+                            "Key": "tag",
+                            "Value": "tag1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "ID":"wait-2-minutes",
+                    "Skip":false
+                },
+                {
                     "Name":"Step: Send Traffic 1-4",
                     "Skip":false,
                     "API":{
@@ -337,7 +989,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_1",
                             "Value": "step12"
                         }
                     ],
@@ -362,7 +1014,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_1",
                             "Value": "step12"
                         }
                     ],
@@ -372,234 +1024,6 @@
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
-                    }
-                },
-                {
-                    "Name":"Step: POST query",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"api-data",
-                        "Path":"/query"
-                    },
-                    "Method":"POST",
-                    "Headers":[
-                        {
-                            "Key":"provider",
-                            "Value":"mongodb"
-                        }
-                    ],
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/value",
-                                "Value": "step11"
-                            },
-                            {
-                                "Key": "data/results/0/target",
-                                "Value": "headers_test"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 4: Edit include two tags of dynamic rule 'dr-test'",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Edit include two tags of dynamic rule 'dr-test'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_test"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "3"
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "1"
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-dynamic-rule-block\""
-                            },
-                            {
-                                "Key": "active",
-                                "Value": "true"
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "3600"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"test-ip-1398\"]"
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"headers_test\""
-                            },
-                            {
-                                "Key": "include",
-                                "Value": "[\"tag1\", \"tag2\"]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "ID":"publish-changes",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-for-publish",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                }
-            ]
-        },
-        {
-            "Name":"Test 5: Send traffics",
-            "Skip": false,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 2-1",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step21"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 2-2",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step21"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 2-3",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step21"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "474",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b'access denied'"
                     }
                 },
                 {
@@ -616,7 +1040,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_2",
                             "Value": "step22"
                         }
                     ],
@@ -641,268 +1065,11 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_2",
                             "Value": "step22"
                         }
                     ],
 
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 2-6",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step22"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name":"Step: POST query",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"api-data",
-                        "Path":"/query"
-                    },
-                    "Method":"POST",
-                    "Headers":[
-                        {
-                            "Key":"provider",
-                            "Value":"mongodb"
-                        }
-                    ],
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/value",
-                                "Value": "step21"
-                            },
-                            {
-                                "Key": "data/results/0/target",
-                                "Value": "headers_test"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 6: Edit exclude of dynamic rule 'dr-test'",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Edit exclude of dynamic rule 'dr-test'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_test"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "3"
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "1"
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-dynamic-rule-block\""
-                            },
-                            {
-                                "Key": "active",
-                                "Value": "true"
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "3600"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"test-ip-1398\"]"
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"headers_test\""
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"tag1\"]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "ID":"publish-changes",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-for-publish",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                }
-            ]
-        },
-        {
-            "Name":"Test 7: Send traffics",
-            "Skip": false,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 3-1",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step31"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 3-2",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step31"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 3-3",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step31"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
@@ -924,7 +1091,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_3",
                             "Value": "step32"
                         }
                     ],
@@ -949,268 +1116,11 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_3",
                             "Value": "step32"
                         }
                     ],
 
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 3-6",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step32"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "474",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b'access denied'"
-                    }
-                },
-                {
-                    "Name":"Step: POST query",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"api-data",
-                        "Path":"/query"
-                    },
-                    "Method":"POST",
-                    "Headers":[
-                        {
-                            "Key":"provider",
-                            "Value":"mongodb"
-                        }
-                    ],
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/value",
-                                "Value": "step32"
-                            },
-                            {
-                                "Key": "data/results/0/target",
-                                "Value": "headers_test"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 8: Edit exclude two tags of dynamic rule 'dr-test'",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Edit exclude two tags of dynamic rule 'dr-test'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_test"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "3"
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "1"
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-dynamic-rule-block\""
-                            },
-                            {
-                                "Key": "active",
-                                "Value": "true"
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "3600"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"test-ip-1398\"]"
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"headers_test\""
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"tag1\", \"tag2\"]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "ID":"publish-changes",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-for-publish",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                }
-            ]
-        },
-        {
-            "Name":"Test 9: Send traffics",
-            "Skip": false,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 4-1",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step41"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 4-2",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step41"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 4-3",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step41"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
@@ -1232,7 +1142,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_4",
                             "Value": "step42"
                         }
                     ],
@@ -1257,272 +1167,11 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_4",
                             "Value": "step42"
                         }
                     ],
 
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 4-6",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"GET",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step42"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "474",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b'access denied'"
-                    }
-                },
-                {
-                    "Name":"Step: POST query",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"api-data",
-                        "Path":"/query"
-                    },
-                    "Method":"POST",
-                    "Headers":[
-                        {
-                            "Key":"provider",
-                            "Value":"mongodb"
-                        }
-                    ],
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/value",
-                                "Value": "step42"
-                            },
-                            {
-                                "Key": "data/results/0/target",
-                                "Value": "headers_test"
-                            }
-                        ]
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 10: Edit include/exclude collision of dynamic rule 'dr-test'",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Edit include/exclude collision of dynamic rule 'dr-test'",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-dynamic-rules",
-                        "Path": "/dr_test"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"dr_test\""
-                            },
-                            {
-                                "Key": "timeframe",
-                                "Value": "3"
-                            },
-                            {
-                                "Key": "threshold",
-                                "Value": "1"
-                            },
-                            {
-                                "Key": "action",
-                                "Value": "\"action-dynamic-rule-block\""
-                            },
-                            {
-                                "Key": "active",
-                                "Value": "true"
-                            },
-                            {
-                                "Key": "ttl",
-                                "Value": "3600"
-                            },
-                            {
-                                "Key": "tags",
-                                "Value": "[\"test-ip-1398\"]"
-                            },
-                            {
-                                "Key": "target",
-                                "Value": "\"headers_test\""
-                            },
-                            {
-                                "Key": "include",
-                                "Value": "[\"all\"]"
-                            },
-                            {
-                                "Key": "exclude",
-                                "Value": "[\"tag1\"]"
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "ID":"publish-changes",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-for-publish",
-                    "Skip":false
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                }
-            ]
-        },
-        {
-            "Name":"Test 11: Send traffics",
-            "Skip": false,
-            "Steps":[
-                {
-                    "Name":"Step: Send Traffic 5-1",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step51"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "Name":"Step: Send Traffic 5-2",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step51"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "content",
-                        "Single": true,
-                        "Text": "b''"
-                    }
-                },
-                {
-                    "ID":"wait-2-minutes",
-                    "Skip":false
-                },
-                {
-                    "Name":"Step: Send Traffic 5-3",
-                    "Skip":false,
-                    "API":{
-                        "Base":"send-traffic",
-                        "Path":""
-                    },
-                    "Method":"POST",
-                    "Headers": [
-                        {
-                            "Key": "Host",
-                            "Value": "test.site"
-                        },
-                        {
-                            "Key": "test",
-                            "Value": "step51"
-                        }
-                    ],
-                    "Arguments":
-                    [
-                        {
-                            "Key": "tag",
-                            "Value": "tag1"
-                        }
-                    ],
                     "Expected": {
                         "Code": "200",
                         "Type": "content",
@@ -1544,7 +1193,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_5",
                             "Value": "step52"
                         }
                     ],
@@ -1569,7 +1218,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_5",
                             "Value": "step52"
                         }
                     ],
@@ -1586,6 +1235,106 @@
                     "Skip":false
                 },
                 {
+                    "Name":"Step: Send Traffic 1-6",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_1",
+                            "Value": "step12"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 2-6",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_2",
+                            "Value": "step22"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3-6",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_3",
+                            "Value": "step32"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "474",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 4-6",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "test_4",
+                            "Value": "step42"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "474",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b'access denied'"
+                    }
+                },
+                {
                     "Name":"Step: Send Traffic 5-6",
                     "Skip":false,
                     "API":{
@@ -1599,7 +1348,7 @@
                             "Value": "test.site"
                         },
                         {
-                            "Key": "test",
+                            "Key": "test_5",
                             "Value": "step52"
                         }
                     ],
@@ -1608,6 +1357,51 @@
                         "Type": "content",
                         "Single": true,
                         "Text": "b'access denied'"
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 4: Query",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_1\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "step11"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_test_1"
+                            }
+                        ]
                     }
                 },
                 {
@@ -1629,7 +1423,124 @@
                         "Params":[
                             {
                                 "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test\"}}}]}"
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_2\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "step21"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_test_2"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_3\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "step32"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_test_3"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_4\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "step42"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_test_4"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_5\"}}}]}"
                             }
                         ]
                     },
@@ -1644,7 +1555,7 @@
                             },
                             {
                                 "Key": "data/results/0/target",
-                                "Value": "headers_test"
+                                "Value": "headers_test_5"
                             }
                         ]
                     }
