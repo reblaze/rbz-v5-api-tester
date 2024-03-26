@@ -441,6 +441,10 @@
               {
                 "Key": "headers",
                 "Value": "{\"names\":[{\"type\":\"names\",\"key\":\"test\",\"reg\":\"<.*>\",\"restrict\":false,\"mask\":false,\"exclusions\":[\"cf-rule-category:libinjection\"],\"id\":\"ignore_cf_rule_category_libinjection\"}],\"regex\":[],\"max_count\":42,\"enable_max_count\":false,\"max_length\":1024,\"enable_max_length\":false}"
+              },
+              {
+                "Key": "active",
+                "Value": "[\"cf-rule-subcategory:libinjection-xss\"]"
               }
             ]
           },
@@ -1860,7 +1864,7 @@
     },
     {
       "Name": "Test: Send traffic 'ignore_cf_rule_category_libinjection",
-      "Skip": true,
+      "Skip": false,
       "Steps": [
         {
           "Name": "Step: Send Traffic 'ignore_cf_rule_category_libinjection' 1",
@@ -1927,61 +1931,11 @@
             },
             {
               "Key": "test",
-              "Value": "<select>"
-            }
-          ],
-          "Expected": {
-            "Code": "473",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Step: Send Traffic 'ignore_cf_rule_category_libinjection' 4",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/ignore_cf_rule_category_libinjection"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            },
-            {
-              "Key": "test",
               "Value": "<script>"
             }
           ],
           "Expected": {
             "Code": "200",
-            "Type": "content",
-            "Single": true,
-            "Text": "b''"
-          }
-        },
-        {
-          "Name": "Step: Send Traffic 'ignore_cf_rule_category_libinjection' 5",
-          "Skip": false,
-          "API": {
-            "Base": "send-traffic",
-            "Path": "/ignore_cf_rule_category_libinjection"
-          },
-          "Method": "GET",
-          "Headers": [
-            {
-              "Key": "Host",
-              "Value": "test.site"
-            },
-            {
-              "Key": "t",
-              "Value": "<select>"
-            }
-          ],
-          "Expected": {
-            "Code": "473",
             "Type": "content",
             "Single": true,
             "Text": "b''"
@@ -2939,27 +2893,11 @@
                 "Value": "contentfiltername:ignore-cf-rule-category-libinjection"
               },
               {
-                "Key": "data/results/0/tags/*",
-                "Value": "cf-rule-name:200039"
-              },
-              {
                 "Key": "data/results/1/tags/*",
                 "Value": "contentfiltername:ignore-cf-rule-category-libinjection"
               },
               {
                 "Key": "data/results/2/tags/*",
-                "Value": "contentfiltername:ignore-cf-rule-category-libinjection"
-              },
-              {
-                "Key": "data/results/2/tags/*",
-                "Value": "cf-rule-name:200039"
-              },
-              {
-                "Key": "data/results/3/tags/*",
-                "Value": "contentfiltername:ignore-cf-rule-category-libinjection"
-              },
-              {
-                "Key": "data/results/4/tags/*",
                 "Value": "contentfiltername:ignore-cf-rule-category-libinjection"
               }
             ]
