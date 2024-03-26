@@ -1,0 +1,579 @@
+{
+    "Name": "TA 1400 Dynamic rules quarantine time tests",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create new dynamic rule",
+            "Skip": false,
+            "Steps": [
+                {
+                    "ID": "add-my-ip-to-trusted-source",
+                    "Skip": false
+                },
+                {
+                    "Name": "Step: Create a dynamic rule with name `dr_test_1'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_1"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_1\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_1\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "240"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_step1\""
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1400\"]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create dynamic rule 'dr_test_2' with include two tags",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_2"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_2\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_2\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "300"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "600"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1400\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_step2\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create dynamic rule 'dr_test_3' with exclude one tag",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-dynamic-rules",
+                        "Path": "/dr_test_3"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"dr_test_3\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"dr_test_3\""
+                            },
+                            {
+                                "Key": "timeframe",
+                                "Value": "3"
+                            },
+                            {
+                                "Key": "threshold",
+                                "Value": "1"
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-dynamic-rule-block\""
+                            },
+                            {
+                                "Key": "active",
+                                "Value": "true"
+                            },
+                            {
+                                "Key": "ttl",
+                                "Value": "180"
+                            },
+                            {
+                                "Key": "tags",
+                                "Value": "[\"test-ip-1400\"]"
+                            },
+                            {
+                                "Key": "target",
+                                "Value": "\"headers_step3\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name":"Test 2: Create security policy ",
+            "Skip":false,
+            "Steps":[
+                {
+                    "Name":"Step: User can create security policy.",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-security-policies",
+                        "Path":"/test-sp"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-sp\""
+                            },
+                            {
+                                "Key":"map",
+                                "Value":"[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
+
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"201",
+                        "Type":"json",
+                        "Single":true,
+                        "SingleResult":[
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Create new server group 'test.site' ",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-server-groups",
+                        "Path":"test-site/"
+                    },
+                    "Method":"POST",
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"id",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"name",
+                                "Value":"\"test-site\""
+                            },
+                            {
+                                "Key":"server_names",
+                                "Value":"[\"test.site\"]"
+                            },
+                            {
+                                "Key":"security_policy",
+                                "Value":"\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"publish-changes",
+                    "Skip":false
+                },
+                {
+                    "ID":"wait-for-publish",
+                    "Skip":false
+                }
+            ]
+        },
+        {
+            "Name":"Test 3: Send traffics",
+            "Skip": false,
+            "Steps":[
+                {
+                    "Name":"Step: Send Traffic 1-1",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        },
+                        {
+                            "Key": "step1",
+                            "Value": "test1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 1-2",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        },
+                        {
+                            "Key": "step1",
+                            "Value": "test1"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "ID":"wait-3-minutes",
+                    "Skip":false
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_1\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "123.123.123.123"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_step1"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"wait-2-minutes",
+                    "Skip":false
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_1\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results",
+                                "Value": "[]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3-1",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        },
+                        {
+                            "Key": "step3",
+                            "Value": "test3"
+                        }
+                    ],
+
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "Name":"Step: Send Traffic 3-2",
+                    "Skip":false,
+                    "API":{
+                        "Base":"send-traffic",
+                        "Path":""
+                    },
+                    "Method":"POST",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        },
+                        {
+                            "Key": "x-forwarded-for",
+                            "Value": "123.123.123.123"
+                        },
+                        {
+                            "Key": "step3",
+                            "Value": "test3"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                },
+                {
+                    "ID":"wait-3-minutes",
+                    "Skip":false
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_3\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results/0/value",
+                                "Value": "123.123.123.123"
+                            },
+                            {
+                                "Key": "data/results/0/target",
+                                "Value": "headers_step3"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID":"wait-1-minutes",
+                    "Skip":false
+                },
+                {
+                    "Name":"Step: POST query",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_3\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results",
+                                "Value": "[]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
