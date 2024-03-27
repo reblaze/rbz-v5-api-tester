@@ -1,0 +1,289 @@
+{
+    "Name": "TA 1292 Global filters create filter from http source",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create a global filter and check with valid source ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf_valid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_valid_source"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_valid_source\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_valid_source\""
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-monitor\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can update source of the global filter 'gf_valid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-fetch",
+                        "Path": ""
+                    },
+                    "Method": "GET",
+                    "Arguments": [
+                        {
+                            "Key": "url",
+                            "Value": "https://lists.blocklist.de/lists/strongips.txt"
+                        }
+                    ],
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: update IP`s of global filter 'gf_valid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_valid_source"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_valid_source\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_valid_source\""
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-monitor\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/strongips.txt\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": [[\"ip\", \"1.9.78.242\", \"\"], [\"ip\", \"101.207.113.73\", \"\"], [\"ip\", \"103.16.202.187\", \"\"], [\"ip\", \"103.231.46.66\", \"\"], [\"ip\", \"103.255.216.43\", \"\"], [\"ip\", \"103.26.136.173\", \"\"], [\"ip\", \"103.37.83.26\", \"\"], [\"ip\", \"103.48.192.48\", \"\"], [\"ip\", \"103.48.193.7\", \"\"], [\"ip\", \"103.63.108.25\", \"\"], [\"ip\", \"103.86.180.10\", \"\"]]}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check rule 'gf_valid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_valid_source"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "gf_valid_source"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf_valid_source"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': [['ip', '1.9.78.242', ''], ['ip', '101.207.113.73', ''], ['ip', '103.16.202.187', ''], ['ip', '103.231.46.66', ''], ['ip', '103.255.216.43', ''], ['ip', '103.26.136.173', ''], ['ip', '103.37.83.26', ''], ['ip', '103.48.192.48', ''], ['ip', '103.48.193.7', ''], ['ip', '103.63.108.25', ''], ['ip', '103.86.180.10', '']]}"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Create a global filter and check with invalid source ",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a global filter 'gf_invalid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_invalid_source"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_invalid_source\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_invalid_source\""
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-monitor\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: user cannot update source of the global filter 'gf_invalid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-fetch",
+                        "Path": ""
+                    },
+                    "Arguments": [
+                        {
+                            "Key": "url",
+                            "Value": "https://lists.blocklist.de/lists"
+                        }
+                    ],
+                    "Method": "GET",
+
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: update global filter 'gf_invalid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_invalid_source"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"gf_invalid_source\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"gf_invalid_source\""
+                            },
+                            {
+                                "Key": "action",
+                                "Value": "\"action-monitor\""
+                            },
+                            {
+                                "Key": "source",
+                                "Value": "\"https://lists.blocklist.de/lists/\""
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{\"relation\": \"OR\", \"entries\": []}"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can check rule 'gf_invalid_source'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-global-filters",
+                        "Path": "/gf_invalid_source"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "gf_invalid_source"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "gf_invalid_source"
+                            },
+                            {
+                                "Key": "rule",
+                                "Value": "{'relation': 'OR', 'entries': []}"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
