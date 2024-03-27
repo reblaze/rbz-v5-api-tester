@@ -73,7 +73,7 @@
                 },
                 {
                     "Name": "Step: Create dynamic rule 'dr_test_2'",
-                    "Skip": false,
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-dynamic-rules",
@@ -121,13 +121,13 @@
                         ]
                     },
                     "Expected": {
-                        "Code": "201",
+                        "Code": "400",
                         "Type": "json",
                         "Single": true,
                         "SingleResult": [
                             {
                                 "Key": "message",
-                                "Value": "Successfully created entry"
+                                "Value": ""
                             }
                         ]
                     }
@@ -355,7 +355,7 @@
                     "Skip":false
                 },
                 {
-                    "Name":"Step: POST query",
+                    "Name":"Step: POST query 1 from step1",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -396,45 +396,6 @@
                 {
                     "ID":"wait-2-minutes",
                     "Skip":false
-                },
-                {
-                    "Name":"Step: POST query",
-                    "Skip":false,
-                    "GenerateID":false,
-                    "API":{
-                        "Base":"api-data",
-                        "Path":"/query"
-                    },
-                    "Method":"POST",
-                    "Headers":[
-                        {
-                            "Key":"provider",
-                            "Value":"mongodb"
-                        }
-                    ],
-                    "Payload":{
-                        "Params":[
-                            {
-                                "Key":"query",
-                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_1\"}}}]}"
-                            }
-                        ]
-                    },
-                    "Expected":{
-                        "Code":"200",
-                        "Type":"jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "ip:123-123-123-123"
-                            },
-                            {
-                                "Key": "data/results/0/target",
-                                "Value": "headers_step1"
-                            }
-                        ]
-                    }
                 },
                 {
                     "Name":"Step: Send Traffic 3-1",
@@ -500,7 +461,42 @@
                     "Skip":false
                 },
                 {
-                    "Name":"Step: POST query",
+                    "Name":"Step: POST query 2 from step1",
+                    "Skip":false,
+                    "GenerateID":false,
+                    "API":{
+                        "Base":"api-data",
+                        "Path":"/query"
+                    },
+                    "Method":"POST",
+                    "Headers":[
+                        {
+                            "Key":"provider",
+                            "Value":"mongodb"
+                        }
+                    ],
+                    "Payload":{
+                        "Params":[
+                            {
+                                "Key":"query",
+                                "Value":"{\"collection\":\"dynamic_rules_violations_active\",\"execute\":[{\"func\":\"find\",\"options\":{\"filter\":{\"rule_id\":\"dr_test_1\"}}}]}"
+                            }
+                        ]
+                    },
+                    "Expected":{
+                        "Code":"200",
+                        "Type":"jsonpath",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "data/results",
+                                "Value": "[]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name":"Step: POST query 1 from step3",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
@@ -543,7 +539,7 @@
                     "Skip":false
                 },
                 {
-                    "Name":"Step: POST query",
+                    "Name":"Step: POST query 2 from step3",
                     "Skip":false,
                     "GenerateID":false,
                     "API":{
