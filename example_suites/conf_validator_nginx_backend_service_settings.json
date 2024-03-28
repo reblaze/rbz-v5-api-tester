@@ -1,843 +1,928 @@
 {
-    "Name": "Conf Validator - nginx backend service settings (Test 575)",
-    "Skip": false,
-    "Tests": [
+  "Name": "Conf Validator - nginx backend service settings (Test 575)",
+  "Skip": false,
+  "Tests": [
+    {
+      "Name": "General",
+      "Skip": false,
+      "Steps": [
         {
-            "Name": "General",
-            "Skip": false,
-            "Steps": [
-                {
-                    "ID": "add-my-ip-to-trusted-source",
-                    "Skip": false
-                }
+          "ID": "add-my-ip-to-trusted-source",
+          "Skip": false
+        }
+      ]
+    },
+    {
+      "Name": "Invalid Backend Service Fields",
+      "Skip": false,
+      "Steps": [
+        {
+          "Name": "Update host to be empty",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
             ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
         },
         {
-            "Name": "Invalid Backend Service Fields",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Update host to be empty",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update host to original",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update host to be unresolvable",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"www.olga.test\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update host to original",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update weight to 0",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 0}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update weight to -1",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": -1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update weight back to 1",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update max fails to -1",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": -1, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update max fails back to 0",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update fail timeout to -1",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": -1, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update fail timeout back to 10",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update HTTP port to 0",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 0, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update HTTP port back to 80",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update HTTPS port to 0",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 0, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update HTTPS port back to 443",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "back_hosts",
-                                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update Load Balancing Stickiness Model to custom and set invalid cookie name",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "sticky",
-                                "Value": "\"customcookie\""
-                            },
-                            {
-                                "Key": "sticky_cookie_name",
-                                "Value": "\"my cookie name\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Publish changes",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "Debug": {
-                        "Level": "info",
-                        "Message": "Calling publish changes, might take a few seconds"
-                    },
-                    "Method": "PUT",
-                    "API": {
-                        "Base": "api-publish",
-                        "Path": ""
-                    },
-                    "Payload": {
-                        "Params": []
-                    },
-                    "Expected": {
-                        "Code": "400",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "The publishing configuration is not valid"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Update Load Balancing Stickiness Model back to none",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-backends",
-                        "Path": "__default__"
-                    },
-                    "Method": "PUT",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "sticky",
-                                "Value": "\"none\""
-                            },
-                            {
-                                "Key": "sticky_cookie_name",
-                                "Value": "\"\""
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "\"__default__\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully updated entry"
-                            }
-                        ]
-                    }
-                }
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
             ]
+          }
+        },
+        {
+          "Name": "Update host to original",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update host to be unresolvable",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"www.olga.test\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update host to original",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update weight to 0",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 0}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update weight to -1",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": -1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update weight back to 1",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update max fails to -1",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": -1, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update max fails back to 0",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update fail timeout to -1",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": -1, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update fail timeout back to 10",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update HTTP port to 0",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 0, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update HTTP port back to 80",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update HTTPS port to 0",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 0, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update HTTPS port back to 443",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "back_hosts",
+                "Value": "[{\"backup\": false, \"down\": false, \"fail_timeout\": 10, \"host\": \"echo.reblaze.com\", \"http_port\": 80, \"https_port\": 443, \"max_fails\": 0, \"monitor_state\": \"0\", \"weight\": 1}]"
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Load Balancing Stickiness Model to custom and set invalid cookie name",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "sticky",
+                "Value": "\"customcookie\""
+              },
+              {
+                "Key": "sticky_cookie_name",
+                "Value": "\"my cookie name\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Publish changes",
+          "Skip": false,
+          "GenerateID": false,
+          "Debug": {
+            "Level": "info",
+            "Message": "Calling publish changes, might take a few seconds"
+          },
+          "Method": "PUT",
+          "API": {
+            "Base": "api-publish",
+            "Path": ""
+          },
+          "Payload": {
+            "Params": []
+          },
+          "Expected": {
+            "Code": "400",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "The publishing configuration is not valid"
+              }
+            ]
+          }
+        },
+        {
+          "Name": "Update Load Balancing Stickiness Model back to none",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-backends",
+            "Path": "__default__"
+          },
+          "Method": "PUT",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "sticky",
+                "Value": "\"none\""
+              },
+              {
+                "Key": "sticky_cookie_name",
+                "Value": "\"\""
+              },
+              {
+                "Key": "id",
+                "Value": "\"__default__\""
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "200",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully updated entry"
+              }
+            ]
+          }
         }
-    ]
+      ]
+    },
+    {
+      "Name": "Update Default backend service to default values",
+      "Skip": false,
+      "GenerateID": false,
+      "API": {
+        "Base": "api-backends",
+        "Path": "__default__"
+      },
+      "Method": "PUT",
+      "Payload": {
+        "Params": [
+          {
+            "Key": "sticky",
+            "Value": "\"none\""
+          },
+          {
+            "Key": "sticky_cookie_name",
+            "Value": "\"\""
+          },
+          {
+            "Key": "id",
+            "Value": "\"__default__\""
+          },
+          {
+            "Key": "name",
+            "Value": "\"echo-reblaze-com\""
+          },
+          {
+            "Key": "back_hosts",
+            "Value": "[{\"backup\":false,\"down\":false,\"fail_timeout\":10,\"host\":\"echo.reblaze.com\",\"http_port\":80,\"https_port\":443,\"max_fails\":0,\"monitor_state\":\"0\",\"weight\":1,\"id\":\"5f0b45594024\"}]"
+          },
+          {
+            "Key": "http1",
+            "Value": "true"
+          },
+          {
+            "Key": "least_conn",
+            "Value": "false"
+          },
+          {
+            "Key": "transport_mode",
+            "Value": "\"default\""
+          }
+        ]
+      },
+      "Expected": {
+        "Code": "200",
+        "Type": "json",
+        "Single": true,
+        "SingleResult": [
+          {
+            "Key": "message",
+            "Value": "Successfully updated entry"
+          }
+        ]
+      }
+    },
+    {
+      "Name": "Publish changes",
+      "Skip": false,
+      "GenerateID": false,
+      "Debug": {
+        "Level": "info",
+        "Message": "Calling publish changes, might take a few seconds"
+      },
+      "Method": "PUT",
+      "API": {
+        "Base": "api-publish",
+        "Path": ""
+      },
+      "Payload": {
+        "Params": []
+      },
+      "Expected": {
+        "Code": "200",
+        "Type": "json",
+        "Single": true,
+        "SingleResult": [
+          {
+            "Key": "message",
+            "Value": "Successfully updated entry"
+          }
+        ]
+      }
+    }
+  ]
 }
