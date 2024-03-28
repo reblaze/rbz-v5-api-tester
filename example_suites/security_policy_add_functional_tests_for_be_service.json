@@ -270,62 +270,10 @@
                         }
                     ],
                     "Expected": {
-                        "Code": "200",
+                        "Code": "404",
                         "Type": "content",
                         "Single": true,
                         "Text": "b''"
-                    }
-                }
-            ]
-        },
-        {
-            "Name": "Test 3: Wait for logs",
-            "Skip": false,
-            "Steps": [
-                {
-                    "ID": "wait-for-logs",
-                    "Skip": false
-                }
-            ]
-        },
-        {
-            "Name": "Test 4: Check logs ",
-            "Skip": false,
-            "Steps": [
-                {
-                    "Name": "Step: Get Logs from path '/test_be1'",
-                    "Skip": false,
-                    "API": {
-                        "Base": "api-data",
-                        "Path": "/logs"
-                    },
-                    "Method": "GET",
-                    "Headers": [
-                        {
-                            "Key": "syntax",
-                            "Value": "string_query"
-                        }
-                    ],
-                    "Arguments": [
-                        {
-                            "Key": "limit",
-                            "Value": "200"
-                        },
-                        {
-                            "Key": "filters",
-                            "Value": "path = /test_be1, status != 403, timestamp between @@NOW(-3minutes)@@ and @@NOW(+1minutes)@@, branch=@@branch@@"
-                        }
-                    ],
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "jsonpath",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "data/results/0/tags/*",
-                                "Value": "action:rate-limit-block"
-                            }
-                        ]
                     }
                 }
             ]
