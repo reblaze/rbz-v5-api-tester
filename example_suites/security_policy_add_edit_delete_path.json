@@ -193,27 +193,31 @@
             ]
         },
         {
-            "Name": "Test 3: Name field validations",
+            "Name": "Test 3: Path name field validations",
             "Skip": false,
             "Steps": [
                 {
-                    "Name": "Step: Create a security policy with name 'security_policy_text_name'",
+                    "Name": "Step: Create a security policy with name 'path_text_name'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-security-policies",
-                        "Path": "/security_policy_text_name"
+                        "Path": "/path_text_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"security_policy_text_name\""
+                                "Value": "\"path_text_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"security_policy_text_name\""
+                                "Value": "\"path_text_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name1\", \"name\": \"text_name\", \"match\": \"/path_name1\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -230,23 +234,27 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a security policy with empty name",
-                    "Skip": false,
+                    "Name": "Step: User cannot create a security policy`s path with empty name",
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-security-policies",
-                        "Path": "/security_policy_empty_name"
+                        "Path": "/path_empty_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"security_policy_empty_name\""
+                                "Value": "\"path_empty_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"\""
+                                "Value": "\"path_empty_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name2\", \"name\": \"\", \"match\": \"/path_name2\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -256,122 +264,27 @@
                     }
                 },
                 {
-                    "Name": "Step: User cannot create a security policy with exist name",
-                    "Skip": false,
+                    "Name": "Step: User cannot create a security policy`s path with exist name",
+                    "Skip": true,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-security-policies",
-                        "Path": "/security_policy_exist_name"
+                        "Path": "/path_exist_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"security_policy_exist_name\""
+                                "Value": "\"path_exist_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"security_policy_text_name\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "409",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Error: 409 Conflict: entry with name security_policy_text_name already exists in document [securitypolicies]"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can create a security policy with long name",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-security-policies",
-                        "Path": "/security_policy_long_name"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"security_policy_long_name\""
+                                "Value": "\"path_exist_name\""
                             },
                             {
-                                "Key": "name",
-                                "Value": "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "201",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can create a security policy with special chars name",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-security-policies",
-                        "Path": "/security_policy_spec_chars_name"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"security_policy_spec_chars_name\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\"!@#$%^&*()<>'_-.\""
-                            }
-                        ]
-                    },
-                    "Expected": {
-                        "Code": "201",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "message",
-                                "Value": "Successfully created entry"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User cannot create a security policy with space char name",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-security-policies",
-                        "Path": "/security_policy_space_char_name"
-                    },
-                    "Method": "POST",
-                    "Payload": {
-                        "Params": [
-                            {
-                                "Key": "id",
-                                "Value": "\"security_policy_space_char_name\""
-                            },
-                            {
-                                "Key": "name",
-                                "Value": "\" \""
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name3\", \"name\": \"exist_name\", \"match\": \"/path_name3\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"path_name4\", \"name\": \"exist_name\", \"match\": \"/path_name4\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -381,23 +294,27 @@
                     }
                 },
                 {
-                    "Name": "Step: User can create a security policy with leading space char name",
+                    "Name": "Step: User can create a security policy with path`s long name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-security-policies",
-                        "Path": "/security_policy_leading_space_name"
+                        "Path": "/path_long_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"security_policy_leading_space_name\""
+                                "Value": "\"path_long_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"  security_policy_leading_space_name\""
+                                "Value": "\"path_long_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name5\", \"name\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"match\": \"/path_name5\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -414,48 +331,27 @@
                     }
                 },
                 {
-                    "Name": "Step: Check security policy with leading space char in name",
+                    "Name": "Step: User can create a security policy with path`s special chars name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-security-policies",
-                        "Path": "/security_policy_leading_space_name"
-                    },
-                    "Method": "GET",
-                    "Expected": {
-                        "Code": "200",
-                        "Type": "json",
-                        "Single": true,
-                        "SingleResult": [
-                            {
-                                "Key": "name",
-                                "Value": "security_policy_leading_space_name"
-                            },
-                            {
-                                "Key": "id",
-                                "Value": "security_policy_leading_space_name"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "Name": "Step: User can create a security policy with trailing space char name",
-                    "Skip": false,
-                    "GenerateID": false,
-                    "API": {
-                        "Base": "api-security-policies",
-                        "Path": "/security_policy_trailing_space_name"
+                        "Path": "/path_spec_chars_name"
                     },
                     "Method": "POST",
                     "Payload": {
                         "Params": [
                             {
                                 "Key": "id",
-                                "Value": "\"security_policy_trailing_space_name\""
+                                "Value": "\"path_spec_chars_name\""
                             },
                             {
                                 "Key": "name",
-                                "Value": "\"security_policy_trailing_space_name  \""
+                                "Value": "\"path_spec_chars_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name6\", \"name\": \"!@#$%^&*()<>'_-.\", \"match\": \"/path_name6\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     },
@@ -472,12 +368,79 @@
                     }
                 },
                 {
-                    "Name": "Step: Check security policy with trailing space char in name",
+                    "Name": "Step: User cannot create a security policy`s path with space char name",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_space_char_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_space_char_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_space_char_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name6\", \"name\": \" \", \"match\": \"/path_name6\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a security policy`s path with leading space char name",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
                         "Base": "api-security-policies",
-                        "Path": "/security_policy_trailing_space_name"
+                        "Path": "/path_leading_space_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_leading_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_leading_space_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name7\", \"name\": \"  leading\", \"match\": \"/path_name7\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check security policy`s path with leading space char in name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_leading_space_name"
                     },
                     "Method": "GET",
                     "Expected": {
@@ -487,11 +450,81 @@
                         "SingleResult": [
                             {
                                 "Key": "name",
-                                "Value": "security_policy_trailing_space_name"
+                                "Value": "path_leading_space_name"
                             },
                             {
                                 "Key": "id",
-                                "Value": "security_policy_trailing_space_name"
+                                "Value": "path_leading_space_name"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name7\", \"name\": \"leading\", \"match\": \"/path_name7\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a security policy`s path with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_trailing_space_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_trailing_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_trailing_space_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name8\", \"name\": \"trailing  \", \"match\": \"/path_name8\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check security policy`s path with trailing space char in name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_trailing_space_name"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "path_trailing_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "path_trailing_space_name"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name8\", \"name\": \"trailing\", \"match\": \"/path_name8\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
                             }
                         ]
                     }
@@ -876,7 +909,11 @@
                             {
                                 "Key": "id",
                                 "Value": "\"test_cfp\""
-                            }
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp\""
+}
                         ]
                     },
                     "Expected": {
@@ -929,7 +966,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Change cfp in the customer path of security policy 'sp-cfp'",
+                    "Name": "Step: Change cfp in the custom path of security policy 'sp-cfp'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1009,7 +1046,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Change acl in the customer path of security policy 'sp-acl'",
+                    "Name": "Step: Change acl in the custom path of security policy 'sp-acl'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1089,7 +1126,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Change rate limit in the customer path of security policy 'sp-rl'",
+                    "Name": "Step: Change rate limit in the custom path of security policy 'sp-rl'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1202,7 +1239,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Change backend in the customer path of security policy 'sp-rl'",
+                    "Name": "Step: Change backend in the custom path of security policy 'sp-rl'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
@@ -1282,7 +1319,7 @@
                     }
                 },
                 {
-                    "Name": "Step: Change backend in the customer path of security policy 'sp-ef'",
+                    "Name": "Step: Change edge function in the custom path of security policy 'sp-ef'",
                     "Skip": false,
                     "GenerateID": false,
                     "API": {
