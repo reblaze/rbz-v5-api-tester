@@ -3,9 +3,46 @@
     "Skip": false,
     "Tests": [
         {
-            "Name": "Test 1: Create security policy and server group",
+            "Name": "Test 1: Create security policy, content filter profile and server group",
             "Skip": false,
             "Steps": [
+                {
+                    "Name": "Step: Create new content filter profile with name 'test_cfp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp\""
+                            },
+                            {
+                                "Key": "ignore_body",
+                                "Value": "false"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
                 {
                     "Name": "Step: Create security policy 'test-sp'",
                     "Skip": false,
@@ -27,7 +64,7 @@
                             },
                             {
                                 "Key": "map",
-                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"cfp_active\", \"name\": \"cfp_active\", \"match\": \"/cfp_active\", \"acl_profile\": \"__acldefault__\", \"acl_active\": false, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"cfp_inactive\", \"name\": \"cfp_inactive\", \"match\": \"/cfp_inactive\", \"acl_profile\": \"__acldefault__\", \"acl_active\": false, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": false, \"limit_ids\": []}]"
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp\", \"content_filter_active\": true, \"limit_ids\": []},{\"id\": \"cfp_active\", \"name\": \"cfp_active\", \"match\": \"/cfp_active\", \"acl_profile\": \"__acldefault__\", \"acl_active\": false, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"cfp_inactive\", \"name\": \"cfp_inactive\", \"match\": \"/cfp_inactive\", \"acl_profile\": \"__acldefault__\", \"acl_active\": false, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp\", \"content_filter_active\": false, \"limit_ids\": []}]"
                             }
                         ]
                     },
