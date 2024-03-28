@@ -910,9 +910,50 @@
             ]
         },
         {
-            "Name": "Test 2: Create server group and security policies",
+            "Name": "Test 2: Create content filter profile, security policy and server group",
             "Skip": false,
             "Steps": [
+                 {
+          "Name": "Step: Create new content filter profile with name `test_cfp`",
+          "Skip": false,
+          "GenerateID": false,
+          "API": {
+            "Base": "api-content-filter-profiles",
+            "Path": "/test_cfp"
+          },
+          "Method": "POST",
+          "Payload": {
+            "Params": [
+              {
+                "Key": "id",
+                "Value": "\"test_cfp\""
+              },
+              {
+                "Key": "name",
+                "Value": "\"test_cfp\""
+              },
+              {
+                "Key": "ignore_alphanum",
+                "Value": "false"
+              },
+              {
+                "Key": "ignore_body",
+                "Value": "false"
+              }
+            ]
+          },
+          "Expected": {
+            "Code": "201",
+            "Type": "json",
+            "Single": true,
+            "SingleResult": [
+              {
+                "Key": "message",
+                "Value": "Successfully created entry"
+              }
+            ]
+          }
+        },
                 {
                     "Name": "Step: Create security policy",
                     "Skip": false,
@@ -934,7 +975,7 @@
                             },
                             {
                                 "Key": "map",
-                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"__defaultcontentfilter__\",\"content_filter_active\":true,\"limit_ids\":[]}]"
+                                "Value": "[{\"id\":\"__root_entry__\",\"name\":\"__root__\",\"match\":\"^/(\\\\W.*)?$\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"test_cfp\",\"content_filter_active\":true,\"limit_ids\":[]},{\"id\":\"__default_entry__\",\"name\":\"__default__\",\"match\":\"/\",\"acl_profile\":\"__acldefault__\",\"acl_active\":true,\"backend_id\":\"__default__\",\"cloud_functions\":[],\"content_filter_profile\":\"test_cfp\",\"content_filter_active\":true,\"limit_ids\":[]}]"
                             }
                         ]
                     },
@@ -1658,7 +1699,7 @@
             ]
         },
         {
-            "Name": "Test 3: Send traffics",
+            "Name": "Test: Send traffic to 'host:test-1.site",
             "Skip": false,
             "Steps": [
                 {
@@ -1702,7 +1743,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-2.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 3 to /flowa -H 'host:test-2.site",
                     "Skip": false,
@@ -1744,7 +1791,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-3.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 5 to /flowa -H 'host:test-3.site",
                     "Skip": false,
@@ -1786,7 +1839,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-4.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 7 to /flowa -H 'host:test-4.site",
                     "Skip": false,
@@ -1828,7 +1887,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-5.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 9 to /flowa -H 'host:test-5.site",
                     "Skip": false,
@@ -1870,7 +1935,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-6.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 11 to /flowa -H 'host:test-6.site",
                     "Skip": false,
@@ -1912,7 +1983,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-7.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 13 to /flowa -H 'host:test-7.site",
                     "Skip": false,
@@ -1954,7 +2031,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-8.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 15 to /flowa -H 'host:test-8.site",
                     "Skip": false,
@@ -1996,7 +2079,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-9.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 17 to /flowa -H 'host:test-9.site",
                     "Skip": false,
@@ -2050,7 +2139,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-10.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 19 to /flowa -H 'host:test-10.site",
                     "Skip": false,
@@ -2092,7 +2187,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-11.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 21 to /flowa -H 'host:test-11.site",
                     "Skip": false,
@@ -2134,7 +2235,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-12.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 23 to /flowa -H 'host:test-12.site",
                     "Skip": false,
@@ -2176,7 +2283,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-13.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 25 to /flowa -H 'host:test-13.site",
                     "Skip": false,
@@ -2218,7 +2331,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-14.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 27 to /flowa -H 'host:test-14.site",
                     "Skip": false,
@@ -2268,7 +2387,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-15.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 29 to /flowa -H 'host:test-15.site",
                     "Skip": false,
@@ -2322,7 +2447,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-16.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 31 to /flowa -H 'host:test-16.site",
                     "Skip": false,
@@ -2372,7 +2503,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-17.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 33 to /flowa -H 'host:test-17.site",
                     "Skip": false,
@@ -2442,7 +2579,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: wait timeframe",
+            "Skip": false,
+            "Steps": [
                 {
                     "Skip": false,
                     "Type": "python",
@@ -2450,7 +2593,13 @@
                         "import time",
                         "time.sleep(15)"
                     ]
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-1.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 35 to flowb -H 'host:test-1.site'",
                     "Skip": false,
@@ -2471,7 +2620,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-2.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 36 to flowb -H 'host:test-2.site'",
                     "Skip": false,
@@ -2492,7 +2647,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-3.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 37 to flowb -H 'host:test-3.site'",
                     "Skip": false,
@@ -2513,7 +2674,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-4.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 38 to flowb -H 'host:test-4.site'",
                     "Skip": false,
@@ -2534,7 +2701,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-5.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 39 to flowb -H 'host:test-5.site'",
                     "Skip": false,
@@ -2555,7 +2728,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-6.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 40 to flowb -H 'host:test-6.site'",
                     "Skip": false,
@@ -2576,7 +2755,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-7.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 41 to flowb -H 'host:test-7.site'",
                     "Skip": false,
@@ -2597,7 +2782,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-8.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 42 to flowa -H 'host:test-8.site'",
                     "Skip": false,
@@ -2618,7 +2809,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-9.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 43 to flowb -H 'host:test-9.site'",
                     "Skip": false,
@@ -2645,7 +2842,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-10.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 44 to flowb -H 'host:test-10.site'",
                     "Skip": false,
@@ -2666,7 +2869,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-11.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 45 to flowb -H 'host:test-11.site'",
                     "Skip": false,
@@ -2687,7 +2896,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-12.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 46 to flowb -H 'host:test-12.site'",
                     "Skip": false,
@@ -2708,7 +2923,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-13.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 47 to flowa -H 'host:test-13.site'",
                     "Skip": false,
@@ -2729,7 +2950,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-14.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 48 to flowb -H 'host:test-14.site'",
                     "Skip": false,
@@ -2754,7 +2981,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-15.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 49 to flowb -H 'host:test-15.site'",
                     "Skip": false,
@@ -2781,7 +3014,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-16.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 50 to flowb -H 'host:test-16.site'",
                     "Skip": false,
@@ -2806,7 +3045,13 @@
                         "Single": true,
                         "Text": "b''"
                     }
-                },
+                }
+            ]
+        },
+        {
+            "Name": "Test: Send traffic to 'host:test-17.site",
+            "Skip": false,
+            "Steps": [
                 {
                     "Name": "Step: Send Traffic 51 to flowb -H 'host:test-17.site'",
                     "Skip": false,
