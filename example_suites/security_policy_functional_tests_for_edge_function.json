@@ -1,0 +1,167 @@
+{
+    "Name": "TA 1484 Security policy functional tests for edge function",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Create security policy, edge function and server group",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Create an edge function 'ef_test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-edge-functions",
+                        "Path": "/ef_test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"ef_test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"ef_test\""
+                            },
+                            {
+                                "Key": "phase",
+                                "Value": "\"request\""
+                            },
+                            {
+                                "Key": "code",
+                                "Value": "\"if ngx.var.scheme == 'http' then \\nngx.redirect( 'https://' .. ngx.var.host .. ngx.var.request_uri - 301 ) \\nend\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create security policy 'test-sp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/test-sp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-sp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__default_entry__\", \"name\": \"__default__\", \"match\": \"/\", \"acl_profile\": \"__acldefault__\", \"acl_active\": false, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": false, \"limit_ids\": []},{\"id\": \"test_ef\", \"name\": \"test_ef\", \"match\": \"/test_ef\", \"acl_profile\": \"__acldefault__\", \"acl_active\": false, \"backend_id\": \"__default__\", \"cloud_functions\": [\"ef_test\"], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": false, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new server group 'test.site' ",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-server-groups",
+                        "Path": "/test-site"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test-site\""
+                            },
+                            {
+                                "Key": "server_names",
+                                "Value": "[\"test.site\"]"
+                            },
+                            {
+                                "Key": "security_policy",
+                                "Value": "\"test-sp\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "ID": "publish-changes",
+                    "Skip": false
+                },
+                {
+                    "ID": "wait-for-publish",
+                    "Skip": false
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Send traffic",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Send Traffic 1 to path '/test_ef'",
+                    "Skip": false,
+                    "API": {
+                        "Base": "send-traffic",
+                        "Path": "/test_ef"
+                    },
+                    "Method": "GET",
+                    "Headers": [
+                        {
+                            "Key": "Host",
+                            "Value": "test.site"
+                        }
+                    ],
+
+                    "Expected": {
+                        "Code": "301",
+                        "Type": "content",
+                        "Single": true,
+                        "Text": "b''"
+                    }
+                }
+            ]
+        }
+    ]
+}
