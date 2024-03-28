@@ -1,0 +1,1361 @@
+{
+    "Name": "TA 1403 Security policy add edit delete path",
+    "Skip": false,
+    "Tests": [
+        {
+            "Name": "Test 1: Add new path",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-test-path'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-test-path"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-test-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-test-path\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Add new path to security policy 'sp-test-path'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-test-path"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-test-path\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-test-path\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_path\", \"name\": \"test_path\", \"match\": \"/test_path\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 2: Edit path",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-edit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-edit"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-edit\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-edit\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_path\", \"name\": \"test_path\", \"match\": \"/test_path\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Edit path in security policy 'sp-edit'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-edit"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-edit\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-edit\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_edited\", \"name\": \"path_edited\", \"match\": \"/path_edited\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl-asn-path-ddos\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check changes in security policy`s path",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-edit"
+                    },
+                    "Method": "GET",
+
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "sp-edit"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "sp-edit"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_edited\", \"name\": \"path_edited\", \"match\": \"/path_edited\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl-asn-path-ddos\"]}]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 3: Path name field validations",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create a security policy with name 'path_text_name'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_text_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_text_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_text_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name1\", \"name\": \"text_name\", \"match\": \"/path_name1\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a security policy`s path with empty name",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_empty_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_empty_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_empty_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name2\", \"name\": \"\", \"match\": \"/path_name2\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a security policy`s path with exist name",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_exist_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_exist_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_exist_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name3\", \"name\": \"exist_name\", \"match\": \"/path_name3\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"path_name4\", \"name\": \"exist_name\", \"match\": \"/path_name4\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a security policy with path`s long name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_long_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_long_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_long_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name5\", \"name\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\", \"match\": \"/path_name5\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a security policy with path`s special chars name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_spec_chars_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_spec_chars_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_spec_chars_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name6\", \"name\": \"!@#$%^&*()<>'_-.\", \"match\": \"/path_name6\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User cannot create a security policy`s path with space char name",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_space_char_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_space_char_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_space_char_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name6\", \"name\": \" \", \"match\": \"/path_name6\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "status-code"
+                    }
+                },
+                {
+                    "Name": "Step: User can create a security policy`s path with leading space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_leading_space_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_leading_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_leading_space_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name7\", \"name\": \"  leading\", \"match\": \"/path_name7\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check security policy`s path with leading space char in name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_leading_space_name"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "path_leading_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "path_leading_space_name"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name7\", \"name\": \"leading\", \"match\": \"/path_name7\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: User can create a security policy`s path with trailing space char name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_trailing_space_name"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"path_trailing_space_name\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"path_trailing_space_name\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name8\", \"name\": \"trailing  \", \"match\": \"/path_name8\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Check security policy`s path with trailing space char in name",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/path_trailing_space_name"
+                    },
+                    "Method": "GET",
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "name",
+                                "Value": "path_trailing_space_name"
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "path_trailing_space_name"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"path_name8\", \"name\": \"trailing\", \"match\": \"/path_name8\", \"acl_profile\": \"__acldenybot__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 4: Match",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-match-exist'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-exist"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-match-exist\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-match-exist\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_exist\", \"name\": \"match_exist\", \"match\": \"/match_exist\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"match_exist2\", \"name\": \"match_exist2\", \"match\": \"/match_exist\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-match-empty'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-empty"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-match-empty\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-match-empty\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_empty\", \"name\": \"match_empty\", \"match\": \"\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-match-space'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-space"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-match-space\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-match-space\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_space\", \"name\": \"match_space\", \"match\": \" \", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "400",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": ""
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-match-leading'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-leading"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-match-leading\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-match-leading\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_leading\", \"name\": \"match_leading\", \"match\": \"  /leading\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy`s name with leading space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-leading"
+                    },
+                    "Method": "GET",
+
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "id",
+                                "Value": "sp-match-leading"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_leading\", \"name\": \"match_leading\", \"match\": \"/leading\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-match-trailing'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-trailing"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-match-trailing\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-match-trailing\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_trailing\", \"name\": \"match_trailing\", \"match\": \"/trailing  \", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Verify security policy`s name with trailing space was trimmed",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-trailing"
+                    },
+                    "Method": "GET",
+
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "id",
+                                "Value": "sp-match-trailing"
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match_trailing\", \"name\": \"match_trailing\", \"match\": \"/trailing\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-match-regex'",
+                    "Skip": true,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-match-regex"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-match-regex\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-match-regex\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"match1\", \"name\": \"match1\", \"match\": \"/test[1-9]\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"match2\", \"name\": \"match2\", \"match\": \"/(test|path)- /(a|b|c|d|e)\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"match3\", \"name\": \"match3\", \"match\": \"/test$\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"match4\", \"name\": \"match4\", \"match\": \"/(?i)test\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}, {\"id\": \"match5\", \"name\": \"match5\", \"match\": \"/.+test)\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Delete path",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-delete"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-delete\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-delete\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_delete\", \"name\": \"test_delete\", \"match\": \"/test_delete\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Delete customer`s path from security policy 'sp-delete'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-delete"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-delete\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-delete\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 5: Change cfp",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new content filter profile with name `test_cfp`",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-content-filter-profiles",
+                        "Path": "/test_cfp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"test_cfp\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"test_cfp\""
+}
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-cfp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-cfp"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_cfp\", \"name\": \"test_cfp\", \"match\": \"/test_cfp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Change cfp in the custom path of security policy 'sp-cfp'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-cfp"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-cfp\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_cfp\", \"name\": \"test_cfp\", \"match\": \"/test_cfp\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"test_cfp\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 6: Change acl",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-acl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-acl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"sp-acl\", \"name\": \"test_acl\", \"match\": \"/test_acl\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Change acl in the custom path of security policy 'sp-acl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-acl"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-acl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_cfp\", \"name\": \"test_cfp\", \"match\": \"/test_cfp\", \"acl_profile\": \"__acldenyall__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 7: Change rate limit",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-rl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-rl"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-rl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-rl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_rl\", \"name\": \"test_rl\", \"match\": \"/test_rl\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl-asn-path-ddos\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Change rate limit in the custom path of security policy 'sp-rl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-rl"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-rl\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-rl\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_rl\", \"name\": \"test_rl\", \"match\": \"/test_rl\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": [\"rl-session-host-ddos\"]}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Change backend",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new backend 'backend-test'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-backends",
+                        "Path": "/backend-test"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "id",
+                                "Value": "\"backend-test\""
+                            },
+                            {
+                                "Key": "name",
+                                "Value": "\"backend-test\""
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Create new security policy 'sp-be'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-be"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-be\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-be\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_be\", \"name\": \"test_be\", \"match\": \"/test_be\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Change backend in the custom path of security policy 'sp-rl'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-be"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-be\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-be\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_be\", \"name\": \"test_be\", \"match\": \"/test_be\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"backend-test\", \"cloud_functions\": [], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "Name": "Test 8: Change edge function",
+            "Skip": false,
+            "Steps": [
+                {
+                    "Name": "Step: Create new security policy 'sp-ef'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-ef"
+                    },
+                    "Method": "POST",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-ef\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-ef\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_ef\", \"name\": \"test_ef\", \"match\": \"/test_ef\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [\"setCacheFor1Hour\"], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "201",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully created entry"
+                            }
+                        ]
+                    }
+                },
+                {
+                    "Name": "Step: Change edge function in the custom path of security policy 'sp-ef'",
+                    "Skip": false,
+                    "GenerateID": false,
+                    "API": {
+                        "Base": "api-security-policies",
+                        "Path": "/sp-ef"
+                    },
+                    "Method": "PUT",
+                    "Payload": {
+                        "Params": [
+                            {
+                                "Key": "name",
+                                "Value": "\"sp-ef\""
+                            },
+                            {
+                                "Key": "id",
+                                "Value": "\"sp-ef\""
+                            },
+                            {
+                                "Key": "map",
+                                "Value": "[{\"id\": \"__root_entry__\",\"name\": \"__root__\",\"match\": \"^/(\\\\W.*)?$\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []},{\"id\": \"__default_entry__\",\"name\": \"__default__\",\"match\": \"/\",\"acl_profile\": \"__acldefault__\",\"acl_active\": true,\"backend_id\": \"__default__\",\"cloud_functions\": [],\"content_filter_profile\": \"__defaultcontentfilter__\",\"content_filter_active\": true,\"limit_ids\": []}, {\"id\": \"test_ef\", \"name\": \"test_ef\", \"match\": \"/test_ef\", \"acl_profile\": \"__acldefault__\", \"acl_active\": true, \"backend_id\": \"__default__\", \"cloud_functions\": [\"setCacheFor7Days\"], \"content_filter_profile\": \"__defaultcontentfilter__\", \"content_filter_active\": true, \"limit_ids\": []}]"
+                            }
+                        ]
+                    },
+                    "Expected": {
+                        "Code": "200",
+                        "Type": "json",
+                        "Single": true,
+                        "SingleResult": [
+                            {
+                                "Key": "message",
+                                "Value": "Successfully updated entry"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+    ]
+}
